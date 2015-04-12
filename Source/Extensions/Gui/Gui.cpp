@@ -14,6 +14,7 @@
 
 using namespace jukebox::gui;
 using namespace jukebox::signals;
+using namespace jukebox::audio;
 
 Gui::Gui()
 {
@@ -67,11 +68,11 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(keyChar == 'x')
     {
-        playSongSignal();
+        playSongSignal(Song());
     }
     else if(keyChar == 'v')
     {
-        playAlbumSignal();
+        playAlbumSignal(Song());
     }
 }
 

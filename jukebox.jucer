@@ -5,6 +5,11 @@
               jucerVersion="3.1.1">
   <MAINGROUP id="eJpnlV" name="jukebox">
     <GROUP id="{313C1ACE-0AC3-9958-DE92-FB3F0275508D}" name="Source">
+      <GROUP id="{603A1016-869A-4B09-BB02-E3178A681562}" name="Audio">
+        <FILE id="CPZfYu" name="Formaters.cpp" compile="1" resource="0" file="Source/Audio/Formaters.cpp"/>
+        <FILE id="Q0mTLU" name="Formaters.h" compile="1" resource="0" file="Source/Audio/Formaters.h"/>
+        <FILE id="FSod0x" name="Song.h" compile="0" resource="0" file="Source/Audio/Song.h"/>
+      </GROUP>
       <GROUP id="{B97C361F-C02E-E307-37CD-9308A3CC6ECE}" name="Base">
         <FILE id="ERIQSg" name="Application.cpp" compile="1" resource="0" file="Source/Base/Application.cpp"/>
         <FILE id="VrkKdF" name="Application.h" compile="0" resource="0" file="Source/Base/Application.h"/>
@@ -31,8 +36,13 @@
           <FILE id="qnMYao" name="Gui.cpp" compile="1" resource="0" file="Source/Extensions/Gui/Gui.cpp"/>
           <FILE id="BxgQTo" name="Gui.h" compile="0" resource="0" file="Source/Extensions/Gui/Gui.h"/>
         </GROUP>
+        <GROUP id="{4977DBBC-E85F-EC58-371C-F308D4C972FC}" name="MusicPlayer">
+          <FILE id="aXbCS9" name="MusicPlayer.cpp" compile="1" resource="0" file="Source/Extensions/MusicPlayer/MusicPlayer.cpp"/>
+          <FILE id="NqRr6f" name="MusicPlayer.h" compile="0" resource="0" file="Source/Extensions/MusicPlayer/MusicPlayer.h"/>
+        </GROUP>
       </GROUP>
       <GROUP id="{2EAFB579-D0DE-5CBB-034E-DC913D79F12A}" name="Interfaces">
+        <FILE id="VOrzcJ" name="IMusicPlayer.h" compile="0" resource="0" file="Source/Interfaces/IMusicPlayer.h"/>
         <FILE id="zejRzW" name="ICore.h" compile="0" resource="0" file="Source/Interfaces/ICore.h"/>
         <FILE id="afAZzP" name="ICreditManager.h" compile="0" resource="0"
               file="Source/Interfaces/ICreditManager.h"/>
@@ -47,7 +57,7 @@
     <LINUX_MAKE targetFolder="Builds/Linux">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Signaling&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"/>
+                       targetName="jukebox" headerPath="../../Source/Audio&#10;../../Source/Base&#10;../../Source/Signaling&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
                        targetName="jukebox"/>
       </CONFIGURATIONS>

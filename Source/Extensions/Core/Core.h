@@ -12,6 +12,7 @@
 #define CORE_H_INCLUDED
 
 #include "ICore.h"
+#include "Song.h"
 #include <memory>
 
 namespace jukebox 
@@ -24,6 +25,10 @@ namespace jukebox
     {
         class ICreditManager;
     }
+    namespace audio
+    {
+        class IMusicPlayer;
+    }
 }
 
 namespace jukebox { namespace core {
@@ -34,7 +39,7 @@ public:
     Core();
     ~Core();
     
-    void initialise(const String& name) override;
+    void initialise(const String&) override;
     void uninitialise() override;
     
 private:
@@ -42,8 +47,8 @@ private:
     void coinInserted100();
     void coinInserted200();
     
-    void playSong();
-    void playAlbum();
+    void playSong(audio::Song);
+    void playAlbum(audio::Song);
     
     void creditIncrease();
     void creditDecrease();
@@ -55,7 +60,7 @@ private:
 
     std::unique_ptr<gui::IGui> gui;
     std::unique_ptr<creditmanager::ICreditManager> creditManager;
-    unsigned int number;
+    std::unique_ptr<audio::IMusicPlayer> musicPlayer;
 };
 
 }}

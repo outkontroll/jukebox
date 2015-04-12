@@ -13,6 +13,7 @@
 
 #include "JuceHeader.h"
 #include "Signals.hpp"
+#include "Song.h"
 
 namespace jukebox { namespace gui {
     
@@ -32,8 +33,8 @@ public:
     jukebox::signals::Signal<> coinInserted100Signal;
     jukebox::signals::Signal<> coinInserted200Signal;
     
-    jukebox::signals::Signal<> playSongSignal;
-    jukebox::signals::Signal<> playAlbumSignal;
+    jukebox::signals::Signal<audio::Song> playSongSignal;
+    jukebox::signals::Signal<audio::Song> playAlbumSignal;
     
     jukebox::signals::Signal<> creditIncreaseSignal;
     jukebox::signals::Signal<> creditDecreaseSignal;
