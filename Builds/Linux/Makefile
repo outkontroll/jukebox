@@ -18,12 +18,12 @@ ifeq ($(CONFIG),Debug)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../JUCE/modules -I ../../Source -I ../../Source/interfaces -I ../../Source/extensions -I ../../Source/components -I ../../JuceLibraryCode/modules
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../JuceLibraryCode/modules -I ../../Source/Base -I ../../Source/Signaling -I ../../Source/Interfaces -I ../../Source/Extensions/Core -I ../../Source/Extensions/Gui -I ../../Source/Extensions/CreditManager -I ../../Source/Components
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -ldl -lfreetype -lpthread -lrt 
   LDDEPS :=
-  RESFLAGS :=  -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../JUCE/modules -I ../../Source -I ../../Source/interfaces -I ../../Source/extensions -I ../../Source/components -I ../../JuceLibraryCode/modules
+  RESFLAGS :=  -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../JuceLibraryCode/modules -I ../../Source/Base -I ../../Source/Signaling -I ../../Source/Interfaces -I ../../Source/Extensions/Core -I ../../Source/Extensions/Gui -I ../../Source/Extensions/CreditManager -I ../../Source/Components
   TARGET := jukebox
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
@@ -39,31 +39,30 @@ ifeq ($(CONFIG),Release)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../JUCE/modules
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../JuceLibraryCode/modules
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -Os
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -fvisibility=hidden -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -ldl -lfreetype -lpthread -lrt 
   LDDEPS :=
-  RESFLAGS :=  -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../JUCE/modules
+  RESFLAGS :=  -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../JuceLibraryCode/modules
   TARGET := jukebox
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
 endif
 
 OBJECTS := \
-  $(OBJDIR)/main_8d1161a2.o \
-  $(OBJDIR)/MainWindow_499ac812.o \
-  $(OBJDIR)/Application_d2fc77b1.o \
-  $(OBJDIR)/MainComponent_69640d4.o \
-  $(OBJDIR)/Core_208a945b.o \
-  $(OBJDIR)/CreditManager_3568d982.o \
-  $(OBJDIR)/Gui_626cb809.o \
-  $(OBJDIR)/juce_core_9d6b33ad.o \
-  $(OBJDIR)/juce_data_structures_dcd877a9.o \
-  $(OBJDIR)/juce_events_e5b201a1.o \
-  $(OBJDIR)/juce_graphics_a34b2885.o \
-  $(OBJDIR)/juce_gui_basics_3e4cc581.o \
-  $(OBJDIR)/juce_gui_extra_20746349.o \
+  $(OBJDIR)/Application_7103bc7b.o \
+  $(OBJDIR)/main_3e318c18.o \
+  $(OBJDIR)/MainWindow_ca92c208.o \
+  $(OBJDIR)/MainComponent_ec7554f4.o \
+  $(OBJDIR)/Core_ba510a5d.o \
+  $(OBJDIR)/CreditManager_d7d996e7.o \
+  $(OBJDIR)/Gui_4406eab5.o \
+  $(OBJDIR)/juce_core_aff681cc.o \
+  $(OBJDIR)/juce_data_structures_bdd6d488.o \
+  $(OBJDIR)/juce_events_79b2840.o \
+  $(OBJDIR)/juce_graphics_c8f1e7a4.o \
+  $(OBJDIR)/juce_gui_basics_a630dd20.o \
 
 .PHONY: clean
 
@@ -82,69 +81,64 @@ strip:
 	@echo Stripping jukebox
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
-$(OBJDIR)/main_8d1161a2.o: ../../Source/main.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling main.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling MainWindow.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/Application_d2fc77b1.o: ../../Source/Application.cpp
+$(OBJDIR)/Application_7103bc7b.o: ../../Source/Base/Application.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Application.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/MainComponent_69640d4.o: ../../Source/components/MainComponent.cpp
+$(OBJDIR)/main_3e318c18.o: ../../Source/Base/main.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling main.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/MainWindow_ca92c208.o: ../../Source/Base/MainWindow.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling MainWindow.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/MainComponent_ec7554f4.o: ../../Source/Components/MainComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling MainComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/Core_208a945b.o: ../../Source/extensions/Core.cpp
+$(OBJDIR)/Core_ba510a5d.o: ../../Source/Extensions/Core/Core.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Core.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/CreditManager_3568d982.o: ../../Source/extensions/CreditManager.cpp
+$(OBJDIR)/CreditManager_d7d996e7.o: ../../Source/Extensions/CreditManager/CreditManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling CreditManager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/Gui_626cb809.o: ../../Source/extensions/Gui.cpp
+$(OBJDIR)/Gui_4406eab5.o: ../../Source/Extensions/Gui/Gui.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Gui.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_core_9d6b33ad.o: ../../../JUCE/modules/juce_core/juce_core.cpp
+$(OBJDIR)/juce_core_aff681cc.o: ../../JuceLibraryCode/modules/juce_core/juce_core.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_core.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_data_structures_dcd877a9.o: ../../../JUCE/modules/juce_data_structures/juce_data_structures.cpp
+$(OBJDIR)/juce_data_structures_bdd6d488.o: ../../JuceLibraryCode/modules/juce_data_structures/juce_data_structures.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_data_structures.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_events_e5b201a1.o: ../../../JUCE/modules/juce_events/juce_events.cpp
+$(OBJDIR)/juce_events_79b2840.o: ../../JuceLibraryCode/modules/juce_events/juce_events.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_events.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_graphics_a34b2885.o: ../../../JUCE/modules/juce_graphics/juce_graphics.cpp
+$(OBJDIR)/juce_graphics_c8f1e7a4.o: ../../JuceLibraryCode/modules/juce_graphics/juce_graphics.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_graphics.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_gui_basics_3e4cc581.o: ../../../JUCE/modules/juce_gui_basics/juce_gui_basics.cpp
+$(OBJDIR)/juce_gui_basics_a630dd20.o: ../../JuceLibraryCode/modules/juce_gui_basics/juce_gui_basics.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_gui_basics.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/juce_gui_extra_20746349.o: ../../../JUCE/modules/juce_gui_extra/juce_gui_extra.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling juce_gui_extra.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)
