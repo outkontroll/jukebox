@@ -31,8 +31,8 @@ void Core::initialise(const String& name)
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
     eventsSlot.connect(this, &Core::coinInserted100, gui->coinInserted100Signal);
     eventsSlot.connect(this, &Core::coinInserted200, gui->coinInserted200Signal);
-    eventsSlot.connect(this, &Core::playingSong, gui->playingSongSignal);
-    eventsSlot.connect(this, &Core::playingAlbum, gui->playingAlbumSignal);
+    eventsSlot.connect(this, &Core::playSong, gui->playSongSignal);
+    eventsSlot.connect(this, &Core::playAlbum, gui->playAlbumSignal);
     eventsSlot.connect(this, &Core::creditIncrease, gui->creditIncreaseSignal);
     eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
@@ -67,7 +67,7 @@ void Core::coinInserted200()
     gui->refreshCredits(creditManager->getCredits());
 }
     
-void Core::playingSong()
+void Core::playSong()
 {
     if(! creditManager->hasEnoughCreditsToPlaySong())
     {
@@ -80,7 +80,7 @@ void Core::playingSong()
     }
 }
 
-void Core::playingAlbum()
+void Core::playAlbum()
 {
     if(! creditManager->hasEnoughCreditsToPlayAlbum())
     {

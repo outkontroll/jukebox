@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -65,6 +65,7 @@ private:
     //==============================================================================
     ScopedPointer<Label> infoCredit;
     ScopedPointer<Label> lblCredits;
+    ScopedPointer<Label> lblStatus;
 
 
     //==============================================================================

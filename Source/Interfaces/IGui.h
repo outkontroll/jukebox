@@ -32,8 +32,8 @@ public:
     jukebox::signals::Signal<> coinInserted100Signal;
     jukebox::signals::Signal<> coinInserted200Signal;
     
-    jukebox::signals::Signal<> playingSongSignal;
-    jukebox::signals::Signal<> playingAlbumSignal;
+    jukebox::signals::Signal<> playSongSignal;
+    jukebox::signals::Signal<> playAlbumSignal;
     
     jukebox::signals::Signal<> creditIncreaseSignal;
     jukebox::signals::Signal<> creditDecreaseSignal;

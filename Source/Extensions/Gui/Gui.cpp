@@ -36,20 +36,6 @@ void Gui::uninitialise()
     mainComponent = nullptr;
 }
 
-/*
-jukebox::signals::Signal<void> coinInserted50Signal;
-    jukebox::signals::Signal<void> coinInserted100Signal;
-    jukebox::signals::Signal<void> coinInserted200Signal;
-    
-    jukebox::signals::Signal<void> playingSong;
-    jukebox::signals::Signal<void> playingAlbum;
-    
-    jukebox::signals::Signal<void> creditIncrease;
-    jukebox::signals::Signal<void> creditDecrease;
-    
-    jukebox::signals::Signal<void> exitRequested;
-*/
-
 void Gui::keyPressed(const KeyPress& key)
 {
     int keyCode = key.getKeyCode();
@@ -78,6 +64,14 @@ void Gui::keyPressed(const KeyPress& key)
     else if(keyChar == 'j')
     {
         creditDecreaseSignal();
+    }
+    else if(keyChar == 'x')
+    {
+        playSongSignal();
+    }
+    else if(keyChar == 'v')
+    {
+        playAlbumSignal();
     }
 }
 

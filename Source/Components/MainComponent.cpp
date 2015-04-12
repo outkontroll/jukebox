@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -46,6 +46,14 @@ MainComponent::MainComponent ()
     lblCredits->setColour (TextEditor::textColourId, Colours::black);
     lblCredits->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (lblStatus = new Label ("Status label",
+                                              TRANS("Ready")));
+    lblStatus->setFont (Font (15.00f, Font::plain));
+    lblStatus->setJustificationType (Justification::centredLeft);
+    lblStatus->setEditable (false, false, false);
+    lblStatus->setColour (TextEditor::textColourId, Colours::black);
+    lblStatus->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -68,6 +76,7 @@ MainComponent::~MainComponent()
 
     infoCredit = nullptr;
     lblCredits = nullptr;
+    lblStatus = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -105,6 +114,7 @@ void MainComponent::resized()
 
     infoCredit->setBounds (8, 8, 56, 24);
     lblCredits->setBounds (72, 8, 32, 24);
+    lblStatus->setBounds (16, 96, 150, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -128,8 +138,7 @@ void MainComponent::refreshCredits(unsigned int credits)
 
 void MainComponent::showStatusMessage(const String& message)
 {
-    //TODO
-    //lblStatus->setText(message, dontSendNotification);
+    lblStatus->setText(message, dontSendNotification);
 }
 
 //[/MiscUserCode]
@@ -161,6 +170,11 @@ BEGIN_JUCER_METADATA
          virtualName="" explicitFocusOrder="0" pos="72 8 32 24" edTextCol="ff000000"
          edBkgCol="0" labelText="0" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="18"
+         bold="0" italic="0" justification="33"/>
+  <LABEL name="Status label" id="2888f5d9f29162ec" memberName="lblStatus"
+         virtualName="" explicitFocusOrder="0" pos="16 96 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Ready" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
 </JUCER_COMPONENT>
 

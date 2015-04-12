@@ -42,8 +42,8 @@ private:
     void coinInserted100();
     void coinInserted200();
     
-    void playingSong();
-    void playingAlbum();
+    void playSong();
+    void playAlbum();
     
     void creditIncrease();
     void creditDecrease();
