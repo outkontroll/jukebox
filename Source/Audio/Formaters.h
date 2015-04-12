@@ -15,7 +15,10 @@
 
 namespace jukebox {
 
-    std::string LeadingZeroConverter(unsigned int number, unsigned int length);
+struct Helper
+{
+    static std::string LeadingZeroConverter(unsigned int number, unsigned int length);
+};
 
 }
 

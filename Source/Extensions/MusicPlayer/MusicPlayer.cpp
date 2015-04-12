@@ -22,12 +22,10 @@ MusicPlayer::MusicPlayer()
 
 void MusicPlayer::playSong(Song song)
 {
-    //std::cout << "Playing: " << LeadingZeroConverter(song.getAlbum(), 3) << " " << LeadingZeroConverter(song.getSong(), 2) << std::endl;
-    std::cout << "Playing: " << song.getAlbum() << " " << song.getSong() << std::endl;
+    std::cout << "Playing: " << Helper::LeadingZeroConverter(song.getAlbum(), 3) << " " << Helper::LeadingZeroConverter(song.getSong(), 2) << std::endl;
 }
 
 void MusicPlayer::playAlbum(Song album)
 {
-    //std::cout << "Playing: " << LeadingZeroConverter(album.getAlbum(), 3) << std::endl;
-    std::cout << "Playing: " << album.getAlbum() << std::endl;
+    std::cout << "Playing: " << Helper::LeadingZeroConverter(album.getAlbum(), 3) << std::endl;
 }

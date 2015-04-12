@@ -14,7 +14,7 @@
 
 using namespace jukebox;
 
-std::string LeadingZeroConverter(unsigned int number, unsigned int length)
+std::string Helper::LeadingZeroConverter(unsigned int number, unsigned int length)
 {
     if(! length)
         return "";

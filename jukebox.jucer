@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="xAfF0j" name="jukebox" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.yourcompany.jukebox" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.1">
+              jucerVersion="3.1.0">
   <MAINGROUP id="eJpnlV" name="jukebox">
     <GROUP id="{313C1ACE-0AC3-9958-DE92-FB3F0275508D}" name="Source">
       <GROUP id="{603A1016-869A-4B09-BB02-E3178A681562}" name="Audio">
