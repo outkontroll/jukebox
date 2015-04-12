@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="xAfF0j" name="jukebox" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.yourcompany.jukebox" includeBinaryInAppConfig="1"
+              jucerVersion="3.1.1">
+  <MAINGROUP id="eJpnlV" name="jukebox">
+    <GROUP id="{313C1ACE-0AC3-9958-DE92-FB3F0275508D}" name="Source">
+      <FILE id="qwil48" name="main.cpp" compile="1" resource="0" file="Source/main.cpp"/>
+      <FILE id="j22JgV" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
+      <FILE id="Bt7VWr" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
+      <FILE id="JU3gqM" name="Application.cpp" compile="1" resource="0" file="Source/Application.cpp"/>
+      <FILE id="qnGAUK" name="Application.h" compile="0" resource="0" file="Source/Application.h"/>
+      <GROUP id="{B9CE611F-7951-7A80-52DD-9E57224507D5}" name="components">
+        <FILE id="LFSJTi" name="MainComponent.cpp" compile="1" resource="0"
+              file="Source/components/MainComponent.cpp"/>
+        <FILE id="h12aAJ" name="MainComponent.h" compile="0" resource="0" file="Source/components/MainComponent.h"/>
+      </GROUP>
+      <GROUP id="{9736F9ED-B906-6F57-181C-BB5CB4F317A0}" name="extensions">
+        <FILE id="BuWqju" name="Core.cpp" compile="1" resource="0" file="Source/extensions/Core.cpp"/>
+        <FILE id="enWqWX" name="Core.h" compile="0" resource="0" file="Source/extensions/Core.h"/>
+        <FILE id="WsaSeN" name="CreditManager.cpp" compile="1" resource="0"
+              file="Source/extensions/CreditManager.cpp"/>
+        <FILE id="MuZvCH" name="CreditManager.h" compile="0" resource="0" file="Source/extensions/CreditManager.h"/>
+        <FILE id="iS9Uij" name="Gui.cpp" compile="1" resource="0" file="Source/extensions/Gui.cpp"/>
+        <FILE id="qBqT6u" name="Gui.h" compile="0" resource="0" file="Source/extensions/Gui.h"/>
+      </GROUP>
+      <GROUP id="{FD5DB51D-25B4-54FD-01CA-5A874268800A}" name="interfaces">
+        <FILE id="vkGF6k" name="ICore.h" compile="0" resource="0" file="Source/interfaces/ICore.h"/>
+        <FILE id="IpDpwk" name="ICreditManager.h" compile="0" resource="0"
+              file="Source/interfaces/ICreditManager.h"/>
+        <FILE id="HuzG76" name="IGui.h" compile="0" resource="0" file="Source/interfaces/IGui.h"/>
+      </GROUP>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <LINUX_MAKE targetFolder="Builds/Linux">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
+                       targetName="jukebox" headerPath="../../Source;../../Source/interfaces;../../Source/extensions;&#10;../../Source/components;../../JuceLibraryCode;../../JuceLibraryCode/modules"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
+                       targetName="jukebox"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
