@@ -15,10 +15,7 @@
 
 namespace jukebox {
 
-struct Helper
-{
-    static std::string LeadingZeroConverter(unsigned int number, unsigned int length);
-};
+std::string FillWithLeadingZeros(unsigned int number, unsigned int length);
 
 }
 

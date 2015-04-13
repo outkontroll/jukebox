@@ -17,15 +17,14 @@ using namespace jukebox::audio;
 
 MusicPlayer::MusicPlayer()
 {
-    
 }
 
 void MusicPlayer::playSong(Song song)
 {
-    std::cout << "Playing: " << Helper::LeadingZeroConverter(song.getAlbum(), 3) << " " << Helper::LeadingZeroConverter(song.getSong(), 2) << std::endl;
+    std::cout << "Playing: " << FillWithLeadingZeros(song.getAlbum(), 3) << " " << FillWithLeadingZeros(song.getSong(), 2) << std::endl;
 }
 
 void MusicPlayer::playAlbum(Song album)
 {
-    std::cout << "Playing: " << Helper::LeadingZeroConverter(album.getAlbum(), 3) << std::endl;
+    std::cout << "Playing: " << FillWithLeadingZeros(album.getAlbum(), 3) << std::endl;
 }

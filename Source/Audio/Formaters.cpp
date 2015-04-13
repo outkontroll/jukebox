@@ -12,9 +12,7 @@
 #include <sstream>
 #include <iomanip>
 
-using namespace jukebox;
-
-std::string Helper::LeadingZeroConverter(unsigned int number, unsigned int length)
+std::string jukebox::FillWithLeadingZeros(unsigned int number, unsigned int length)
 {
     if(! length)
         return "";
