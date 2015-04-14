@@ -12,11 +12,13 @@
 #include "Gui.h"
 #include "CreditManager.h"
 #include "MusicPlayer.h"
+#include "Statistics.h"
 
 using namespace jukebox::core;
 using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
+using namespace jukebox::statistics;
 
 Core::Core()
 {
@@ -41,6 +43,7 @@ void Core::initialise(const String& name)
     
     creditManager.reset(new creditmanager::CreditManager);
     musicPlayer.reset(new audio::MusicPlayer);
+    statistics.reset(new statistics::Statistics);
 }
 
 void Core::uninitialise()
@@ -51,6 +54,8 @@ void Core::uninitialise()
     creditManager = nullptr;
     
     musicPlayer = nullptr;
+    
+    statistics = nullptr;
 }
 
 void Core::coinInserted50()
@@ -81,6 +86,7 @@ void Core::playSong(Song song)
     {
         creditManager->startPlaySong();
         musicPlayer->playSong(song);
+        statistics->songPlayed(song);
         gui->refreshCredits(creditManager->getCredits());
     }
 }
@@ -95,6 +101,7 @@ void Core::playAlbum(Song album)
     {
         creditManager->startPlayAlbum();
         musicPlayer->playAlbum(album);
+        statistics->albumPlayed(album);
         gui->refreshCredits(creditManager->getCredits());
     }
 }

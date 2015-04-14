@@ -29,6 +29,10 @@ namespace jukebox
     {
         class IMusicPlayer;
     }
+    namespace statistics
+    {
+        class IStatistics;
+    }
 }
 
 namespace jukebox { namespace core {
@@ -61,6 +65,7 @@ private:
     std::unique_ptr<gui::IGui> gui;
     std::unique_ptr<creditmanager::ICreditManager> creditManager;
     std::unique_ptr<audio::IMusicPlayer> musicPlayer;
+    std::unique_ptr<statistics::IStatistics> statistics;
 };
 
 }}
