@@ -20,6 +20,9 @@ using namespace jukebox::signals;
 using namespace jukebox::audio;
 using namespace jukebox::statistics;
 
+const std::string EROOR_FEW_CREDITS_SONG = "Too few credits to play a song!";
+const std::string EROOR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
+
 Core::Core()
 {
 }
@@ -39,12 +42,15 @@ void Core::initialise(const String& name)
     eventsSlot.connect(this, &Core::creditIncrease, gui->creditIncreaseSignal);
     eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
-    eventsSlot.connect(this, &Core::printStatistics, gui->printStatisticsSignal);
+    eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
     gui->initialise(name);
     
     creditManager.reset(new creditmanager::CreditManager);
     musicPlayer.reset(new audio::MusicPlayer);
     statistics.reset(new statistics::Statistics);
+    
+    //ToDo
+    gui->setMusicFolder("001");
 }
 
 void Core::uninitialise()
@@ -78,10 +84,10 @@ void Core::coinInserted200()
 }
     
 void Core::playSong(Song song)
-{
+{   
     if(! creditManager->hasEnoughCreditsToPlaySong())
     {
-        gui->showStatusMessage("Too few credits to play a song!");
+        gui->showStatusMessage(EROOR_FEW_CREDITS_SONG);
     }
     else
     {
@@ -96,7 +102,7 @@ void Core::playAlbum(Song album)
 {
     if(! creditManager->hasEnoughCreditsToPlayAlbum())
     {
-        gui->showStatusMessage("Too few credits to play an album!");
+        gui->showStatusMessage(EROOR_FEW_CREDITS_ALBUM);
     }
     else
     {
@@ -124,7 +130,7 @@ void Core::exitRequested()
     JUCEApplication::quit();
 }
 
-void Core::printStatistics()
+void Core::showStatistics()
 {
-    statistics->printStatistics();
+    statistics->showStatistics();
 }

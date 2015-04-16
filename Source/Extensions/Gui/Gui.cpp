@@ -16,7 +16,12 @@ using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
 
+const String INVALID_STRING = "";
+const unsigned int INVALID_POSITION = 0;
+
 Gui::Gui()
+: musicFolder(INVALID_STRING),
+  position(INVALID_POSITION)
 {
 }
 
@@ -74,9 +79,9 @@ void Gui::keyPressed(const KeyPress& key)
     {
         playAlbumSignal(Song(12));
     }
-    else if(keyChar == 'h')
+    else if(keyCode == KeyPress::escapeKey)
     {
-        printStatisticsSignal();
+        showStatisticsSignal();
     }
 }
 
@@ -88,4 +93,18 @@ void Gui::refreshCredits(unsigned int credits)
 void Gui::showStatusMessage(const String& message)
 {
     mainComponent->showStatusMessage(message);
+}
+
+void Gui::setMusicFolder(const String& folder)
+{
+    musicFolder = folder;
+    position = 1;
+    updateAlbumList();
+}
+
+void Gui::updateAlbumList()
+{
+    String albumlist = "qwerty";
+    //ToDo 
+    mainComponent->updateAlbumList(albumlist);
 }

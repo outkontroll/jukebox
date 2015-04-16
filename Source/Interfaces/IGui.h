@@ -27,6 +27,8 @@ public:
     
     virtual void refreshCredits(unsigned int credits) = 0;
     virtual void showStatusMessage(const String& message) = 0;
+    
+    virtual void setMusicFolder(const String& folder) = 0;
 
 public:
     jukebox::signals::Signal<> coinInserted50Signal;
@@ -41,7 +43,7 @@ public:
     
     jukebox::signals::Signal<> exitRequestedSignal;
     
-    jukebox::signals::Signal<> printStatisticsSignal;
+    jukebox::signals::Signal<> showStatisticsSignal;
 };
 
 }}

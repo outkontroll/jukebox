@@ -25,10 +25,11 @@ public:
     void songPlayed(audio::Song song) override;
     void albumPlayed(audio::Song album) override;
     
-    void printStatistics() override;
+    void showStatistics() override;
     
 private:
-    std::map<audio::Song, int, audio::CompareSong> playedSongs;
+    typedef std::map<audio::Song, unsigned int, audio::CompareSong> T_PlayedSongs;
+    T_PlayedSongs playedSongs;
 };
 
 }}

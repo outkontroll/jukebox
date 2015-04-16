@@ -23,7 +23,7 @@ public:
     virtual void songPlayed(audio::Song song) = 0;
     virtual void albumPlayed(audio::Song album) = 0;
     
-    virtual void printStatistics() = 0;
+    virtual void showStatistics() = 0;
 };
 
 }}

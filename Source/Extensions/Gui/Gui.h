@@ -30,15 +30,22 @@ public:
     
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(const String& message) override;
+    
+    void setMusicFolder(const String& folder) override;
 
 private:
     void keyPressed(const KeyPress& key);
+    
+    void updateAlbumList();
     
 private:
     jukebox::signals::Slot keyPressedSlot;
     
     std::unique_ptr<MainComponent> mainComponent;
     std::unique_ptr<MainWindow> mainWindow;
+    
+    String musicFolder;
+    unsigned int position;
 };
 
 }}

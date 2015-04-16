@@ -42,7 +42,7 @@ struct CompareSong
     {
         if(lhs.getAlbum() < rhs.getAlbum())
             return true;
-        if(lhs.getAlbum() >= rhs.getAlbum())
+        if(lhs.getAlbum() > rhs.getAlbum())
             return false;
         
         return lhs.getSong() < rhs.getSong();

@@ -54,6 +54,16 @@ MainComponent::MainComponent ()
     lblStatus->setColour (TextEditor::textColourId, Colours::black);
     lblStatus->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (txtAlbumList = new TextEditor ("List of albums"));
+    txtAlbumList->setMultiLine (false);
+    txtAlbumList->setReturnKeyStartsNewLine (false);
+    txtAlbumList->setReadOnly (false);
+    txtAlbumList->setScrollbarsShown (true);
+    txtAlbumList->setCaretVisible (true);
+    txtAlbumList->setPopupMenuEnabled (true);
+    txtAlbumList->setColour (TextEditor::backgroundColourId, Colour (0xffdadada));
+    txtAlbumList->setText (String::empty);
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -77,6 +87,7 @@ MainComponent::~MainComponent()
     infoCredit = nullptr;
     lblCredits = nullptr;
     lblStatus = nullptr;
+    txtAlbumList = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -114,7 +125,8 @@ void MainComponent::resized()
 
     infoCredit->setBounds (8, 8, 56, 24);
     lblCredits->setBounds (72, 8, 32, 24);
-    lblStatus->setBounds (16, 96, 150, 24);
+    lblStatus->setBounds (16, 272, 150, 24);
+    txtAlbumList->setBounds (16, 48, 136, 216);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -139,6 +151,11 @@ void MainComponent::refreshCredits(unsigned int credits)
 void MainComponent::showStatusMessage(const String& message)
 {
     lblStatus->setText(message, dontSendNotification);
+}
+
+void MainComponent::updateAlbumList(const String& albumList)
+{
+    txtAlbumList->setText(albumList);
 }
 
 //[/MiscUserCode]
@@ -172,10 +189,14 @@ BEGIN_JUCER_METADATA
          focusDiscardsChanges="0" fontname="Default font" fontsize="18"
          bold="0" italic="0" justification="33"/>
   <LABEL name="Status label" id="2888f5d9f29162ec" memberName="lblStatus"
-         virtualName="" explicitFocusOrder="0" pos="16 96 150 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="16 272 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Ready" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
+  <TEXTEDITOR name="List of albums" id="c309162dc4be8cd5" memberName="txtAlbumList"
+              virtualName="" explicitFocusOrder="0" pos="16 48 136 216" bkgcol="ffdadada"
+              initialText="" multiline="0" retKeyStartsLine="0" readonly="0"
+              scrollbars="1" caret="1" popupmenu="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

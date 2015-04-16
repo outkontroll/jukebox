@@ -59,7 +59,7 @@ private:
     
     void exitRequested();
     
-    void printStatistics();
+    void showStatistics();
 
 private:
     jukebox::signals::Slot eventsSlot;

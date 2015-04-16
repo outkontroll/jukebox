@@ -48,6 +48,7 @@ public:
 
     void refreshCredits(unsigned int credits);
     void showStatusMessage(const String& message);
+    void updateAlbumList(const String& albumList);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -66,6 +67,7 @@ private:
     ScopedPointer<Label> infoCredit;
     ScopedPointer<Label> lblCredits;
     ScopedPointer<Label> lblStatus;
+    ScopedPointer<TextEditor> txtAlbumList;
 
 
     //==============================================================================

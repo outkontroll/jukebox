@@ -33,10 +33,10 @@ void Statistics::albumPlayed(Song album)
     ++playedSongs[album];
 }
 
-void Statistics::printStatistics()
+void Statistics::showStatistics()
 {
     std::cout << std::endl << "________________" << std::endl;
-    for(std::map<Song, int, CompareSong>::const_iterator it = playedSongs.begin(); it != playedSongs.end(); ++it)
+    for(T_PlayedSongs::const_iterator it = playedSongs.begin(); it != playedSongs.end(); ++it)
     {
         std::cout << FillWithLeadingZeros(it->first.getAlbum(), 3) << FillWithLeadingZeros(it->first.getSong(), 2)
         << ": " << it->second << std::endl;
