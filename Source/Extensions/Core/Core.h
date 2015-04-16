@@ -58,6 +58,8 @@ private:
     void creditDecrease();
     
     void exitRequested();
+    
+    void printStatistics();
 
 private:
     jukebox::signals::Slot eventsSlot;

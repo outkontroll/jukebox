@@ -9,6 +9,8 @@
 */
 
 #include "Statistics.h"
+#include "Formaters.h"
+#include <iostream>
 
 using namespace jukebox::statistics;
 using namespace jukebox::audio;
@@ -23,10 +25,21 @@ Statistics::~Statistics()
 
 void Statistics::songPlayed(Song song)
 {
-    //TODO
+    ++playedSongs[song];
 }
 
 void Statistics::albumPlayed(Song album)
 {
-    //TODO
+    ++playedSongs[album];
+}
+
+void Statistics::printStatistics()
+{
+    std::cout << std::endl << "________________" << std::endl;
+    for(std::map<Song, int, CompareSong>::const_iterator it = playedSongs.begin(); it != playedSongs.end(); ++it)
+    {
+        std::cout << FillWithLeadingZeros(it->first.getAlbum(), 3) << FillWithLeadingZeros(it->first.getSong(), 2)
+        << ": " << it->second << std::endl;
+    }
+    std::cout << "________________" << std::endl;
 }

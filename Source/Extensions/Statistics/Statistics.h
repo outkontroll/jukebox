@@ -12,6 +12,7 @@
 #define STATISTICS_H_INCLUDED
 
 #include "IStatistics.h"
+#include <map>
 
 namespace jukebox { namespace statistics {
 
@@ -23,6 +24,11 @@ public:
     
     void songPlayed(audio::Song song) override;
     void albumPlayed(audio::Song album) override;
+    
+    void printStatistics() override;
+    
+private:
+    std::map<audio::Song, int, audio::CompareSong> playedSongs;
 };
 
 }}

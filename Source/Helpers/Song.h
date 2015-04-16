@@ -36,6 +36,19 @@ private:
     unsigned int song;
 };
 
+struct CompareSong
+{
+    bool operator()(const Song& lhs, const Song& rhs)
+    {
+        if(lhs.getAlbum() < rhs.getAlbum())
+            return true;
+        if(lhs.getAlbum() >= rhs.getAlbum())
+            return false;
+        
+        return lhs.getSong() < rhs.getSong();
+    }
+};
+
 }}
 
 #endif  // SONG_H_INCLUDED

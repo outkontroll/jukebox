@@ -72,7 +72,11 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(keyChar == 'v')
     {
-        playAlbumSignal(Song());
+        playAlbumSignal(Song(12));
+    }
+    else if(keyChar == 'h')
+    {
+        printStatisticsSignal();
     }
 }
 

@@ -39,6 +39,7 @@ void Core::initialise(const String& name)
     eventsSlot.connect(this, &Core::creditIncrease, gui->creditIncreaseSignal);
     eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
+    eventsSlot.connect(this, &Core::printStatistics, gui->printStatisticsSignal);
     gui->initialise(name);
     
     creditManager.reset(new creditmanager::CreditManager);
@@ -121,4 +122,9 @@ void Core::creditDecrease()
 void Core::exitRequested()
 {
     JUCEApplication::quit();
+}
+
+void Core::printStatistics()
+{
+    statistics->printStatistics();
 }

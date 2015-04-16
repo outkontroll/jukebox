@@ -40,6 +40,8 @@ public:
     jukebox::signals::Signal<> creditDecreaseSignal;
     
     jukebox::signals::Signal<> exitRequestedSignal;
+    
+    jukebox::signals::Signal<> printStatisticsSignal;
 };
 
 }}
