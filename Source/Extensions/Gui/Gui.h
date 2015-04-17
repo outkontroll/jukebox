@@ -11,6 +11,7 @@
 #ifndef GUI_H_INCLUDED
 #define GUI_H_INCLUDED
 
+#include "JuceHeader.h"
 #include "IGui.h"
 #include <memory>
 
@@ -25,13 +26,13 @@ public:
     Gui();
     ~Gui();
     
-    void initialise(const String& name) override;
+    void initialise(const std::string& name) override;
     void uninitialise() override;
     
     void refreshCredits(unsigned int credits) override;
-    void showStatusMessage(const String& message) override;
+    void showStatusMessage(const std::string& message) override;
     
-    void setMusicFolder(const String& folder) override;
+    void setMusicFolder(const std::string& folder) override;
 
 private:
     void keyPressed(const KeyPress& key);

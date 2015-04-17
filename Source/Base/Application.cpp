@@ -39,7 +39,7 @@ bool jukeboxApplication::moreThanOneInstanceAllowed()
     
 void jukeboxApplication::initialise (const String& commandLine)
 {
-    core->initialise(getApplicationName());
+    core->initialise(getApplicationName().toStdString());
 }
     
 void jukeboxApplication::shutdown()
@@ -50,6 +50,7 @@ void jukeboxApplication::shutdown()
     
 void jukeboxApplication::systemRequestedQuit()
 {
+    //TODO
     std::cout << __func__ << std::endl;
     quit();
 }

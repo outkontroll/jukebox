@@ -16,7 +16,7 @@ using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
 
-const String INVALID_STRING = "";
+const std::string INVALID_STRING = "";
 const unsigned int INVALID_POSITION = 0;
 
 Gui::Gui()
@@ -29,7 +29,7 @@ Gui::~Gui()
 {
 }
 
-void Gui::initialise(const String& name)
+void Gui::initialise(const std::string& name)
 {
     mainComponent.reset(new MainComponent);
     keyPressedSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
@@ -90,12 +90,12 @@ void Gui::refreshCredits(unsigned int credits)
     mainComponent->refreshCredits(credits);
 }
 
-void Gui::showStatusMessage(const String& message)
+void Gui::showStatusMessage(const std::string& message)
 {
     mainComponent->showStatusMessage(message);
 }
 
-void Gui::setMusicFolder(const String& folder)
+void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
     position = 1;
@@ -104,7 +104,7 @@ void Gui::setMusicFolder(const String& folder)
 
 void Gui::updateAlbumList()
 {
-    String albumlist = "qwerty";
-    //ToDo 
+    std::string albumlist("qwerty");
+    //TODO
     mainComponent->updateAlbumList(albumlist);
 }

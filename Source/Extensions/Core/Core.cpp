@@ -31,7 +31,7 @@ Core::~Core()
 {
 }
 
-void Core::initialise(const String& name)
+void Core::initialise(const std::string& name)
 {
     gui.reset(new gui::Gui);
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
@@ -49,7 +49,7 @@ void Core::initialise(const String& name)
     musicPlayer.reset(new audio::MusicPlayer);
     statistics.reset(new statistics::Statistics);
     
-    //ToDo
+    //TODO
     gui->setMusicFolder("001");
 }
 

@@ -12,6 +12,7 @@
 #define CORE_H_INCLUDED
 
 #include "ICore.h"
+#include "Signals.hpp"
 #include "Song.h"
 #include <memory>
 
@@ -43,7 +44,7 @@ public:
     Core();
     ~Core();
     
-    void initialise(const String&) override;
+    void initialise(const std::string&) override;
     void uninitialise() override;
     
 private:

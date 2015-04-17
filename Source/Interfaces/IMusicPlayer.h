@@ -20,8 +20,8 @@ class IMusicPlayer
 public:
     virtual ~IMusicPlayer(){}
     
-    virtual void playSong(Song song) = 0;
-    virtual void playAlbum(Song album) = 0;
+    virtual void playSong(audio::Song song) = 0;
+    virtual void playAlbum(audio::Song album) = 0;
 };    
 
 }}
