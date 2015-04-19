@@ -28,7 +28,7 @@ public:
     void showStatistics() override;
     
 private:
-    typedef std::map<audio::Song, unsigned int, audio::CompareSong> T_PlayedSongs;
+    typedef std::map<audio::Song, unsigned int> T_PlayedSongs;
     T_PlayedSongs playedSongs;
 };
 
