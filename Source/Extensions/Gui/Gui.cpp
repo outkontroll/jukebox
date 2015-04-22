@@ -11,13 +11,17 @@
 #include "Gui.h"
 #include "MainWindow.h"
 #include "MainComponent.h"
+#include "FileSystem.h"
+#include <algorithm>
 
 using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
+using namespace jukebox::filesystem;
 
 const std::string INVALID_STRING = "";
 const unsigned int INVALID_POSITION = 0;
+const unsigned int FIRST_POSITION = 1;
 
 Gui::Gui()
 : musicFolder(INVALID_STRING),
@@ -98,13 +102,30 @@ void Gui::showStatusMessage(const std::string& message)
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
-    position = 1;
+    position = FIRST_POSITION;
     updateAlbumList();
 }
 
+struct StringAdder
+{
+    StringAdder(std::string& res)
+        : result(res) {}
+    
+    void operator()(const std::string& line)
+    {
+        result += line + "\n";
+    }
+    
+private:
+    std::string& result;
+};
+
 void Gui::updateAlbumList()
 {
-    std::string albumlist("qwerty");
-    //TODO
+    std::string albumlist("");
+    FileSystem::T_AlbumDirectories albumDirs = FileSystem::getAlbumDirectories(".");
+    
+    for_each(albumDirs.begin(), albumDirs.end(), StringAdder(albumlist));
+    
     mainComponent->updateAlbumList(albumlist);
 }

@@ -44,6 +44,8 @@
         <GROUP id="{D4267DD4-4DC5-9028-1150-85FAB81A6FBB}" name="Signaling">
           <FILE id="F7Sib9" name="Signals.hpp" compile="0" resource="0" file="Source/Helpers/Signaling/Signals.hpp"/>
         </GROUP>
+        <FILE id="PW3CYs" name="FileSystem.cpp" compile="1" resource="0" file="Source/Helpers/FileSystem.cpp"/>
+        <FILE id="Tmbjv6" name="FileSystem.h" compile="0" resource="0" file="Source/Helpers/FileSystem.h"/>
         <FILE id="x7SMc5" name="Formaters.cpp" compile="1" resource="0" file="Source/Helpers/Formaters.cpp"/>
         <FILE id="VYrc9P" name="Formaters.h" compile="0" resource="0" file="Source/Helpers/Formaters.h"/>
         <FILE id="WYB0je" name="Song.h" compile="0" resource="0" file="Source/Helpers/Song.h"/>

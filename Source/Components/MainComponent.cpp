@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -30,6 +30,9 @@
 //==============================================================================
 MainComponent::MainComponent ()
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (infoCredit = new Label ("credits info label",
                                                TRANS("Credits:")));
     infoCredit->setFont (Font (15.00f, Font::plain));
@@ -55,7 +58,7 @@ MainComponent::MainComponent ()
     lblStatus->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (txtAlbumList = new TextEditor ("List of albums"));
-    txtAlbumList->setMultiLine (false);
+    txtAlbumList->setMultiLine (true);
     txtAlbumList->setReturnKeyStartsNewLine (false);
     txtAlbumList->setReadOnly (false);
     txtAlbumList->setScrollbarsShown (true);
@@ -195,7 +198,7 @@ BEGIN_JUCER_METADATA
          bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="List of albums" id="c309162dc4be8cd5" memberName="txtAlbumList"
               virtualName="" explicitFocusOrder="0" pos="16 48 136 216" bkgcol="ffdadada"
-              initialText="" multiline="0" retKeyStartsLine="0" readonly="0"
+              initialText="" multiline="1" retKeyStartsLine="0" readonly="0"
               scrollbars="1" caret="1" popupmenu="1"/>
 </JUCER_COMPONENT>
 
