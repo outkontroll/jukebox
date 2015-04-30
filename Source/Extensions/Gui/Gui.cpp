@@ -106,26 +106,15 @@ void Gui::setMusicFolder(const std::string& folder)
     updateAlbumList();
 }
 
-struct StringAdder
-{
-    StringAdder(std::string& res)
-        : result(res) {}
-    
-    void operator()(const std::string& line)
-    {
-        result += line + "\n";
-    }
-    
-private:
-    std::string& result;
-};
-
 void Gui::updateAlbumList()
 {
     std::string albumlist("");
     FileSystem::T_AlbumDirectories albumDirs = FileSystem::getAlbumDirectories(".");
     
-    for_each(albumDirs.begin(), albumDirs.end(), StringAdder(albumlist));
+    for(auto i : albumDirs)
+    {
+        albumlist += i + "\n";
+    }
     
     mainComponent->updateAlbumList(albumlist);
 }
