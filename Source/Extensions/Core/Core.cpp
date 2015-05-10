@@ -127,7 +127,7 @@ void Core::creditDecrease()
     
 void Core::exitRequested()
 {
-    JUCEApplication::quit();
+    juce::JUCEApplication::quit();
 }
 
 void Core::showStatistics()

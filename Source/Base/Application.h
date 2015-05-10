@@ -19,25 +19,25 @@ namespace jukebox { namespace core {
     class ICore;
 }}
 
-class jukeboxApplication : public JUCEApplication
+class jukeboxApplication : public juce::JUCEApplication
 {
 public:
     jukeboxApplication();
     ~jukeboxApplication();
     
-    const String getApplicationName() override;
+    const juce::String getApplicationName() override;
     
-    const String getApplicationVersion() override;
+    const juce::String getApplicationVersion() override;
     
     bool moreThanOneInstanceAllowed() override;
     
-    void initialise (const String& commandLine) override;
+    void initialise (const juce::String& commandLine) override;
     
     void shutdown() override;
     
     void systemRequestedQuit() override;
     
-    void anotherInstanceStarted(const String& commandLine) override;
+    void anotherInstanceStarted(const juce::String& commandLine) override;
     
 private:
     std::unique_ptr<jukebox::core::ICore> core;

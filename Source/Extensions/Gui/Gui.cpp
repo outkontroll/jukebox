@@ -18,6 +18,7 @@ using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
 using namespace jukebox::filesystem;
+using namespace juce;
 
 const std::string INVALID_STRING = "";
 const unsigned int INVALID_POSITION = 0;
@@ -77,7 +78,7 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(keyChar == 'x')
     {
-        playSongSignal(Song());
+        playSongSignal(Song(1, 5));
     }
     else if(keyChar == 'v')
     {

@@ -22,7 +22,10 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "SongsListBox.h"
 #include "Signals.hpp"
+
+namespace juce {
 //[/Headers]
 
 
@@ -59,6 +62,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    ScopedPointer<SongsListBox> listBox;
     unsigned int number;
     bool focusInitialised;
     //[/UserVariables]
@@ -68,6 +72,9 @@ private:
     ScopedPointer<Label> lblCredits;
     ScopedPointer<Label> lblStatus;
     ScopedPointer<TextEditor> txtAlbumList;
+    ScopedPointer<Label> infoPlayQueue;
+    ScopedPointer<Label> infoCurrentSong;
+    ScopedPointer<TextEditor> txtCurrentSong;
 
 
     //==============================================================================
@@ -75,6 +82,7 @@ private:
 };
 
 //[EndFile] You can add extra defines here...
+}
 //[/EndFile]
 
 #endif   // __JUCE_HEADER_9002020A4DD09B20__

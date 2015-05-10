@@ -25,6 +25,7 @@
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 //using namespace jukebox::signals;
+using namespace juce;
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -60,18 +61,44 @@ MainComponent::MainComponent ()
     addAndMakeVisible (txtAlbumList = new TextEditor ("List of albums"));
     txtAlbumList->setMultiLine (true);
     txtAlbumList->setReturnKeyStartsNewLine (false);
-    txtAlbumList->setReadOnly (false);
+    txtAlbumList->setReadOnly (true);
     txtAlbumList->setScrollbarsShown (true);
-    txtAlbumList->setCaretVisible (true);
+    txtAlbumList->setCaretVisible (false);
     txtAlbumList->setPopupMenuEnabled (true);
     txtAlbumList->setColour (TextEditor::backgroundColourId, Colour (0xffdadada));
     txtAlbumList->setText (String::empty);
 
+    addAndMakeVisible (infoPlayQueue = new Label ("playlist queue info label",
+                                                  TRANS("Songs in the queue")));
+    infoPlayQueue->setFont (Font (15.00f, Font::plain));
+    infoPlayQueue->setJustificationType (Justification::centredLeft);
+    infoPlayQueue->setEditable (false, false, false);
+    infoPlayQueue->setColour (TextEditor::textColourId, Colours::black);
+    infoPlayQueue->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (infoCurrentSong = new Label ("current song info label",
+                                                    TRANS("Currently playing:")));
+    infoCurrentSong->setFont (Font (15.00f, Font::plain));
+    infoCurrentSong->setJustificationType (Justification::centredLeft);
+    infoCurrentSong->setEditable (false, false, false);
+    infoCurrentSong->setColour (TextEditor::textColourId, Colours::black);
+    infoCurrentSong->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (txtCurrentSong = new TextEditor ("current song text"));
+    txtCurrentSong->setMultiLine (false);
+    txtCurrentSong->setReturnKeyStartsNewLine (false);
+    txtCurrentSong->setReadOnly (true);
+    txtCurrentSong->setScrollbarsShown (true);
+    txtCurrentSong->setCaretVisible (false);
+    txtCurrentSong->setPopupMenuEnabled (true);
+    txtCurrentSong->setText (String::empty);
+
 
     //[UserPreSize]
+    addAndMakeVisible (listBox = new SongsListBox);
     //[/UserPreSize]
 
-    setSize (600, 400);
+    setSize (640, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -91,9 +118,13 @@ MainComponent::~MainComponent()
     lblCredits = nullptr;
     lblStatus = nullptr;
     txtAlbumList = nullptr;
+    infoPlayQueue = nullptr;
+    infoCurrentSong = nullptr;
+    txtCurrentSong = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
+    listBox = nullptr;
     //[/Destructor]
 }
 
@@ -126,11 +157,15 @@ void MainComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    infoCredit->setBounds (8, 8, 56, 24);
-    lblCredits->setBounds (72, 8, 32, 24);
-    lblStatus->setBounds (16, 272, 150, 24);
-    txtAlbumList->setBounds (16, 48, 136, 216);
+    infoCredit->setBounds (400, 24, 56, 24);
+    lblCredits->setBounds (464, 24, 32, 24);
+    lblStatus->setBounds (32, 272, 150, 24);
+    txtAlbumList->setBounds (32, 24, 272, 216);
+    infoPlayQueue->setBounds (400, 176, 150, 24);
+    infoCurrentSong->setBounds (400, 64, 150, 24);
+    txtCurrentSong->setBounds (400, 104, 150, 24);
     //[UserResized] Add your own custom resize handling here..
+    listBox->setBounds(400, 220, 200, 150);
     //[/UserResized]
 }
 
@@ -176,30 +211,44 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="MainComponent" componentName=""
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="600" initialHeight="400">
+                 fixedSize="0" initialWidth="640" initialHeight="400">
   <METHODS>
     <METHOD name="keyPressed (const KeyPress&amp; key)"/>
   </METHODS>
   <BACKGROUND backgroundColour="ffffffff"/>
   <LABEL name="credits info label" id="b06a2a5d220c224b" memberName="infoCredit"
-         virtualName="" explicitFocusOrder="0" pos="8 8 56 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="400 24 56 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Credits:" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
   <LABEL name="credits label" id="559731314e5f9fe6" memberName="lblCredits"
-         virtualName="" explicitFocusOrder="0" pos="72 8 32 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="464 24 32 24" edTextCol="ff000000"
          edBkgCol="0" labelText="0" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="18"
          bold="0" italic="0" justification="33"/>
   <LABEL name="Status label" id="2888f5d9f29162ec" memberName="lblStatus"
-         virtualName="" explicitFocusOrder="0" pos="16 272 150 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 272 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Ready" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="List of albums" id="c309162dc4be8cd5" memberName="txtAlbumList"
-              virtualName="" explicitFocusOrder="0" pos="16 48 136 216" bkgcol="ffdadada"
-              initialText="" multiline="1" retKeyStartsLine="0" readonly="0"
-              scrollbars="1" caret="1" popupmenu="1"/>
+              virtualName="" explicitFocusOrder="0" pos="32 24 272 216" bkgcol="ffdadada"
+              initialText="" multiline="1" retKeyStartsLine="0" readonly="1"
+              scrollbars="1" caret="0" popupmenu="1"/>
+  <LABEL name="playlist queue info label" id="14603449b7b89fe8" memberName="infoPlayQueue"
+         virtualName="" explicitFocusOrder="0" pos="400 176 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Songs in the queue" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" bold="0" italic="0" justification="33"/>
+  <LABEL name="current song info label" id="e2e9b0ce64f022e0" memberName="infoCurrentSong"
+         virtualName="" explicitFocusOrder="0" pos="400 64 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Currently playing:" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" bold="0" italic="0" justification="33"/>
+  <TEXTEDITOR name="current song text" id="e9cd5fc0ca8c98f6" memberName="txtCurrentSong"
+              virtualName="" explicitFocusOrder="0" pos="400 104 150 24" initialText=""
+              multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="1"
+              caret="0" popupmenu="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

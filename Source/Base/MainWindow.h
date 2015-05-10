@@ -14,10 +14,10 @@
 
 #include "JuceHeader.h"
 
-class MainWindow : public ResizableWindow
+class MainWindow : public juce::ResizableWindow
 {
 public:
-    MainWindow(const String& name, Component* guiComponent);
+    MainWindow(const juce::String& name, juce::Component* guiComponent);
     ~MainWindow();
     
 private:

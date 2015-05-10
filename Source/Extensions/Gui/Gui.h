@@ -15,7 +15,10 @@
 #include "IGui.h"
 #include <memory>
 
-class MainComponent;
+namespace juce {
+    class MainComponent;
+}
+
 class MainWindow;
 
 namespace jukebox { namespace gui {
@@ -35,17 +38,17 @@ public:
     void setMusicFolder(const std::string& folder) override;
 
 private:
-    void keyPressed(const KeyPress& key);
+    void keyPressed(const juce::KeyPress& key);
     
     void updateAlbumList();
     
 private:
     jukebox::signals::Slot keyPressedSlot;
     
-    std::unique_ptr<MainComponent> mainComponent;
+    std::unique_ptr<juce::MainComponent> mainComponent;
     std::unique_ptr<MainWindow> mainWindow;
     
-    String musicFolder;
+    juce::String musicFolder;
     unsigned int position;
 };
 

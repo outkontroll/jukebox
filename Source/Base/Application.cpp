@@ -12,6 +12,7 @@
 #include "Core.h"
 
 using namespace jukebox;
+using namespace juce;
 
 jukeboxApplication::jukeboxApplication()
  : core(new core::Core)
