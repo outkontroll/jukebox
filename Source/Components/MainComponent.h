@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.1
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
@@ -52,6 +52,7 @@ public:
     void refreshCredits(unsigned int credits);
     void showStatusMessage(const String& message);
     void updateAlbumList(const String& albumList);
+    void enqueue(const std::string& song);
     //[/UserMethods]
 
     void paint (Graphics& g);

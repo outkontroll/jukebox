@@ -40,9 +40,43 @@ void SongsListBox::paint (Graphics& g)
                 Justification::centred, true);   // draw some placeholder text
 }
 
+void SongsListBox::insertItem(const std::string& item)
+{
+    sourceModel.insertItem(item);
+    sourceListBox.updateContent();
+}
+
 void SongsListBox::resized()
 {
     Rectangle<int> r (getLocalBounds().reduced (8));
 
     sourceListBox.setBounds (r.withSize (190, 140));
 }
+
+int SongListBoxContents::getNumRows()
+{
+    return items.size();
+}
+
+void SongListBoxContents::paintListBoxItem (int rowNumber, juce::Graphics& g,
+                           int width, int height, bool rowIsSelected)
+    {
+        if(rowNumber >= items.size())
+            return;
+        
+        if (rowIsSelected)
+            g.fillAll (juce::Colours::lightblue);
+
+        g.setColour (juce::Colours::black);
+        g.setFont (height * 0.7f);
+
+        g.drawText (items[rowNumber],
+                    5, 0, width, height,
+                    juce::Justification::centredLeft, true);
+    }
+    
+void SongListBoxContents::insertItem(const std::string& item)
+{
+    items.push_back(item);
+}
+

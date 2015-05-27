@@ -36,6 +36,8 @@ public:
     void showStatusMessage(const std::string& message) override;
     
     void setMusicFolder(const std::string& folder) override;
+    
+    void enqueue(const std::string& song) override;
 
 private:
     void keyPressed(const juce::KeyPress& key);

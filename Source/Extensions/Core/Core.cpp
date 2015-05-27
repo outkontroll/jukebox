@@ -13,6 +13,7 @@
 #include "CreditManager.h"
 #include "MusicPlayer.h"
 #include "Statistics.h"
+#include "Formaters.h"
 
 using namespace jukebox::core;
 using namespace jukebox::gui;
@@ -95,6 +96,7 @@ void Core::playSong(Song song)
         musicPlayer->playSong(song);
         statistics->songPlayed(song);
         gui->refreshCredits(creditManager->getCredits());
+        gui->enqueue(FillWithLeadingZeros(song.getAlbum(), 3) + FillWithLeadingZeros(song.getSong(), 2));
     }
 }
 
