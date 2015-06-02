@@ -1,0 +1,35 @@
+- global: listbox model -> queue or vector...
+- global: listbox model -> template
+- logging: add dummy logging
+- gui: swap textbox to vector-type listbox
+- gui: use filesystem @ list of albums
+  - get list of albums
+  - get list of songs of an album
+- build: use cmake
+- build: use separate projects
+- global: use album as a separate entity
+- mp3: spike playing of a song
+- mp3: play a given song
+- gui: use fullscreen
+- gui: spike picture and selection
+- gui: swap list of albums/songs with custom paint
+- gui: layout manager
+- gui: set current place changeable (step +-12)
+- input: add new functionality
+- input: add numeric-button handling
+- input: add previous functionality
+- statistics: improve statistics handling
+  - add file IO
+  - add new gui state
+  - add stat list
+  - add thrown-in statistics
+- settings: improve settings handling
+  - add new file IO - xml
+  - add new gui state
+  - add advertise settings
+  - add music and advertise place and options
+- audio: add volume control
+- advertise: play advertise music
+- logging: swap dummy implementation with actual logging
+- audio: add equalizer
+- gui: add graphic to equalizer
