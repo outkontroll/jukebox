@@ -13,9 +13,8 @@
         <FILE id="mB4NtC" name="MainWindow.h" compile="0" resource="0" file="Source/Base/MainWindow.h"/>
       </GROUP>
       <GROUP id="{69869A28-EDBD-6268-FF24-7B5B3417ED08}" name="Components">
-        <FILE id="vS1cAi" name="SongsListBox.cpp" compile="1" resource="0"
-              file="Source/Components/SongsListBox.cpp"/>
-        <FILE id="IofiEN" name="SongsListBox.h" compile="0" resource="0" file="Source/Components/SongsListBox.h"/>
+        <FILE id="vS1cAi" name="ListBox.cpp" compile="1" resource="0" file="Source/Components/ListBox.cpp"/>
+        <FILE id="IofiEN" name="ListBox.h" compile="0" resource="0" file="Source/Components/ListBox.h"/>
         <FILE id="CVIOaR" name="MainComponent.cpp" compile="1" resource="0"
               file="Source/Components/MainComponent.cpp"/>
         <FILE id="wMoe6M" name="MainComponent.h" compile="0" resource="0" file="Source/Components/MainComponent.h"/>
