@@ -19,31 +19,29 @@
 /*
 */
 
-class SongListBoxContents  : public juce::ListBoxModel
-{
-    public:
-    // The following methods implement the necessary virtual functions from ListBoxModel,
-    // telling the listbox how many rows there are, painting them, etc.
-        int getNumRows() override;
+namespace jukebox { namespace gui {
 
-        void paintListBoxItem (int rowNumber, juce::Graphics& g,
-                           int width, int height, bool rowIsSelected) override;
-                           
-        void insertItem(const std::string&);
-        //std::string getItem(unsigned int) const;
-    
-    private:
-        
-        std::deque<std::string> items;
-        
-
-};
-
-class SongsListBox    : public juce::Component
+class ListBoxContents : public juce::ListBoxModel
 {
 public:
-    SongsListBox();
-    ~SongsListBox();
+    // The following methods implement the necessary virtual functions from ListBoxModel,
+    // telling the listbox how many rows there are, painting them, etc.
+    int getNumRows() override;
+
+    void paintListBoxItem (int rowNumber, juce::Graphics& g,
+                           int width, int height, bool rowIsSelected) override;
+                           
+    void insertItem(const std::string&);
+    //std::string getItem(unsigned int) const;
+    
+private:
+    std::deque<std::string> items;
+};
+
+class ListBox : public juce::Component
+{
+public:
+    ListBox();
 
     void paint (juce::Graphics&) override;
     void resized() override;
@@ -54,10 +52,11 @@ public:
 
 private:
     juce::ListBox sourceListBox;
-    SongListBoxContents sourceModel;
+    ListBoxContents sourceModel;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SongsListBox)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ListBox)
 };
 
+}}
 
 #endif  // SONGSLISTBOX_H_INCLUDED

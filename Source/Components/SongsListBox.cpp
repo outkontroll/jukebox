@@ -14,8 +14,8 @@
 using namespace juce;
 
 //==============================================================================
-SongsListBox::SongsListBox()
-: sourceListBox ("D+D source", nullptr)
+jukebox::gui::ListBox::ListBox()
+: sourceListBox ("listBox", nullptr)
 {
     sourceListBox.setModel (&sourceModel);
     sourceListBox.setMultipleSelectionEnabled (true);
@@ -23,11 +23,7 @@ SongsListBox::SongsListBox()
     addAndMakeVisible (sourceListBox);
 }
 
-SongsListBox::~SongsListBox()
-{
-}
-
-void SongsListBox::paint (Graphics& g)
+void jukebox::gui::ListBox::paint (Graphics& g)
 {
     g.fillAll (Colours::white);   // clear the background
 
@@ -40,42 +36,45 @@ void SongsListBox::paint (Graphics& g)
                 Justification::centred, true);   // draw some placeholder text
 }
 
-void SongsListBox::insertItem(const std::string& item)
+void jukebox::gui::ListBox::insertItem(const std::string& item)
 {
     sourceModel.insertItem(item);
     sourceListBox.updateContent();
 }
 
-void SongsListBox::resized()
+void jukebox::gui::ListBox::resized()
 {
     Rectangle<int> r (getLocalBounds().reduced (8));
 
     sourceListBox.setBounds (r.withSize (190, 140));
 }
 
-int SongListBoxContents::getNumRows()
+int jukebox::gui::ListBoxContents::getNumRows()
 {
     return items.size();
 }
 
-void SongListBoxContents::paintListBoxItem (int rowNumber, juce::Graphics& g,
+void jukebox::gui::ListBoxContents::paintListBoxItem (int rowNumber, juce::Graphics& g,
                            int width, int height, bool rowIsSelected)
+{
+    if(rowNumber >= items.size())
     {
-        if(rowNumber >= items.size())
-            return;
-        
-        if (rowIsSelected)
-            g.fillAll (juce::Colours::lightblue);
-
-        g.setColour (juce::Colours::black);
-        g.setFont (height * 0.7f);
-
-        g.drawText (items[rowNumber],
-                    5, 0, width, height,
-                    juce::Justification::centredLeft, true);
+        return;
     }
     
-void SongListBoxContents::insertItem(const std::string& item)
+    if (rowIsSelected)
+    {
+        g.fillAll (juce::Colours::lightblue);
+    }
+    
+    g.setColour (juce::Colours::black);
+    g.setFont (height * 0.7f);
+
+    g.drawText (items[rowNumber], 5, 0, width, height,
+                juce::Justification::centredLeft, true);
+}
+    
+void jukebox::gui::ListBoxContents::insertItem(const std::string& item)
 {
     items.push_back(item);
 }
