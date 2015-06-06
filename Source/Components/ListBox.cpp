@@ -49,12 +49,14 @@ void jukebox::gui::ListBox::resized()
     sourceListBox.setBounds (r.withSize (190, 140));
 }
 
-int jukebox::gui::ListBoxContents::getNumRows()
+template<template<class, class> class Container, class Item>
+int jukebox::gui::ListBoxContents<Container, Item>::getNumRows()
 {
     return items.size();
 }
 
-void jukebox::gui::ListBoxContents::paintListBoxItem (int rowNumber, juce::Graphics& g,
+template<template<class, class> class Container, class Item>
+void jukebox::gui::ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Graphics& g,
                            int width, int height, bool rowIsSelected)
 {
     if(rowNumber >= items.size())
@@ -73,8 +75,9 @@ void jukebox::gui::ListBoxContents::paintListBoxItem (int rowNumber, juce::Graph
     g.drawText (items[rowNumber], 5, 0, width, height,
                 juce::Justification::centredLeft, true);
 }
-    
-void jukebox::gui::ListBoxContents::insertItem(const std::string& item)
+
+template<template<class, class> class Container, class Item>
+void jukebox::gui::ListBoxContents<Container, Item>::insertItem(const Item& item)
 {
     items.push_back(item);
 }
