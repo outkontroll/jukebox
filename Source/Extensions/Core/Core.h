@@ -42,10 +42,9 @@ class Core : public ICore
 {
 public:
     Core();
-    ~Core();
     
-    void initialise(const std::string&) override;
-    void uninitialise() override;
+    void initialize(const std::string&) override;
+    void uninitialize() override;
     
 private:
     void coinInserted50();

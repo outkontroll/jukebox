@@ -12,6 +12,7 @@
 #include "MainWindow.h"
 #include "MainComponent.h"
 #include "FileSystem.h"
+#include "Logger.h"
 #include <algorithm>
 
 using namespace jukebox::gui;
@@ -34,17 +35,21 @@ Gui::~Gui()
 {
 }
 
-void Gui::initialise(const std::string& name)
+void Gui::initialize(const std::string& name)
 {
     mainComponent.reset(new MainComponent);
     keyPressedSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
     mainWindow.reset(new MainWindow(name, mainComponent.get()));
+    
+    LOG_INFO("done");
 }
 
-void Gui::uninitialise()
+void Gui::uninitialize()
 {
     mainWindow = nullptr;
     mainComponent = nullptr;
+    
+    LOG_INFO("done");
 }
 
 void Gui::keyPressed(const KeyPress& key)

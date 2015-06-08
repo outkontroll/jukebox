@@ -43,6 +43,11 @@
         </GROUP>
       </GROUP>
       <GROUP id="{707894A7-4012-1BF6-375A-7316A1D066BB}" name="Helpers">
+        <GROUP id="{731D6FB1-E610-6043-E5B0-BD340DE5CD22}" name="Logging">
+          <FILE id="Adgyil" name="LogDefines.h" compile="0" resource="0" file="Source/Helpers/Logging/LogDefines.h"/>
+          <FILE id="wVrV6j" name="Logger.cpp" compile="1" resource="0" file="Source/Helpers/Logging/Logger.cpp"/>
+          <FILE id="scF0F6" name="Logger.h" compile="0" resource="0" file="Source/Helpers/Logging/Logger.h"/>
+        </GROUP>
         <GROUP id="{D4267DD4-4DC5-9028-1150-85FAB81A6FBB}" name="Signaling">
           <FILE id="F7Sib9" name="Signals.hpp" compile="0" resource="0" file="Source/Helpers/Signaling/Signals.hpp"/>
         </GROUP>
@@ -51,6 +56,8 @@
         <FILE id="x7SMc5" name="Formaters.cpp" compile="1" resource="0" file="Source/Helpers/Formaters.cpp"/>
         <FILE id="VYrc9P" name="Formaters.h" compile="0" resource="0" file="Source/Helpers/Formaters.h"/>
         <FILE id="WYB0je" name="Song.h" compile="0" resource="0" file="Source/Helpers/Song.h"/>
+        <FILE id="LJAPjh" name="Times.cpp" compile="1" resource="0" file="Source/Helpers/Times.cpp"/>
+        <FILE id="QVMWCq" name="Times.h" compile="0" resource="0" file="Source/Helpers/Times.h"/>
       </GROUP>
       <GROUP id="{2EAFB579-D0DE-5CBB-034E-DC913D79F12A}" name="Interfaces">
         <FILE id="RMptGr" name="IStatistics.h" compile="0" resource="0" file="Source/Interfaces/IStatistics.h"/>
@@ -66,9 +73,9 @@
     <LINUX_MAKE targetFolder="Builds/Linux">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Helpers&#10;../../Source/Helpers/Signaling&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Extensions/Statistics&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"/>
+                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Helpers&#10;../../Source/Helpers/Signaling&#10;../../Source/Helpers/Logging&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Extensions/Statistics&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
-                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Helpers&#10;../../Source/Helpers/Signaling&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Extensions/Statistics&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"/>
+                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Helpers&#10;../../Source/Helpers/Signaling&#10;../../Source/Helpers/Logging&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Extensions/Statistics&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="./JuceLibraryCode/modules"/>

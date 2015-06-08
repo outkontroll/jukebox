@@ -29,8 +29,8 @@ public:
     Gui();
     ~Gui();
     
-    void initialise(const std::string& name) override;
-    void uninitialise() override;
+    void initialize(const std::string& name) override;
+    void uninitialize() override;
     
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(const std::string& message) override;

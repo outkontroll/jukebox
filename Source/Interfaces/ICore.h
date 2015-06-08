@@ -20,8 +20,8 @@ class ICore
 public:
     virtual ~ICore(){}
     
-    virtual void initialise(const std::string& name) = 0;
-    virtual void uninitialise() = 0;
+    virtual void initialize(const std::string& name) = 0;
+    virtual void uninitialize() = 0;
 };
 
 }}

@@ -15,7 +15,12 @@
 
 namespace jukebox {
 
-std::string FillWithLeadingZeros(unsigned int number, unsigned int length);
+    // Helper function to get a right justified string out of a number
+    // the remaining places will be filled with zeros
+    std::string FillWithLeadingZeros(unsigned int number, unsigned int length);
+
+    // Helper function to trim a string to a given max length from the rigth side
+    std::string GetTrimmedString(const std::string& what, unsigned int maxLength);
 
 }
 

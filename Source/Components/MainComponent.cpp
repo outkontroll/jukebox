@@ -18,13 +18,13 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "Logger.h"
 //[/Headers]
 
 #include "MainComponent.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-//using namespace jukebox::signals;
 using namespace juce;
 //[/MiscUserDefs]
 
@@ -147,6 +147,8 @@ void MainComponent::paint (Graphics& g)
     {
         grabKeyboardFocus();
         focusInitialised = hasKeyboardFocus(true);
+        
+        LOG_INFO("focus set");
     }
 
     //[/UserPaint]

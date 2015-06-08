@@ -10,6 +10,7 @@
 
 #include "Statistics.h"
 #include "Formaters.h"
+//TODO: remove this include when a file will be used
 #include <iostream>
 
 using namespace jukebox::statistics;
@@ -35,6 +36,8 @@ void Statistics::albumPlayed(Song album)
 
 void Statistics::showStatistics()
 {
+    //TODO: use a file instead of ofstream
+    
     std::cout << std::endl << "________________" << std::endl;
     for(T_PlayedSongs::const_iterator it = playedSongs.begin(); it != playedSongs.end(); ++it)
     {

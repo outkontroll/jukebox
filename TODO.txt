@@ -1,6 +1,6 @@
 + global: listbox model -> queue or vector...
-- global: listbox model -> template
-- logging: add dummy logging
++ global: listbox model -> template
+/ logging: add dummy logging
 - gui: swap textbox to vector-type listbox
 - gui: use filesystem @ list of albums
   - get list of albums

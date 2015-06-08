@@ -9,6 +9,7 @@
 */
 
 #include "FileSystem.h"
+#include "Logger.h"
 
 using namespace jukebox::filesystem;
 
@@ -16,6 +17,7 @@ FileSystem::T_AlbumDirectories FileSystem::getAlbumDirectories(const std::string
 {
     if(path == "")
     {
+        LOG_WARNING("called with empty path!");
         return T_AlbumDirectories();
     }
         
@@ -29,6 +31,12 @@ FileSystem::T_AlbumDirectories FileSystem::getAlbumDirectories(const std::string
     
 FileSystem::T_SongFiles FileSystem::getSongFiles(const std::string& path, const std::string& extensions)
 {
+    if(path == "")
+    {
+        LOG_WARNING("called with empty path!");
+        return T_SongFiles();
+    }
+    
     //TODO
     return T_SongFiles();
 }

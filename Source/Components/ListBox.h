@@ -11,7 +11,7 @@
 #ifndef SONGSLISTBOX_H_INCLUDED
 #define SONGSLISTBOX_H_INCLUDED
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include <string>
 #include <deque>
 #include <vector>

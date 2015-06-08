@@ -8,8 +8,8 @@
   ==============================================================================
 */
 
-#include "../../JuceLibraryCode/JuceHeader.h"
 #include "ListBox.h"
+#include "Logger.h"
 
 using namespace juce;
 
@@ -61,6 +61,7 @@ void jukebox::gui::ListBoxContents<Container, Item>::paintListBoxItem (int rowNu
 {
     if(rowNumber >= items.size())
     {
+        LOG_WARNING("rownumber " << rowNumber << "was greater than the count of elements " << items.size());
         return;
     }
     
