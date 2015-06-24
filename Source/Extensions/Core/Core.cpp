@@ -112,6 +112,7 @@ void Core::playAlbum(Song album)
         musicPlayer->playAlbum(album);
         statistics->albumPlayed(album);
         gui->refreshCredits(creditManager->getCredits());
+        gui->enqueue(FillWithLeadingZeros(album.getAlbum(), 3));
     }
 }
     
