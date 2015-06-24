@@ -19,7 +19,6 @@ class CreditManager : public ICreditManager
 {
 public:
     CreditManager();
-    ~CreditManager();
     
     unsigned int getCredits() const override;
         
@@ -34,7 +33,10 @@ public:
         
     void creditIncrease() override;
     void creditDecrease() override;
-        
+
+private:
+    void coinInserted();
+    
 private:
     unsigned int credits;
     bool secondCoin;

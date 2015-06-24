@@ -23,17 +23,17 @@ public:
       song(songNumber)
     {}
     
-    unsigned int getAlbum() const
+    inline unsigned int getAlbum() const
     {
         return album;
     }
 
-    unsigned int getSong() const
+    inline unsigned int getSong() const
     {
         return song;
     }
     
-    bool operator<(const Song& other) const
+    inline bool operator<(const Song& other) const
     {
         return std::tie(album, song) < std::tie(other.album, other.song);
     }

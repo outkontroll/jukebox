@@ -9,6 +9,7 @@
 */
 
 #include "CreditManager.h"
+#include "Logger.h"
 
 using namespace jukebox::creditmanager;
 
@@ -22,11 +23,6 @@ CreditManager::CreditManager()
     
 }
 
-CreditManager::~CreditManager()
-{
-    
-}
-
 unsigned int CreditManager::getCredits() const
 {
     return credits;
@@ -34,28 +30,27 @@ unsigned int CreditManager::getCredits() const
 
 void CreditManager::coinInsert50()
 {    
-    if(secondCoin)
-    {
-        secondCoin = false;
-        credits += 2;
-    }
-    else
-    {
-        secondCoin = true;
-        ++credits;
-    }
+    coinInserted();
+    
+    LOG_INFO("a 50 coin inserted");
 }
 
 void CreditManager::coinInsert100()
 {
-    coinInsert50();
-    coinInsert50();
+    coinInserted();
+    coinInserted();
+    
+    LOG_INFO("a 100 coin inserted");
 }
 
 void CreditManager::coinInsert200()
 {
-    coinInsert100();
-    coinInsert100();
+    coinInserted();
+    coinInserted();
+    coinInserted();
+    coinInserted();
+    
+    LOG_INFO("a 200 coin inserted");
 }
 
 bool CreditManager::hasEnoughCreditsToPlaySong()
@@ -72,6 +67,7 @@ bool CreditManager::startPlaySong()
 {
     if(! hasEnoughCreditsToPlaySong())
     {
+        LOG_ERROR("there is not enough credit: " << credits);
         return false;
     }
         
@@ -85,6 +81,7 @@ bool CreditManager::startPlayAlbum()
 {
     if(! hasEnoughCreditsToPlayAlbum())
     {
+        LOG_ERROR("there is not enough credit: " << credits);
         return false;
     }
         
@@ -108,3 +105,18 @@ void CreditManager::creditDecrease()
         secondCoin = false;
     }
 }
+
+void CreditManager::coinInserted()
+{
+    if(secondCoin)
+    {
+        secondCoin = false;
+        credits += 2;
+    }
+    else
+    {
+        secondCoin = true;
+        ++credits;
+    }
+}
+    

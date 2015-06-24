@@ -11,6 +11,7 @@
 #include "MusicPlayer.h"
 #include <iostream>
 #include "Formaters.h"
+#include "Logger.h"
 
 using namespace jukebox;
 using namespace jukebox::audio;
@@ -21,10 +22,12 @@ MusicPlayer::MusicPlayer()
 
 void MusicPlayer::playSong(Song song)
 {
-    std::cout << "Playing: " << FillWithLeadingZeros(song.getAlbum(), 3) << " " << FillWithLeadingZeros(song.getSong(), 2) << std::endl;
+    //TODO: play a song
+    LOG_INFO("Playing: " << FillWithLeadingZeros(song.getAlbum(), 3) << " " << FillWithLeadingZeros(song.getSong(), 2));
 }
 
 void MusicPlayer::playAlbum(Song album)
 {
-    std::cout << "Playing: " << FillWithLeadingZeros(album.getAlbum(), 3) << std::endl;
+    //TODO: play an album
+    LOG_INFO("Playing: " << FillWithLeadingZeros(album.getAlbum(), 3));
 }

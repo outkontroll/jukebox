@@ -14,6 +14,7 @@
 #include "MusicPlayer.h"
 #include "Statistics.h"
 #include "Formaters.h"
+#include "Logger.h"
 
 using namespace jukebox::core;
 using namespace jukebox::gui;
@@ -28,11 +29,8 @@ Core::Core()
 {
 }
 
-Core::~Core()
-{
-}
 
-void Core::initialise(const std::string& name)
+void Core::initialize(const std::string& name)
 {
     gui.reset(new gui::Gui);
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
@@ -44,7 +42,7 @@ void Core::initialise(const std::string& name)
     eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
     eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
-    gui->initialise(name);
+    gui->initialize(name);
     
     creditManager.reset(new creditmanager::CreditManager);
     musicPlayer.reset(new audio::MusicPlayer);
@@ -52,11 +50,13 @@ void Core::initialise(const std::string& name)
     
     //TODO
     gui->setMusicFolder("001");
+    
+    LOG_INFO("done");
 }
 
-void Core::uninitialise()
+void Core::uninitialize()
 {
-    gui->uninitialise();
+    gui->uninitialize();
     gui = nullptr;
     
     creditManager = nullptr;
@@ -64,6 +64,8 @@ void Core::uninitialise()
     musicPlayer = nullptr;
     
     statistics = nullptr;
+    
+    LOG_INFO("done");
 }
 
 void Core::coinInserted50()
@@ -130,6 +132,7 @@ void Core::creditDecrease()
     
 void Core::exitRequested()
 {
+    LOG_INFO("");
     juce::JUCEApplication::quit();
 }
 

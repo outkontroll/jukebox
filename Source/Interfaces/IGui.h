@@ -22,8 +22,8 @@ class IGui
 public:
     virtual ~IGui(){}
     
-    virtual void initialise(const std::string& name) = 0;
-    virtual void uninitialise() = 0;
+    virtual void initialize(const std::string& name) = 0;
+    virtual void uninitialize() = 0;
     
     virtual void refreshCredits(unsigned int credits) = 0;
     virtual void showStatusMessage(const std::string& message) = 0;
