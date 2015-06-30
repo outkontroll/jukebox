@@ -22,7 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
-#include "ListBox.h"
+#include "ListBox.hpp"
 #include "Signals.hpp"
 
 namespace juce {
