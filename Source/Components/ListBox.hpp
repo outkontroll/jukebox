@@ -8,17 +8,10 @@
   ==============================================================================
 */
 
-#ifndef SONGSLISTBOX_H_INCLUDED
-#define SONGSLISTBOX_H_INCLUDED
+#ifndef SONGSLISTBOX_HPP_INCLUDED
+#define SONGSLISTBOX_HPP_INCLUDED
 
 #include "JuceHeader.h"
-#include <string>
-#include <deque>
-#include <vector>
-
-//==============================================================================
-/*
-*/
 
 namespace jukebox { namespace gui {
 
@@ -34,13 +27,12 @@ public:
                            int width, int height, bool rowIsSelected) override;
                            
     void insertItem(const Item&);
-    //std::string getItem(unsigned int) const;
     
 private:
-    //std::deque<Item> items;
     Container<Item, std::allocator<Item> > items;
 };
 
+template<template<class, class> class Container, class Item>
 class ListBox : public juce::Component
 {
 public:
@@ -49,17 +41,19 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
     
-    void insertItem(const std::string&);
+    void insertItem(const Item&);
     
     //TODO: insert, remove, getRowNumber functions
 
 private:
     juce::ListBox sourceListBox;
-    ListBoxContents</*std::deque*/std::vector, std::string> sourceModel;
+    ListBoxContents<Container, Item> sourceModel;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ListBox)
 };
 
 }}
 
-#endif  // SONGSLISTBOX_H_INCLUDED
+#include "ListBoxImplementation.hpp"
+
+#endif  // SONGSLISTBOX_HPP_INCLUDED

@@ -8,13 +8,15 @@
   ==============================================================================
 */
 
-#include "ListBox.h"
+#ifndef SONGSLISTBOXIMPLEMENTATION_HPP_INCLUDED
+#define SONGSLISTBOXIMPLEMENTATION_HPP_INCLUDED
+
 #include "Logger.h"
 
-using namespace juce;
+namespace jukebox { namespace gui {
 
-//==============================================================================
-jukebox::gui::ListBox::ListBox()
+template<template<class, class> class Container, class Item>
+ListBox<Container, Item>::ListBox()
 : sourceListBox ("listBox", nullptr)
 {
     sourceListBox.setModel (&sourceModel);
@@ -23,40 +25,43 @@ jukebox::gui::ListBox::ListBox()
     addAndMakeVisible (sourceListBox);
 }
 
-void jukebox::gui::ListBox::paint (Graphics& g)
+template<template<class, class> class Container, class Item>
+void ListBox<Container, Item>::paint (juce::Graphics& g)
 {
-    g.fillAll (Colours::white);   // clear the background
+    g.fillAll (juce::Colours::white);   // clear the background
 
-    g.setColour (Colours::grey);
+    g.setColour (juce::Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
-    g.setColour (Colours::lightblue);
+    g.setColour (juce::Colours::lightblue);
     g.setFont (14.0f);
     g.drawText ("SongsListBox", getLocalBounds(),
-                Justification::centred, true);   // draw some placeholder text
+                juce::Justification::centred, true);   // draw some placeholder text
 }
 
-void jukebox::gui::ListBox::insertItem(const std::string& item)
+template<template<class, class> class Container, class Item>
+void ListBox<Container, Item>::insertItem(const Item& item)
 {
     sourceModel.insertItem(item);
     sourceListBox.updateContent();
 }
 
-void jukebox::gui::ListBox::resized()
+template<template<class, class> class Container, class Item>
+void ListBox<Container, Item>::resized()
 {
-    Rectangle<int> r (getLocalBounds().reduced (8));
+    juce::Rectangle<int> r (getLocalBounds().reduced (8));
 
     sourceListBox.setBounds (r.withSize (190, 140));
 }
 
 template<template<class, class> class Container, class Item>
-int jukebox::gui::ListBoxContents<Container, Item>::getNumRows()
+int ListBoxContents<Container, Item>::getNumRows()
 {
     return items.size();
 }
 
 template<template<class, class> class Container, class Item>
-void jukebox::gui::ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Graphics& g,
+void ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Graphics& g,
                            int width, int height, bool rowIsSelected)
 {
     if(rowNumber >= items.size())
@@ -78,8 +83,11 @@ void jukebox::gui::ListBoxContents<Container, Item>::paintListBoxItem (int rowNu
 }
 
 template<template<class, class> class Container, class Item>
-void jukebox::gui::ListBoxContents<Container, Item>::insertItem(const Item& item)
+void ListBoxContents<Container, Item>::insertItem(const Item& item)
 {
     items.push_back(item);
 }
 
+}}
+
+#endif // SONGSLISTBOXIMPLEMENTATION_HPP_INCLUDED
