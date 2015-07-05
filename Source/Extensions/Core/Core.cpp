@@ -8,11 +8,13 @@
   ==============================================================================
 */
 
+//TODO: remove this include by signaling the exit request
+#include "JuceHeader.h"
 #include "Core.h"
-#include "Gui.h"
-#include "CreditManager.h"
-#include "MusicPlayer.h"
-#include "Statistics.h"
+#include "IGui.h"
+#include "ICreditManager.h"
+#include "IMusicPlayer.h"
+#include "IStatistics.h"
 #include "Formaters.h"
 #include "Logger.h"
 
@@ -30,9 +32,13 @@ Core::Core()
 }
 
 
-void Core::initialize(const std::string& name)
+void Core::initialize(const std::string& name,
+                      const std::shared_ptr<gui::IGui>& iGui,
+                      const std::shared_ptr<creditmanager::ICreditManager>& iCreditManager,
+                      const std::shared_ptr<audio::IMusicPlayer>& iMusicPlayer,
+                      const std::shared_ptr<statistics::IStatistics>& iStatistics)
 {
-    gui.reset(new gui::Gui);
+    gui = iGui;
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
     eventsSlot.connect(this, &Core::coinInserted100, gui->coinInserted100Signal);
     eventsSlot.connect(this, &Core::coinInserted200, gui->coinInserted200Signal);
@@ -44,9 +50,9 @@ void Core::initialize(const std::string& name)
     eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
     gui->initialize(name);
     
-    creditManager.reset(new creditmanager::CreditManager);
-    musicPlayer.reset(new audio::MusicPlayer);
-    statistics.reset(new statistics::Statistics);
+    creditManager = iCreditManager;
+    musicPlayer = iMusicPlayer;
+    statistics = iStatistics;
     
     //TODO
     gui->setMusicFolder("001");
@@ -57,12 +63,10 @@ void Core::initialize(const std::string& name)
 void Core::uninitialize()
 {
     gui->uninitialize();
+    
     gui = nullptr;
-    
     creditManager = nullptr;
-    
     musicPlayer = nullptr;
-    
     statistics = nullptr;
     
     LOG_INFO("done");

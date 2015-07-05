@@ -95,6 +95,8 @@ void CreditManager::creditIncrease()
 {
     ++credits;
     secondCoin = false;
+    
+    LOG_INFO("free credit");
 }
 
 void CreditManager::creditDecrease()
@@ -104,6 +106,8 @@ void CreditManager::creditDecrease()
         --credits;
         secondCoin = false;
     }
+    
+    LOG_INFO("take credit");
 }
 
 void CreditManager::coinInserted()
