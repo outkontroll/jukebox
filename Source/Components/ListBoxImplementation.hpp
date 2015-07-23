@@ -8,8 +8,8 @@
   ==============================================================================
 */
 
-#ifndef SONGSLISTBOXIMPLEMENTATION_HPP_INCLUDED
-#define SONGSLISTBOXIMPLEMENTATION_HPP_INCLUDED
+#ifndef LISTBOXIMPLEMENTATION_HPP_INCLUDED
+#define LISTBOXIMPLEMENTATION_HPP_INCLUDED
 
 #include "Logger.h"
 
@@ -44,6 +44,24 @@ void ListBox<Container, Item>::insertItem(const Item& item)
 {
     sourceModel.insertItem(item);
     sourceListBox.updateContent();
+}
+
+template<template<class, class> class Container, class Item>
+void ListBox<Container, Item>::removeNextItem()
+{
+    return sourceModel.removeNextItem();
+}
+
+template<template<class, class> class Container, class Item>
+Item ListBox<Container, Item>::getNextItem() const
+{
+    return sourceModel.getNextItem();
+}
+
+template<template<class, class> class Container, class Item>
+int ListBox<Container, Item>::getSize() const
+{
+    return sourceModel.getSize();
 }
 
 template<template<class, class> class Container, class Item>
@@ -88,6 +106,29 @@ void ListBoxContents<Container, Item>::insertItem(const Item& item)
     items.push_back(item);
 }
 
+template<template<class, class> class Container, class Item>
+void ListBoxContents<Container, Item>::removeNextItem()
+{
+    items.pop_back();
+}
+
+template<template<class, class> class Container, class Item>
+Item ListBoxContents<Container, Item>::getNextItem() const
+{
+    if(getSize() > 0)
+    {
+        return *(items.begin());
+    }
+    
+    return Item();
+}
+
+template<template<class, class> class Container, class Item>
+int ListBoxContents<Container, Item>::getSize() const
+{
+    return items.size();
+}
+
 }}
 
-#endif // SONGSLISTBOXIMPLEMENTATION_HPP_INCLUDED
+#endif // LISTBOXIMPLEMENTATION_HPP_INCLUDED

@@ -19,9 +19,7 @@ namespace jukebox { namespace core {
 
 class Core : public ICore
 {
-public:
-    Core();
-    
+public:    
     void initialize(const std::string& name,
                     const std::shared_ptr<gui::IGui>& iGui,
                     const std::shared_ptr<creditmanager::ICreditManager>& iCreditManager,

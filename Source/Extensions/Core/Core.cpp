@@ -27,11 +27,6 @@ using namespace jukebox::statistics;
 const std::string EROOR_FEW_CREDITS_SONG = "Too few credits to play a song!";
 const std::string EROOR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
 
-Core::Core()
-{
-}
-
-
 void Core::initialize(const std::string& name,
                       const std::shared_ptr<gui::IGui>& iGui,
                       const std::shared_ptr<creditmanager::ICreditManager>& iCreditManager,

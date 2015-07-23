@@ -16,14 +16,6 @@
 using namespace jukebox::statistics;
 using namespace jukebox::audio;
 
-Statistics::Statistics()
-{
-}
-
-Statistics::~Statistics()
-{
-}
-
 void Statistics::songPlayed(Song song)
 {
     ++playedSongs[song];

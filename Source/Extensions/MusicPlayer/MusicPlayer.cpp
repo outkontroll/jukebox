@@ -16,10 +16,6 @@
 using namespace jukebox;
 using namespace jukebox::audio;
 
-MusicPlayer::MusicPlayer()
-{
-}
-
 void MusicPlayer::playSong(Song song)
 {
     //TODO: play a song

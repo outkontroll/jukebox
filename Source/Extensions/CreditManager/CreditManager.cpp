@@ -17,10 +17,9 @@ const unsigned int CREDIT_TO_PLAY_SONG = 1;
 const unsigned int CREDIT_TO_PLAY_ALBUM = 6;
 
 CreditManager::CreditManager()
-: credits(0), 
+:   credits(0), 
     secondCoin(false)
 {
-    
 }
 
 unsigned int CreditManager::getCredits() const

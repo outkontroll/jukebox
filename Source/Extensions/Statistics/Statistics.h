@@ -19,9 +19,6 @@ namespace jukebox { namespace statistics {
 class Statistics : public IStatistics
 {
 public:
-    Statistics();
-    ~Statistics();
-    
     void songPlayed(audio::Song song) override;
     void albumPlayed(audio::Song album) override;
     
