@@ -95,7 +95,7 @@ MainComponent::MainComponent ()
 
 
     //[UserPreSize]
-    addAndMakeVisible (listBox = new jukebox::gui::ListBox);
+    addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::vector, std::string>);
     //[/UserPreSize]
 
     setSize (1000, 650);
@@ -147,7 +147,7 @@ void MainComponent::paint (Graphics& g)
     {
         grabKeyboardFocus();
         focusInitialised = hasKeyboardFocus(true);
-        
+
         LOG_INFO("focus set");
     }
 

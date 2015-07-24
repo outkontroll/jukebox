@@ -14,36 +14,17 @@
 #include "ICore.h"
 #include "Signals.hpp"
 #include "Song.h"
-#include <memory>
-
-namespace jukebox 
-{
-    namespace gui
-    {
-        class IGui;
-    }
-    namespace creditmanager
-    {
-        class ICreditManager;
-    }
-    namespace audio
-    {
-        class IMusicPlayer;
-    }
-    namespace statistics
-    {
-        class IStatistics;
-    }
-}
 
 namespace jukebox { namespace core {
 
 class Core : public ICore
 {
-public:
-    Core();
-    
-    void initialize(const std::string&) override;
+public:    
+    void initialize(const std::string& name,
+                    const std::shared_ptr<gui::IGui>& iGui,
+                    const std::shared_ptr<creditmanager::ICreditManager>& iCreditManager,
+                    const std::shared_ptr<audio::IMusicPlayer>& iMusicPlayer,
+                    const std::shared_ptr<statistics::IStatistics>& iStatistics) override;
     void uninitialize() override;
     
 private:
@@ -64,10 +45,10 @@ private:
 private:
     jukebox::signals::Slot eventsSlot;
 
-    std::unique_ptr<gui::IGui> gui;
-    std::unique_ptr<creditmanager::ICreditManager> creditManager;
-    std::unique_ptr<audio::IMusicPlayer> musicPlayer;
-    std::unique_ptr<statistics::IStatistics> statistics;
+    std::shared_ptr<gui::IGui> gui;
+    std::shared_ptr<creditmanager::ICreditManager> creditManager;
+    std::shared_ptr<audio::IMusicPlayer> musicPlayer;
+    std::shared_ptr<statistics::IStatistics> statistics;
 };
 
 }}

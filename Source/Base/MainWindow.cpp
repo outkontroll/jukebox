@@ -20,7 +20,3 @@ MainWindow::MainWindow(const String& name, Component* guiComponent)
     centreWithSize(getWidth(), getHeight());
     setVisible(true);
 }
-
-MainWindow::~MainWindow()
-{
-}

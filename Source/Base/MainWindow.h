@@ -18,7 +18,6 @@ class MainWindow : public juce::ResizableWindow
 {
 public:
     MainWindow(const juce::String& name, juce::Component* guiComponent);
-    ~MainWindow();
     
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow);
