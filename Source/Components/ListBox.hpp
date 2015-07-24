@@ -29,7 +29,7 @@ public:
     void paintListBoxItem (int rowNumber, juce::Graphics& g,
                            int width, int height, bool rowIsSelected) override;
                            
-    void insertItem(const Item&);
+    virtual void insertItem(const Item&);
     virtual void removeNextItem();
     virtual Item getNextItem() const;
     virtual int getSize() const;
@@ -47,7 +47,7 @@ public:
 
     void paint (juce::Graphics&) override;
     void resized() override;
-    
+
     virtual void insertItem(const Item&);
     virtual void removeNextItem();
     virtual Item getNextItem() const;

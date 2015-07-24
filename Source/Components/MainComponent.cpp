@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.1
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
@@ -31,9 +31,6 @@ using namespace juce;
 //==============================================================================
 MainComponent::MainComponent ()
 {
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
     addAndMakeVisible (infoCredit = new Label ("credits info label",
                                                TRANS("Credits:")));
     infoCredit->setFont (Font (15.00f, Font::plain));
@@ -201,6 +198,12 @@ void MainComponent::updateAlbumList(const String& albumList)
 void MainComponent::enqueue(const std::string& song)
 {
     listBox->insertItem(song);
+}
+
+void MainComponent::removeNextSong()
+{
+    listBox->removeNextItem();
+    //TODO: Signal next song
 }
 
 //[/MiscUserCode]

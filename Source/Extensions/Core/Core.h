@@ -34,6 +34,7 @@ private:
     
     void playSong(audio::Song);
     void playAlbum(audio::Song);
+    void removePlayedSong();
     
     void creditIncrease();
     void creditDecrease();

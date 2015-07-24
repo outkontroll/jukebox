@@ -18,8 +18,10 @@ namespace jukebox { namespace audio {
 class MusicPlayer : public IMusicPlayer
 {
 public:
-    void playSong(Song);
-    void playAlbum(Song);
+    void playSong(Song) override;
+    void playAlbum(Song) override;
+    
+    void stopPlaying() override;
     
 private:
     

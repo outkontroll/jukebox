@@ -39,6 +39,7 @@ void Core::initialize(const std::string& name,
     eventsSlot.connect(this, &Core::coinInserted200, gui->coinInserted200Signal);
     eventsSlot.connect(this, &Core::playSong, gui->playSongSignal);
     eventsSlot.connect(this, &Core::playAlbum, gui->playAlbumSignal);
+    eventsSlot.connect(this, &Core::removePlayedSong, gui->removePlayedSongSignal);
     eventsSlot.connect(this, &Core::creditIncrease, gui->creditIncreaseSignal);
     eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
@@ -115,6 +116,12 @@ void Core::playAlbum(Song album)
         gui->refreshCredits(creditManager->getCredits());
         gui->enqueue(FillWithLeadingZeros(album.getAlbum(), 3));
     }
+}
+
+void Core::removePlayedSong()
+{
+    musicPlayer->stopPlaying();
+    gui->removeNextSong();
 }
     
 void Core::creditIncrease()

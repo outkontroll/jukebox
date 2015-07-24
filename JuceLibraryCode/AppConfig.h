@@ -29,11 +29,6 @@
 #define JUCE_MODULE_AVAILABLE_juce_gui_basics           1
 
 //==============================================================================
-#ifndef    JUCE_STANDALONE_APPLICATION
- #define   JUCE_STANDALONE_APPLICATION 1
-#endif
-
-//==============================================================================
 // juce_core flags:
 
 #ifndef    JUCE_FORCE_DEBUG

@@ -27,3 +27,9 @@ void MusicPlayer::playAlbum(Song album)
     //TODO: play an album
     LOG_INFO("Playing: " << FillWithLeadingZeros(album.getAlbum(), 3));
 }
+
+void MusicPlayer::stopPlaying()
+{
+    LOG_INFO("Stoped playing.");
+}
+

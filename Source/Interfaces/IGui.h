@@ -31,6 +31,7 @@ public:
     virtual void setMusicFolder(const std::string& folder) = 0;
     
     virtual void enqueue(const std::string& song) = 0;
+    virtual void removeNextSong() = 0;
 
 public:
     jukebox::signals::Signal<> coinInserted50Signal;
@@ -39,6 +40,7 @@ public:
     
     jukebox::signals::Signal<audio::Song> playSongSignal;
     jukebox::signals::Signal<audio::Song> playAlbumSignal;
+    jukebox::signals::Signal<> removePlayedSongSignal;
     
     jukebox::signals::Signal<> creditIncreaseSignal;
     jukebox::signals::Signal<> creditDecreaseSignal;

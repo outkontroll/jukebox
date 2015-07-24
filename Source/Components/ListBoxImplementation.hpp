@@ -110,14 +110,17 @@ template<template<class, class> class Container, class Item>
 void ListBoxContents<Container, Item>::removeNextItem()
 {
     items.pop_back();
+    LOG_WARNING("called");
 }
 
 template<template<class, class> class Container, class Item>
 Item ListBoxContents<Container, Item>::getNextItem() const
 {
-    if(getSize() > 0)
+    int size = getSize();
+    
+    if(size > 0)
     {
-        return *(items.begin());
+        return items[size - 1];
     }
     
     return Item();

@@ -93,6 +93,10 @@ void Gui::keyPressed(const KeyPress& key)
     {
         showStatisticsSignal();
     }
+    else if(keyCode == KeyPress::backspaceKey)
+    {
+        removePlayedSongSignal();
+    }
 }
 
 void Gui::refreshCredits(unsigned int credits)
@@ -128,4 +132,9 @@ void Gui::updateAlbumList()
 void Gui::enqueue(const std::string& song)
 {
     mainComponent->enqueue(song);
+}
+
+void Gui::removeNextSong()
+{
+    mainComponent->removeNextSong();
 }

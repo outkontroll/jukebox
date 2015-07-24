@@ -22,6 +22,8 @@ public:
     
     virtual void playSong(audio::Song song) = 0;
     virtual void playAlbum(audio::Song album) = 0;
+    
+    virtual void stopPlaying() = 0;
 };    
 
 }}
