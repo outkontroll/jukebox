@@ -44,12 +44,18 @@ void ListBox<Container, Item>::insertItem(const Item& item)
 {
     sourceModel.insertItem(item);
     sourceListBox.updateContent();
+    
+    //without this call the changes would not be visible
+    repaint();
 }
 
 template<template<class, class> class Container, class Item>
 void ListBox<Container, Item>::removeNextItem()
 {
-    return sourceModel.removeNextItem();
+    sourceModel.removeNextItem();
+    
+    //without this call the changes would not be visible
+    repaint();
 }
 
 template<template<class, class> class Container, class Item>
@@ -109,8 +115,14 @@ void ListBoxContents<Container, Item>::insertItem(const Item& item)
 template<template<class, class> class Container, class Item>
 void ListBoxContents<Container, Item>::removeNextItem()
 {
-    items.pop_back();
-    LOG_WARNING("called");
+    if(items.size() > 0)
+    {
+        items.pop_back();
+    }
+    else
+    {
+        LOG_WARNING("There are no items in the listbox!");
+    }
 }
 
 template<template<class, class> class Container, class Item>
