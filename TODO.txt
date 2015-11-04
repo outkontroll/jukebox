@@ -1,3 +1,5 @@
+cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+
 + global: listbox model -> queue or vector...
 + global: listbox model -> template
 + logging: add dummy logging
@@ -5,8 +7,9 @@
 - gui: use filesystem @ list of albums
   - get list of albums
   - get list of songs of an album
-- build: use cmake
-/ build: use separate projects
++ build: use cmake
++ build: use separate projects
+- build: introduce classloader
 - global: use album as a separate entity
 - mp3: spike playing of a song
 - mp3: play a given song
