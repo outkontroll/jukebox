@@ -36,4 +36,4 @@ ${JUCE_DIRECTORY}
 
 target_include_directories(gui PUBLIC ${INCLUDE_DIRS})
 
-target_link_libraries(gui helpers)
+target_link_libraries(gui project_juce helpers)

@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="xAfF0j" name="jukebox" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.yourcompany.jukebox" includeBinaryInAppConfig="1"
-              jucerVersion="3.2.0" defines="JUCE_CATCH_DEPRECATED_CODE_MISUSE&#10;DONT_SET_USING_JUCE_NAMESPACE">
+              jucerVersion="4.1.0" defines="JUCE_CATCH_DEPRECATED_CODE_MISUSE&#10;DONT_SET_USING_JUCE_NAMESPACE">
   <MAINGROUP id="eJpnlV" name="jukebox">
     <GROUP id="{313C1ACE-0AC3-9958-DE92-FB3F0275508D}" name="Source">
       <GROUP id="{B97C361F-C02E-E307-37CD-9308A3CC6ECE}" name="Base">
@@ -84,10 +84,12 @@
         <MODULEPATH id="juce_graphics" path="./JuceLibraryCode/modules"/>
         <MODULEPATH id="juce_data_structures" path="./JuceLibraryCode/modules"/>
         <MODULEPATH id="juce_gui_basics" path="./JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
   <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>

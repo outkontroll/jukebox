@@ -12,6 +12,7 @@ SET ( JUCE_SOURCE
         ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_graphics/juce_graphics.cpp
         ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_gui_basics/juce_gui_basics.cpp
 #        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_gui_extra/juce_gui_extra.cpp
+        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.cpp
     )
 ADD_LIBRARY ( project_juce STATIC ${JUCE_SOURCE} )
 

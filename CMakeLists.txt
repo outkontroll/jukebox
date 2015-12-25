@@ -1,3 +1,6 @@
+# cmake parameters
+# cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+
 # cmake
 
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
