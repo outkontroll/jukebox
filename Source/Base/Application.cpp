@@ -53,7 +53,7 @@ void jukeboxApplication::initialise (const juce::String& commandLine)
     creditManager = std::make_shared<creditmanager::CreditManager>();
     musicPlayer = std::make_shared<audio::MusicPlayer>();
     statistics = std::make_shared<statistics::Statistics>();
-    
+    eventsSlot.connect(this, &jukeboxApplication::exitRequested, core->exitRequestedSignal);
     core->initialize(getApplicationName().toStdString(),
                      gui,
                      creditManager,
@@ -79,6 +79,12 @@ void jukeboxApplication::systemRequestedQuit()
 {
     LOG_WARNING("unusual terminating");
     quit();
+}
+
+void jukeboxApplication::exitRequested()
+{
+    LOG_INFO("");
+    juce::JUCEApplication::quit();
 }
     
 void jukeboxApplication::anotherInstanceStarted(const juce::String& commandLine)

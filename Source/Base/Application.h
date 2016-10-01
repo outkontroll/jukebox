@@ -13,6 +13,7 @@
 
 
 #include "JuceHeader.h"
+#include "Signals.hpp"
 #include <memory>
 
 namespace jukebox 
@@ -60,6 +61,11 @@ public:
     void anotherInstanceStarted(const juce::String& commandLine) override;
     
 private:
+    void exitRequested();
+
+private:
+    jukebox::signals::Slot eventsSlot;
+
     std::shared_ptr<jukebox::core::ICore> core;
     std::shared_ptr<jukebox::gui::IGui> gui;
     std::shared_ptr<jukebox::creditmanager::ICreditManager> creditManager;

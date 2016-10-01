@@ -9,7 +9,6 @@
 */
 
 //TODO: remove this include by signaling the exit request
-#include "JuceHeader.h"
 #include "Core.h"
 #include "IGui.h"
 #include "ICreditManager.h"
@@ -88,7 +87,7 @@ void Core::coinInserted200()
     
 void Core::playSong(Song song)
 {   
-    if(! creditManager->hasEnoughCreditsToPlaySong())
+    if(!creditManager->hasEnoughCreditsToPlaySong())
     {
         gui->showStatusMessage(EROOR_FEW_CREDITS_SONG);
     }
@@ -104,7 +103,7 @@ void Core::playSong(Song song)
 
 void Core::playAlbum(Song album)
 {
-    if(! creditManager->hasEnoughCreditsToPlayAlbum())
+    if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {
         gui->showStatusMessage(EROOR_FEW_CREDITS_ALBUM);
     }
@@ -139,7 +138,7 @@ void Core::creditDecrease()
 void Core::exitRequested()
 {
     LOG_INFO("");
-    juce::JUCEApplication::quit();
+    exitRequestedSignal();
 }
 
 void Core::showStatistics()

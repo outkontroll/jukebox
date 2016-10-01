@@ -7,19 +7,20 @@ FIND_PACKAGE    ( Freetype     REQUIRED    )
 INCLUDE_DIRECTORIES ( AFTER ${FREETYPE_INCLUDE_DIRS} )
 SET ( JUCE_LIBRARIES ${RT} ${DL} ${X11_LIBRARIES} ${FREETYPE_LIBRARIES} )
 SET ( JUCE_SOURCE
-        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_core/juce_core.cpp
-        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_data_structures/juce_data_structures.cpp
-        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_events/juce_events.cpp
-        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_graphics/juce_graphics.cpp
-        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_gui_basics/juce_gui_basics.cpp
-#        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_gui_extra/juce_gui_extra.cpp
-        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.cpp
-        ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode/modules/juce_audio_formats/juce_audio_formats.cpp
+        ${JUCE_DIRECTORY}/juce_core.cpp
+        ${JUCE_DIRECTORY}/juce_data_structures.cpp
+        ${JUCE_DIRECTORY}/juce_events.cpp
+        ${JUCE_DIRECTORY}/juce_graphics.cpp
+        ${JUCE_DIRECTORY}/juce_gui_basics.cpp
+#        ${JUCE_DIRECTORY}/juce_gui_extra.cpp
+        ${JUCE_DIRECTORY}/juce_audio_basics.cpp
+        ${JUCE_DIRECTORY}/juce_audio_formats.cpp
     )
 ADD_LIBRARY ( project_juce STATIC ${JUCE_SOURCE} )
 
 set(INCLUDE_DIRS
-  ${CMAKE_HOME_DIRECTORY}/JuceLibraryCode
+    ${JUCE_DIRECTORY}
+    ${JUCE_MODULE_DIRECTORY}
 )
 target_include_directories(project_juce PUBLIC ${INCLUDE_DIRS})
 

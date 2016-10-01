@@ -34,8 +34,6 @@ if(TARGET_PLATFORM STREQUAL "Linux")      #TODO: remove this
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -fPIC")
 endif()
 
-set( JUCE_PREPROCESSOR_DEFINES "-D \"JUCE_CATCH_DEPRECATED_CODE_MISUSE\" -D \"DONT_SET_USING_JUCE_NAMESPACE\" -D \"JUCE_USE_MP3AUDIOFORMAT\"")
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${JUCE_PREPROCESSOR_DEFINES}")
 
 
@@ -79,6 +77,9 @@ MESSAGE( STATUS "** CMAKE_CURRENT_SOURCE_DIR : ${CMAKE_CURRENT_SOURCE_DIR}" )
 set(JUCE_DIRECTORY
     ${CMAKE_CURRENT_SOURCE_DIR}/JuceLibraryCode
 )
+set(JUCE_MODULE_DIRECTORY
+    ${JUCE_DIRECTORY}/modules
+)
 MESSAGE( STATUS "** JUCE_DIRECTORY : ${JUCE_DIRECTORY}" )
 
 # headers
@@ -104,6 +105,7 @@ set(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Base
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Interfaces
     ${JUCE_DIRECTORY}
+    ${JUCE_MODULE_DIRECTORY}
     #TODO remove these after classloader:
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions/Core
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Helpers
@@ -115,7 +117,7 @@ set(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions/Statistics
 )
 
-target_include_directories(music_jukebox PUBLIC ${INCLUDE_DIRS})
+target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
 
 # compiler features
 

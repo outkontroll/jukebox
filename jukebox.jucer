@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="xAfF0j" name="jukebox" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.yourcompany.jukebox" includeBinaryInAppConfig="1"
-              jucerVersion="4.1.0" defines="JUCE_CATCH_DEPRECATED_CODE_MISUSE&#10;DONT_SET_USING_JUCE_NAMESPACE">
+              jucerVersion="4.2.4" defines="JUCE_CATCH_DEPRECATED_CODE_MISUSE&#10;DONT_SET_USING_JUCE_NAMESPACE">
   <MAINGROUP id="eJpnlV" name="jukebox">
     <GROUP id="{313C1ACE-0AC3-9958-DE92-FB3F0275508D}" name="Source">
       <GROUP id="{B97C361F-C02E-E307-37CD-9308A3CC6ECE}" name="Base">
@@ -74,9 +74,11 @@
     <LINUX_MAKE targetFolder="Builds/Linux">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Helpers&#10;../../Source/Helpers/Signaling&#10;../../Source/Helpers/Logging&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Extensions/Statistics&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"/>
-        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
-                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Helpers&#10;../../Source/Helpers/Signaling&#10;../../Source/Helpers/Logging&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Extensions/Statistics&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"/>
+                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Helpers&#10;../../Source/Helpers/Signaling&#10;../../Source/Helpers/Logging&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Extensions/Statistics&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"
+                       linuxArchitecture="-m32"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="3"
+                       targetName="jukebox" headerPath="../../Source/Base&#10;../../Source/Helpers&#10;../../Source/Helpers/Signaling&#10;../../Source/Helpers/Logging&#10;../../Source/Interfaces&#10;../../Source/Extensions/Core&#10;../../Source/Extensions/Gui&#10;../../Source/Extensions/CreditManager&#10;../../Source/Extensions/MusicPlayer&#10;../../Source/Extensions/Statistics&#10;../../Source/Components&#10;../../JuceLibraryCode&#10;../../JuceLibraryCode/modules"
+                       linuxArchitecture="-m32"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="./JuceLibraryCode/modules"/>
@@ -84,8 +86,8 @@
         <MODULEPATH id="juce_graphics" path="./JuceLibraryCode/modules"/>
         <MODULEPATH id="juce_data_structures" path="./JuceLibraryCode/modules"/>
         <MODULEPATH id="juce_gui_basics" path="./JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="./JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="./JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
@@ -98,5 +100,8 @@
     <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
-  <JUCEOPTIONS/>
+  <JUCEOPTIONS JUCE_USE_MP3AUDIOFORMAT="enabled"/>
+  <LIVE_SETTINGS>
+    <LINUX/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>

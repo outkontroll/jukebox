@@ -12,6 +12,7 @@
 #define ICORE_H_INCLUDED
 
 #include <string>
+#include "Signals.hpp"
 
 namespace std
 {
@@ -51,6 +52,9 @@ public:
                             const std::shared_ptr<audio::IMusicPlayer>& iMusicPlayer,
                             const std::shared_ptr<statistics::IStatistics>& iStatistics) = 0;
     virtual void uninitialize() = 0;
+
+public:
+    jukebox::signals::Signal<> exitRequestedSignal;
 };
 
 }}
