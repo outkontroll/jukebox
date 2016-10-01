@@ -31,11 +31,8 @@ MESSAGE( STATUS "** CMAKE_CXX_COMPILER : ${CMAKE_CXX_COMPILER}" )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 if(TARGET_PLATFORM STREQUAL "Linux")      #TODO: remove this
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -fPIC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Werror -fPIC")
 endif()
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${JUCE_PREPROCESSOR_DEFINES}")
-
 
 MESSAGE( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )
 
@@ -46,12 +43,12 @@ MESSAGE( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )
 #    message("${i}")
 #endforeach()
 
-set(CPP_COMPILER_FEATURES
-    "cxx_auto_type"
-    "cxx_noexcept"
-    "cxx_nullptr"
-    "cxx_override"
-)
+#set(CPP_COMPILER_FEATURES
+#    cxx_auto_type
+#    cxx_noexcept
+#    cxx_nullptr
+#    cxx_override
+#)
 
 # build architecture
 
@@ -126,7 +123,8 @@ target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
 
 # compiler features
 
-target_compile_features(music_jukebox PUBLIC ${CPP_COMPILER_FEATURES})
+# it is not used because it can not set globally
+#target_compile_features(music_jukebox PUBLIC ${CPP_COMPILER_FEATURES})
 
 # projects
 
