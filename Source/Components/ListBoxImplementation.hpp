@@ -90,11 +90,12 @@ void ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Gr
 {
     if(rowNumber < 0 || static_cast<unsigned>(rowNumber) >= items.size())
     {
-        LOG_WARNING("rownumber " << rowNumber << "was out of range, count of elements: " << items.size());
+        //TODO check if a warning is needed
+        //LOG_WARNING("row #" << rowNumber << " was out of range, count of elements: " << items.size() << ", capacity: " << items.capacity());
         return;
     }
     
-    if (rowIsSelected)
+    if(rowIsSelected)
     {
         g.fillAll (juce::Colours::lightblue);
     }
@@ -129,12 +130,12 @@ template<template<class, class> class Container, class Item>
 Item ListBoxContents<Container, Item>::getNextItem() const
 {
     int size = getSize();
-    
+
     if(size > 0)
     {
         return items[size - 1];
     }
-    
+
     return Item();
 }
 

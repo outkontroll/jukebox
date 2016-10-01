@@ -5,8 +5,9 @@ project(musicPlayer)
 # headers
 
 set(HEADER_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/../../Interfaces/IMusicPlayer.h
+${INTERFACE_DIRECTORY}/IMusicPlayer.h
 ${CMAKE_CURRENT_SOURCE_DIR}/MusicPlayer.h
+${CMAKE_CURRENT_SOURCE_DIR}/../../Helpers/Song.h
 )
 
 # sources

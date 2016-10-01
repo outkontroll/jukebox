@@ -16,7 +16,7 @@ namespace jukebox { namespace creditmanager {
 class ICreditManager
 {
 public:
-    virtual ~ICreditManager(){}
+    virtual ~ICreditManager() = default;
     
     virtual unsigned int getCredits() const = 0;
         

@@ -5,7 +5,7 @@ project(core)
 # headers
 
 set(HEADER_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/../../Interfaces/ICore.h
+${INTERFACE_DIRECTORY}/ICore.h
 ${CMAKE_CURRENT_SOURCE_DIR}/Core.h
 )
 

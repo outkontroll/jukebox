@@ -33,7 +33,7 @@ void Statistics::showStatistics()
     std::cout << std::endl << "________________" << std::endl;
     for(T_PlayedSongs::const_iterator it = playedSongs.begin(); it != playedSongs.end(); ++it)
     {
-        std::cout << FillWithLeadingZeros(it->first.getAlbum(), 3) << FillWithLeadingZeros(it->first.getSong(), 2)
+        std::cout << FillWithLeadingZeros(it->first.getAlbumNumber(), 3) << FillWithLeadingZeros(it->first.getSongNumber(), 2)
         << ": " << it->second << std::endl;
     }
     std::cout << "________________" << std::endl;

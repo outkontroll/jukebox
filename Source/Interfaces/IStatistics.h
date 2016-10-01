@@ -18,7 +18,7 @@ namespace jukebox { namespace statistics {
 class IStatistics
 {
 public:
-    virtual ~IStatistics(){}
+    virtual ~IStatistics() = default;
     
     virtual void songPlayed(audio::Song song) = 0;
     virtual void albumPlayed(audio::Song album) = 0;

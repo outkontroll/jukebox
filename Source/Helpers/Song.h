@@ -19,28 +19,29 @@ class Song
 {
 public:
     Song(unsigned int albumNumber = 0, unsigned int songNumber = 0)
-    : album(albumNumber),
-      song(songNumber)
-    {}
-    
-    inline unsigned int getAlbum() const
+    : albumNumber(albumNumber),
+      songNumber(songNumber)
     {
-        return album;
     }
 
-    inline unsigned int getSong() const
+    inline unsigned int getAlbumNumber() const
     {
-        return song;
+        return albumNumber;
     }
-    
+
+    inline unsigned int getSongNumber() const
+    {
+        return songNumber;
+    }
+
     inline bool operator<(const Song& other) const
     {
-        return std::tie(album, song) < std::tie(other.album, other.song);
+        return std::tie(albumNumber, songNumber) < std::tie(other.albumNumber, other.songNumber);
     }
-    
+
 private:
-    unsigned int album;
-    unsigned int song;
+    unsigned int albumNumber;
+    unsigned int songNumber;
 };
 
 }}

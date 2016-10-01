@@ -88,9 +88,9 @@ inline const std::string GetTrimmedString(const std::string& what, unsigned int 
                                                     logger.log(ss.str());                               \
                                                 }
 
-#define LOG_INFO_DETAILED(logger, logText) LOG_DETAILED(logger, "LOG_INFO", logText)
+#define LOG_INFO_DETAILED(logger, logText) LOG_DETAILED(logger, "LOG_INFO\t", logText)
 #define LOG_WARNING_DETAILED(logger, logText) LOG_DETAILED(logger, "LOG_WARNING", logText)
-#define LOG_ERROR_DETAILED(logger, logText) LOG_DETAILED(logger, "LOG_ERROR", logText)
+#define LOG_ERROR_DETAILED(logger, logText) LOG_DETAILED(logger, "LOG_ERROR\t", logText)
 
 }}
                                                 

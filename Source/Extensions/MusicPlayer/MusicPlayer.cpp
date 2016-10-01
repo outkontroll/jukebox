@@ -24,13 +24,13 @@ MusicPlayer::MusicPlayer()
 void MusicPlayer::playSong(Song song)
 {
     //TODO: play a song
-    LOG_INFO("Playing: " << FillWithLeadingZeros(song.getAlbum(), 3) << " " << FillWithLeadingZeros(song.getSong(), 2));
+    LOG_INFO("Playing: " << FillWithLeadingZeros(song.getAlbumNumber(), 3) << " " << FillWithLeadingZeros(song.getSongNumber(), 2));
 }
 
 void MusicPlayer::playAlbum(Song album)
 {
     //TODO: play an album
-    LOG_INFO("Playing: " << FillWithLeadingZeros(album.getAlbum(), 3));
+    LOG_INFO("Playing: " << FillWithLeadingZeros(album.getAlbumNumber(), 3));
 }
 
 void MusicPlayer::stopPlaying()

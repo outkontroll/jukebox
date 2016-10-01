@@ -18,7 +18,7 @@ namespace jukebox { namespace audio {
 class IMusicPlayer
 {
 public:
-    virtual ~IMusicPlayer(){}
+    virtual ~IMusicPlayer() = default;
     
     virtual void playSong(audio::Song song) = 0;
     virtual void playAlbum(audio::Song album) = 0;

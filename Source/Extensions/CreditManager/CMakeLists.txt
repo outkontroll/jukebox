@@ -5,7 +5,7 @@ project(creditManager)
 # headers
 
 set(HEADER_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/../../Interfaces/ICreditManager.h
+${INTERFACE_DIRECTORY}/ICreditManager.h
 ${CMAKE_CURRENT_SOURCE_DIR}/CreditManager.h
 )
 

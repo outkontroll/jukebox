@@ -5,10 +5,11 @@ project(gui)
 # headers
 
 set(HEADER_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/../../Interfaces/IGui.h
+${INTERFACE_DIRECTORY}/IGui.h
 ${CMAKE_CURRENT_SOURCE_DIR}/Gui.h
 ${CMAKE_CURRENT_SOURCE_DIR}/../../Base/MainWindow.h
 ${CMAKE_CURRENT_SOURCE_DIR}/../../Components/MainComponent.h
+${CMAKE_CURRENT_SOURCE_DIR}/../../Components/ListBox.hpp
 )
 
 # sources
@@ -17,6 +18,7 @@ set(CPP_SOURCES
 ${CMAKE_CURRENT_SOURCE_DIR}/Gui.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../../Base/MainWindow.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../../Components/MainComponent.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../../Components/ListBoxImplementation.hpp
 )
 
 # project

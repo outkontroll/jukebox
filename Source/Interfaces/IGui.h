@@ -20,7 +20,7 @@ namespace jukebox { namespace gui {
 class IGui
 {
 public:
-    virtual ~IGui(){}
+    virtual ~IGui() = default;
     
     virtual void initialize(const std::string& name) = 0;
     virtual void uninitialize() = 0;

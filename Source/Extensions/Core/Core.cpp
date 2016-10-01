@@ -97,7 +97,7 @@ void Core::playSong(Song song)
         musicPlayer->playSong(song);
         statistics->songPlayed(song);
         gui->refreshCredits(creditManager->getCredits());
-        gui->enqueue(FillWithLeadingZeros(song.getAlbum(), 3) + FillWithLeadingZeros(song.getSong(), 2));
+        gui->enqueue(FillWithLeadingZeros(song.getAlbumNumber(), 3) + FillWithLeadingZeros(song.getSongNumber(), 2));
     }
 }
 
@@ -113,7 +113,7 @@ void Core::playAlbum(Song album)
         musicPlayer->playAlbum(album);
         statistics->albumPlayed(album);
         gui->refreshCredits(creditManager->getCredits());
-        gui->enqueue(FillWithLeadingZeros(album.getAlbum(), 3));
+        gui->enqueue(FillWithLeadingZeros(album.getAlbumNumber(), 3));
     }
 }
 

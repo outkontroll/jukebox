@@ -5,7 +5,7 @@ project(statistics)
 # headers
 
 set(HEADER_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/../../Interfaces/IStatistics.h
+${INTERFACE_DIRECTORY}/IStatistics.h
 ${CMAKE_CURRENT_SOURCE_DIR}/Statistics.h
 )
 

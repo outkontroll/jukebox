@@ -44,7 +44,7 @@ namespace jukebox { namespace core {
 class ICore
 {
 public:
-    virtual ~ICore(){}
+    virtual ~ICore() = default;
     
     virtual void initialize(const std::string& name,
                             const std::shared_ptr<gui::IGui>& iGui,
