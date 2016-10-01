@@ -85,11 +85,13 @@
         <MODULEPATH id="juce_data_structures" path="./JuceLibraryCode/modules"/>
         <MODULEPATH id="juce_gui_basics" path="./JuceLibraryCode/modules"/>
         <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>

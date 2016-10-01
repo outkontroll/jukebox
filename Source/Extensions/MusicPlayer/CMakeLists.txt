@@ -24,6 +24,7 @@ add_library(musicPlayer
 
 set(INCLUDE_DIRS
 ${EXTENSION_INCLUDE_DIRS}
+${JUCE_DIRECTORY}
 )
 
 target_include_directories(musicPlayer PUBLIC ${INCLUDE_DIRS})

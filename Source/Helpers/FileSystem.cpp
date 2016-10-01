@@ -29,7 +29,7 @@ FileSystem::T_AlbumDirectories FileSystem::getAlbumDirectories(const std::string
     return albumDirs;
 }
     
-FileSystem::T_SongFiles FileSystem::getSongFiles(const std::string& path, const std::string& extensions)
+FileSystem::T_SongFiles FileSystem::getSongFiles(const std::string& path, const std::string& /*extensions*/)
 {
     if(path == "")
     {

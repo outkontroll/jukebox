@@ -12,7 +12,11 @@
 #define ICORE_H_INCLUDED
 
 #include <string>
-#include <memory>
+
+namespace std
+{
+    template<class T> class shared_ptr;
+}
 
 namespace jukebox 
 {

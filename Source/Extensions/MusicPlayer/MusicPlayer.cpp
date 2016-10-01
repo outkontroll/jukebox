@@ -16,6 +16,11 @@
 using namespace jukebox;
 using namespace jukebox::audio;
 
+MusicPlayer::MusicPlayer()
+{
+    formatManager.registerBasicFormats();
+}
+
 void MusicPlayer::playSong(Song song)
 {
     //TODO: play a song

@@ -12,21 +12,24 @@
 #define MUSICPLAYER_H_INCLUDED
 
 #include "IMusicPlayer.h"
+#include "JuceHeader.h"
 
 namespace jukebox { namespace audio {
   
 class MusicPlayer : public IMusicPlayer
 {
 public:
+    MusicPlayer();
+
     void playSong(Song) override;
     void playAlbum(Song) override;
     
     void stopPlaying() override;
     
 private:
-    
+    juce::AudioFormatManager formatManager;
 };
-    
+
 }}
     
 #endif  // MUSICPLAYER_H_INCLUDED

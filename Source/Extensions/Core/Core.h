@@ -11,6 +11,7 @@
 #ifndef CORE_H_INCLUDED
 #define CORE_H_INCLUDED
 
+#include <memory>
 #include "ICore.h"
 #include "Signals.hpp"
 #include "Song.h"

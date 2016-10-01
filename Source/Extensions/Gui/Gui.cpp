@@ -119,9 +119,8 @@ void Gui::setMusicFolder(const std::string& folder)
 void Gui::updateAlbumList()
 {
     std::string albumlist("");
-    FileSystem::T_AlbumDirectories albumDirs = FileSystem::getAlbumDirectories(".");
     
-    for(auto i : albumDirs)
+    for(auto& i : FileSystem::getAlbumDirectories("."))
     {
         albumlist += i + "\n";
     }

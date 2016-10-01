@@ -88,9 +88,9 @@ template<template<class, class> class Container, class Item>
 void ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Graphics& g,
                            int width, int height, bool rowIsSelected)
 {
-    if(rowNumber >= items.size())
+    if(rowNumber < 0 || static_cast<unsigned>(rowNumber) >= items.size())
     {
-        LOG_WARNING("rownumber " << rowNumber << "was greater than the count of elements " << items.size());
+        LOG_WARNING("rownumber " << rowNumber << "was out of range, count of elements: " << items.size());
         return;
     }
     

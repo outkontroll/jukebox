@@ -18,11 +18,15 @@
 // [BEGIN_USER_CODE_SECTION]
 
 // (You can add your own code in this section, and the Introjucer will not overwrite it)
+#define DONT_SET_USING_JUCE_NAMESPACE 1
+#define JUCE_CATCH_DEPRECATED_CODE_MISUSE 1
+#define JUCE_USE_MP3AUDIOFORMAT 1
 
 // [END_USER_CODE_SECTION]
 
 //==============================================================================
 #define JUCE_MODULE_AVAILABLE_juce_audio_basics         1
+#define JUCE_MODULE_AVAILABLE_juce_audio_formats        1
 #define JUCE_MODULE_AVAILABLE_juce_core                 1
 #define JUCE_MODULE_AVAILABLE_juce_data_structures      1
 #define JUCE_MODULE_AVAILABLE_juce_events               1
@@ -32,6 +36,29 @@
 //==============================================================================
 #ifndef    JUCE_STANDALONE_APPLICATION
  #define   JUCE_STANDALONE_APPLICATION 1
+#endif
+
+//==============================================================================
+// juce_audio_formats flags:
+
+#ifndef    JUCE_USE_FLAC
+ //#define JUCE_USE_FLAC
+#endif
+
+#ifndef    JUCE_USE_OGGVORBIS
+ //#define JUCE_USE_OGGVORBIS
+#endif
+
+#ifndef    JUCE_USE_MP3AUDIOFORMAT
+ //#define JUCE_USE_MP3AUDIOFORMAT
+#endif
+
+#ifndef    JUCE_USE_LAME_AUDIO_FORMAT
+ //#define JUCE_USE_LAME_AUDIO_FORMAT
+#endif
+
+#ifndef    JUCE_USE_WINDOWS_MEDIA_FORMAT
+ //#define JUCE_USE_WINDOWS_MEDIA_FORMAT
 #endif
 
 //==============================================================================

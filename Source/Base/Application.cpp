@@ -19,7 +19,6 @@
 #include "Logger.h"
 
 using namespace jukebox;
-using namespace juce;
 
 jukeboxApplication::jukeboxApplication()
 {
@@ -32,12 +31,12 @@ jukeboxApplication::~jukeboxApplication()
     LOG_INFO("Application stopped");
 }
     
-const String jukeboxApplication::getApplicationName()
+const juce::String jukeboxApplication::getApplicationName()
 {
     return ProjectInfo::projectName;
 }
     
-const String jukeboxApplication::getApplicationVersion()
+const juce::String jukeboxApplication::getApplicationVersion()
 {
     return ProjectInfo::versionString;
 }
@@ -47,7 +46,7 @@ bool jukeboxApplication::moreThanOneInstanceAllowed()
     return false;
 }
     
-void jukeboxApplication::initialise (const String& commandLine)
+void jukeboxApplication::initialise (const juce::String& commandLine)
 {
     core = std::make_shared<core::Core>();
     gui = std::make_shared<gui::Gui>();
@@ -61,6 +60,7 @@ void jukeboxApplication::initialise (const String& commandLine)
                      musicPlayer,
                      statistics);
     
+    LOG_INFO("Command line: " << commandLine);
     LOG_INFO("done");
 }
     
@@ -81,8 +81,9 @@ void jukeboxApplication::systemRequestedQuit()
     quit();
 }
     
-void jukeboxApplication::anotherInstanceStarted(const String& commandLine)
+void jukeboxApplication::anotherInstanceStarted(const juce::String& commandLine)
 {
     LOG_ERROR("unexpected second start, exiting");
+    LOG_ERROR("Command line: " << commandLine);
     quit();
 }
