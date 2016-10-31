@@ -1,18 +1,8 @@
-/*
-  ==============================================================================
-
-    MusicPlayer.h
-    Created: 12 Apr 2015 3:17:00pm
-    Author:  bakos
-
-  ==============================================================================
-*/
-
 #ifndef MUSICPLAYER_H_INCLUDED
 #define MUSICPLAYER_H_INCLUDED
 
+#include <memory>
 #include "IMusicPlayer.h"
-#include "JuceHeader.h"
 
 namespace jukebox { namespace audio {
   
@@ -27,7 +17,7 @@ public:
     void stopPlaying() override;
     
 private:
-    juce::AudioFormatManager formatManager;
+    std::unique_ptr<IMusicPlayer> pImpl;
 };
 
 }}
