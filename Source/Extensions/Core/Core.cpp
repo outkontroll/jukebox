@@ -1,14 +1,3 @@
-/*
-  ==============================================================================
-
-    Core.cpp
-    Created: 15 Mar 2015 1:37:31pm
-    Author:  adam
-
-  ==============================================================================
-*/
-
-//TODO: remove this include by signaling the exit request
 #include "Core.h"
 #include "IGui.h"
 #include "ICreditManager.h"
@@ -16,6 +5,7 @@
 #include "IStatistics.h"
 #include "Formaters.h"
 #include "Logger.h"
+#include <iostream>
 
 using namespace jukebox::core;
 using namespace jukebox::gui;
@@ -143,5 +133,6 @@ void Core::exitRequested()
 
 void Core::showStatistics()
 {
-    statistics->showStatistics();
+    //TODO: use file
+    statistics->showStatistics(std::cout);
 }

@@ -1,17 +1,7 @@
-/*
-  ==============================================================================
-
-    Statistics.cpp
-    Created: 14 Apr 2015 11:37:11pm
-    Author:  adam
-
-  ==============================================================================
-*/
-
 #include "Statistics.h"
 #include "Formaters.h"
 //TODO: remove this include when a file will be used
-#include <iostream>
+#include <ostream>
 
 using namespace jukebox::statistics;
 using namespace jukebox::audio;
@@ -26,15 +16,18 @@ void Statistics::albumPlayed(Song album)
     ++playedSongs[album];
 }
 
-void Statistics::showStatistics()
+void Statistics::showStatistics(std::ostream& os)
 {
-    //TODO: use a file instead of ofstream
+    os << std::endl << "________________" << std::endl;
     
-    std::cout << std::endl << "________________" << std::endl;
-    for(T_PlayedSongs::const_iterator it = playedSongs.begin(); it != playedSongs.end(); ++it)
+    for(auto playedSong : playedSongs)
     {
-        std::cout << FillWithLeadingZeros(it->first.getAlbumNumber(), 3) << FillWithLeadingZeros(it->first.getSongNumber(), 2)
-        << ": " << it->second << std::endl;
+	os << FillWithLeadingZeros(playedSong.first.getAlbumNumber(), 3)
+	   << FillWithLeadingZeros(playedSong.first.getSongNumber(), 2)
+	   << ": "
+	   << playedSong.second
+	   << std::endl;
     }
-    std::cout << "________________" << std::endl;
+    
+    os << "________________" << std::endl;
 }
