@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    CreditManager.h
-    Created: 16 Feb 2015 1:21:36pm
-    Author:  bakos
-
-  ==============================================================================
-*/
-
 #ifndef CREDITMANAGER_H_INCLUDED
 #define CREDITMANAGER_H_INCLUDED
 

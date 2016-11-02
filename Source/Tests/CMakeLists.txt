@@ -20,5 +20,6 @@ set(TESTING_INCLUDE_DIRS
 #link_directories(${LINK_DIRS})
 
 add_subdirectory(Statistics)
+add_subdirectory(CreditManager)
 
 enable_testing()
