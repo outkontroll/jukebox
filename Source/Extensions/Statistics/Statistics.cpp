@@ -18,7 +18,7 @@ void Statistics::albumPlayed(Song album)
 
 void Statistics::showStatistics(std::ostream& os)
 {
-    os << std::endl << "________________" << std::endl;
+    //os << std::endl << "________________" << std::endl;
     
     for(auto playedSong : playedSongs)
     {
@@ -29,5 +29,5 @@ void Statistics::showStatistics(std::ostream& os)
 	   << std::endl;
     }
     
-    os << "________________" << std::endl;
+    //os << "________________" << std::endl;
 }

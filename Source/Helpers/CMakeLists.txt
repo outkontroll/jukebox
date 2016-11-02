@@ -7,15 +7,15 @@ project(helpers)
 # headers
 
 set(HEADER_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/Formaters.h
-${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Formaters.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.h
 )
 
 # sources
 
 set(CPP_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/Formaters.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Formaters.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.cpp
 )
 
 # project
@@ -26,8 +26,7 @@ add_library(helpers
 	    ${CPP_SOURCES})
 
 set(INCLUDE_DIRS
-${CMAKE_CURRENT_SOURCE_DIR}/Logging/
-
+    ${CMAKE_CURRENT_SOURCE_DIR}/Logging/
 )
 
 target_include_directories(helpers PUBLIC ${INCLUDE_DIRS})

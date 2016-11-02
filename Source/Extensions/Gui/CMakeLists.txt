@@ -5,20 +5,20 @@ project(gui)
 # headers
 
 set(HEADER_SOURCES
-${INTERFACE_DIRECTORY}/IGui.h
-${CMAKE_CURRENT_SOURCE_DIR}/Gui.h
-${CMAKE_CURRENT_SOURCE_DIR}/../../Base/MainWindow.h
-${CMAKE_CURRENT_SOURCE_DIR}/../../Components/MainComponent.h
-${CMAKE_CURRENT_SOURCE_DIR}/../../Components/ListBox.hpp
+    ${INTERFACE_DIRECTORY}/IGui.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Gui.h
+    ${SOURCE_DIR}/Base/MainWindow.h
+    ${SOURCE_DIR}/Components/MainComponent.h
+    ${SOURCE_DIR}/Components/ListBox.hpp
 )
 
 # sources
 
 set(CPP_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/Gui.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/../../Base/MainWindow.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/../../Components/MainComponent.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/../../Components/ListBoxImplementation.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Gui.cpp
+    ${SOURCE_DIR}/Base/MainWindow.cpp
+    ${SOURCE_DIR}/Components/MainComponent.cpp
+    ${SOURCE_DIR}/Components/ListBoxImplementation.hpp
 )
 
 # project
@@ -29,11 +29,11 @@ add_library(gui
 	    ${CPP_SOURCES})
 
 set(INCLUDE_DIRS
-${EXTENSION_INCLUDE_DIRS}
-${CMAKE_CURRENT_SOURCE_DIR}/../../Base/
-${CMAKE_CURRENT_SOURCE_DIR}/../../Components/
-#TODO: remove this
-${JUCE_DIRECTORY}
+    ${EXTENSION_INCLUDE_DIRS}
+    ${SOURCE_DIR}/Base/
+    ${SOURCE_DIR}/Components/
+    #TODO: remove this
+    ${JUCE_DIRECTORY}
 )
 
 target_include_directories(gui PUBLIC ${INCLUDE_DIRS})

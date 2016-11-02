@@ -5,14 +5,14 @@ project(creditManager)
 # headers
 
 set(HEADER_SOURCES
-${INTERFACE_DIRECTORY}/ICreditManager.h
-${CMAKE_CURRENT_SOURCE_DIR}/CreditManager.h
+    ${INTERFACE_DIRECTORY}/ICreditManager.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/CreditManager.h
 )
 
 # sources
 
 set(CPP_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/CreditManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/CreditManager.cpp
 )
 
 # project
@@ -23,7 +23,7 @@ add_library(creditManager
 	    ${CPP_SOURCES})
 
 set(INCLUDE_DIRS
-${EXTENSION_INCLUDE_DIRS}
+    ${EXTENSION_INCLUDE_DIRS}
 )
 
 target_include_directories(creditManager PUBLIC ${INCLUDE_DIRS})

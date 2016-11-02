@@ -75,22 +75,34 @@ MESSAGE( STATUS "** CMAKE_CURRENT_SOURCE_DIR : ${CMAKE_CURRENT_SOURCE_DIR}" )
 set(JUCE_DIRECTORY
     ${CMAKE_CURRENT_SOURCE_DIR}/JuceLibraryCode
 )
+
 set(JUCE_MODULE_DIRECTORY
     ${JUCE_DIRECTORY}/modules
 )
+
 MESSAGE( STATUS "** JUCE_DIRECTORY : ${JUCE_DIRECTORY}" )
+
+# global definitions
+
+set(SOURCE_DIR
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source
+)
+
+set(LIBRARY_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Libraries
+)
 
 # headers
 
 set(HEADER_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Base/Application.h
+    ${SOURCE_DIR}/Base/Application.h
 )
 
 # sources
 
 set(CPP_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Base/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Base/Application.cpp
+    ${SOURCE_DIR}/Base/main.cpp
+    ${SOURCE_DIR}/Base/Application.cpp
 )
 
 # executable
@@ -100,23 +112,23 @@ add_executable(music_jukebox ${HEADER_SOURCES} ${CPP_SOURCES})
 # includes
 
 set(INTERFACE_DIRECTORY
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Interfaces
+    ${SOURCE_DIR}/Interfaces
 )
 
 set(INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Base
+    ${SOURCE_DIR}/Base
     ${INTERFACE_DIRECTORY}
     ${JUCE_DIRECTORY}
     ${JUCE_MODULE_DIRECTORY}
     #TODO remove these after classloader:
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions/Core
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Helpers
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Helpers/Signaling
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Helpers/Logging
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions/Gui
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions/CreditManager
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions/MusicPlayer
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions/Statistics
+    ${SOURCE_DIR}/Extensions/Core
+    ${SOURCE_DIR}/Helpers
+    ${SOURCE_DIR}/Helpers/Signaling
+    ${SOURCE_DIR}/Helpers/Logging
+    ${SOURCE_DIR}/Extensions/Gui
+    ${SOURCE_DIR}/Extensions/CreditManager
+    ${SOURCE_DIR}/Extensions/MusicPlayer
+    ${SOURCE_DIR}/Extensions/Statistics
 )
 
 target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
@@ -128,10 +140,11 @@ target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
 
 # projects
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
-#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Source/Components ${PROJECT_BINARY_DIR}/Source/Components)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Source/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
-#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Source/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Source/Juce ${PROJECT_BINARY_DIR}/Source/Juce)   #Juce
+add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
+#add_subdirectory(${SOURCE_DIR}/Components ${PROJECT_BINARY_DIR}/Source/Components)
+add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
+#add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
+add_subdirectory(${SOURCE_DIR}/Juce ${PROJECT_BINARY_DIR}/Source/Juce)   #Juce
+add_subdirectory(${SOURCE_DIR}/Tests)
 
 target_link_libraries(music_jukebox PUBLIC logger project_juce core gui creditManager musicPlayer statistics)

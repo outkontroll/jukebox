@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 
 set(EXTENSION_INCLUDE_DIRS
-${INTERFACE_DIRECTORY}
-${CMAKE_CURRENT_SOURCE_DIR}/../Helpers/
-${CMAKE_CURRENT_SOURCE_DIR}/../Helpers/Logging/
-${CMAKE_CURRENT_SOURCE_DIR}/../Helpers/Signaling/
+    ${INTERFACE_DIRECTORY}
+    ${SOURCE_DIR}/Helpers/
+    ${SOURCE_DIR}/Helpers/Logging/
+    ${SOURCE_DIR}/Helpers/Signaling/
 )
 
 add_subdirectory(Core)
