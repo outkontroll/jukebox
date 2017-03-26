@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "CreditManager.h"
+#include "Logger.h"
 
 using namespace jukebox::creditmanager;
 
@@ -22,7 +23,6 @@ TEST_F(CreditManagerTest, empty)
 TEST_F(CreditManagerTest, insertSingle50)
 {
     creditManager.coinInsert50();
-
     unsigned int expected(1);
     EXPECT_EQ(expected, creditManager.getCredits());
 }

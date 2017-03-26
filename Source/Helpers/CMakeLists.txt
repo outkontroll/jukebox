@@ -9,6 +9,7 @@ project(helpers)
 set(HEADER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Formaters.h
     ${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/ScopeGuard.hpp
 )
 
 # sources

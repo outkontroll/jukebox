@@ -20,7 +20,7 @@ unsigned int CreditManager::getCredits() const
 void CreditManager::coinInsert50()
 {    
     coinInserted();
-    
+
     LOG_INFO("a 50 coin inserted");
 }
 
@@ -28,7 +28,7 @@ void CreditManager::coinInsert100()
 {
     coinInserted();
     coinInserted();
-    
+
     LOG_INFO("a 100 coin inserted");
 }
 
@@ -38,7 +38,7 @@ void CreditManager::coinInsert200()
     coinInserted();
     coinInserted();
     coinInserted();
-    
+
     LOG_INFO("a 200 coin inserted");
 }
 

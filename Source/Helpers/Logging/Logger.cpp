@@ -21,7 +21,8 @@ Logger& Logger::getInstance()
 }
 
 Logger::Logger()
-: logFileName("")
+: logFileName(""),
+  enabled(true)
 {
 }
 
@@ -30,8 +31,14 @@ void Logger::setLogFileName(const std::string& fileName)
     logFileName = fileName;
 }
 
+jukebox::ScopeGuard<bool> Logger::disableLog()
+{
+    return ScopeGuard<bool>(enabled, false);
+}
+
 void Logger::log(const std::string& logText)
 {
-    //TODO: log into a .log file
-    std::cout << logText << std::endl;
+    if(enabled)
+        //TODO: log into a .log file
+        std::cout << logText << std::endl;
 }
