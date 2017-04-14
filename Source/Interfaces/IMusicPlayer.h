@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    IMusicPlayer.h
-    Created: 12 Apr 2015 3:11:52pm
-    Author:  bakos
-
-  ==============================================================================
-*/
-
 #ifndef IMUSICPLAYER_H_INCLUDED
 #define IMUSICPLAYER_H_INCLUDED
 
@@ -21,7 +11,7 @@ public:
     virtual ~IMusicPlayer() = default;
     
     virtual void playSong(audio::Song song) = 0;
-    virtual void playAlbum(audio::Song album) = 0;
+    virtual void playAlbum(audio::Album album) = 0;
     
     virtual void stopPlaying() = 0;
 };    

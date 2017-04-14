@@ -11,9 +11,9 @@ void Statistics::songPlayed(Song song)
     ++playedSongs[song];
 }
 
-void Statistics::albumPlayed(Song album)
+void Statistics::albumPlayed(Album album)
 {
-    ++playedSongs[album];
+    ++playedSongs[Song(album, 0)];
 }
 
 void Statistics::showStatistics(std::ostream& os)

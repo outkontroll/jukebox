@@ -1,26 +1,38 @@
-/*
-  ==============================================================================
-
-    Song.h
-    Created: 12 Apr 2015 2:46:55pm
-    Author:  bakos
-
-  ==============================================================================
-*/
-
 #ifndef SONG_H_INCLUDED
 #define SONG_H_INCLUDED
 
 #include <tuple>
 
 namespace jukebox { namespace audio {
-    
+
+class Album
+{
+public:
+    explicit Album(unsigned int albumNumber)
+    : albumNumber(albumNumber)
+    {
+    }
+
+    inline unsigned int getAlbumNumber() const
+    {
+        return albumNumber;
+    }
+private:
+    unsigned int albumNumber;
+};
+
 class Song
 {
 public:
-    Song(unsigned int albumNumber = 0, unsigned int songNumber = 0)
+    Song(unsigned int albumNumber, unsigned int songNumber)
     : albumNumber(albumNumber),
       songNumber(songNumber)
+    {
+    }
+
+    Song(Album album, unsigned int songNumber)
+    :   albumNumber(album.getAlbumNumber()),
+        songNumber(songNumber)
     {
     }
 

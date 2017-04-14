@@ -91,7 +91,7 @@ void Core::playSong(Song song)
     }
 }
 
-void Core::playAlbum(Song album)
+void Core::playAlbum(Album album)
 {
     if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {

@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    Core.h
-    Created: 14 Mar 2015 3:30:39am
-    Author:  adam
-
-  ==============================================================================
-*/
-
 #ifndef CORE_H_INCLUDED
 #define CORE_H_INCLUDED
 
@@ -34,7 +24,7 @@ private:
     void coinInserted200();
     
     void playSong(audio::Song);
-    void playAlbum(audio::Song);
+    void playAlbum(audio::Album);
     void removePlayedSong();
     
     void creditIncrease();

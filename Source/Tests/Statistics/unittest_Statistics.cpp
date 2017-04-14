@@ -40,7 +40,7 @@ TEST_F(StatisticsTest, playOneSong)
 
 TEST_F(StatisticsTest, playOneAlbum)
 {
-    statistics.albumPlayed(Song(9));
+    statistics.albumPlayed(Album(9));
     
     statistics.showStatistics(ss);
 
@@ -51,9 +51,9 @@ TEST_F(StatisticsTest, playOneAlbum)
 TEST_F(StatisticsTest, multiplePlays)
 {
     statistics.songPlayed(Song(12, 3));
-    statistics.albumPlayed(Song(9));
-    statistics.albumPlayed(Song(8));
-    statistics.albumPlayed(Song(9));
+    statistics.albumPlayed(Album(9));
+    statistics.albumPlayed(Album(8));
+    statistics.albumPlayed(Album(9));
     statistics.songPlayed(Song(12, 3));
     statistics.songPlayed(Song(12, 3));
     

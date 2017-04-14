@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    Gui.cpp
-    Created: 15 Mar 2015 1:55:03pm
-    Author:  adam
-
-  ==============================================================================
-*/
-
 #include "Gui.h"
 #include "MainWindow.h"
 #include "MainComponent.h"
@@ -87,7 +77,7 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(keyChar == 'v')
     {
-        playAlbumSignal(Song(12));
+        playAlbumSignal(Album(12));
     }
     else if(keyCode == KeyPress::escapeKey)
     {

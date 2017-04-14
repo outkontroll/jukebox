@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    SongsListBox.cpp
-    Created: 2 May 2015 10:15:25am
-    Author:  adam
-
-  ==============================================================================
-*/
-
 #ifndef LISTBOXIMPLEMENTATION_HPP_INCLUDED
 #define LISTBOXIMPLEMENTATION_HPP_INCLUDED
 

@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    Logger.cpp
-    Created: 6 Jun 2015 8:19:02pm
-    Author:  adam
-
-  ==============================================================================
-*/
-
 #include "Logger.h"
 //TOOD: this is dummy implementation, remove it when logging is done into a file
 #include <iostream>

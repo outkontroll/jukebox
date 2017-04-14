@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    Application.cpp
-    Created: 14 Mar 2015 3:34:51am
-    Author:  adam
-
-  ==============================================================================
-*/
-
 #include "Application.h"
 #include "Core.h"
 //TODO: remove these includes as soon as classload is introduced

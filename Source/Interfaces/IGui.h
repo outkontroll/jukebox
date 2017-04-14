@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    IGui.h
-    Created: 14 Mar 2015 3:28:06am
-    Author:  adam
-
-  ==============================================================================
-*/
-
 #ifndef IGUI_H_INCLUDED
 #define IGUI_H_INCLUDED
 
@@ -39,7 +29,7 @@ public:
     jukebox::signals::Signal<> coinInserted200Signal;
     
     jukebox::signals::Signal<audio::Song> playSongSignal;
-    jukebox::signals::Signal<audio::Song> playAlbumSignal;
+    jukebox::signals::Signal<audio::Album> playAlbumSignal;
     jukebox::signals::Signal<> removePlayedSongSignal;
     
     jukebox::signals::Signal<> creditIncreaseSignal;

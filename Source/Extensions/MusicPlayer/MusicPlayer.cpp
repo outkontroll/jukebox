@@ -13,7 +13,7 @@ public:
     MusicPlayerImplementation();
     
     void playSong(Song) override;
-    void playAlbum(Song) override;
+    void playAlbum(Album) override;
     
     void stopPlaying() override;
     
@@ -32,7 +32,7 @@ void MusicPlayer::playSong(Song song)
     pImpl->playSong(song);
 }
 
-void MusicPlayer::playAlbum(Song album)
+void MusicPlayer::playAlbum(Album album)
 {
     LOG_INFO("Playing: " << FillWithLeadingZeros(album.getAlbumNumber(), 3));
     pImpl->playAlbum(album);
@@ -55,7 +55,7 @@ void MusicPlayerImplementation::playSong(Song song)
     LOG_INFO("Playing: " << FillWithLeadingZeros(song.getAlbumNumber(), 3) << " " << FillWithLeadingZeros(song.getSongNumber(), 2));
 }
 
-void MusicPlayerImplementation::playAlbum(Song album)
+void MusicPlayerImplementation::playAlbum(Album album)
 {
     //TODO: play an album
     LOG_INFO("Playing: " << FillWithLeadingZeros(album.getAlbumNumber(), 3));

@@ -12,7 +12,7 @@ public:
     MusicPlayer();
 
     void playSong(Song) override;
-    void playAlbum(Song) override;
+    void playAlbum(Album) override;
     
     void stopPlaying() override;
     
