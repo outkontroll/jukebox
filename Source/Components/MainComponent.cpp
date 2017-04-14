@@ -92,7 +92,7 @@ MainComponent::MainComponent ()
 
 
     //[UserPreSize]
-    addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::vector, std::string>);
+    addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, std::string>);
     //[/UserPreSize]
 
     setSize (1000, 650);

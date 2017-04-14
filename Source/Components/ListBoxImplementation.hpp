@@ -108,7 +108,7 @@ void ListBoxContents<Container, Item>::removeNextItem()
 {
     if(items.size() > 0)
     {
-        items.pop_back();
+        items.pop_front();
     }
     else
     {

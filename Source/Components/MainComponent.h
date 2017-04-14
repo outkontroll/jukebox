@@ -24,11 +24,8 @@
 #include "JuceHeader.h"
 #include "ListBox.hpp"
 #include "Signals.hpp"
-#include <vector>
 #include <string>
-
-#include <vector>
-#include <string>
+#include <deque>
 namespace juce {
 //[/Headers]
 
@@ -68,7 +65,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    ScopedPointer<jukebox::gui::ListBox<std::vector, std::string> > listBox;
+    ScopedPointer<jukebox::gui::ListBox<std::deque, std::string>> listBox;
     unsigned int number;
     bool focusInitialised;
     //[/UserVariables]

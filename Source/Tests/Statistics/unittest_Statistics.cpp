@@ -8,7 +8,7 @@ using namespace jukebox::audio;
 class StatisticsTest : public ::testing::Test
 {
 protected:
-    virtual void SetUp()
+    void SetUp() override
     {
 	ss.str("");
     }
