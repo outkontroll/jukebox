@@ -10,14 +10,14 @@ namespace jukebox { namespace core {
 
 class Core : public ICore
 {
-public:    
-    void initialize(const std::string& name,
-                    std::unique_ptr<gui::IGui> iGui,
-                    std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
-                    std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
-                    std::unique_ptr<statistics::IStatistics> iStatistics) override;
-    void uninitialize() override;
-    
+public:
+    Core(const std::string& name,
+         std::unique_ptr<gui::IGui> iGui,
+         std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
+         std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
+         std::unique_ptr<statistics::IStatistics> iStatistics);
+    ~Core();
+
 private:
     void coinInserted50();
     void coinInserted100();

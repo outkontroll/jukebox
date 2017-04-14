@@ -16,13 +16,16 @@ using namespace jukebox::statistics;
 const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
 const std::string ERROR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
 
-void Core::initialize(const std::string& name,
-                      std::unique_ptr<gui::IGui> iGui,
-                      std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
-                      std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
-                      std::unique_ptr<statistics::IStatistics> iStatistics)
+Core::Core(const std::string& name,
+           std::unique_ptr<gui::IGui> iGui,
+           std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
+           std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
+           std::unique_ptr<statistics::IStatistics> iStatistics)
+    : gui(std::move(iGui)),
+      creditManager(std::move(iCreditManager)),
+      musicPlayer(std::move(iMusicPlayer)),
+      statistics(std::move(iStatistics))
 {
-    gui = std::move(iGui);
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
     eventsSlot.connect(this, &Core::coinInserted100, gui->coinInserted100Signal);
     eventsSlot.connect(this, &Core::coinInserted200, gui->coinInserted200Signal);
@@ -34,26 +37,16 @@ void Core::initialize(const std::string& name,
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
     eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
     gui->initialize(name);
-    
-    creditManager = std::move(iCreditManager);
-    musicPlayer = std::move(iMusicPlayer);
-    statistics = std::move(iStatistics);
-    
-    //TODO
+
     gui->setMusicFolder("001");
-    
+
     LOG_INFO("done");
 }
 
-void Core::uninitialize()
+Core::~Core()
 {
     gui->uninitialize();
-    
-    gui = nullptr;
-    creditManager = nullptr;
-    musicPlayer = nullptr;
-    statistics = nullptr;
-    
+
     LOG_INFO("done");
 }
 
