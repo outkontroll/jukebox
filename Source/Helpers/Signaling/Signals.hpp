@@ -13,7 +13,7 @@ class Signal;
 class BaseSlot
 {
 public:
-    virtual ~BaseSlot(){}
+    virtual ~BaseSlot() = default;
 };
 
 template<class... Args> 
@@ -26,121 +26,121 @@ protected:
 
     friend class Signal<Args...>;
 
-    void add(Signal<Args...> *s)
+    void add(Signal<Args...>* sig)
     {
-        v.push_back(s);
+        sigs.push_back(sig);
     }
     
-    void remove(Signal<Args...> *s)
+    void remove(Signal<Args...>* sig)
     {
-        v.erase(std::remove(v.begin(), v.end(), s), v.end());
+        sigs.erase(std::remove(sigs.begin(), sigs.end(), sig), sigs.end());
     }
 
-    std::vector<Signal<Args...>*> v;
+    std::vector<Signal<Args...>*> sigs;
 };
 
 template<class T, class... Args>
 class ConcreteSlot : public AbstractSlot<Args...>
 {
 public:
-    ConcreteSlot(T *t, void(T::*f)(Args...), Signal<Args...> &s);
+    ConcreteSlot(T* t, void(T::*func)(Args...), Signal<Args...>& sig);
 
 private:
-    ConcreteSlot(const ConcreteSlot&);
-    ConcreteSlot& operator=(const ConcreteSlot&);
+    ConcreteSlot(const ConcreteSlot&) = delete;
+    ConcreteSlot& operator=(const ConcreteSlot&) = delete;
 
     friend class Signal<Args...>;
 
-    virtual void call(Args... args)
+    void call(Args... args) override
     {
-        (t->*f)(args...); 
+        (t->*func)(args...);
     }
 
     T *t;
-    void(T::*f)(Args...);
+    void(T::*func)(Args...);
 };
 
 template<class... Args>
 class Signal
 {
 public:
-    Signal(){}
+    Signal() = default;
     
     ~Signal()
     {
-        for(auto i: v)
+        for(auto i: abstactSlots)
         {
             i->remove(this);
         }
     }
 
-    void connect(AbstractSlot<Args...> &s)
+    void connect(AbstractSlot<Args...>& abstractSlot)
     {
-        v.push_back(&s);
-        s.add(this);
+        abstactSlots.push_back(&abstractSlot);
+        abstractSlot.add(this);
     }
     
-    void disconnect(AbstractSlot<Args...> &s)
+    void disconnect(AbstractSlot<Args...>& abstractSlot)
     {
-        v.erase(std::remove(v.begin(), v.end(), &s), v.end());
+        abstactSlots.erase(std::remove(abstactSlots.begin(), abstactSlots.end(), &abstractSlot), abstactSlots.end());
     }
 
     void operator()(Args... args)
     {
-        for(auto i: v)
+        for(auto i: abstactSlots)
         {
             i->call(args...); 
         }
     }
 
 private:
-    Signal(const Signal&);
-    Signal& operator=(const Signal&);
+    Signal(const Signal&) = delete;
+    Signal& operator=(const Signal&) = delete;
 
-    std::vector<AbstractSlot<Args...>*> v;
+    std::vector<AbstractSlot<Args...>*> abstactSlots;
 };
 
 template<class... Args> 
 AbstractSlot<Args...>::~AbstractSlot()
 {
-    for(auto i : v)
+    for(auto i : sigs)
     {
         i->disconnect(*this);
     }
 }
 
 template<class T, class... Args> 
-ConcreteSlot<T, Args...>::ConcreteSlot(T *t, void(T::*f)(Args...), Signal<Args...> &s)
+ConcreteSlot<T, Args...>::ConcreteSlot(T* t, void(T::*func)(Args...), Signal<Args...>& sig)
 : t(t),
-    f(f)
+    func(func)
 {
-    s.connect(*this);
+    sig.connect(*this);
 }
 
 class Slot
 {
 public:
-    Slot(){}
+    Slot() = default;
     
     ~Slot()
     {
-        for(auto i: v)    
+        for(auto i: baseSlots)
         {
             delete i;
         }
     }
 
     template<class T, class... Args>
-    void connect(T *t, void(T::*f)(Args...), Signal<Args...> &s)
+    void connect(T* t, void(T::*func)(Args...), Signal<Args...>& sig)
     {
-        v.push_back(new ConcreteSlot<T, Args...>(t, f, s));
+        baseSlots.push_back(new ConcreteSlot<T, Args...>(t, func, sig));
     }
 
 private:
-    Slot(const Slot&);
-    Slot& operator=(const Slot&);
+    Slot(const Slot&) = delete;
+    Slot& operator=(const Slot&) = delete;
 
-    std::vector<BaseSlot*> v;
+    std::vector<BaseSlot*> baseSlots;
 };
 
 }}

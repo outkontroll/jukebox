@@ -12,10 +12,10 @@ class Core : public ICore
 {
 public:    
     void initialize(const std::string& name,
-                    const std::shared_ptr<gui::IGui>& iGui,
-                    const std::shared_ptr<creditmanager::ICreditManager>& iCreditManager,
-                    const std::shared_ptr<audio::IMusicPlayer>& iMusicPlayer,
-                    const std::shared_ptr<statistics::IStatistics>& iStatistics) override;
+                    std::unique_ptr<gui::IGui> iGui,
+                    std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
+                    std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
+                    std::unique_ptr<statistics::IStatistics> iStatistics) override;
     void uninitialize() override;
     
 private:
@@ -37,10 +37,10 @@ private:
 private:
     jukebox::signals::Slot eventsSlot;
 
-    std::shared_ptr<gui::IGui> gui;
-    std::shared_ptr<creditmanager::ICreditManager> creditManager;
-    std::shared_ptr<audio::IMusicPlayer> musicPlayer;
-    std::shared_ptr<statistics::IStatistics> statistics;
+    std::unique_ptr<gui::IGui> gui;
+    std::unique_ptr<creditmanager::ICreditManager> creditManager;
+    std::unique_ptr<audio::IMusicPlayer> musicPlayer;
+    std::unique_ptr<statistics::IStatistics> statistics;
 };
 
 }}

@@ -2,12 +2,8 @@
 #define ICORE_H_INCLUDED
 
 #include <string>
+#include <memory>
 #include "Signals.hpp"
-
-namespace std
-{
-    template<class T> class shared_ptr;
-}
 
 namespace jukebox 
 {
@@ -37,10 +33,10 @@ public:
     virtual ~ICore() = default;
     
     virtual void initialize(const std::string& name,
-                            const std::shared_ptr<gui::IGui>& iGui,
-                            const std::shared_ptr<creditmanager::ICreditManager>& iCreditManager,
-                            const std::shared_ptr<audio::IMusicPlayer>& iMusicPlayer,
-                            const std::shared_ptr<statistics::IStatistics>& iStatistics) = 0;
+                            std::unique_ptr<gui::IGui> iGui,
+                            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
+                            std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
+                            std::unique_ptr<statistics::IStatistics> iStatistics) = 0;
     virtual void uninitialize() = 0;
 
 public:

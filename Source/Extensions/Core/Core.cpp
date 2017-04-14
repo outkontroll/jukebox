@@ -17,12 +17,12 @@ const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
 const std::string ERROR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
 
 void Core::initialize(const std::string& name,
-                      const std::shared_ptr<gui::IGui>& iGui,
-                      const std::shared_ptr<creditmanager::ICreditManager>& iCreditManager,
-                      const std::shared_ptr<audio::IMusicPlayer>& iMusicPlayer,
-                      const std::shared_ptr<statistics::IStatistics>& iStatistics)
+                      std::unique_ptr<gui::IGui> iGui,
+                      std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
+                      std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
+                      std::unique_ptr<statistics::IStatistics> iStatistics)
 {
-    gui = iGui;
+    gui = std::move(iGui);
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
     eventsSlot.connect(this, &Core::coinInserted100, gui->coinInserted100Signal);
     eventsSlot.connect(this, &Core::coinInserted200, gui->coinInserted200Signal);
@@ -35,9 +35,9 @@ void Core::initialize(const std::string& name,
     eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
     gui->initialize(name);
     
-    creditManager = iCreditManager;
-    musicPlayer = iMusicPlayer;
-    statistics = iStatistics;
+    creditManager = std::move(iCreditManager);
+    musicPlayer = std::move(iMusicPlayer);
+    statistics = std::move(iStatistics);
     
     //TODO
     gui->setMusicFolder("001");

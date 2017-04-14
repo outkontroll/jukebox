@@ -6,27 +6,11 @@
 #include "Signals.hpp"
 #include <memory>
 
-namespace jukebox 
+namespace jukebox
 {
     namespace core
     {
         class ICore;
-    }
-    namespace gui
-    {
-        class IGui;
-    }
-    namespace creditmanager
-    {
-        class ICreditManager;
-    }
-    namespace audio
-    {
-        class IMusicPlayer;
-    }
-    namespace statistics
-    {
-        class IStatistics;
     }
 }
 
@@ -56,11 +40,7 @@ private:
 private:
     jukebox::signals::Slot eventsSlot;
 
-    std::shared_ptr<jukebox::core::ICore> core;
-    std::shared_ptr<jukebox::gui::IGui> gui;
-    std::shared_ptr<jukebox::creditmanager::ICreditManager> creditManager;
-    std::shared_ptr<jukebox::audio::IMusicPlayer> musicPlayer;
-    std::shared_ptr<jukebox::statistics::IStatistics> statistics;
+    std::unique_ptr<jukebox::core::ICore> core;
 };
 
 
