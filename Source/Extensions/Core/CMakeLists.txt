@@ -5,7 +5,6 @@ project(core)
 # headers
 
 set(HEADER_SOURCES
-    ${INTERFACE_DIRECTORY}/ICore.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Core.h
 )
 
@@ -24,8 +23,6 @@ add_library(core
 
 set(INCLUDE_DIRS
     ${EXTENSION_INCLUDE_DIRS}
-    #TODO: remove this
-    ${JUCE_DIRECTORY}
 )
 
 target_include_directories(core PUBLIC ${INCLUDE_DIRS})

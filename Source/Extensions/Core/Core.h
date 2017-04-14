@@ -2,13 +2,32 @@
 #define CORE_H_INCLUDED
 
 #include <memory>
-#include "ICore.h"
+#include <string>
 #include "Signals.hpp"
 #include "Song.h"
 
-namespace jukebox { namespace core {
+namespace jukebox {
 
-class Core : public ICore
+namespace gui
+{
+    class IGui;
+}
+namespace creditmanager
+{
+    class ICreditManager;
+}
+namespace audio
+{
+    class IMusicPlayer;
+}
+namespace statistics
+{
+    class IStatistics;
+}
+
+namespace core {
+
+class Core
 {
 public:
     Core(const std::string& name,
@@ -17,6 +36,9 @@ public:
          std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
          std::unique_ptr<statistics::IStatistics> iStatistics);
     ~Core();
+
+    //TODO: this should be private
+    jukebox::signals::Signal<> exitRequestedSignal;
 
 private:
     void coinInserted50();

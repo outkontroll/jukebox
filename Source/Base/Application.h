@@ -10,7 +10,7 @@ namespace jukebox
 {
     namespace core
     {
-        class ICore;
+        class Core;
     }
 }
 
@@ -40,7 +40,7 @@ private:
 private:
     jukebox::signals::Slot eventsSlot;
 
-    std::unique_ptr<jukebox::core::ICore> core;
+    std::unique_ptr<jukebox::core::Core> core;
 };
 
 
