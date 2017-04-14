@@ -13,8 +13,8 @@ using namespace jukebox::signals;
 using namespace jukebox::audio;
 using namespace jukebox::statistics;
 
-const std::string EROOR_FEW_CREDITS_SONG = "Too few credits to play a song!";
-const std::string EROOR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
+const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
+const std::string ERROR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
 
 void Core::initialize(const std::string& name,
                       const std::shared_ptr<gui::IGui>& iGui,
@@ -79,7 +79,7 @@ void Core::playSong(Song song)
 {   
     if(!creditManager->hasEnoughCreditsToPlaySong())
     {
-        gui->showStatusMessage(EROOR_FEW_CREDITS_SONG);
+        gui->showStatusMessage(ERROR_FEW_CREDITS_SONG);
     }
     else
     {
@@ -95,7 +95,7 @@ void Core::playAlbum(Album album)
 {
     if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {
-        gui->showStatusMessage(EROOR_FEW_CREDITS_ALBUM);
+        gui->showStatusMessage(ERROR_FEW_CREDITS_ALBUM);
     }
     else
     {
