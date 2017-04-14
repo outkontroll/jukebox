@@ -2,7 +2,6 @@
 #define CORE_H_INCLUDED
 
 #include <memory>
-#include <string>
 #include "Signals.hpp"
 #include "Song.h"
 
@@ -30,12 +29,10 @@ namespace core {
 class Core
 {
 public:
-    Core(const std::string& name,
-         std::unique_ptr<gui::IGui> iGui,
+    Core(std::unique_ptr<gui::IGui> iGui,
          std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
          std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
          std::unique_ptr<statistics::IStatistics> iStatistics);
-    ~Core();
 
     //TODO: this should be private
     jukebox::signals::Signal<> exitRequestedSignal;

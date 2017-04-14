@@ -38,8 +38,7 @@ bool jukeboxApplication::moreThanOneInstanceAllowed()
     
 void jukeboxApplication::initialise (const juce::String& commandLine)
 {
-    core = std::make_unique<core::Core>(getApplicationName().toStdString(),
-                                        std::make_unique<gui::Gui>(),
+    core = std::make_unique<core::Core>(std::make_unique<gui::Gui>(getApplicationName().toStdString()),
                                         std::make_unique<creditmanager::CreditManager>(),
                                         std::make_unique<audio::MusicPlayer>(),
                                         std::make_unique<statistics::Statistics>());

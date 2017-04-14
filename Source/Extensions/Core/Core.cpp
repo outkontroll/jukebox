@@ -16,8 +16,7 @@ using namespace jukebox::statistics;
 const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
 const std::string ERROR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
 
-Core::Core(const std::string& name,
-           std::unique_ptr<gui::IGui> iGui,
+Core::Core(std::unique_ptr<gui::IGui> iGui,
            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
            std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
            std::unique_ptr<statistics::IStatistics> iStatistics)
@@ -36,18 +35,8 @@ Core::Core(const std::string& name,
     eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
     eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
-    gui->initialize(name);
 
     gui->setMusicFolder("001");
-
-    LOG_INFO("done");
-}
-
-Core::~Core()
-{
-    gui->uninitialize();
-
-    LOG_INFO("done");
 }
 
 void Core::coinInserted50()

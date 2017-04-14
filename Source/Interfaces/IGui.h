@@ -2,7 +2,6 @@
 #define IGUI_H_INCLUDED
 
 #include "Signals.hpp"
-//TODO: check if this is not needed...
 #include "Song.h"
 
 namespace jukebox { namespace gui {
@@ -11,9 +10,6 @@ class IGui
 {
 public:
     virtual ~IGui() = default;
-    
-    virtual void initialize(const std::string& name) = 0;
-    virtual void uninitialize() = 0;
     
     virtual void refreshCredits(unsigned int credits) = 0;
     virtual void showStatusMessage(const std::string& message) = 0;

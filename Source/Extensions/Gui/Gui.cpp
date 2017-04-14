@@ -15,31 +15,17 @@ const std::string INVALID_STRING = "";
 const unsigned int INVALID_POSITION = 0;
 const unsigned int FIRST_POSITION = 1;
 
-Gui::Gui()
-: musicFolder(INVALID_STRING),
-  position(INVALID_POSITION)
+Gui::Gui(const std::string& name)
+    : mainComponent(std::make_unique<MainComponent>()),
+      mainWindow(std::make_unique<MainWindow>(name, mainComponent.get())),
+      musicFolder(INVALID_STRING),
+      position(INVALID_POSITION)
 {
+    keyPressedSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
 }
 
 Gui::~Gui()
 {
-}
-
-void Gui::initialize(const std::string& name)
-{
-    mainComponent.reset(new MainComponent);
-    keyPressedSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
-    mainWindow.reset(new MainWindow(name, mainComponent.get()));
-    
-    LOG_INFO("done");
-}
-
-void Gui::uninitialize()
-{
-    mainWindow = nullptr;
-    mainComponent = nullptr;
-    
-    LOG_INFO("done");
 }
 
 void Gui::keyPressed(const KeyPress& key)

@@ -16,12 +16,10 @@ namespace jukebox { namespace gui {
 class Gui : public IGui
 {
 public:
-    Gui();
+    Gui(const std::string& name);
+    //TODO: check why is the = default one wrong
     ~Gui();
-    
-    void initialize(const std::string& name) override;
-    void uninitialize() override;
-    
+
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(const std::string& message) override;
     
