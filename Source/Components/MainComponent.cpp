@@ -1,18 +1,18 @@
 /*
   ==============================================================================
 
-  This is an automatically generated GUI class created by the Introjucer!
+  This is an automatically generated GUI class created by the Projucer!
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Projucer version: 4.3.1
 
   ------------------------------------------------------------------------------
 
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
+  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
 */
@@ -31,6 +31,9 @@ using namespace juce;
 //==============================================================================
 MainComponent::MainComponent ()
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (infoCredit = new Label ("credits info label",
                                                TRANS("Credits:")));
     infoCredit->setFont (Font (15.00f, Font::plain));
@@ -63,7 +66,7 @@ MainComponent::MainComponent ()
     txtAlbumList->setCaretVisible (false);
     txtAlbumList->setPopupMenuEnabled (true);
     txtAlbumList->setColour (TextEditor::backgroundColourId, Colour (0xffdadada));
-    txtAlbumList->setText (String::empty);
+    txtAlbumList->setText (String());
 
     addAndMakeVisible (infoPlayQueue = new Label ("playlist queue info label",
                                                   TRANS("Songs in the queue")));
@@ -88,7 +91,7 @@ MainComponent::MainComponent ()
     txtCurrentSong->setScrollbarsShown (true);
     txtCurrentSong->setCaretVisible (false);
     txtCurrentSong->setPopupMenuEnabled (true);
-    txtCurrentSong->setText (String::empty);
+    txtCurrentSong->setText (String());
 
 
     //[UserPreSize]
@@ -131,7 +134,7 @@ void MainComponent::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colours::white);
+    g.fillAll (Colours::chocolate);
 
     //[UserPaint] Add your own custom painting code here..
 
@@ -211,9 +214,9 @@ void MainComponent::removeNextSong()
 
 //==============================================================================
 #if 0
-/*  -- Introjucer information section --
+/*  -- Projucer information section --
 
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
+    This is where the Projucer stores the metadata that describe this GUI layout, so
     make changes in here at your peril!
 
 BEGIN_JUCER_METADATA
@@ -225,7 +228,7 @@ BEGIN_JUCER_METADATA
   <METHODS>
     <METHOD name="keyPressed (const KeyPress&amp; key)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ffffffff"/>
+  <BACKGROUND backgroundColour="ffd2691e"/>
   <LABEL name="credits info label" id="b06a2a5d220c224b" memberName="infoCredit"
          virtualName="" explicitFocusOrder="0" pos="728 24 56 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Credits:" editableSingleClick="0" editableDoubleClick="0"

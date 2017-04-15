@@ -10,7 +10,7 @@ class StatisticsTest : public ::testing::Test
 protected:
     void SetUp() override
     {
-	ss.str("");
+        ss.str("");
     }
     
 protected:

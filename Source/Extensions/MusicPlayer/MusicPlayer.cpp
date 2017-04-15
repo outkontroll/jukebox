@@ -1,25 +1,54 @@
 #include "MusicPlayer.h"
-#include <iostream>
 #include "Formaters.h"
 #include "Logger.h"
 #include "JuceHeader.h"
+#include <array>
 
 using namespace jukebox;
 using namespace jukebox::audio;
 
-class MusicPlayerImplementation : public IMusicPlayer
+const std::array<std::string, 3> filesToPlay = { "/home/adam/Music/test_data/Mp3/MAINMENU.MP3",
+                                                 "/home/adam/Music/test_data/Mp3/LoopLepr.mp3",
+                                                 "/home/adam/Music/test_data/wav/AUTORUN.WAV" };
+
+enum class TransportState
+{
+    Stopped,
+    Starting,
+    Playing,
+    Stopping
+};
+
+class MusicPlayerImplementation : public juce::ChangeListener, public IMusicPlayer
 {
 public:
     MusicPlayerImplementation();
     
+    void changeListenerCallback(juce::ChangeBroadcaster* /*source*/) override;
+
     void playSong(Song) override;
     void playAlbum(Album) override;
     
     void stopPlaying() override;
     
 private:
+    TransportState state;
     juce::AudioFormatManager formatManager;
+    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+    juce::AudioTransportSource transportSource;
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 MusicPlayer::MusicPlayer() :
     pImpl(std::make_unique<MusicPlayerImplementation>())
@@ -44,9 +73,23 @@ void MusicPlayer::stopPlaying()
     pImpl->stopPlaying();
 }
 
+
+
+
+
+
+
+
 MusicPlayerImplementation::MusicPlayerImplementation()
+    : state(TransportState::Stopped)
 {
     formatManager.registerBasicFormats();
+    transportSource.addChangeListener (this);
+}
+
+void MusicPlayerImplementation::changeListenerCallback(juce::ChangeBroadcaster* /*source*/)
+{
+    //TODO do something
 }
 
 void MusicPlayerImplementation::playSong(Song song)

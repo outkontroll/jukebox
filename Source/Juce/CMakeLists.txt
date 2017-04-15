@@ -16,14 +16,17 @@ set(JUCE_LIBRARIES
 )
 
 set(JUCE_SOURCE
+    ${JUCE_DIRECTORY}/juce_audio_basics.cpp
+    ${JUCE_DIRECTORY}/juce_audio_devices.cpp
+    ${JUCE_DIRECTORY}/juce_audio_formats.cpp
+    ${JUCE_DIRECTORY}/juce_audio_processors.cpp
+    ${JUCE_DIRECTORY}/juce_audio_utils.cpp
     ${JUCE_DIRECTORY}/juce_core.cpp
     ${JUCE_DIRECTORY}/juce_data_structures.cpp
     ${JUCE_DIRECTORY}/juce_events.cpp
     ${JUCE_DIRECTORY}/juce_graphics.cpp
     ${JUCE_DIRECTORY}/juce_gui_basics.cpp
-#    ${JUCE_DIRECTORY}/juce_gui_extra.cpp
-    ${JUCE_DIRECTORY}/juce_audio_basics.cpp
-    ${JUCE_DIRECTORY}/juce_audio_formats.cpp
+    ${JUCE_DIRECTORY}/juce_gui_extra.cpp
 )
 
 add_library(project_juce
@@ -39,4 +42,4 @@ set(INCLUDE_DIRS
 
 target_include_directories(project_juce PUBLIC ${INCLUDE_DIRS})
 
-TARGET_LINK_LIBRARIES ( project_juce ${CMAKE_THREAD_LIBS_INIT} ${JUCE_LIBRARIES} )
+TARGET_LINK_LIBRARIES ( project_juce ${CMAKE_THREAD_LIBS_INIT} ${JUCE_LIBRARIES} asound)

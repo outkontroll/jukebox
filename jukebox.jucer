@@ -63,7 +63,6 @@
       <GROUP id="{2EAFB579-D0DE-5CBB-034E-DC913D79F12A}" name="Interfaces">
         <FILE id="RMptGr" name="IStatistics.h" compile="0" resource="0" file="Source/Interfaces/IStatistics.h"/>
         <FILE id="VOrzcJ" name="IMusicPlayer.h" compile="0" resource="0" file="Source/Interfaces/IMusicPlayer.h"/>
-        <FILE id="zejRzW" name="ICore.h" compile="0" resource="0" file="Source/Interfaces/ICore.h"/>
         <FILE id="afAZzP" name="ICreditManager.h" compile="0" resource="0"
               file="Source/Interfaces/ICreditManager.h"/>
         <FILE id="DaxNSp" name="IGui.h" compile="0" resource="0" file="Source/Interfaces/IGui.h"/>
@@ -88,17 +87,25 @@
         <MODULEPATH id="juce_events" path="./JuceLibraryCode/modules"/>
         <MODULEPATH id="juce_graphics" path="./JuceLibraryCode/modules"/>
         <MODULEPATH id="juce_gui_basics" path="./JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="./JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="./JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="./JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="./JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
   <JUCEOPTIONS JUCE_USE_MP3AUDIOFORMAT="enabled"/>
   <LIVE_SETTINGS>
