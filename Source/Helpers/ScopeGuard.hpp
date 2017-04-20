@@ -1,6 +1,8 @@
 #ifndef SCOPEGUARD_HPP
 #define SCOPEGUARD_HPP
 
+#include <type_traits>
+
 namespace jukebox {
 
 template<class T>
@@ -11,6 +13,7 @@ public:
     :   capturedData(capture),
         oldValue(capture)
     {
+        static_assert(std::is_copy_assignable<T>::value, "Can not assign value!");
         capturedData = valueToSet;
     }
 

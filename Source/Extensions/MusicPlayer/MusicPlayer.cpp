@@ -11,16 +11,11 @@ MusicPlayer::MusicPlayer() :
 {
 }
 
-void MusicPlayer::playSong(Song song)
+void MusicPlayer::playSong(const std::string& song)
 {
-    LOG_INFO("Playing: " << FillWithLeadingZeros(song.getAlbumNumber(), 3) << " " << FillWithLeadingZeros(song.getSongNumber(), 2));
+//    LOG_INFO("Playing: " << FillWithLeadingZeros(song.getAlbumNumber(), 3) << " " << FillWithLeadingZeros(song.getSongNumber(), 2));
+    LOG_INFO("Playing: " << song);
     pImpl->playSong(song);
-}
-
-void MusicPlayer::playAlbum(Album album)
-{
-    LOG_INFO("Playing: " << FillWithLeadingZeros(album.getAlbumNumber(), 3));
-    pImpl->playAlbum(album);
 }
 
 void MusicPlayer::stopPlaying()

@@ -1,7 +1,7 @@
 #ifndef IMUSICPLAYER_H_INCLUDED
 #define IMUSICPLAYER_H_INCLUDED
 
-#include "Song.h"
+#include <string>
 
 namespace jukebox { namespace audio {
     
@@ -10,9 +10,8 @@ class IMusicPlayer
 public:
     virtual ~IMusicPlayer() = default;
     
-    virtual void playSong(audio::Song song) = 0;
-    virtual void playAlbum(audio::Album album) = 0;
-    
+    virtual void playSong(const std::string& song) = 0;
+
     virtual void stopPlaying() = 0;
 };    
 

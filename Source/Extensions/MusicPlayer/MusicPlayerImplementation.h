@@ -1,6 +1,7 @@
 #ifndef MUSICPLAYERIMPLEMENTATION_H
 #define MUSICPLAYERIMPLEMENTATION_H
 
+#include <memory>
 #include "IMusicPlayer.h"
 #include "JuceHeader.h"
 
@@ -16,7 +17,6 @@ enum class TransportState
 
 class MusicPlayerImplementation : public juce::ChangeListener,
                                   public juce::AudioAppComponent,
-                                  //public juce::ChangeBroadcaster,
                                   public IMusicPlayer
 {
 public:
@@ -29,8 +29,7 @@ public:
     void releaseResources() override;
     void getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill) override;
 
-    void playSong(Song) override;
-    void playAlbum(Album) override;
+    void playSong(const std::string&) override;
     void stopPlaying() override;
 
 private:
@@ -38,7 +37,6 @@ private:
 
     TransportState state;
     juce::AudioFormatManager formatManager;
-    //juce::ScopedPointer<juce::AudioFormatReaderSource> readerSource;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
 };

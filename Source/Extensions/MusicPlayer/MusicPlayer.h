@@ -11,9 +11,8 @@ class MusicPlayer : public IMusicPlayer
 public:
     MusicPlayer();
 
-    void playSong(Song) override;
-    void playAlbum(Album) override;
-    
+    void playSong(const std::string&) override;
+
     void stopPlaying() override;
     
 private:

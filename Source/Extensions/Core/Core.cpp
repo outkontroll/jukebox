@@ -6,6 +6,8 @@
 #include "Formaters.h"
 #include "Logger.h"
 #include <iostream>
+//TODO remove this as this is just for testing purposes
+#include <array>
 
 using namespace jukebox::core;
 using namespace jukebox::gui;
@@ -13,8 +15,17 @@ using namespace jukebox::signals;
 using namespace jukebox::audio;
 using namespace jukebox::statistics;
 
-const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
-const std::string ERROR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
+namespace {
+    const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
+    const std::string ERROR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
+
+    const std::array<std::string, 3> filesToPlay = { "/home/adam/Music/test_data/wav/AUTORUN.WAV",
+                                                     "/home/adam/Music/test_data/Mp3/MAINMENU.MP3",
+                                                     "/home/adam/Music/test_data/Mp3/LoopLepr.mp3"};
+
+}
+
+std::string calculateFileName(Song song);
 
 Core::Core(std::unique_ptr<gui::IGui> iGui,
            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
@@ -66,7 +77,7 @@ void Core::playSong(Song song)
     else
     {
         creditManager->startPlaySong();
-        musicPlayer->playSong(song);
+        musicPlayer->playSong(calculateFileName(song));
         statistics->songPlayed(song);
         gui->refreshCredits(creditManager->getCredits());
         gui->enqueue(FillWithLeadingZeros(song.getAlbumNumber(), 3) + FillWithLeadingZeros(song.getSongNumber(), 2));
@@ -82,7 +93,9 @@ void Core::playAlbum(Album album)
     else
     {
         creditManager->startPlayAlbum();
-        musicPlayer->playAlbum(album);
+        //TODO play an album
+        //for(Song song : album)
+        //musicPlayer->playSong(song);
         statistics->albumPlayed(album);
         gui->refreshCredits(creditManager->getCredits());
         gui->enqueue(FillWithLeadingZeros(album.getAlbumNumber(), 3));
@@ -117,4 +130,12 @@ void Core::showStatistics()
 {
     //TODO: use file
     statistics->showStatistics(std::cout);
+}
+
+std::string calculateFileName(Song /*song*/)
+{
+    //TODO: get the actual filename of the song
+    static int fileToPlay = 0;
+    fileToPlay = fileToPlay % 3;
+    return filesToPlay[fileToPlay++];
 }
