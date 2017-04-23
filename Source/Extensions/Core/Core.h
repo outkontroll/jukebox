@@ -53,6 +53,8 @@ private:
     
     void showStatistics();
 
+    void finishedPlaying();
+
 private:
     jukebox::signals::Slot eventsSlot;
 

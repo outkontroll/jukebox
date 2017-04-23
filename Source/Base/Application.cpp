@@ -3,7 +3,7 @@
 //TODO: remove these includes as soon as classload is introduced
 #include "Gui.h"
 #include "CreditManager.h"
-#include "MusicPlayer.h"
+#include "MusicPlayerImplementation.h"
 #include "Statistics.h"
 //ENDTODO
 #include "Logger.h"
@@ -40,7 +40,7 @@ void jukeboxApplication::initialise (const juce::String& commandLine)
 {
     core = std::make_unique<core::Core>(std::make_unique<gui::Gui>(getApplicationName().toStdString()),
                                         std::make_unique<creditmanager::CreditManager>(),
-                                        std::make_unique<audio::MusicPlayer>(),
+                                        std::make_unique<audio::MusicPlayerImplementation>(),
                                         std::make_unique<statistics::Statistics>());
 
     eventsSlot.connect(this, &jukeboxApplication::exitRequested, core->exitRequestedSignal);

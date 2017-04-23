@@ -47,6 +47,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
     eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
 
+    eventsSlot.connect(this, &Core::finishedPlaying, musicPlayer->finishedPlayingSignal);
     gui->setMusicFolder("001");
 }
 
@@ -130,6 +131,11 @@ void Core::showStatistics()
 {
     //TODO: use file
     statistics->showStatistics(std::cout);
+}
+
+void Core::finishedPlaying()
+{
+    gui->removeNextSong();
 }
 
 std::string calculateFileName(Song /*song*/)

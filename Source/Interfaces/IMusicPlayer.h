@@ -2,6 +2,7 @@
 #define IMUSICPLAYER_H_INCLUDED
 
 #include <string>
+#include"Signals.hpp"
 
 namespace jukebox { namespace audio {
     
@@ -11,8 +12,10 @@ public:
     virtual ~IMusicPlayer() = default;
     
     virtual void playSong(const std::string& song) = 0;
-
     virtual void stopPlaying() = 0;
+
+public:
+    jukebox::signals::Signal<> finishedPlayingSignal;
 };    
 
 }}

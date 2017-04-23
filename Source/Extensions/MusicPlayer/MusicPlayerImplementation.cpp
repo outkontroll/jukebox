@@ -23,9 +23,15 @@ void MusicPlayerImplementation::changeListenerCallback(juce::ChangeBroadcaster* 
     if (source == &transportSource)
     {
         if (transportSource.isPlaying())
+        {
             changeState(TransportState::Playing);
+            LOG_INFO("Playing");
+        }
         else
+        {
             changeState(TransportState::Stopped);
+            LOG_INFO("Stopped");
+        }
     }
 }
 
@@ -86,6 +92,7 @@ void MusicPlayerImplementation::changeState(TransportState newState)
     switch (state)
     {
         case TransportState::Stopped:
+            finishedPlayingSignal();
             transportSource.setPosition (0.0);
             break;
         case TransportState::Starting:
