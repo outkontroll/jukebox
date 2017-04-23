@@ -66,14 +66,18 @@ void MusicPlayer::playSong(const std::string& song)
     }
 
     juce::AudioFormatReader* reader = formatManager.createReaderFor(file);
-    if (reader != nullptr)
+    if (reader == nullptr)
     {
-        std::unique_ptr<juce::AudioFormatReaderSource> newSource(std::make_unique<juce::AudioFormatReaderSource>(reader, true));
-        LOG_INFO("Sample rate: " << reader->sampleRate);
-        transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-        readerSource = std::move(newSource);
-        changeState(TransportState::Starting);
+        LOG_ERROR("Can not create format reader for song " << song);
+        return;
     }
+
+    LOG_INFO("Playing song: " << song);
+    std::unique_ptr<juce::AudioFormatReaderSource> newSource(std::make_unique<juce::AudioFormatReaderSource>(reader, true));
+    LOG_INFO("Sample rate: " << reader->sampleRate);
+    transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
+    readerSource = std::move(newSource);
+    changeState(TransportState::Starting);
 }
 
 void MusicPlayer::stopPlaying()
