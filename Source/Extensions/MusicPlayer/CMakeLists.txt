@@ -7,7 +7,6 @@ project(musicPlayer)
 set(HEADER_SOURCES
     ${INTERFACE_DIRECTORY}/IMusicPlayer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/MusicPlayer.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/MusicPlayerImplementation.h
     ${SOURCE_DIR}/Helpers/Song.h
 )
 
@@ -15,7 +14,6 @@ set(HEADER_SOURCES
 
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/MusicPlayer.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/MusicPlayerImplementation.cpp
 )
 
 # project
