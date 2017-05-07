@@ -25,7 +25,7 @@ public:
     
     void setMusicFolder(const std::string& folder) override;
     
-    void enqueue(const std::string& song) override;
+    void enqueue(const audio::Song& song) override;
     void removeNextSong() override;
     
 private:

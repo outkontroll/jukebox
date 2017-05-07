@@ -16,7 +16,7 @@ public:
     
     virtual void setMusicFolder(const std::string& folder) = 0;
     
-    virtual void enqueue(const std::string& song) = 0;
+    virtual void enqueue(const audio::Song& song) = 0;
     virtual void removeNextSong() = 0;
 
 public:

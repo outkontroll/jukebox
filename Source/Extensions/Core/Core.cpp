@@ -3,7 +3,6 @@
 #include "ICreditManager.h"
 #include "IMusicPlayer.h"
 #include "IStatistics.h"
-#include "Formaters.h"
 #include "Logger.h"
 #include <iostream>
 //TODO remove this as this is just for testing purposes
@@ -71,17 +70,24 @@ void Core::coinInserted200()
     
 void Core::playSong(Song song)
 {   
+    song.setFileName(calculateFileName(song));
+
     if(!creditManager->hasEnoughCreditsToPlaySong())
     {
         gui->showStatusMessage(ERROR_FEW_CREDITS_SONG);
     }
     else
     {
+//        if(!musicPlayer->isPlaying())
+//        {
+            musicPlayer->playSong(song.getFileName());
+//        }
+
         creditManager->startPlaySong();
-        musicPlayer->playSong(calculateFileName(song));
         statistics->songPlayed(song);
         gui->refreshCredits(creditManager->getCredits());
-        gui->enqueue(FillWithLeadingZeros(song.getAlbumNumber(), 3) + FillWithLeadingZeros(song.getSongNumber(), 2));
+        //gui->enqueue(FillWithLeadingZeros(song.getAlbumNumber(), 3) + FillWithLeadingZeros(song.getSongNumber(), 2));
+        gui->enqueue(song);
     }
 }
 
@@ -99,7 +105,7 @@ void Core::playAlbum(Album album)
         //musicPlayer->playSong(song);
         statistics->albumPlayed(album);
         gui->refreshCredits(creditManager->getCredits());
-        gui->enqueue(FillWithLeadingZeros(album.getAlbumNumber(), 3));
+        gui->enqueue(Song(album, 0));
     }
 }
 
@@ -136,6 +142,11 @@ void Core::showStatistics()
 void Core::finishedPlaying()
 {
     gui->removeNextSong();
+
+//    if(gui->hasNextSong())
+//    {
+//        //TODO
+//    }
 }
 
 std::string calculateFileName(Song /*song*/)

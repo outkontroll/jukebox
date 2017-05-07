@@ -2,6 +2,8 @@
 #define SONG_H_INCLUDED
 
 #include <tuple>
+#include <string>
+#include "Formaters.h"
 
 namespace jukebox { namespace audio {
 
@@ -24,15 +26,19 @@ private:
 class Song
 {
 public:
+    Song() = default;
+
     Song(unsigned int albumNumber, unsigned int songNumber)
-    : albumNumber(albumNumber),
-      songNumber(songNumber)
+    :   albumNumber(albumNumber),
+        songNumber(songNumber),
+        visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
     {
     }
 
     Song(Album album, unsigned int songNumber)
     :   albumNumber(album.getAlbumNumber()),
-        songNumber(songNumber)
+        songNumber(songNumber),
+        visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
     {
     }
 
@@ -46,14 +52,31 @@ public:
         return songNumber;
     }
 
+    inline const std::string& getFileName() const
+    {
+        return fileName;
+    }
+
+    inline void setFileName(std::string fn)
+    {
+        fileName = std::move(fn);
+    }
+
     inline bool operator<(const Song& other) const
     {
         return std::tie(albumNumber, songNumber) < std::tie(other.albumNumber, other.songNumber);
     }
 
+    inline const std::string& toString() const
+    {
+        return visibleName;
+    }
+
 private:
     unsigned int albumNumber;
     unsigned int songNumber;
+    std::string fileName;
+    std::string visibleName;
 };
 
 }}

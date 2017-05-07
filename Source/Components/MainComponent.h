@@ -23,6 +23,7 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "ListBox.hpp"
+#include "Song.h"
 #include "Signals.hpp"
 #include <string>
 #include <deque>
@@ -53,7 +54,7 @@ public:
     void refreshCredits(unsigned int credits);
     void showStatusMessage(const String& message);
     void updateAlbumList(const String& albumList);
-    void enqueue(const std::string& song);
+    void enqueue(const jukebox::audio::Song &song);
     void removeNextSong();
     //[/UserMethods]
 
@@ -65,7 +66,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    ScopedPointer<jukebox::gui::ListBox<std::deque, std::string>> listBox;
+    ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;
     unsigned int number;
     bool focusInitialised;
     //[/UserVariables]

@@ -95,7 +95,7 @@ MainComponent::MainComponent ()
 
 
     //[UserPreSize]
-    addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, std::string>);
+    addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
     //[/UserPreSize]
 
     setSize (1000, 650);
@@ -198,7 +198,7 @@ void MainComponent::updateAlbumList(const String& albumList)
     txtAlbumList->setText(albumList);
 }
 
-void MainComponent::enqueue(const std::string& song)
+void MainComponent::enqueue(const jukebox::audio::Song& song)
 {
     listBox->insertItem(song);
 }

@@ -93,7 +93,7 @@ void ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Gr
     g.setColour (juce::Colours::black);
     g.setFont (height * 0.7f);
 
-    g.drawText (items[rowNumber], 5, 0, width, height,
+    g.drawText (items[rowNumber].toString(), 5, 0, width, height,
                 juce::Justification::centredLeft, true);
 }
 

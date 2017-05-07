@@ -104,7 +104,7 @@ void Gui::updateAlbumList()
     mainComponent->updateAlbumList(albumlist);
 }
 
-void Gui::enqueue(const std::string& song)
+void Gui::enqueue(const audio::Song& song)
 {
     mainComponent->enqueue(song);
 }
