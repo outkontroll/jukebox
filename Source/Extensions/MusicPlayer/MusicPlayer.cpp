@@ -80,6 +80,11 @@ void MusicPlayer::playSong(const std::string& song)
     changeState(TransportState::Starting);
 }
 
+bool MusicPlayer::isPlaying() const
+{
+    return state != TransportState::Stopped;
+}
+
 void MusicPlayer::stopPlaying()
 {
     changeState(TransportState::Stopping);

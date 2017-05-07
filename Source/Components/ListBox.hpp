@@ -20,6 +20,7 @@ public:
                            int width, int height, bool rowIsSelected) override;
                            
     virtual void insertItem(const Item&);
+    virtual bool hasNextItem() const;
     virtual void removeNextItem();
     virtual Item getNextItem() const;
     virtual int getSize() const;
@@ -39,6 +40,7 @@ public:
     void resized() override;
 
     virtual void insertItem(const Item&);
+    virtual bool hasNextItem() const;
     virtual void removeNextItem();
     virtual Item getNextItem() const;
     virtual int getSize() const;

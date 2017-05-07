@@ -20,6 +20,8 @@ public:
     //TODO: check why is the = default one wrong
     ~Gui();
 
+    void playNextSong(const audio::Song& song);
+
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(const std::string& message) override;
     
@@ -34,7 +36,7 @@ private:
     void updateAlbumList();
     
 private:
-    jukebox::signals::Slot keyPressedSlot;
+    jukebox::signals::Slot eventsSlot;
     
     std::unique_ptr<juce::MainComponent> mainComponent;
     std::unique_ptr<MainWindow> mainWindow;

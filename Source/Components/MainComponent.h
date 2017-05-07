@@ -50,6 +50,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     jukebox::signals::Signal<const KeyPress&> keyPressedSignal;
+    jukebox::signals::Signal<const jukebox::audio::Song&> playNextSongSignal;
 
     void refreshCredits(unsigned int credits);
     void showStatusMessage(const String& message);

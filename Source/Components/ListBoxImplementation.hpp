@@ -40,6 +40,12 @@ void ListBox<Container, Item>::insertItem(const Item& item)
 }
 
 template<template<class, class> class Container, class Item>
+bool ListBox<Container, Item>::hasNextItem() const
+{
+    return sourceModel.hasNextItem();
+}
+
+template<template<class, class> class Container, class Item>
 void ListBox<Container, Item>::removeNextItem()
 {
     sourceModel.removeNextItem();
@@ -101,6 +107,12 @@ template<template<class, class> class Container, class Item>
 void ListBoxContents<Container, Item>::insertItem(const Item& item)
 {
     items.push_back(item);
+}
+
+template<template<class, class> class Container, class Item>
+bool ListBoxContents<Container, Item>::hasNextItem() const
+{
+    return items.size() > 0;
 }
 
 template<template<class, class> class Container, class Item>

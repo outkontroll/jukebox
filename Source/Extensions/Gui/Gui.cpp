@@ -21,7 +21,8 @@ Gui::Gui(const std::string& name)
       musicFolder(INVALID_STRING),
       position(INVALID_POSITION)
 {
-    keyPressedSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
+    eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
+    eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
 }
 
 Gui::~Gui()
@@ -73,6 +74,11 @@ void Gui::keyPressed(const KeyPress& key)
     {
         removePlayedSongSignal();
     }
+}
+
+void Gui::playNextSong(const Song& song)
+{
+    playNextSongSignal(song);
 }
 
 void Gui::refreshCredits(unsigned int credits)

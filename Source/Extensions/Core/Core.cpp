@@ -45,6 +45,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
     eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
+    eventsSlot.connect(this, &Core::playNextSong, gui->playNextSongSignal);
 
     eventsSlot.connect(this, &Core::finishedPlaying, musicPlayer->finishedPlayingSignal);
     gui->setMusicFolder("001");
@@ -78,10 +79,10 @@ void Core::playSong(Song song)
     }
     else
     {
-//        if(!musicPlayer->isPlaying())
-//        {
+        if(!musicPlayer->isPlaying())
+        {
             musicPlayer->playSong(song.getFileName());
-//        }
+        }
 
         creditManager->startPlaySong();
         statistics->songPlayed(song);
@@ -139,14 +140,14 @@ void Core::showStatistics()
     statistics->showStatistics(std::cout);
 }
 
+void Core::playNextSong(const Song& song)
+{
+    musicPlayer->playSong(song.getFileName());
+}
+
 void Core::finishedPlaying()
 {
     gui->removeNextSong();
-
-//    if(gui->hasNextSong())
-//    {
-//        //TODO
-//    }
 }
 
 std::string calculateFileName(Song /*song*/)

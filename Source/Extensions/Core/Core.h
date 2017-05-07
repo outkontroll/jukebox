@@ -55,6 +55,8 @@ private:
 
     void finishedPlaying();
 
+    void playNextSong(const audio::Song& song);
+
 private:
     jukebox::signals::Slot eventsSlot;
 

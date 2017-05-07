@@ -30,6 +30,7 @@ public:
     void getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill) override;
 
     void playSong(const std::string&) override;
+    bool isPlaying() const override;
     void stopPlaying() override;
 
 private:
@@ -39,8 +40,6 @@ private:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
-
-
 };
 
 }}

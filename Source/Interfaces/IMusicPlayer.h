@@ -12,6 +12,7 @@ public:
     virtual ~IMusicPlayer() = default;
     
     virtual void playSong(const std::string& song) = 0;
+    virtual bool isPlaying() const = 0;
     virtual void stopPlaying() = 0;
 
 public:

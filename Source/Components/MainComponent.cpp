@@ -206,7 +206,11 @@ void MainComponent::enqueue(const jukebox::audio::Song& song)
 void MainComponent::removeNextSong()
 {
     listBox->removeNextItem();
-    //TODO: Signal next song
+
+    if(listBox->hasNextItem())
+    {
+        playNextSongSignal(listBox->getNextItem());
+    }
 }
 
 //[/MiscUserCode]
