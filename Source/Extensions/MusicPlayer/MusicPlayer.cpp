@@ -87,8 +87,11 @@ bool MusicPlayer::isPlaying() const
 
 void MusicPlayer::stopPlaying()
 {
-    changeState(TransportState::Stopping);
-    LOG_INFO("Stoped playing.");
+    if(state != TransportState::Stopped)
+    {
+        changeState(TransportState::Stopping);
+        LOG_INFO("Stoped playing.");
+    }
 }
 
 void MusicPlayer::changeState(TransportState newState)

@@ -113,7 +113,6 @@ void Core::playAlbum(Album album)
 void Core::removePlayedSong()
 {
     musicPlayer->stopPlaying();
-    gui->removeNextSong();
 }
     
 void Core::creditIncrease()
