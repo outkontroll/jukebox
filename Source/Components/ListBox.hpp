@@ -5,8 +5,21 @@
 
 namespace jukebox { namespace gui {
 
+template<class Item>
+class IListBox
+{
+public:
+    virtual ~IListBox() = default;
+
+    virtual void insertItem(const Item&) = 0;
+    virtual bool hasNextItem() const = 0;
+    virtual void removeNextItem() = 0;
+    virtual Item getNextItem() const = 0;
+    virtual int getSize() const = 0;
+};
+
 template<template<class, class> class Container, class Item>
-class ListBoxContents : public juce::ListBoxModel
+class ListBoxContents : public juce::ListBoxModel, private IListBox<Item>
 {
 public:
     ListBoxContents() = default;
@@ -19,18 +32,18 @@ public:
     void paintListBoxItem (int rowNumber, juce::Graphics& g,
                            int width, int height, bool rowIsSelected) override;
                            
-    virtual void insertItem(const Item&);
-    virtual bool hasNextItem() const;
-    virtual void removeNextItem();
-    virtual Item getNextItem() const;
-    virtual int getSize() const;
+    void insertItem(const Item&) override;
+    bool hasNextItem() const override;
+    void removeNextItem() override;
+    Item getNextItem() const override;
+    int getSize() const override;
     
 private:
     Container<Item, std::allocator<Item> > items;
 };
 
 template<template<class, class> class Container, class Item>
-class ListBox : public juce::Component
+class ListBox : public juce::Component, private IListBox<Item>
 {
 public:
     ListBox();
@@ -39,11 +52,11 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    virtual void insertItem(const Item&);
-    virtual bool hasNextItem() const;
-    virtual void removeNextItem();
-    virtual Item getNextItem() const;
-    virtual int getSize() const;
+    void insertItem(const Item&) override;
+    bool hasNextItem() const override;
+    void removeNextItem() override;
+    Item getNextItem() const override;
+    int getSize() const override;
 
 private:
     juce::ListBox sourceListBox;
