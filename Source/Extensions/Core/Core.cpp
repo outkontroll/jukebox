@@ -154,5 +154,5 @@ std::string calculateFileName(Song /*song*/)
     //TODO: get the actual filename of the song
     static int fileToPlay = 0;
     fileToPlay = fileToPlay % 3;
-    return filesToPlay[fileToPlay++];
+    return std::string(filesToPlay[fileToPlay++]);
 }
