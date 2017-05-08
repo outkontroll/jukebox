@@ -3,6 +3,7 @@
 #include "ICreditManager.h"
 #include "IMusicPlayer.h"
 #include "IStatistics.h"
+#include "ISettings.h"
 #include "Logger.h"
 #include <iostream>
 //TODO remove this as this is just for testing purposes
@@ -13,6 +14,7 @@ using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
 using namespace jukebox::statistics;
+using namespace jukebox::settings;
 
 namespace {
     const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
@@ -29,11 +31,13 @@ std::string calculateFileName(Song song);
 Core::Core(std::unique_ptr<gui::IGui> iGui,
            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
            std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
-           std::unique_ptr<statistics::IStatistics> iStatistics)
+           std::unique_ptr<statistics::IStatistics> iStatistics,
+           std::unique_ptr<settings::ISettings> iSettings)
     : gui(std::move(iGui)),
       creditManager(std::move(iCreditManager)),
       musicPlayer(std::move(iMusicPlayer)),
-      statistics(std::move(iStatistics))
+      statistics(std::move(iStatistics)),
+      settings(std::move(iSettings))
 {
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
     eventsSlot.connect(this, &Core::coinInserted100, gui->coinInserted100Signal);
@@ -48,7 +52,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::playNextSong, gui->playNextSongSignal);
 
     eventsSlot.connect(this, &Core::finishedPlaying, musicPlayer->finishedPlayingSignal);
-    gui->setMusicFolder("001");
+    gui->setMusicFolder(settings->getMusicDirectory());
 }
 
 void Core::coinInserted50()
@@ -68,9 +72,9 @@ void Core::coinInserted200()
     creditManager->coinInsert200();
     gui->refreshCredits(creditManager->getCredits());
 }
-    
+
 void Core::playSong(Song song)
-{   
+{
     song.setFileName(calculateFileName(song));
 
     if(!creditManager->hasEnoughCreditsToPlaySong())

@@ -15,8 +15,7 @@ public:
     void showStatistics(std::ostream& os) override;
     
 private:
-    using T_PlayedSongs = std::map<audio::Song, unsigned int>;
-    T_PlayedSongs playedSongs;
+    std::map<audio::Song, unsigned int> playedSongs;
 };
 
 }}

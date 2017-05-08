@@ -7,21 +7,20 @@
 
 namespace jukebox {
 
-namespace gui
-{
+namespace gui {
     class IGui;
 }
-namespace creditmanager
-{
+namespace creditmanager {
     class ICreditManager;
 }
-namespace audio
-{
+namespace audio {
     class IMusicPlayer;
 }
-namespace statistics
-{
+namespace statistics {
     class IStatistics;
+}
+namespace settings {
+    class ISettings;
 }
 
 namespace core {
@@ -32,7 +31,8 @@ public:
     Core(std::unique_ptr<gui::IGui> iGui,
          std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
          std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
-         std::unique_ptr<statistics::IStatistics> iStatistics);
+         std::unique_ptr<statistics::IStatistics> iStatistics,
+         std::unique_ptr<settings::ISettings> iSettings);
 
     //TODO: this should be private
     jukebox::signals::Signal<> exitRequestedSignal;
@@ -64,6 +64,7 @@ private:
     std::unique_ptr<creditmanager::ICreditManager> creditManager;
     std::unique_ptr<audio::IMusicPlayer> musicPlayer;
     std::unique_ptr<statistics::IStatistics> statistics;
+    std::unique_ptr<settings::ISettings> settings;
 };
 
 }}

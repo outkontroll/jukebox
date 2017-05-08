@@ -129,6 +129,7 @@ set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/CreditManager
     ${SOURCE_DIR}/Extensions/MusicPlayer
     ${SOURCE_DIR}/Extensions/Statistics
+    ${SOURCE_DIR}/Extensions/Settings
 )
 
 target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
@@ -141,10 +142,8 @@ target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
 # projects
 
 add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
-#add_subdirectory(${SOURCE_DIR}/Components ${PROJECT_BINARY_DIR}/Source/Components)
 add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
-#add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
 add_subdirectory(${SOURCE_DIR}/Juce ${PROJECT_BINARY_DIR}/Source/Juce)   #Juce
 add_subdirectory(${SOURCE_DIR}/Tests)
 
-target_link_libraries(music_jukebox PUBLIC logger project_juce core gui creditManager musicPlayer statistics)
+target_link_libraries(music_jukebox PUBLIC logger project_juce core gui creditManager musicPlayer statistics settings)
