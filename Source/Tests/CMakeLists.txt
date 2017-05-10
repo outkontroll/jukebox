@@ -19,8 +19,9 @@ set(TESTING_INCLUDE_DIRS
 
 #link_directories(${LINK_DIRS})
 
-add_subdirectory(Statistics)
 add_subdirectory(CreditManager)
+add_subdirectory(Settings)
+add_subdirectory(Statistics)
 #TODO: test Core functionality trough integration tests
 #add_subdirectory(Core)
 

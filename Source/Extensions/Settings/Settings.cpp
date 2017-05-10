@@ -1,13 +1,14 @@
 #include "Settings.h"
 #include "Logger.h"
 
-namespace {
-    const std::string DefaultMusicDirectory = "/home/adam/Music/test_data/music";
-}
-
 using namespace jukebox::settings;
+
+Settings::Settings(const std::string& musicDir)
+:   musicDirectory(musicDir)
+{
+}
 
 std::string Settings::getMusicDirectory()
 {
-    return DefaultMusicDirectory;
+    return musicDirectory;
 }
