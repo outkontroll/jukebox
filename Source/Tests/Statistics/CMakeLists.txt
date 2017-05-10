@@ -20,17 +20,7 @@ set(INCLUDE_DIRS
     ${TESTING_INCLUDE_DIRS}
 )
 
-#set(LINK_DIRS
-#    ${CMAKE_CURRENT_SOURCE_DIR}/../../googleTest
-#)
-
 target_include_directories(unittest_Statistics PUBLIC ${INCLUDE_DIRS})
-
-#find_library(gtest
-#             NAMES "gtest"
-#             PATHS ${LINK_DIRS} NO_DEFAULT_PATH)
-
-#link_directories(${LINK_DIRS})
 
 target_link_libraries(unittest_Statistics 
 		      statistics

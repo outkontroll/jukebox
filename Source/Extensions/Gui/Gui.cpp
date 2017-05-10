@@ -11,15 +11,17 @@ using namespace jukebox::audio;
 using namespace jukebox::filesystem;
 using namespace juce;
 
-const std::string INVALID_STRING = "";
-const unsigned int INVALID_POSITION = 0;
-const unsigned int FIRST_POSITION = 1;
+namespace {
+    const std::string InvalidString = "";
+    const unsigned int InvalidPosition = 0;
+    const unsigned int FirstPosition = 1;
+}
 
 Gui::Gui(const std::string& name)
     : mainComponent(std::make_unique<MainComponent>()),
       mainWindow(std::make_unique<MainWindow>(name, mainComponent.get())),
-      musicFolder(INVALID_STRING),
-      position(INVALID_POSITION)
+      musicFolder(InvalidString),
+      position(InvalidPosition)
 {
     eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
     eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
@@ -94,7 +96,7 @@ void Gui::showStatusMessage(const std::string& message)
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
-    position = FIRST_POSITION;
+    position = FirstPosition;
     updateAlbumList();
 }
 

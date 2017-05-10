@@ -21,5 +21,7 @@ set(TESTING_INCLUDE_DIRS
 
 add_subdirectory(Statistics)
 add_subdirectory(CreditManager)
+#TODO: test Core functionality trough integration tests
+#add_subdirectory(Core)
 
 enable_testing()
