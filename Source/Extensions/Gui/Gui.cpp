@@ -4,6 +4,8 @@
 #include "FileSystem.h"
 #include "Logger.h"
 #include <algorithm>
+//TODO remove this as this is just for testing purposes
+#include <array>
 
 using namespace jukebox::gui;
 using namespace jukebox::signals;
@@ -15,6 +17,9 @@ namespace {
     const std::string InvalidString = "";
     const unsigned int InvalidPosition = 0;
     const unsigned int FirstPosition = 1;
+
+    //TODO remove this as this is just for testing purposes
+    const std::array<unsigned, 3> filesToPlay = { 1, 16, 4 };
 }
 
 Gui::Gui(const std::string& name)
@@ -62,10 +67,15 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(keyChar == 'x')
     {
-        playSongSignal(Song(1, 5));
+        static int fileToPlay = 0;
+        ++fileToPlay;
+        fileToPlay = fileToPlay % 3;
+        //TODO
+        playSongSignal(Song(7, filesToPlay[fileToPlay]));
     }
     else if(keyChar == 'v')
     {
+        //TODO
         playAlbumSignal(Album(12));
     }
     else if(keyCode == KeyPress::escapeKey)

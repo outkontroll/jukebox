@@ -6,9 +6,8 @@
 #include "ISettings.h"
 #include "Logger.h"
 #include <iostream>
-//TODO remove this as this is just for testing purposes
-#include <array>
 
+using namespace jukebox;
 using namespace jukebox::core;
 using namespace jukebox::gui;
 using namespace jukebox::signals;
@@ -19,14 +18,9 @@ using namespace jukebox::settings;
 namespace {
     const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
     const std::string ERROR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
-
-    const std::array<std::string, 3> filesToPlay = { "/home/adam/Music/test_data/wav/AUTORUN.WAV",
-                                                     "/home/adam/Music/test_data/Mp3/MAINMENU.MP3",
-                                                     "/home/adam/Music/test_data/Mp3/LoopLepr.mp3"};
-
 }
 
-std::string calculateFileName(Song song);
+std::string calculateFileName(const std::string& musicDirectory, Song song);
 
 Core::Core(std::unique_ptr<gui::IGui> iGui,
            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
@@ -75,7 +69,7 @@ void Core::coinInserted200()
 
 void Core::playSong(Song song)
 {
-    song.setFileName(calculateFileName(song));
+    song.setFileName(calculateFileName(settings->getMusicDirectory(), song));
 
     if(!creditManager->hasEnoughCreditsToPlaySong())
     {
@@ -153,10 +147,8 @@ void Core::finishedPlaying()
     gui->removeNextSong();
 }
 
-std::string calculateFileName(Song /*song*/)
+std::string calculateFileName(const std::string& musicDirectory, Song song)
 {
-    //TODO: get the actual filename of the song
-    static int fileToPlay = 0;
-    fileToPlay = fileToPlay % 3;
-    return std::string(filesToPlay[fileToPlay++]);
+    //TODO: get the files list and use the one with leading number
+    return musicDirectory + "/" + FillWithLeadingZeros(song.getAlbumNumber(), 3) + "/" + FillWithLeadingZeros(song.getSongNumber(), 2) + ".mp3";
 }

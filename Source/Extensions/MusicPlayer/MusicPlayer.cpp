@@ -15,6 +15,7 @@ MusicPlayer::MusicPlayer()
 
 MusicPlayer::~MusicPlayer()
 {
+    changeState(TransportState::Stopping);
     shutdownAudio();
 }
 
@@ -62,6 +63,7 @@ void MusicPlayer::playSong(const std::string& song)
     if(!file.existsAsFile())
     {
         LOG_ERROR("File " << song << " does not exists! Skip playing");
+        //TODO throw and exception!
         return;
     }
 
