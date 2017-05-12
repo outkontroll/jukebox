@@ -31,6 +31,7 @@ public:
     Song(unsigned int albumNumber, unsigned int songNumber)
     :   albumNumber(albumNumber),
         songNumber(songNumber),
+        fileName(""),
         visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
     {
     }
@@ -38,6 +39,7 @@ public:
     Song(Album album, unsigned int songNumber)
     :   albumNumber(album.getAlbumNumber()),
         songNumber(songNumber),
+        fileName(""),
         visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
     {
     }

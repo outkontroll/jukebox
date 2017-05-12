@@ -135,7 +135,7 @@ Item ListBoxContents<Container, Item>::getNextItem() const
 
     if(size > 0)
     {
-        return items[size - 1];
+        return items[0];
     }
 
     return Item();
