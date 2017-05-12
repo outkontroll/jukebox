@@ -72,7 +72,7 @@ void MusicPlayer::playSong(const std::string& song)
         return;
     }
 
-    LOG_INFO("Playing song: " << song);
+    LOG_INFO("Start playing song: " << song);
     std::unique_ptr<juce::AudioFormatReaderSource> newSource(std::make_unique<juce::AudioFormatReaderSource>(reader, true));
     LOG_INFO("Sample rate: " << reader->sampleRate);
     transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
