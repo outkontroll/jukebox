@@ -61,12 +61,6 @@ Item ListBox<Container, Item>::getNextItem() const
 }
 
 template<template<class, class> class Container, class Item>
-int ListBox<Container, Item>::getSize() const
-{
-    return sourceModel.getSize();
-}
-
-template<template<class, class> class Container, class Item>
 void ListBox<Container, Item>::resized()
 {
     juce::Rectangle<int> r (getLocalBounds().reduced (8));
@@ -131,20 +125,12 @@ void ListBoxContents<Container, Item>::removeNextItem()
 template<template<class, class> class Container, class Item>
 Item ListBoxContents<Container, Item>::getNextItem() const
 {
-    int size = getSize();
-
-    if(size > 0)
+    if(items.size() > 0)
     {
         return items[0];
     }
 
     return Item();
-}
-
-template<template<class, class> class Container, class Item>
-int ListBoxContents<Container, Item>::getSize() const
-{
-    return items.size();
 }
 
 }}

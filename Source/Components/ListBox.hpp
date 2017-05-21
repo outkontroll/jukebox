@@ -15,7 +15,6 @@ public:
     virtual bool hasNextItem() const = 0;
     virtual void removeNextItem() = 0;
     virtual Item getNextItem() const = 0;
-    virtual int getSize() const = 0;
 };
 
 template<template<class, class> class Container, class Item>
@@ -36,7 +35,6 @@ public:
     bool hasNextItem() const override;
     void removeNextItem() override;
     Item getNextItem() const override;
-    int getSize() const override;
     
 private:
     Container<Item, std::allocator<Item> > items;
@@ -56,7 +54,6 @@ public:
     bool hasNextItem() const override;
     void removeNextItem() override;
     Item getNextItem() const override;
-    int getSize() const override;
 
 private:
     juce::ListBox sourceListBox;
