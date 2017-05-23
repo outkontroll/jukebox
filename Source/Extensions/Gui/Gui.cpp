@@ -133,9 +133,9 @@ void Gui::enqueue(const audio::Song& song)
     mainComponent->enqueue(song);
 }
 
-void Gui::removeNextSong()
+void Gui::removeCurrentSong()
 {
-    mainComponent->removeNextSong();
+    mainComponent->removeCurrentSong();
 }
 
 void Gui::updateAlbumList()

@@ -17,7 +17,7 @@ public:
     virtual void setMusicFolder(const std::string& folder) = 0;
     
     virtual void enqueue(const audio::Song& song) = 0;
-    virtual void removeNextSong() = 0;
+    virtual void removeCurrentSong() = 0;
 
 public:
     jukebox::signals::Signal<> coinInserted50Signal;

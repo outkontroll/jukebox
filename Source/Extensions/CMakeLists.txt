@@ -5,6 +5,7 @@ set(EXTENSION_INCLUDE_DIRS
     ${SOURCE_DIR}/Helpers/
     ${SOURCE_DIR}/Helpers/Logging/
     ${SOURCE_DIR}/Helpers/Signaling/
+    ${SOURCE_DIR}/Helpers/Exceptions/
 )
 
 add_subdirectory(Core)

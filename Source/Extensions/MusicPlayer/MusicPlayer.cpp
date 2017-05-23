@@ -1,5 +1,7 @@
 #include "MusicPlayer.h"
 #include "Logger.h"
+#include "MusicPlayerExceptions.h"
+#include <cassert>
 
 using namespace juce;
 using namespace jukebox::audio;
@@ -59,19 +61,20 @@ void MusicPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 
 void MusicPlayer::playSong(const std::string& song)
 {
+    assert(!isPlaying());
+
     juce::File file(song);
     if(!file.existsAsFile())
     {
         LOG_ERROR("File " << song << " does not exists! Skip playing");
-        //TODO throw and exception!
-        return;
+        throw FileNotFoundException();
     }
 
     juce::AudioFormatReader* reader = formatManager.createReaderFor(file);
     if (reader == nullptr)
     {
         LOG_ERROR("Can not create format reader for song " << song);
-        return;
+        throw FormatReaderException();
     }
 
     LOG_INFO("Start playing song: " << song);

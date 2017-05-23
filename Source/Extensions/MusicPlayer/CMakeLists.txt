@@ -8,6 +8,7 @@ set(HEADER_SOURCES
     ${INTERFACE_DIRECTORY}/IMusicPlayer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/MusicPlayer.h
     ${SOURCE_DIR}/Helpers/Song.h
+    ${SOURCE_DIR}/Helpers/Exceptions/MusicPlayerExceptions.h
 )
 
 # sources

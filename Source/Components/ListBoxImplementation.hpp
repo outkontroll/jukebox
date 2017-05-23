@@ -46,9 +46,9 @@ bool ListBox<Container, Item>::hasNextItem() const
 }
 
 template<template<class, class> class Container, class Item>
-void ListBox<Container, Item>::removeNextItem()
+void ListBox<Container, Item>::removeCurrentItem()
 {
-    sourceModel.removeNextItem();
+    sourceModel.removeCurrentItem();
     
     //without this call the changes would not be visible
     repaint();
@@ -110,7 +110,7 @@ bool ListBoxContents<Container, Item>::hasNextItem() const
 }
 
 template<template<class, class> class Container, class Item>
-void ListBoxContents<Container, Item>::removeNextItem()
+void ListBoxContents<Container, Item>::removeCurrentItem()
 {
     if(items.size() > 0)
     {

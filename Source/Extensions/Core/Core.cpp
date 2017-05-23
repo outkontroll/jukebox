@@ -5,6 +5,7 @@
 #include "IStatistics.h"
 #include "ISettings.h"
 #include "Logger.h"
+#include "MusicPlayerExceptions.h"
 #include <iostream>
 
 using namespace jukebox;
@@ -16,8 +17,9 @@ using namespace jukebox::statistics;
 using namespace jukebox::settings;
 
 namespace {
-    const std::string ERROR_FEW_CREDITS_SONG = "Too few credits to play a song!";
-    const std::string ERROR_FEW_CREDITS_ALBUM = "Too few credits to play an album!";
+    const std::string ErrorFewCreditsSong = "Too few credits to play a song!";
+    const std::string ErrorFewCreditsAlbum = "Too few credits to play an album!";
+    const std::string ErrorDuringSongPlaying = "An unexpected error occured during playing song: ";
 }
 
 std::string calculateFileName(const std::string& musicDirectory, Song song);
@@ -73,20 +75,26 @@ void Core::playSong(Song song)
 
     if(!creditManager->hasEnoughCreditsToPlaySong())
     {
-        gui->showStatusMessage(ERROR_FEW_CREDITS_SONG);
+        gui->showStatusMessage(ErrorFewCreditsSong);
     }
     else
     {
-        if(!musicPlayer->isPlaying())
-        {
-            musicPlayer->playSong(song.getFileName());
-        }
-
         creditManager->startPlaySong();
-        statistics->songPlayed(song);
         gui->refreshCredits(creditManager->getCredits());
-        //gui->enqueue(FillWithLeadingZeros(song.getAlbumNumber(), 3) + FillWithLeadingZeros(song.getSongNumber(), 2));
-        gui->enqueue(song);
+        statistics->songPlayed(song);
+
+        try
+        {
+            if(!musicPlayer->isPlaying())
+            {
+                musicPlayer->playSong(song.getFileName());
+            }
+
+            gui->enqueue(song);
+        }
+        catch(MusicPlayerException&)
+        {
+        }
     }
 }
 
@@ -94,17 +102,20 @@ void Core::playAlbum(Album album)
 {
     if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {
-        gui->showStatusMessage(ERROR_FEW_CREDITS_ALBUM);
+        gui->showStatusMessage(ErrorFewCreditsAlbum);
     }
     else
     {
         creditManager->startPlayAlbum();
+        gui->refreshCredits(creditManager->getCredits());
+        statistics->albumPlayed(album);
+
         //TODO play an album
         //for(Song song : album)
         //musicPlayer->playSong(song);
-        statistics->albumPlayed(album);
-        gui->refreshCredits(creditManager->getCredits());
-        gui->enqueue(Song(album, 0));
+        Song song(album, 0);
+        song.setFileName("albumTesting");
+        gui->enqueue(song);
     }
 }
 
@@ -139,12 +150,20 @@ void Core::showStatistics()
 
 void Core::playNextSong(const Song& song)
 {
-    musicPlayer->playSong(song.getFileName());
+    try
+    {
+        musicPlayer->playSong(song.getFileName());
+    }
+    catch(MusicPlayerException&)
+    {
+        gui->showStatusMessage(ErrorDuringSongPlaying + song.toString());
+        gui->removeCurrentSong();
+    }
 }
 
 void Core::finishedPlaying()
 {
-    gui->removeNextSong();
+    gui->removeCurrentSong();
 }
 
 std::string calculateFileName(const std::string& musicDirectory, Song song)

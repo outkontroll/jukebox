@@ -13,7 +13,7 @@ public:
 
     virtual void insertItem(const Item&) = 0;
     virtual bool hasNextItem() const = 0;
-    virtual void removeNextItem() = 0;
+    virtual void removeCurrentItem() = 0;
     virtual Item getNextItem() const = 0;
 };
 
@@ -33,7 +33,7 @@ public:
                            
     void insertItem(const Item&) override;
     bool hasNextItem() const override;
-    void removeNextItem() override;
+    void removeCurrentItem() override;
     Item getNextItem() const override;
     
 private:
@@ -52,7 +52,7 @@ public:
 
     void insertItem(const Item&) override;
     bool hasNextItem() const override;
-    void removeNextItem() override;
+    void removeCurrentItem() override;
     Item getNextItem() const override;
 
 private:

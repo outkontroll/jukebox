@@ -28,7 +28,7 @@ public:
     void setMusicFolder(const std::string& folder) override;
     
     void enqueue(const audio::Song& song) override;
-    void removeNextSong() override;
+    void removeCurrentSong() override;
     
 private:
     void keyPressed(const juce::KeyPress& key);

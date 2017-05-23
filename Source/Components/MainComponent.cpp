@@ -203,9 +203,9 @@ void MainComponent::enqueue(const jukebox::audio::Song& song)
     listBox->insertItem(song);
 }
 
-void MainComponent::removeNextSong()
+void MainComponent::removeCurrentSong()
 {
-    listBox->removeNextItem();
+    listBox->removeCurrentItem();
 
     if(listBox->hasNextItem())
     {

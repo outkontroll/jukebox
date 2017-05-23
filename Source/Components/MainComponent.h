@@ -56,7 +56,7 @@ public:
     void showStatusMessage(const String& message);
     void updateAlbumList(const String& albumList);
     void enqueue(const jukebox::audio::Song &song);
-    void removeNextSong();
+    void removeCurrentSong();
     //[/UserMethods]
 
     void paint (Graphics& g) override;
