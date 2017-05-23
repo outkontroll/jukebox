@@ -34,8 +34,8 @@ private:
     void keyPressed(const juce::KeyPress& key);
     
     void updateAlbumList();
-    
-private:
+    void showHelp();
+
     jukebox::signals::Slot eventsSlot;
     
     std::unique_ptr<juce::MainComponent> mainComponent;

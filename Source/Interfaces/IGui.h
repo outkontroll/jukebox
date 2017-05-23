@@ -27,6 +27,9 @@ public:
     jukebox::signals::Signal<audio::Song> playSongSignal;
     jukebox::signals::Signal<audio::Album> playAlbumSignal;
     jukebox::signals::Signal<> removePlayedSongSignal;
+
+    jukebox::signals::Signal<> increaseSoundVolumeSignal;
+    jukebox::signals::Signal<> decreaseSoundVolumeSignal;
     
     jukebox::signals::Signal<> creditIncreaseSignal;
     jukebox::signals::Signal<> creditDecreaseSignal;
@@ -36,6 +39,8 @@ public:
     jukebox::signals::Signal<> showStatisticsSignal;
 
     jukebox::signals::Signal<const audio::Song&> playNextSongSignal;
+
+    jukebox::signals::Signal<> shutDownSignal;
 };
 
 }}

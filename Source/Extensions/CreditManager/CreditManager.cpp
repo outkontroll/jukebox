@@ -56,7 +56,7 @@ bool CreditManager::hasEnoughCreditsToPlayAlbum()
 
 bool CreditManager::startPlaySong()
 {
-    if(! hasEnoughCreditsToPlaySong())
+    if(!hasEnoughCreditsToPlaySong())
     {
         LOG_ERROR("there is not enough credit: " << credits);
         return false;
@@ -70,7 +70,7 @@ bool CreditManager::startPlaySong()
 
 bool CreditManager::startPlayAlbum()
 {
-    if(! hasEnoughCreditsToPlayAlbum())
+    if(!hasEnoughCreditsToPlayAlbum())
     {
         LOG_ERROR("there is not enough credit: " << credits);
         return false;

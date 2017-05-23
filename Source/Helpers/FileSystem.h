@@ -9,11 +9,9 @@ namespace jukebox { namespace filesystem {
 class FileSystem
 {
 public:
-    using T_AlbumDirectories = std::vector<std::string> ;
-    static T_AlbumDirectories getAlbumDirectories(const std::string& path);
-    
-    using T_SongFiles = std::vector<std::string>;
-    static T_SongFiles getSongFiles(const std::string& path, const std::string& extensions = "*.wav");
+    static std::vector<std::string> getAlbumDirectories(const std::string& path);
+
+    static std::vector<std::string> getSongFiles(const std::string& path, const std::string& extensions = "*.wav");
 };
 
 }}

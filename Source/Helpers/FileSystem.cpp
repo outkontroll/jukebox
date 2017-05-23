@@ -3,15 +3,15 @@
 
 using namespace jukebox::filesystem;
 
-FileSystem::T_AlbumDirectories FileSystem::getAlbumDirectories(const std::string& path)
+std::vector<std::string> FileSystem::getAlbumDirectories(const std::string& path)
 {
-    if(path == "")
+    std::vector<std::string> albumDirs;
+    if(path.empty())
     {
         LOG_WARNING("called with empty path!");
-        return T_AlbumDirectories();
+        return albumDirs;
     }
-        
-    T_AlbumDirectories albumDirs;
+
     //TODO
     albumDirs.push_back("kamu");
     albumDirs.push_back(std::string("adatok"));
@@ -19,14 +19,15 @@ FileSystem::T_AlbumDirectories FileSystem::getAlbumDirectories(const std::string
     return albumDirs;
 }
     
-FileSystem::T_SongFiles FileSystem::getSongFiles(const std::string& path, const std::string& /*extensions*/)
+std::vector<std::string> FileSystem::getSongFiles(const std::string& path, const std::string& /*extensions*/)
 {
+    std::vector<std::string> songFiles;
     if(path == "")
     {
         LOG_WARNING("called with empty path!");
-        return T_SongFiles();
+        return songFiles;
     }
     
     //TODO
-    return T_SongFiles();
+    return songFiles;
 }
