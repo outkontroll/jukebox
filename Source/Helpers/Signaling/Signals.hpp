@@ -39,11 +39,11 @@ protected:
     std::vector<Signal<Args...>*> sigs;
 };
 
-template<class T, class... Args>
+template<class T, typename ReturnType, class... Args>
 class ConcreteSlot : public AbstractSlot<Args...>
 {
 public:
-    ConcreteSlot(T* t, void(T::*func)(Args...), Signal<Args...>& sig);
+    ConcreteSlot(T* t, ReturnType(T::*func)(Args...), Signal<Args...>& sig);
 
 private:
     ConcreteSlot(const ConcreteSlot&) = delete;
@@ -57,7 +57,7 @@ private:
     }
 
     T *t;
-    void(T::*func)(Args...);
+    ReturnType(T::*func)(Args...);
 };
 
 template<class... Args>
@@ -109,8 +109,8 @@ AbstractSlot<Args...>::~AbstractSlot()
     }
 }
 
-template<class T, class... Args> 
-ConcreteSlot<T, Args...>::ConcreteSlot(T* t, void(T::*func)(Args...), Signal<Args...>& sig)
+template<class T, typename ReturnType, class... Args>
+ConcreteSlot<T, ReturnType, Args...>::ConcreteSlot(T* t, ReturnType(T::*func)(Args...), Signal<Args...>& sig)
 : t(t),
     func(func)
 {
@@ -130,10 +130,10 @@ public:
         }
     }
 
-    template<class T, class... Args>
-    void connect(T* t, void(T::*func)(Args...), Signal<Args...>& sig)
+    template<class T, typename ReturnType, class... Args>
+    void connect(T* t, ReturnType(T::*func)(Args...), Signal<Args...>& sig)
     {
-        baseSlots.push_back(new ConcreteSlot<T, Args...>(t, func, sig));
+        baseSlots.push_back(new ConcreteSlot<T, ReturnType, Args...>(t, func, sig));
     }
 
 private:
