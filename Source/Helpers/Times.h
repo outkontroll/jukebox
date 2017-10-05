@@ -5,7 +5,7 @@
 
 namespace jukebox {
     
-    // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
+    // Format is YYYY-MM-DD.HH:mm:ss
     std::string CurrentDateTime();
     
 }

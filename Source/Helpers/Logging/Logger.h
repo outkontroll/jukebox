@@ -9,20 +9,20 @@ namespace jukebox { namespace log {
 
 class Logger
 {
-    public:
-        static Logger& getInstance();
-        
-        void setLogFileName(const std::string& fileName);
-        void log(const std::string& logText);
+public:
+    static Logger& getInstance();
 
-        jukebox::ScopeGuard<bool> disableLog();
-        
-    private:
-        Logger();
-        
-    private:
-        std::string logFileName;
-        bool enabled;
+    void setLogFileName(const std::string& fileName);
+    void log(const std::string& logText);
+
+    jukebox::ScopeGuard<bool> disableLog();
+
+private:
+    Logger();
+
+private:
+    std::string logFileName;
+    bool enabled;
 };
 
 #define LOG_INFO(logText) LOG_INFO_DETAILED(jukebox::log::Logger::getInstance(), logText);

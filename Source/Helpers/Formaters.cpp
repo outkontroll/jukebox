@@ -5,14 +5,14 @@
 
 std::string jukebox::FillWithLeadingZeros(unsigned int number, unsigned int length)
 {
-    if(! length)
+    if(length == 0)
     {
         LOG_WARNING("called with 0 length!");
         return "";
     }
         
     std::stringstream ss;
-    ss << std::setw(length) << std::setfill('0') << number;
+    ss << std::setw(static_cast<int>(length)) << std::setfill('0') << number;
     
     return ss.str();
 }

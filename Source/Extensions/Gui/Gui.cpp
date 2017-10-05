@@ -21,7 +21,7 @@ namespace {
     const unsigned int FirstPosition = 1;
 
     //TODO remove this as this is just for testing purposes
-    const std::array<unsigned, 3> filesToPlay = { 1, 16, 4 };
+    const std::array<unsigned, 3> filesToPlay = {{ 1, 16, 4 }};
 }
 
 Gui::Gui(const std::string& name)

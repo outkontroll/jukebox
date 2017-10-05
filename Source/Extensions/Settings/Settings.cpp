@@ -8,7 +8,7 @@ Settings::Settings(const std::string& musicDir)
 {
 }
 
-std::string Settings::getMusicDirectory()
+std::string Settings::getMusicDirectory() const
 {
     return musicDirectory;
 }

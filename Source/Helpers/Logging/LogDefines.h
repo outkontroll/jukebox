@@ -12,7 +12,7 @@ namespace jukebox { namespace log {
 
   const unsigned short colonSize = 2;
 
-  inline const std::string methodName(const std::string& functionName)
+  inline std::string methodName(const std::string& functionName)
   {
       size_t firstParenthesis = functionName.find("(");
       size_t lastColons = functionName.rfind("::", firstParenthesis);
@@ -48,16 +48,16 @@ namespace jukebox { namespace log {
       return "";
   }
 
-  #define __METHOD_NAME__ jukebox::log::methodName(__PRETTY_FUNCTION__)
+  #define METHOD_NAME jukebox::log::methodName(__PRETTY_FUNCTION__)
 
 #else
 
-  #define __METHOD_NAME__ __FUNCTION__
+  #define METHOD_NAME __FUNCTION__
 
 #endif
 
-// Helper function to trim a string to a given max length from the rigth side
-inline const std::string GetTrimmedString(const std::string& what, unsigned int maxLength)
+// Helper function to right-sided trim a string to a given max length
+inline std::string GetTrimmedString(const std::string& what, unsigned int maxLength)
 {
     if(maxLength >= what.length())
     {
@@ -74,7 +74,7 @@ inline const std::string GetTrimmedString(const std::string& what, unsigned int 
                                                     ss << std::setw(41);                                \
                                                     ss << jukebox::log::GetTrimmedString(__FILE__, 40); \
                                                     ss << ": line #" << __LINE__ << "\t";               \
-                                                    ss << __METHOD_NAME__ << ": " << logText;           \
+                                                    ss << METHOD_NAME << ": " << logText;               \
                                                     logger.log(ss.str());                               \
                                                 }
 

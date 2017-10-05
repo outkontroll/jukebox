@@ -110,9 +110,9 @@ AbstractSlot<Args...>::~AbstractSlot()
 }
 
 template<class T, typename ReturnType, class... Args>
-ConcreteSlot<T, ReturnType, Args...>::ConcreteSlot(T* t, ReturnType(T::*func)(Args...), Signal<Args...>& sig)
-: t(t),
-    func(func)
+ConcreteSlot<T, ReturnType, Args...>::ConcreteSlot(T* t_, ReturnType(T::*func_)(Args...), Signal<Args...>& sig)
+  : t(t_),
+    func(func_)
 {
     sig.connect(*this);
 }

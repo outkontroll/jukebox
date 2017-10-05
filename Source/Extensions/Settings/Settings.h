@@ -6,15 +6,13 @@
 
 namespace jukebox { namespace settings {
 
-namespace {
-    const std::string DefaultMusicDirectory = "/home/adam/Music/test_data/music";
-}
+const std::string DefaultMusicDirectory = "/home/adam/Music/test_data/music";
 
 class Settings : public ISettings
 {
 public:
     explicit Settings(const std::string& musicDir = DefaultMusicDirectory);
-    std::string getMusicDirectory() override;
+    std::string getMusicDirectory() const override;
 
 private:
     std::string musicDirectory;

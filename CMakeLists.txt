@@ -9,16 +9,6 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 project(music_jukebox)
 
-# target platform
-
-if(NOT TARGET_PLATFORM)
-    if(WIN32)
-        set(TARGET_PLATFORM "Windows")
-    else()
-        set(TARGET_PLATFORM "Linux")
-    endif()
-endif()
-
 # compiler
 
 MESSAGE( STATUS "** CMAKE_C_COMPILER : ${CMAKE_C_COMPILER}" )
@@ -30,8 +20,15 @@ MESSAGE( STATUS "** CMAKE_CXX_COMPILER : ${CMAKE_CXX_COMPILER}" )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
-if(TARGET_PLATFORM STREQUAL "Linux")      #TODO: remove this
+if(UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Werror -fPIC")
+    #TODO: this is for testing
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++98-compat -Wno-c++98-compat-bind-to-temporary-copy -Wno-padded -Wno-exit-time-destructors -Wno-weak-vtables")
+    #END TODO
+    #if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+    #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+    #endif()
 endif()
 
 MESSAGE( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )

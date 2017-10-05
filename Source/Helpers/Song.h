@@ -10,8 +10,8 @@ namespace jukebox { namespace audio {
 class Album
 {
 public:
-    explicit Album(unsigned int albumNumber)
-    : albumNumber(albumNumber)
+    explicit Album(unsigned int albumNumber_)
+    : albumNumber(albumNumber_)
     {
     }
 
@@ -28,17 +28,17 @@ class Song
 public:
     Song() = default;
 
-    Song(unsigned int albumNumber, unsigned int songNumber)
-    :   albumNumber(albumNumber),
-        songNumber(songNumber),
+    Song(unsigned int albumNumber_, unsigned int songNumber_)
+    :   albumNumber(albumNumber_),
+        songNumber(songNumber_),
         fileName(""),
         visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
     {
     }
 
-    Song(Album album, unsigned int songNumber)
+    Song(Album album, unsigned int songNumber_)
     :   albumNumber(album.getAlbumNumber()),
-        songNumber(songNumber),
+        songNumber(songNumber_),
         fileName(""),
         visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
     {

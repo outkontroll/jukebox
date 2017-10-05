@@ -14,8 +14,8 @@ public:
     virtual void coinInsert100() = 0;
     virtual void coinInsert200() = 0;
 
-    virtual bool hasEnoughCreditsToPlaySong() = 0;
-    virtual bool hasEnoughCreditsToPlayAlbum() = 0;
+    virtual bool hasEnoughCreditsToPlaySong() const = 0;
+    virtual bool hasEnoughCreditsToPlayAlbum() const = 0;
     virtual bool startPlaySong() = 0;
     virtual bool startPlayAlbum() = 0;
     

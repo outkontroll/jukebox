@@ -8,6 +8,12 @@ find_package(X11 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
 
+if(UNIX)      #TODO: this is for warning-free compilation, should be fixed
+    set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -fPIC")
+endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+
+
 set(JUCE_LIBRARIES
     ${RT}
     ${DL}

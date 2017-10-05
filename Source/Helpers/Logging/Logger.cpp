@@ -11,8 +11,8 @@ Logger& Logger::getInstance()
 }
 
 Logger::Logger()
-: logFileName(""),
-  enabled(true)
+:   logFileName(""),
+    enabled(true)
 {
 }
 
@@ -23,7 +23,7 @@ void Logger::setLogFileName(const std::string& fileName)
 
 jukebox::ScopeGuard<bool> Logger::disableLog()
 {
-    return ScopeGuard<bool>(enabled, false);
+    return { enabled, false };
 }
 
 void Logger::log(const std::string& logText)

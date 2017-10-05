@@ -10,7 +10,7 @@ class ISettings
 public:
     virtual ~ISettings() = default;
 
-    virtual std::string getMusicDirectory() = 0;
+    virtual std::string getMusicDirectory() const = 0;
 };
 
 }}

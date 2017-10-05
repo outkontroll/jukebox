@@ -44,12 +44,12 @@ void CreditManager::coinInsert200()
     LOG_INFO("a 200 coin inserted");
 }
 
-bool CreditManager::hasEnoughCreditsToPlaySong()
+bool CreditManager::hasEnoughCreditsToPlaySong() const
 {
     return credits >= CreditToPlaySong;
 }
 
-bool CreditManager::hasEnoughCreditsToPlayAlbum()
+bool CreditManager::hasEnoughCreditsToPlayAlbum() const
 {
     return credits >= CreditToPlayAlbum;
 }

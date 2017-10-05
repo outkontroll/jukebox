@@ -16,8 +16,8 @@ public:
     void coinInsert100() override;
     void coinInsert200() override;
 
-    bool hasEnoughCreditsToPlaySong() override;
-    bool hasEnoughCreditsToPlayAlbum() override;
+    bool hasEnoughCreditsToPlaySong() const override;
+    bool hasEnoughCreditsToPlayAlbum() const override;
     bool startPlaySong() override;
     bool startPlayAlbum() override;
         
