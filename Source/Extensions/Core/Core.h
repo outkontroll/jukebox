@@ -45,21 +45,15 @@ private:
     void playSong(audio::Song);
     void playAlbum(audio::Album);
     void removePlayedSong();
+    void finishedPlaying();
+    bool playNextSong(const audio::Song& song);
     
     void creditIncrease();
     void creditDecrease();
-    
-    void exitRequested();
-    
+    void exitRequested();    
     void showStatistics();
 
-    void finishedPlaying();
-
-    void playNextSong(const audio::Song& song);
-
-private:
     jukebox::signals::Slot eventsSlot;
-
     std::unique_ptr<gui::IGui> gui;
     std::unique_ptr<creditmanager::ICreditManager> creditManager;
     std::unique_ptr<audio::IMusicPlayer> musicPlayer;
