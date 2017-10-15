@@ -85,11 +85,11 @@ public:
         abstactSlots.erase(std::remove(abstactSlots.begin(), abstactSlots.end(), &abstractSlot), abstactSlots.end());
     }
 
-    void operator()(Args... args)
+    void operator()(Args&&... args)
     {
         for(auto i: abstactSlots)
         {
-            i->call(args...); 
+            i->call(std::forward<Args>(args)...);
         }
     }
 
