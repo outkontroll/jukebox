@@ -34,9 +34,7 @@ Gui::Gui(const std::string& name)
     eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
 }
 
-Gui::~Gui()
-{
-}
+Gui::~Gui() = default;
 
 void Gui::keyPressed(const KeyPress& key)
 {
