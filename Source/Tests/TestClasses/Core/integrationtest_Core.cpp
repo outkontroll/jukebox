@@ -15,18 +15,38 @@ struct CoreTest : public Test
 {    
     void SetUp() override
     {
-        core = std::make_unique<Core>(std::make_unique<NiceMock<GuiMock>>(),
-                                      std::make_unique<NiceMock<CreditManagerMock>>(),
-                                      std::make_unique<NiceMock<MusicPlayerMock>>(),
-                                      std::make_unique<NiceMock<StatisticsMock>>(),
-                                      std::make_unique<NiceMock<SettingsMock>>());
+        auto gui = std::make_unique<NiceMock<GuiMock>>();
+        guiMock = gui.get();
+        auto creditManager = std::make_unique<NiceMock<CreditManagerMock>>();
+        creditManagerMock = creditManager.get();
+        auto musicPlayer = std::make_unique<NiceMock<MusicPlayerMock>>();
+        musicPlayerMock = musicPlayer.get();
+        auto statistics = std::make_unique<NiceMock<StatisticsMock>>();
+        statisticsMock = statistics.get();
+        auto settings = std::make_unique<NiceMock<SettingsMock>>();
+        settingsMock = settings.get();
+
+        EXPECT_CALL(*guiMock, setMusicFolder(settings->getMusicDirectory())).Times(1);
+
+        core = std::make_unique<Core>(std::move(gui),
+                                      std::move(creditManager),
+                                      std::move(musicPlayer),
+                                      std::move(statistics),
+                                      std::move(settings));
     }
 protected:
     std::unique_ptr<Core> core;
+
+    GuiMock* guiMock;
+    CreditManagerMock* creditManagerMock;
+    MusicPlayerMock* musicPlayerMock;
+    StatisticsMock* statisticsMock;
+    SettingsMock* settingsMock;
 };
 
-TEST_F(CoreTest, empty)
+TEST_F(CoreTest, whenSetup_thenSetMusicFolderOfGuiIsCalled_withSettingsMusicFolder)
 {
+
     /*
     unsigned int expected(0);
     EXPECT_EQ(expected, creditManager.getCredits());
