@@ -46,7 +46,7 @@ private:
     void playAlbum(audio::Album);
     void removePlayedSong();
     void finishedPlaying();
-    bool playNextSong(const audio::Song& song);
+    void playNextSong(const audio::Song& song);
     
     void creditIncrease();
     void creditDecrease();
