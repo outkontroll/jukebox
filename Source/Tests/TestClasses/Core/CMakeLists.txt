@@ -17,17 +17,19 @@ add_executable(unittest_Core
 
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/Core
-    ${TESTING_INCLUDE_DIRS}
     ${HELPERCLASSES_DIR}
 )
 
-target_include_directories(unittest_Core PUBLIC ${INCLUDE_DIRS})
+target_include_directories(unittest_Core PUBLIC ${INCLUDE_DIRS}
+                                         SYSTEM ${TESTING_INCLUDE_DIRS})
 
 target_link_libraries(unittest_Core
 		      core
 		      helpers
 		      ${LIBRARY_DIRECTORIES}/Libs/libgtest.a
 		      ${LIBRARY_DIRECTORIES}/Libs/libgtest_main.a
+                      ${LIBRARY_DIRECTORIES}/Libs/libgmock.a
+                      ${LIBRARY_DIRECTORIES}/Libs/libgmock_main.a
 		      pthread
 )
 

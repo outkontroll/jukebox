@@ -9,16 +9,17 @@
 #include <memory>
 
 using namespace jukebox::core;
+using namespace testing;
 
-struct CoreTest : public ::testing::Test
+struct CoreTest : public Test
 {    
     void SetUp() override
     {
-        core = std::make_unique<Core>(std::make_unique<GuiMock>(),
-                                      std::make_unique<CreditManagerMock>(),
-                                      std::make_unique<MusicPlayerMock>(),
-                                      std::make_unique<StatisticsMock>(),
-                                      std::make_unique<SettingsMock>());
+        core = std::make_unique<Core>(std::make_unique<NiceMock<GuiMock>>(),
+                                      std::make_unique<NiceMock<CreditManagerMock>>(),
+                                      std::make_unique<NiceMock<MusicPlayerMock>>(),
+                                      std::make_unique<NiceMock<StatisticsMock>>(),
+                                      std::make_unique<NiceMock<SettingsMock>>());
     }
 protected:
     std::unique_ptr<Core> core;

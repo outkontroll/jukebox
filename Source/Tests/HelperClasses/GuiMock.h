@@ -2,15 +2,15 @@
 #define GUIMOCK_H
 
 #include "IGui.h"
+#include "gmock/gmock.h"
 
 struct GuiMock : public jukebox::gui::IGui
 {
-    // IGui interface
-    void refreshCredits(unsigned int) override {}
-    void showStatusMessage(const std::string &) override {}
-    void setMusicFolder(const std::string &) override {}
-    void enqueue(const jukebox::audio::Song&) override {}
-    void removeCurrentSong() override {}
+    MOCK_METHOD1(refreshCredits, void(unsigned int));
+    MOCK_METHOD1(showStatusMessage, void(const std::string &));
+    MOCK_METHOD1(setMusicFolder, void(const std::string &));
+    MOCK_METHOD1(enqueue, void(const jukebox::audio::Song&));
+    MOCK_METHOD0(removeCurrentSong, void());
 };
 
 #endif //GUIMOCK_H

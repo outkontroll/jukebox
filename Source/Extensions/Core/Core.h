@@ -50,7 +50,7 @@ private:
     
     void creditIncrease();
     void creditDecrease();
-    void exitRequested();    
+    void exitRequested();
     void showStatistics();
 
     jukebox::signals::Slot eventsSlot;
