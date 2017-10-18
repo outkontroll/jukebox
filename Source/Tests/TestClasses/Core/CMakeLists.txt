@@ -18,6 +18,7 @@ add_executable(unittest_Core
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/Core
     ${TESTING_INCLUDE_DIRS}
+    ${HELPERCLASSES_DIR}
 )
 
 target_include_directories(unittest_Core PUBLIC ${INCLUDE_DIRS})

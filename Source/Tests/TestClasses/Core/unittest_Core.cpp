@@ -1,20 +1,34 @@
 #include "gtest/gtest.h"
 #include "Core.h"
 #include "Logger.h"
+#include "GuiMock.h"
+#include "CreditManagerMock.h"
+#include "MusicPlayerMock.h"
+#include "StatisticsMock.h"
+#include "SettingsMock.h"
+#include <memory>
 
 using namespace jukebox::core;
 
-class CoreTest : public ::testing::Test
+struct CoreTest : public ::testing::Test
 {    
+    void SetUp() override
+    {
+        core = std::make_unique<Core>(std::make_unique<GuiMock>(),
+                                      std::make_unique<CreditManagerMock>(),
+                                      std::make_unique<MusicPlayerMock>(),
+                                      std::make_unique<StatisticsMock>(),
+                                      std::make_unique<SettingsMock>());
+    }
 protected:
-    Core core;
+    std::unique_ptr<Core> core;
 };
 
 TEST_F(CoreTest, empty)
 {
     /*
     unsigned int expected(0);
-    /*EXPECT_EQ(expected, creditManager.getCredits());
+    EXPECT_EQ(expected, creditManager.getCredits());
     EXPECT_FALSE(creditManager.hasEnoughCreditsToPlaySong());
     EXPECT_FALSE(creditManager.hasEnoughCreditsToPlayAlbum());
     EXPECT_FALSE(creditManager.startPlaySong());
