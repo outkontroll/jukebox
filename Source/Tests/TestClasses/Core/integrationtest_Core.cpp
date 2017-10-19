@@ -15,15 +15,15 @@ struct CoreTest : public Test
 {    
     void SetUp() override
     {
-        auto gui = std::make_unique<NiceMock<GuiMock>>();
+        auto gui = std::make_unique<StrictMock<GuiMock>>();
         guiMock = gui.get();
-        auto creditManager = std::make_unique<NiceMock<CreditManagerMock>>();
+        auto creditManager = std::make_unique<StrictMock<CreditManagerMock>>();
         creditManagerMock = creditManager.get();
-        auto musicPlayer = std::make_unique<NiceMock<MusicPlayerMock>>();
+        auto musicPlayer = std::make_unique<StrictMock<MusicPlayerMock>>();
         musicPlayerMock = musicPlayer.get();
-        auto statistics = std::make_unique<NiceMock<StatisticsMock>>();
+        auto statistics = std::make_unique<StrictMock<StatisticsMock>>();
         statisticsMock = statistics.get();
-        auto settings = std::make_unique<NiceMock<SettingsMock>>();
+        auto settings = std::make_unique<StrictMock<SettingsMock>>();
         settingsMock = settings.get();
 
         EXPECT_CALL(*guiMock, setMusicFolder(settings->getMusicDirectory())).Times(1);
@@ -44,39 +44,35 @@ protected:
     SettingsMock* settingsMock;
 };
 
-TEST_F(CoreTest, whenSetup_thenSetMusicFolderOfGuiIsCalled_withSettingsMusicFolder)
+TEST_F(CoreTest, whenGuiSends50CoinInserted_thenCreditManagerGetsIt_GuiAndStatisticsRefresed)
 {
+    ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(1));
 
-    /*
-    unsigned int expected(0);
-    EXPECT_EQ(expected, creditManager.getCredits());
-    EXPECT_FALSE(creditManager.hasEnoughCreditsToPlaySong());
-    EXPECT_FALSE(creditManager.hasEnoughCreditsToPlayAlbum());
-    EXPECT_FALSE(creditManager.startPlaySong());
-    EXPECT_FALSE(creditManager.startPlayAlbum());
-    */
+    EXPECT_CALL(*creditManagerMock, coinInsert50());
+    EXPECT_CALL(*creditManagerMock, getCredits());
+    EXPECT_CALL(*guiMock, refreshCredits(1));
+    EXPECT_CALL(*statisticsMock, coinInserted50());
+    guiMock->coinInserted50Signal();
 }
 
-TEST_F(CoreTest, insertSingle50)
+TEST_F(CoreTest, whenGuiSends100CoinInserted_thenCreditManagerGetsIt_GuiAndStatisticsRefresed)
 {
-    /*creditManager.coinInsert50();
-    unsigned int expected(1);
-    EXPECT_EQ(expected, creditManager.getCredits());*/
-}
-/*
-TEST_F(CreditManagerTest, insertSingle100)
-{
-    creditManager.coinInsert100();
+    ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(3));
 
-    unsigned int expected(3);
-    EXPECT_EQ(expected, creditManager.getCredits());
+    EXPECT_CALL(*creditManagerMock, coinInsert100());
+    EXPECT_CALL(*creditManagerMock, getCredits());
+    EXPECT_CALL(*guiMock, refreshCredits(3));
+    EXPECT_CALL(*statisticsMock, coinInserted100());
+    guiMock->coinInserted100Signal();
 }
 
-TEST_F(CreditManagerTest, insertSingle200)
+TEST_F(CoreTest, whenGuiSends200CoinInserted_thenCreditManagerGetsIt_GuiAndStatisticsRefresed)
 {
-    creditManager.coinInsert200();
+    ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(6));
 
-    unsigned int expected(6);
-    EXPECT_EQ(expected, creditManager.getCredits());
+    EXPECT_CALL(*creditManagerMock, coinInsert200());
+    EXPECT_CALL(*creditManagerMock, getCredits());
+    EXPECT_CALL(*guiMock, refreshCredits(6));
+    EXPECT_CALL(*statisticsMock, coinInserted200());
+    guiMock->coinInserted200Signal();
 }
-*/

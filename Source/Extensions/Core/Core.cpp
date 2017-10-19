@@ -55,18 +55,21 @@ void Core::coinInserted50()
 {
     creditManager->coinInsert50();
     gui->refreshCredits(creditManager->getCredits());
+    statistics->coinInserted50();
 }
 
 void Core::coinInserted100()
 {
     creditManager->coinInsert100();
     gui->refreshCredits(creditManager->getCredits());
+    statistics->coinInserted100();
 }
 
 void Core::coinInserted200()
 {
     creditManager->coinInsert200();
     gui->refreshCredits(creditManager->getCredits());
+    statistics->coinInserted200();
 }
 
 void Core::playSong(Song song)

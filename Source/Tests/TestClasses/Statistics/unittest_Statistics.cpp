@@ -25,7 +25,7 @@ TEST_F(StatisticsTest, empty)
 {
     statistics.showStatistics(ss);
     
-    EXPECT_EQ("", ss.str());
+    EXPECT_EQ("Inserted: 0\n", ss.str());
 }
 
 TEST_F(StatisticsTest, playOneSong)
@@ -34,7 +34,7 @@ TEST_F(StatisticsTest, playOneSong)
     
     statistics.showStatistics(ss);
 
-    std::string expected("01203: 1\n");
+    std::string expected("Inserted: 0\n01203: 1\n");
     EXPECT_EQ(expected, ss.str());
 }
 
@@ -44,14 +44,49 @@ TEST_F(StatisticsTest, playOneAlbum)
     
     statistics.showStatistics(ss);
 
-    std::string expected("00900: 1\n");
+    std::string expected("Inserted: 0\n00900: 1\n");
+    EXPECT_EQ(expected, ss.str());
+}
+
+TEST_F(StatisticsTest, coinInsert50)
+{
+    statistics.coinInserted50();
+
+    statistics.showStatistics(ss);
+
+    std::string expected("Inserted: 50\n");
+    EXPECT_EQ(expected, ss.str());
+}
+
+TEST_F(StatisticsTest, coinInsert100)
+{
+    statistics.coinInserted100();
+
+    statistics.showStatistics(ss);
+
+    std::string expected("Inserted: 100\n");
+    EXPECT_EQ(expected, ss.str());
+}
+
+TEST_F(StatisticsTest, coinInsert200)
+{
+    statistics.coinInserted200();
+
+    statistics.showStatistics(ss);
+
+    std::string expected("Inserted: 200\n");
     EXPECT_EQ(expected, ss.str());
 }
 
 TEST_F(StatisticsTest, multiplePlays)
 {
+    statistics.coinInserted50();
     statistics.songPlayed(Song(12, 3));
+    statistics.coinInserted200();
     statistics.albumPlayed(Album(9));
+    statistics.coinInserted50();
+    statistics.coinInserted50();
+    statistics.coinInserted100();
     statistics.albumPlayed(Album(8));
     statistics.albumPlayed(Album(9));
     statistics.songPlayed(Song(12, 3));
@@ -59,6 +94,6 @@ TEST_F(StatisticsTest, multiplePlays)
     
     statistics.showStatistics(ss);
 
-    std::string expected("00800: 1\n00900: 2\n01203: 3\n");
+    std::string expected("Inserted: 450\n00800: 1\n00900: 2\n01203: 3\n");
     EXPECT_EQ(expected, ss.str());
 }

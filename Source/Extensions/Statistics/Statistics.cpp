@@ -16,8 +16,25 @@ void Statistics::albumPlayed(Album album)
     ++playedSongs[Song(album, 0)];
 }
 
+void Statistics::coinInserted50()
+{
+    insertedCoins += 50;
+}
+
+void Statistics::coinInserted100()
+{
+    insertedCoins += 100;
+}
+
+void Statistics::coinInserted200()
+{
+    insertedCoins += 200;
+}
+
 void Statistics::showStatistics(std::ostream& os)
 {
+    os << "Inserted: " << insertedCoins << std::endl;
+
     for(auto playedSong : playedSongs)
     {
         os << FillWithLeadingZeros(playedSong.first.getAlbumNumber(), 3)

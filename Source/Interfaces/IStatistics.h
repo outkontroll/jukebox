@@ -13,6 +13,10 @@ public:
     
     virtual void songPlayed(audio::Song song) = 0;
     virtual void albumPlayed(audio::Album album) = 0;
+
+    virtual void coinInserted50() = 0;
+    virtual void coinInserted100() = 0;
+    virtual void coinInserted200() = 0;
     
     virtual void showStatistics(std::ostream& os) = 0;
 };
