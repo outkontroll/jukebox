@@ -2,6 +2,7 @@
 #define LISTBOXIMPLEMENTATION_HPP_INCLUDED
 
 #include "Logger.h"
+#include <cassert>
 
 namespace jukebox { namespace gui {
 
@@ -100,7 +101,7 @@ void ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Gr
 template<template<class, class> class Container, class Item>
 void ListBoxContents<Container, Item>::insertItem(const Item& item)
 {
-    items.push_back(item);
+    items.emplace_back(item);
 }
 
 template<template<class, class> class Container, class Item>
@@ -125,12 +126,8 @@ void ListBoxContents<Container, Item>::removeCurrentItem()
 template<template<class, class> class Container, class Item>
 Item ListBoxContents<Container, Item>::getNextItem() const
 {
-    if(items.size() > 0)
-    {
-        return items[0];
-    }
-
-    return Item();
+    assert(items.size() > 0);
+    return items[0];
 }
 
 }}

@@ -26,9 +26,6 @@ private:
 class Song
 {
 public:
-    //TODO is this needed?
-    Song() = default;
-
     Song(Album album, unsigned int songNumber_, const std::string& fileName_)
     :   albumNumber(album.getAlbumNumber()),
         songNumber(songNumber_),
