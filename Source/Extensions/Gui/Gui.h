@@ -4,6 +4,7 @@
 #include "JuceHeader.h"
 #include "IGui.h"
 #include <memory>
+#include <string>
 
 namespace juce {
     class MainComponent;
@@ -16,7 +17,7 @@ namespace jukebox { namespace gui {
 class Gui : public IGui
 {
 public:
-    Gui(const std::string& name);
+    Gui(const std::string& applicationName);
     //TODO: check why is the = default one wrong
     ~Gui();
 
@@ -41,7 +42,7 @@ private:
     std::unique_ptr<juce::MainComponent> mainComponent;
     std::unique_ptr<MainWindow> mainWindow;
     
-    juce::String musicFolder;
+    std::string musicFolder;
     unsigned int position;
 };
 

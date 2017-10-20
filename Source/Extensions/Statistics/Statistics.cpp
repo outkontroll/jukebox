@@ -13,7 +13,7 @@ void Statistics::songPlayed(Song song)
 void Statistics::albumPlayed(Album album)
 {
     //TODO
-    ++playedSongs[Song(album, 0)];
+    ++playedSongs[Song(album, 0, "")];
 }
 
 void Statistics::coinInserted50()
@@ -37,8 +37,7 @@ void Statistics::showStatistics(std::ostream& os)
 
     for(auto playedSong : playedSongs)
     {
-        os << FillWithLeadingZeros(playedSong.first.getAlbumNumber(), 3)
-           << FillWithLeadingZeros(playedSong.first.getSongNumber(), 2)
+        os << playedSong.first.toString()
            << ": "
            << playedSong.second
            << std::endl;

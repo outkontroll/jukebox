@@ -24,7 +24,7 @@ public:
     jukebox::signals::Signal<> coinInserted100Signal;
     jukebox::signals::Signal<> coinInserted200Signal;
     
-    jukebox::signals::Signal<audio::Song> playSongSignal;
+    jukebox::signals::Signal<const audio::Song&> playSongSignal;
     jukebox::signals::Signal<audio::Album> playAlbumSignal;
     jukebox::signals::Signal<> removePlayedSongSignal;
 

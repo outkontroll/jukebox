@@ -42,7 +42,7 @@ private:
     void coinInserted100();
     void coinInserted200();
     
-    void playSong(audio::Song);
+    void playSong(const audio::Song&);
     void playAlbum(audio::Album);
     void removePlayedSong();
     void finishedPlaying();

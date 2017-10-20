@@ -9,6 +9,7 @@
 //TODO remove this as this is just for testing purposes
 #include <array>
 
+using namespace jukebox;
 using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
@@ -24,9 +25,11 @@ namespace {
     const std::array<unsigned, 3> filesToPlay = {{ 1, 16, 4 }};
 }
 
-Gui::Gui(const std::string& name)
+Song createSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory);
+
+Gui::Gui(const std::string& applicationName)
     : mainComponent(std::make_unique<MainComponent>()),
-      mainWindow(std::make_unique<MainWindow>(name, mainComponent.get())),
+      mainWindow(std::make_unique<MainWindow>(applicationName, mainComponent.get())),
       musicFolder(InvalidString),
       position(InvalidPosition)
 {
@@ -95,7 +98,7 @@ void Gui::keyPressed(const KeyPress& key)
         ++fileToPlay;
         fileToPlay = fileToPlay % 3;
         //TODO
-        playSongSignal(Song(7, filesToPlay[fileToPlay]));
+        playSongSignal(createSong(7, filesToPlay[fileToPlay], musicFolder));
     }
     else if(textCharacter == 'v')
     {
@@ -150,4 +153,12 @@ void Gui::updateAlbumList()
 void Gui::showHelp()
 {
 
+}
+
+Song createSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory)
+{
+    //TODO: get the files list and use the one with leading number
+    return { Album(albumNumber),
+             songNumber,
+             std::string(musicDirectory + "/" + FillWithLeadingZeros(albumNumber, 3) + "/" + FillWithLeadingZeros(songNumber, 2) + ".mp3") };
 }

@@ -22,8 +22,6 @@ namespace {
     const std::string ErrorDuringSongPlaying = "An unexpected error occured during playing song: ";
 }
 
-std::string calculateFileName(const std::string& musicDirectory, Song song);
-
 Core::Core(std::unique_ptr<gui::IGui> iGui,
            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
            std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
@@ -72,10 +70,8 @@ void Core::coinInserted200()
     statistics->coinInserted200();
 }
 
-void Core::playSong(Song song)
+void Core::playSong(const Song& song)
 {
-    song.setFileName(calculateFileName(settings->getMusicDirectory(), song));
-
     if(!creditManager->hasEnoughCreditsToPlaySong())
     {
         gui->showStatusMessage(ErrorFewCreditsSong);
@@ -116,8 +112,7 @@ void Core::playAlbum(Album album)
         //TODO play an album
         //for(Song song : album)
         //musicPlayer->playSong(song);
-        Song song(album, 0);
-        song.setFileName("albumTesting");
+        Song song(album, 0, "albumTesting");
         gui->enqueue(song);
     }
 }
@@ -167,10 +162,4 @@ void Core::playNextSong(const Song& song)
 void Core::finishedPlaying()
 {
     gui->removeCurrentSong();
-}
-
-std::string calculateFileName(const std::string& musicDirectory, Song song)
-{
-    //TODO: get the files list and use the one with leading number
-    return musicDirectory + "/" + FillWithLeadingZeros(song.getAlbumNumber(), 3) + "/" + FillWithLeadingZeros(song.getSongNumber(), 2) + ".mp3";
 }

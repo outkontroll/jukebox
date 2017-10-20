@@ -30,7 +30,7 @@ TEST_F(StatisticsTest, empty)
 
 TEST_F(StatisticsTest, playOneSong)
 {
-    statistics.songPlayed(Song(12, 3));
+    statistics.songPlayed(Song(Album(12), 3, "fakeFileName"));
     
     statistics.showStatistics(ss);
 
@@ -81,7 +81,7 @@ TEST_F(StatisticsTest, coinInsert200)
 TEST_F(StatisticsTest, multiplePlays)
 {
     statistics.coinInserted50();
-    statistics.songPlayed(Song(12, 3));
+    statistics.songPlayed(Song(Album(12), 3, "fakeFileName"));
     statistics.coinInserted200();
     statistics.albumPlayed(Album(9));
     statistics.coinInserted50();
@@ -89,8 +89,8 @@ TEST_F(StatisticsTest, multiplePlays)
     statistics.coinInserted100();
     statistics.albumPlayed(Album(8));
     statistics.albumPlayed(Album(9));
-    statistics.songPlayed(Song(12, 3));
-    statistics.songPlayed(Song(12, 3));
+    statistics.songPlayed(Song(Album(12), 3, "fakeFileName"));
+    statistics.songPlayed(Song(Album(12), 3, "fakeFileName"));
     
     statistics.showStatistics(ss);
 

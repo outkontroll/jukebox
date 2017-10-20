@@ -26,20 +26,13 @@ private:
 class Song
 {
 public:
+    //TODO is this needed?
     Song() = default;
 
-    Song(unsigned int albumNumber_, unsigned int songNumber_)
-    :   albumNumber(albumNumber_),
-        songNumber(songNumber_),
-        fileName(""),
-        visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
-    {
-    }
-
-    Song(Album album, unsigned int songNumber_)
+    Song(Album album, unsigned int songNumber_, const std::string& fileName_)
     :   albumNumber(album.getAlbumNumber()),
         songNumber(songNumber_),
-        fileName(""),
+        fileName(fileName_),
         visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
     {
     }
@@ -59,11 +52,6 @@ public:
         return fileName;
     }
 
-    inline void setFileName(std::string fn)
-    {
-        fileName = std::move(fn);
-    }
-
     inline bool operator<(const Song& other) const
     {
         return std::tie(albumNumber, songNumber) < std::tie(other.albumNumber, other.songNumber);
@@ -75,10 +63,10 @@ public:
     }
 
 private:
-    unsigned int albumNumber;
-    unsigned int songNumber;
-    std::string fileName;
-    std::string visibleName;
+    unsigned int albumNumber = 0;
+    unsigned int songNumber = 0;
+    std::string fileName = "";
+    std::string visibleName = "";
 };
 
 }}
