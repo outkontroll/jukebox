@@ -1,16 +1,17 @@
 #include "Statistics.h"
 #include "Formaters.h"
+#include "Song.h"
 #include <ostream>
 
 using namespace jukebox::statistics;
 using namespace jukebox::audio;
 
-void Statistics::songPlayed(Song song)
+void Statistics::songPlayed(const Song& song)
 {
     ++playedSongs[song];
 }
 
-void Statistics::albumPlayed(Album album)
+void Statistics::albumPlayed(const Album& album)
 {
     //TODO
     ++playedSongs[Song(album, 0, "")];

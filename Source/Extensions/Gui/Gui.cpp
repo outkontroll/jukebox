@@ -3,6 +3,7 @@
 #include "MainComponent.h"
 #include "FileSystem.h"
 #include "Logger.h"
+#include "Song.h"
 #include <iterator>
 #include <algorithm>
 #include <numeric>
@@ -127,6 +128,12 @@ void Gui::setMusicFolder(const std::string& folder)
     musicFolder = folder;
     position = FirstPosition;
     updateAlbumList();
+}
+
+void Gui::setCurrentlyPlayedSong(const audio::Song& song)
+{
+    //TODO
+    (void)song;
 }
 
 void Gui::enqueue(const audio::Song& song)

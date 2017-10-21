@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "Statistics.h"
+#include "Song.h"
 #include <sstream>
 
 using namespace jukebox::statistics;

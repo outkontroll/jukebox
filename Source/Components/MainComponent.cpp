@@ -19,6 +19,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include "Logger.h"
+#include "Song.h"
 //[/Headers]
 
 #include "MainComponent.h"

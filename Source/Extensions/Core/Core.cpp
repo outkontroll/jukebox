@@ -6,6 +6,7 @@
 #include "ISettings.h"
 #include "Logger.h"
 #include "MusicPlayerExceptions.h"
+#include "Song.h"
 #include <iostream>
 
 using namespace jukebox;
@@ -75,29 +76,29 @@ void Core::playSong(const Song& song)
     if(!creditManager->hasEnoughCreditsToPlaySong())
     {
         gui->showStatusMessage(ErrorFewCreditsSong);
+        return;
     }
-    else
+
+
+    creditManager->startPlaySong();
+    gui->refreshCredits(creditManager->getCredits());
+    statistics->songPlayed(song);
+
+    try
     {
-        creditManager->startPlaySong();
-        gui->refreshCredits(creditManager->getCredits());
-        statistics->songPlayed(song);
-
-        try
+        if(!musicPlayer->isPlaying())
         {
-            if(!musicPlayer->isPlaying())
-            {
-                musicPlayer->playSong(song.getFileName());
-            }
+            musicPlayer->playSong(song.getFileName());
+        }
 
-            gui->enqueue(song);
-        }
-        catch(MusicPlayerException&)
-        {
-        }
+        gui->setCurrentlyPlayedSong(song);
+    }
+    catch(MusicPlayerException&)
+    {
     }
 }
 
-void Core::playAlbum(Album album)
+void Core::playAlbum(const Album& album)
 {
     if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {

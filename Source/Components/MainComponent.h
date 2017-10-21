@@ -23,10 +23,14 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "ListBox.hpp"
-#include "Song.h"
 #include "Signals.hpp"
 #include <string>
 #include <deque>
+
+namespace jukebox { namespace audio {
+    class Song;
+}}
+
 namespace juce {
 //[/Headers]
 

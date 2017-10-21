@@ -3,7 +3,6 @@
 
 #include <memory>
 #include "Signals.hpp"
-#include "Song.h"
 
 namespace jukebox {
 
@@ -15,6 +14,8 @@ namespace creditmanager {
 }
 namespace audio {
     class IMusicPlayer;
+    class Song;
+    class Album;
 }
 namespace statistics {
     class IStatistics;
@@ -43,7 +44,7 @@ private:
     void coinInserted200();
     
     void playSong(const audio::Song&);
-    void playAlbum(audio::Album);
+    void playAlbum(const audio::Album&);
     void removePlayedSong();
     void finishedPlaying();
     void playNextSong(const audio::Song& song);

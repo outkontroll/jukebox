@@ -2,7 +2,11 @@
 #define IGUI_H_INCLUDED
 
 #include "Signals.hpp"
-#include "Song.h"
+
+namespace jukebox { namespace audio {
+    class Song;
+    class Album;
+}}
 
 namespace jukebox { namespace gui {
     
@@ -16,6 +20,7 @@ public:
     
     virtual void setMusicFolder(const std::string& folder) = 0;
     
+    virtual void setCurrentlyPlayedSong(const audio::Song&) = 0;
     virtual void enqueue(const audio::Song& song) = 0;
     virtual void removeCurrentSong() = 0;
 
@@ -25,7 +30,7 @@ public:
     jukebox::signals::Signal<> coinInserted200Signal;
     
     jukebox::signals::Signal<const audio::Song&> playSongSignal;
-    jukebox::signals::Signal<audio::Album> playAlbumSignal;
+    jukebox::signals::Signal<const audio::Album&> playAlbumSignal;
     jukebox::signals::Signal<> removePlayedSongSignal;
 
     jukebox::signals::Signal<> increaseSoundVolumeSignal;

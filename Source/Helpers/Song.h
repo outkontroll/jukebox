@@ -54,6 +54,11 @@ public:
         return std::tie(albumNumber, songNumber) < std::tie(other.albumNumber, other.songNumber);
     }
 
+    inline bool operator==(const Song& other) const
+    {
+        return std::tie(albumNumber, songNumber) == std::tie(other.albumNumber, other.songNumber);
+    }
+
     inline const std::string& toString() const
     {
         return visibleName;

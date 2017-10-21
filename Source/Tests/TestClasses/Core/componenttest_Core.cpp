@@ -9,7 +9,14 @@
 #include <memory>
 
 using namespace jukebox::core;
+using namespace jukebox::audio;
 using namespace testing;
+
+std::ostream& operator<<(std::ostream& os, const Song& song)
+{
+    os << song.toString();
+    return os;
+}
 
 struct CoreTest : public Test
 {    
@@ -63,6 +70,7 @@ TEST_F(CoreTest, whenGuiSends100CoinInserted_thenCreditManagerGetsIt_GuiAndStati
     EXPECT_CALL(*creditManagerMock, getCredits());
     EXPECT_CALL(*guiMock, refreshCredits(3));
     EXPECT_CALL(*statisticsMock, coinInserted100());
+
     guiMock->coinInserted100Signal();
 }
 
@@ -74,5 +82,26 @@ TEST_F(CoreTest, whenGuiSends200CoinInserted_thenCreditManagerGetsIt_GuiAndStati
     EXPECT_CALL(*creditManagerMock, getCredits());
     EXPECT_CALL(*guiMock, refreshCredits(6));
     EXPECT_CALL(*statisticsMock, coinInserted200());
+
     guiMock->coinInserted200Signal();
+}
+
+TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughtCreditsAndMusicPlayerIsNotPlaying_thenPlaysMusicAndCreditManagerDecreaseCredits_GuiAndStatisticsRefresed)
+{
+    ON_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).WillByDefault(Return(true));
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
+    ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(13));
+
+    Song song{Album(1), 1, "fakeFileName"};
+
+    EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong());
+    EXPECT_CALL(*musicPlayerMock, isPlaying());
+    EXPECT_CALL(*creditManagerMock, startPlaySong());
+    EXPECT_CALL(*musicPlayerMock, playSong("fakeFileName"));
+    EXPECT_CALL(*statisticsMock, songPlayed(song));
+    EXPECT_CALL(*creditManagerMock, getCredits());
+    EXPECT_CALL(*guiMock, refreshCredits(13));
+    EXPECT_CALL(*guiMock, setCurrentlyPlayedSong(song));
+
+    guiMock->playSongSignal(song);
 }

@@ -2,22 +2,15 @@
 #define MUSICPLAYERMOCK_H
 
 #include "IMusicPlayer.h"
+#include "gmock/gmock.h"
 
 struct MusicPlayerMock : public jukebox::audio::IMusicPlayer
 {
-
     // IMusicPlayer interface
 public:
-    void playSong(const std::string&) override
-    {
-    }
-    bool isPlaying() const override
-    {
-        return false;
-    }
-    void stopPlaying() override
-    {
-    }
+    MOCK_METHOD1(playSong, void(const std::string&));
+    MOCK_CONST_METHOD0(isPlaying, bool());
+    MOCK_METHOD0(stopPlaying, void());
 };
 
 #endif // MUSICPLAYERMOCK_H

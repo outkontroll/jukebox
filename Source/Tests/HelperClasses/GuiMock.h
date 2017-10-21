@@ -9,6 +9,7 @@ struct GuiMock : public jukebox::gui::IGui
     MOCK_METHOD1(refreshCredits, void(unsigned int));
     MOCK_METHOD1(showStatusMessage, void(const std::string &));
     MOCK_METHOD1(setMusicFolder, void(const std::string &));
+    MOCK_METHOD1(setCurrentlyPlayedSong, void(const jukebox::audio::Song&));
     MOCK_METHOD1(enqueue, void(const jukebox::audio::Song&));
     MOCK_METHOD0(removeCurrentSong, void());
 };
