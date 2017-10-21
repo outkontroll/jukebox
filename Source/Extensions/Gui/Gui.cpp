@@ -147,7 +147,7 @@ void Gui::removeCurrentSong()
 
 void Gui::updateAlbumList()
 {
-    const auto directories(FileSystem::getAlbumDirectories("."));
+    const auto directories(FileSystem::getAlbumDirectories(musicFolder));
     mainComponent->updateAlbumList(std::accumulate(std::begin(directories),
                                                    std::end(directories),
                                                    std::string(),
