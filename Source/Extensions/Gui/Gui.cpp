@@ -132,8 +132,7 @@ void Gui::setMusicFolder(const std::string& folder)
 
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
 {
-    //TODO
-    (void)song;
+    mainComponent->setCurrentlyPlayedSong(song);
 }
 
 void Gui::enqueue(const audio::Song& song)

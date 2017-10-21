@@ -199,6 +199,11 @@ void MainComponent::updateAlbumList(const String& albumList)
     txtAlbumList->setText(albumList);
 }
 
+void MainComponent::setCurrentlyPlayedSong(const jukebox::audio::Song& song)
+{
+    txtCurrentSong->setText(song.toString());
+}
+
 void MainComponent::enqueue(const jukebox::audio::Song& song)
 {
     listBox->insertItem(song);

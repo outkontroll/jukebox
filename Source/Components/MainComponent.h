@@ -59,6 +59,7 @@ public:
     void refreshCredits(unsigned int credits);
     void showStatusMessage(const String& message);
     void updateAlbumList(const String& albumList);
+    void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     void enqueue(const jukebox::audio::Song &song);
     void removeCurrentSong();
     //[/UserMethods]
