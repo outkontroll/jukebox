@@ -94,6 +94,7 @@ void Core::playSong(const Song& song)
     catch(MusicPlayerException&)
     {
         LOG_ERROR("Song playing is unsuccessful, song: " << song.toString());
+        gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying);
     }
 }
 

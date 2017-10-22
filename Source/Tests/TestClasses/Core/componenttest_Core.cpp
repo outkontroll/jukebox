@@ -6,17 +6,12 @@
 #include "MusicPlayerMock.h"
 #include "StatisticsMock.h"
 #include "SettingsMock.h"
+#include "MusicPlayerExceptions.h"
 #include <memory>
 
 using namespace jukebox::core;
 using namespace jukebox::audio;
 using namespace testing;
-
-std::ostream& operator<<(std::ostream& os, const Song& song)
-{
-    os << song.toString();
-    return os;
-}
 
 struct CoreTest : public Test
 {    
@@ -106,6 +101,30 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsNotPlayi
     guiMock->playSongSignal(song);
 }
 
+TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCredits_AndMusicPlayerIsNotPlayingAndThrowsException_thenPlaysMusicAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+{
+    ON_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).WillByDefault(Return(true));
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
+    ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(13));
+    ON_CALL(*musicPlayerMock, playSong(_)).WillByDefault(Throw(FileNotFoundException()));
+
+    Song song{Album(1), 1, "fakeFileName"};
+
+    EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).Times(2);
+    EXPECT_CALL(*musicPlayerMock, isPlaying()).Times(2);
+    EXPECT_CALL(*creditManagerMock, startPlaySong()).Times(2);
+    EXPECT_CALL(*musicPlayerMock, playSong("fakeFileName")).Times(2);
+    EXPECT_CALL(*statisticsMock, songPlayed(song)).Times(2);
+    EXPECT_CALL(*creditManagerMock, getCredits()).Times(2);
+    EXPECT_CALL(*guiMock, refreshCredits(13)).Times(2);
+    EXPECT_CALL(*guiMock, showStatusMessage(jukebox::ResourceId::ErrorDuringSongPlaying)).Times(2);
+
+    guiMock->playSongSignal(song);
+
+    ON_CALL(*musicPlayerMock, playSong(_)).WillByDefault(Throw(FormatReaderException()));
+    guiMock->playSongSignal(song);
+}
+
 TEST_F(CoreTest, whenGuiSendsSongToPlay_HasNotEnoughCredits_thenGuiGetsNotification)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).WillByDefault(Return(false));
@@ -136,3 +155,5 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsPlaying_
 
     guiMock->playSongSignal(song);
 }
+
+
