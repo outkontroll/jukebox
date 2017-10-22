@@ -4,7 +4,7 @@
 #include "FileSystem.h"
 #include "Logger.h"
 #include "Song.h"
-#include <iterator>
+#include "ResourceString.h"
 #include <algorithm>
 #include <numeric>
 //TODO remove this as this is just for testing purposes
@@ -118,9 +118,9 @@ void Gui::refreshCredits(unsigned int credits)
     mainComponent->refreshCredits(credits);
 }
 
-void Gui::showStatusMessage(const std::string& message)
+void Gui::showStatusMessage(ResourceId messageId)
 {
-    mainComponent->showStatusMessage(message);
+    mainComponent->showStatusMessage(getResourceStringFromId(messageId));
 }
 
 void Gui::setMusicFolder(const std::string& folder)

@@ -6,7 +6,9 @@ project(gui)
 
 set(HEADER_SOURCES
     ${INTERFACE_DIRECTORY}/IGui.h
+    ${INTERFACE_DIRECTORY}/ResourceId.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/ResourceString.h
     ${SOURCE_DIR}/Base/MainWindow.h
     ${SOURCE_DIR}/Components/MainComponent.h
     ${SOURCE_DIR}/Components/ListBox.hpp

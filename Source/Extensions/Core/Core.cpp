@@ -7,6 +7,7 @@
 #include "Logger.h"
 #include "MusicPlayerExceptions.h"
 #include "Song.h"
+#include "ResourceId.h"
 #include <iostream>
 
 using namespace jukebox;
@@ -16,12 +17,6 @@ using namespace jukebox::signals;
 using namespace jukebox::audio;
 using namespace jukebox::statistics;
 using namespace jukebox::settings;
-
-namespace {
-    const std::string ErrorFewCreditsSong = "Too few credits to play a song!";
-    const std::string ErrorFewCreditsAlbum = "Too few credits to play an album!";
-    const std::string ErrorDuringSongPlaying = "An unexpected error occured during playing song: ";
-}
 
 Core::Core(std::unique_ptr<gui::IGui> iGui,
            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
@@ -75,7 +70,7 @@ void Core::playSong(const Song& song)
 {
     if(!creditManager->hasEnoughCreditsToPlaySong())
     {
-        gui->showStatusMessage(ErrorFewCreditsSong);
+        gui->showStatusMessage(ResourceId::ErrorFewCreditsSong);
         return;
     }
 
@@ -102,7 +97,7 @@ void Core::playAlbum(const Album& album)
 {
     if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {
-        gui->showStatusMessage(ErrorFewCreditsAlbum);
+        gui->showStatusMessage(ResourceId::ErrorFewCreditsAlbum);
     }
     else
     {
@@ -155,7 +150,7 @@ void Core::playNextSong(const Song& song)
     }
     catch(MusicPlayerException&)
     {
-        gui->showStatusMessage(ErrorDuringSongPlaying + song.toString());
+        gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying/*, song.toString()*/);
         gui->removeCurrentSong();
     }
 }

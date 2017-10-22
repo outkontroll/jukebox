@@ -8,6 +8,10 @@ namespace jukebox { namespace audio {
     class Album;
 }}
 
+namespace jukebox {
+    enum class ResourceId;
+}
+
 namespace jukebox { namespace gui {
     
 class IGui
@@ -16,7 +20,7 @@ public:
     virtual ~IGui() = default;
     
     virtual void refreshCredits(unsigned int credits) = 0;
-    virtual void showStatusMessage(const std::string& message) = 0;
+    virtual void showStatusMessage(ResourceId messageId) = 0;
     
     virtual void setMusicFolder(const std::string& folder) = 0;
     

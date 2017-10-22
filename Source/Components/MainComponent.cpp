@@ -211,11 +211,13 @@ void MainComponent::enqueue(const jukebox::audio::Song& song)
 
 void MainComponent::removeCurrentSong()
 {
-    listBox->removeCurrentItem();
+    txtCurrentSong->setText("");
 
     if(listBox->hasNextItem())
     {
-        playNextSongSignal(listBox->getNextItem());
+        auto nextItem = listBox->getNextItem();
+        listBox->removeCurrentItem();
+        playNextSongSignal(nextItem);
     }
 }
 

@@ -24,7 +24,7 @@ public:
     void playNextSong(const audio::Song& song);
 
     void refreshCredits(unsigned int credits) override;
-    void showStatusMessage(const std::string& message) override;
+    void showStatusMessage(ResourceId messageId) override;
     
     void setMusicFolder(const std::string& folder) override;
     
