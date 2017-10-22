@@ -30,7 +30,7 @@ public:
     void getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill) override;
 
     void playSong(const std::string&) override;
-    bool isPlaying() const override;
+    bool isPlaying() const noexcept override;
     void stopPlaying() override;
 
 private:

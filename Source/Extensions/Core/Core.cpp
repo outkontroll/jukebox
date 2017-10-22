@@ -74,7 +74,6 @@ void Core::playSong(const Song& song)
         return;
     }
 
-
     creditManager->startPlaySong();
     gui->refreshCredits(creditManager->getCredits());
     statistics->songPlayed(song);
@@ -84,12 +83,17 @@ void Core::playSong(const Song& song)
         if(!musicPlayer->isPlaying())
         {
             musicPlayer->playSong(song.getFileName());
+            gui->setCurrentlyPlayedSong(song);
+        }
+        else
+        {
+            gui->enqueue(song);
         }
 
-        gui->setCurrentlyPlayedSong(song);
     }
     catch(MusicPlayerException&)
     {
+        LOG_ERROR("Song playing is unsuccessful, song: " << song.toString());
     }
 }
 
