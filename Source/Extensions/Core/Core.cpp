@@ -155,9 +155,17 @@ void Core::showStatistics()
 
 void Core::playNextSong(const Song& song)
 {
+    if(musicPlayer->isPlaying())
+    {
+        LOG_ERROR("MusicPlayer is currently playing, tried to play: " << song.toString());
+        gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying);
+        return;
+    }
+
     try
     {
         musicPlayer->playSong(song.getFileName());
+        gui->setCurrentlyPlayedSong(song);
     }
     catch(MusicPlayerException&)
     {

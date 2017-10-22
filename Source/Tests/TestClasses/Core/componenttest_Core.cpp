@@ -97,7 +97,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsNotPlayi
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong());
     EXPECT_CALL(*musicPlayerMock, isPlaying());
     EXPECT_CALL(*creditManagerMock, startPlaySong());
-    EXPECT_CALL(*musicPlayerMock, playSong("fakeFileName"));
+    EXPECT_CALL(*musicPlayerMock, playSong(song.getFileName()));
     EXPECT_CALL(*statisticsMock, songPlayed(song));
     EXPECT_CALL(*creditManagerMock, getCredits());
     EXPECT_CALL(*guiMock, refreshCredits(13));
@@ -118,7 +118,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCredits_AndMusicPlayerIsNotPlay
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).Times(2);
     EXPECT_CALL(*musicPlayerMock, isPlaying()).Times(2);
     EXPECT_CALL(*creditManagerMock, startPlaySong()).Times(2);
-    EXPECT_CALL(*musicPlayerMock, playSong("fakeFileName")).Times(2);
+    EXPECT_CALL(*musicPlayerMock, playSong(song.getFileName())).Times(2);
     EXPECT_CALL(*statisticsMock, songPlayed(song)).Times(2);
     EXPECT_CALL(*creditManagerMock, getCredits()).Times(2);
     EXPECT_CALL(*guiMock, refreshCredits(13)).Times(2);
@@ -177,7 +177,49 @@ TEST_F(CoreTest, whenGuiSendsAlbumToPlay_HasNotEnoughCredits_thenGuiGetsNotifica
 }
 
 // playNextSong
-//TODO
+TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsNotPlaying_thenMusicPlayerStartsPlaying_AndGuiGetsRefreshed)
+{
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
+
+    Song song{Album(1), 1, "fakeFileName"};
+
+    EXPECT_CALL(*musicPlayerMock, isPlaying());
+    EXPECT_CALL(*musicPlayerMock, playSong(song.getFileName()));
+    EXPECT_CALL(*guiMock, setCurrentlyPlayedSong(song));
+
+    guiMock->playNextSongSignal(song);
+}
+
+TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsPlaying_thenGuiGetsError)
+{
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(true));
+
+    Song song{Album(1), 1, "fakeFileName"};
+
+    EXPECT_CALL(*musicPlayerMock, isPlaying());
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorDuringSongPlaying));
+
+    guiMock->playNextSongSignal(song);
+}
+
+TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsNotPlaying_AndMusicPlayerThrows_thenMusicPlayerStartsPlaying_AndGuiRemovesCurrentSongAndGetsErrors)
+{
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
+    ON_CALL(*musicPlayerMock, playSong(_)).WillByDefault(Throw(FileNotFoundException()));
+
+    Song song{Album(1), 1, "fakeFileName"};
+
+    EXPECT_CALL(*musicPlayerMock, isPlaying()).Times(2);
+    EXPECT_CALL(*musicPlayerMock, playSong(song.getFileName())).Times(2);
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorDuringSongPlaying)).Times(2);
+    EXPECT_CALL(*guiMock, removeCurrentSong()).Times(2);
+
+    guiMock->playNextSongSignal(song);
+
+    ON_CALL(*musicPlayerMock, playSong(_)).WillByDefault(Throw(FormatReaderException()));
+    guiMock->playNextSongSignal(song);
+}
+
 
 // removePlayed
 
