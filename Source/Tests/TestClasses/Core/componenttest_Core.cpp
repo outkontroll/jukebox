@@ -9,6 +9,7 @@
 #include "MusicPlayerExceptions.h"
 #include <memory>
 
+using namespace jukebox;
 using namespace jukebox::core;
 using namespace jukebox::audio;
 using namespace testing;
@@ -46,6 +47,8 @@ protected:
     SettingsMock* settingsMock;
 };
 
+// insertCoin
+
 TEST_F(CoreTest, whenGuiSends50CoinInserted_thenCreditManagerGetsIt_GuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(1));
@@ -80,6 +83,8 @@ TEST_F(CoreTest, whenGuiSends200CoinInserted_thenCreditManagerGetsIt_GuiAndStati
 
     guiMock->coinInserted200Signal();
 }
+
+// playSong
 
 TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsNotPlaying_thenPlaysMusicAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
 {
@@ -117,7 +122,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCredits_AndMusicPlayerIsNotPlay
     EXPECT_CALL(*statisticsMock, songPlayed(song)).Times(2);
     EXPECT_CALL(*creditManagerMock, getCredits()).Times(2);
     EXPECT_CALL(*guiMock, refreshCredits(13)).Times(2);
-    EXPECT_CALL(*guiMock, showStatusMessage(jukebox::ResourceId::ErrorDuringSongPlaying)).Times(2);
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorDuringSongPlaying)).Times(2);
 
     guiMock->playSongSignal(song);
 
@@ -132,7 +137,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasNotEnoughCredits_thenGuiGetsNotificat
     Song song{Album(1), 1, "fakeFileName"};
 
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong());
-    EXPECT_CALL(*guiMock, showStatusMessage(jukebox::ResourceId::ErrorFewCreditsSong));
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorFewCreditsSong));
 
     guiMock->playSongSignal(song);
 }
@@ -156,4 +161,51 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsPlaying_
     guiMock->playSongSignal(song);
 }
 
+// playAlbum
+//TODO
 
+TEST_F(CoreTest, whenGuiSendsAlbumToPlay_HasNotEnoughCredits_thenGuiGetsNotification)
+{
+    ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(false));
+
+    Album album(1);
+
+    EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum());
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorFewCreditsAlbum));
+
+    guiMock->playAlbumSignal(album);
+}
+
+// playNextSong
+//TODO
+
+// removePlayed
+
+TEST_F(CoreTest, whenGuiSendsRemovePlayedSong_AndMusicPlayerIsPlaying_thenMusicStops)
+{
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(true));
+
+    EXPECT_CALL(*musicPlayerMock, isPlaying());
+    EXPECT_CALL(*musicPlayerMock, stopPlaying());
+
+    guiMock->removePlayedSongSignal();
+}
+
+TEST_F(CoreTest, whenGuiSendsRemovePlayedSong_AndMusicPlayerIsNotPlaying_thenGuiGetsWarning)
+{
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
+
+    EXPECT_CALL(*musicPlayerMock, isPlaying());
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::WarningNotPlayingSong));
+
+    guiMock->removePlayedSongSignal();
+}
+
+// finishedPlaying
+
+TEST_F(CoreTest, whenMusicPlayerSendsFinishedPlaying_thenGuiRemovesCurrentSong)
+{
+    EXPECT_CALL(*guiMock, removeCurrentSong());
+
+    musicPlayerMock->finishedPlayingSignal();
+}

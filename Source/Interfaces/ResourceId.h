@@ -7,7 +7,8 @@ enum class ResourceId
 {
     ErrorFewCreditsSong,
     ErrorFewCreditsAlbum,
-    ErrorDuringSongPlaying
+    ErrorDuringSongPlaying,
+    WarningNotPlayingSong
 };
 
 }

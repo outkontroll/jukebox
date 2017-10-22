@@ -103,24 +103,30 @@ void Core::playAlbum(const Album& album)
     if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {
         gui->showStatusMessage(ResourceId::ErrorFewCreditsAlbum);
+        return;
     }
-    else
-    {
-        creditManager->startPlayAlbum();
-        gui->refreshCredits(creditManager->getCredits());
-        statistics->albumPlayed(album);
 
-        //TODO play an album
-        //for(Song song : album)
-        //musicPlayer->playSong(song);
-        Song song(album, 0, "albumTesting");
-        gui->enqueue(song);
-    }
+    creditManager->startPlayAlbum();
+    gui->refreshCredits(creditManager->getCredits());
+    statistics->albumPlayed(album);
+
+    //TODO play an album
+    //for(Song song : album)
+    //musicPlayer->playSong(song);
+    Song song(album, 0, "albumTesting");
+    gui->enqueue(song);
 }
 
 void Core::removePlayedSong()
 {
-    musicPlayer->stopPlaying();
+    if(musicPlayer->isPlaying())
+    {
+        musicPlayer->stopPlaying();
+    }
+    else
+    {
+        gui->showStatusMessage(ResourceId::WarningNotPlayingSong);
+    }
 }
     
 void Core::creditIncrease()
