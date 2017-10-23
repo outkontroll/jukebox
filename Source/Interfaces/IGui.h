@@ -28,6 +28,8 @@ public:
     virtual void enqueue(const audio::Song& song) = 0;
     virtual void removeCurrentSong() = 0;
 
+    virtual void prepareForExit() = 0;
+
 public:
     jukebox::signals::Signal<> coinInserted50Signal;
     jukebox::signals::Signal<> coinInserted100Signal;

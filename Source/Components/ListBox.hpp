@@ -12,9 +12,10 @@ public:
     virtual ~IListBox() = default;
 
     virtual void insertItem(const Item&) = 0;
-    virtual bool hasNextItem() const = 0;
+    virtual bool hasNextItem() const noexcept = 0;
     virtual void removeCurrentItem() = 0;
     virtual Item getNextItem() const = 0;
+    virtual void clear() noexcept = 0;
 };
 
 template<template<class, class> class Container, class Item>
@@ -32,9 +33,10 @@ public:
                            int width, int height, bool rowIsSelected) override;
                            
     void insertItem(const Item&) override;
-    bool hasNextItem() const override;
+    bool hasNextItem() const noexcept override;
     void removeCurrentItem() override;
     Item getNextItem() const override;
+    void clear() noexcept override;
     
 private:
     Container<Item, std::allocator<Item> > items;
@@ -51,9 +53,10 @@ public:
     void resized() override;
 
     void insertItem(const Item&) override;
-    bool hasNextItem() const override;
+    bool hasNextItem() const noexcept override;
     void removeCurrentItem() override;
     Item getNextItem() const override;
+    void clear() noexcept override;
 
 private:
     juce::ListBox sourceListBox;

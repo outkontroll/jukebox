@@ -144,6 +144,13 @@ void Core::creditDecrease()
 void Core::exitRequested()
 {
     LOG_INFO("");
+
+    if(musicPlayer->isPlaying())
+    {
+        gui->prepareForExit();
+        musicPlayer->stopPlaying();
+    }
+
     exitRequestedSignal();
 }
 

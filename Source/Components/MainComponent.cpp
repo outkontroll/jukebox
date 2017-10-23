@@ -144,7 +144,7 @@ void MainComponent::paint (Graphics& g)
         return;
     }
 
-    if( ! hasKeyboardFocus(true))
+    if(!hasKeyboardFocus(true))
     {
         grabKeyboardFocus();
         focusInitialised = hasKeyboardFocus(true);
@@ -219,6 +219,11 @@ void MainComponent::removeCurrentSong()
         listBox->removeCurrentItem();
         playNextSongSignal(nextItem);
     }
+}
+
+void MainComponent::prepareForExit()
+{
+    listBox->clear();
 }
 
 //[/MiscUserCode]

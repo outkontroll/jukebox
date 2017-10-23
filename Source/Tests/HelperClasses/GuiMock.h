@@ -13,6 +13,7 @@ struct GuiMock : public jukebox::gui::IGui
     MOCK_METHOD1(setCurrentlyPlayedSong, void(const jukebox::audio::Song&));
     MOCK_METHOD1(enqueue, void(const jukebox::audio::Song&));
     MOCK_METHOD0(removeCurrentSong, void());
+    MOCK_METHOD0(prepareForExit, void());
 };
 
 #endif //GUIMOCK_H

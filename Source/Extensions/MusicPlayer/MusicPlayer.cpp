@@ -95,7 +95,7 @@ void MusicPlayer::stopPlaying()
     if(state != TransportState::Stopped)
     {
         changeState(TransportState::Stopping);
-        LOG_INFO("Stoped playing.");
+        LOG_INFO("Stopped playing.");
     }
 }
 

@@ -10,7 +10,7 @@ const std::string UnknownError = "Unknown error";
 const std::string ErrorFewCreditsSong = "Too few credits to play a song!";
 const std::string ErrorFewCreditsAlbum = "Too few credits to play an album!";
 const std::string ErrorDuringSongPlaying = "An unexpected error occured during playing song: ";
-const std::string WarningNotPlayingSong = "There is no music playing";
+const std::string WarningNotPlayingSong = "Music already stopped!";
 
 std::string getResourceStringFromId(ResourceId resourceId)
 {

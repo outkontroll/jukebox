@@ -31,6 +31,8 @@ public:
     void setCurrentlyPlayedSong(const audio::Song& song) override;
     void enqueue(const audio::Song& song) override;
     void removeCurrentSong() override;
+
+    void prepareForExit() override;
     
 private:
     void keyPressed(const juce::KeyPress& key);

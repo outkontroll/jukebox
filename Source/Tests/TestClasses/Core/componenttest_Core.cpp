@@ -6,6 +6,7 @@
 #include "MusicPlayerMock.h"
 #include "StatisticsMock.h"
 #include "SettingsMock.h"
+#include "FreeFunctions.h"
 #include "MusicPlayerExceptions.h"
 #include <memory>
 
@@ -45,6 +46,8 @@ protected:
     MusicPlayerMock* musicPlayerMock;
     StatisticsMock* statisticsMock;
     SettingsMock* settingsMock;
+
+    jukebox::signals::Slot eventsSlot;
 };
 
 // insertCoin
@@ -250,4 +253,32 @@ TEST_F(CoreTest, whenMusicPlayerSendsFinishedPlaying_thenGuiRemovesCurrentSong)
     EXPECT_CALL(*guiMock, removeCurrentSong());
 
     musicPlayerMock->finishedPlayingSignal();
+}
+
+// exitRequest
+
+TEST_F(CoreTest, whenGuiSendsExit_AndMusicPlayerIsPlaying_thenMusicPlayerStopsPlaying_AndExitSignalIsCalled)
+{
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(true));
+    FooMock fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, core->exitRequestedSignal);
+
+    EXPECT_CALL(*musicPlayerMock, isPlaying());
+    EXPECT_CALL(*guiMock, prepareForExit());
+    EXPECT_CALL(*musicPlayerMock, stopPlaying());
+    EXPECT_CALL(fooMock, foo());
+
+    guiMock->exitRequestedSignal();
+}
+
+TEST_F(CoreTest, whenGuiSendsExit_AndMusicPlayerIsNotPlaying_thenExitSignalIsCalled)
+{
+    ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
+    FooMock fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, core->exitRequestedSignal);
+
+    EXPECT_CALL(*musicPlayerMock, isPlaying());
+    EXPECT_CALL(fooMock, foo());
+
+    guiMock->exitRequestedSignal();
 }

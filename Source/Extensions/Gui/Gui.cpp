@@ -145,6 +145,11 @@ void Gui::removeCurrentSong()
     mainComponent->removeCurrentSong();
 }
 
+void Gui::prepareForExit()
+{
+    mainComponent->prepareForExit();
+}
+
 void Gui::updateAlbumList()
 {
     const auto directories(FileSystem::getAlbumDirectories(musicFolder));

@@ -41,7 +41,7 @@ void ListBox<Container, Item>::insertItem(const Item& item)
 }
 
 template<template<class, class> class Container, class Item>
-bool ListBox<Container, Item>::hasNextItem() const
+bool ListBox<Container, Item>::hasNextItem() const noexcept
 {
     return sourceModel.hasNextItem();
 }
@@ -59,6 +59,12 @@ template<template<class, class> class Container, class Item>
 Item ListBox<Container, Item>::getNextItem() const
 {
     return sourceModel.getNextItem();
+}
+
+template<template<class, class> class Container, class Item>
+void ListBox<Container, Item>::clear() noexcept
+{
+    sourceModel.clear();
 }
 
 template<template<class, class> class Container, class Item>
@@ -105,7 +111,7 @@ void ListBoxContents<Container, Item>::insertItem(const Item& item)
 }
 
 template<template<class, class> class Container, class Item>
-bool ListBoxContents<Container, Item>::hasNextItem() const
+bool ListBoxContents<Container, Item>::hasNextItem() const noexcept
 {
     return items.size() > 0;
 }
@@ -128,6 +134,12 @@ Item ListBoxContents<Container, Item>::getNextItem() const
 {
     assert(items.size() > 0);
     return items[0];
+}
+
+template<template<class, class> class Container, class Item>
+void ListBoxContents<Container, Item>::clear() noexcept
+{
+    items.clear();
 }
 
 }}

@@ -62,6 +62,7 @@ public:
     void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     void enqueue(const jukebox::audio::Song &song);
     void removeCurrentSong();
+    void prepareForExit();
     //[/UserMethods]
 
     void paint (Graphics& g) override;
