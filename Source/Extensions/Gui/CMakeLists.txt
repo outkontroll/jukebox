@@ -12,6 +12,7 @@ set(HEADER_SOURCES
     ${SOURCE_DIR}/Base/MainWindow.h
     ${SOURCE_DIR}/Components/MainComponent.h
     ${SOURCE_DIR}/Components/ListBox.hpp
+    ${SOURCE_DIR}/Components/MultiImageCanvas.h
 )
 
 # sources
@@ -21,14 +22,16 @@ set(CPP_SOURCES
     ${SOURCE_DIR}/Base/MainWindow.cpp
     ${SOURCE_DIR}/Components/MainComponent.cpp
     ${SOURCE_DIR}/Components/ListBoxImplementation.hpp
+    ${SOURCE_DIR}/Components/MultiImageCanvas.cpp
 )
 
 # project
 
 add_library(gui
-	    STATIC
-	    ${HEADER_SOURCES}
-	    ${CPP_SOURCES})
+    STATIC
+    ${HEADER_SOURCES}
+    ${CPP_SOURCES}
+)
 
 set(INCLUDE_DIRS
     ${EXTENSION_INCLUDE_DIRS}

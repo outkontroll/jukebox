@@ -29,6 +29,9 @@ add_library(helpers
 
 set(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/Logging/
+    #TODO
+    ${JUCE_DIRECTORY}
+    ${JUCE_MODULE_DIRECTORY}
 )
 
 target_include_directories(helpers PUBLIC ${INCLUDE_DIRS})

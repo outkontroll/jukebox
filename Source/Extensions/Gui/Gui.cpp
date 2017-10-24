@@ -159,6 +159,10 @@ void Gui::updateAlbumList()
                                                    [](const std::string& init, const std::string& directory) {
                                                        return init + "\n" + directory;
     }));
+
+    //TODO get actual pictures instead of one
+    const auto picturePath(FileSystem::getPicturePath(musicFolder + "/" + FillWithLeadingZeros(13, 3), ".jpg"));
+    mainComponent->loadPicture(picturePath);
 }
 
 void Gui::showHelp()

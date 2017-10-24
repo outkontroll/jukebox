@@ -50,6 +50,7 @@ template<template<class, class> class Container, class Item>
 void ListBox<Container, Item>::removeCurrentItem()
 {
     sourceModel.removeCurrentItem();
+    sourceListBox.updateContent();
     
     //without this call the changes would not be visible
     repaint();

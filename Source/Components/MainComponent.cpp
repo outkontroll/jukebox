@@ -94,6 +94,9 @@ MainComponent::MainComponent ()
     txtCurrentSong->setPopupMenuEnabled (true);
     txtCurrentSong->setText (String());
 
+    addAndMakeVisible (multipleImageCanvas = new jukebox::gui::MultiImageCanvas());
+    multipleImageCanvas->setName ("canvas to draw album images");
+
 
     //[UserPreSize]
     addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
@@ -122,6 +125,7 @@ MainComponent::~MainComponent()
     infoPlayQueue = nullptr;
     infoCurrentSong = nullptr;
     txtCurrentSong = nullptr;
+    multipleImageCanvas = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -167,6 +171,7 @@ void MainComponent::resized()
     infoPlayQueue->setBounds (728, 176, 150, 24);
     infoCurrentSong->setBounds (728, 64, 150, 24);
     txtCurrentSong->setBounds (728, 104, 150, 24);
+    multipleImageCanvas->setBounds (250, 250, 500, 320);
     //[UserResized] Add your own custom resize handling here..
     listBox->setBounds(728, 220, 200, 150);
     //[/UserResized]
@@ -197,6 +202,11 @@ void MainComponent::showStatusMessage(const String& message)
 void MainComponent::updateAlbumList(const String& albumList)
 {
     txtAlbumList->setText(albumList);
+}
+
+void MainComponent::loadPicture(const String& picturePath)
+{
+    multipleImageCanvas->loadImage(picturePath);
 }
 
 void MainComponent::setCurrentlyPlayedSong(const jukebox::audio::Song& song)
@@ -279,6 +289,9 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="728 104 150 24" initialText=""
               multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="1"
               caret="0" popupmenu="1"/>
+  <GENERICCOMPONENT name="canvas to draw album images" id="98e3b5ee3d8d0f7b" memberName="multipleImageCanvas"
+                    virtualName="" explicitFocusOrder="0" pos="250 250 500 320" class="jukebox::gui::MultiImageCanvas"
+                    params=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

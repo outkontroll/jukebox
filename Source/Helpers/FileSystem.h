@@ -11,7 +11,9 @@ class FileSystem
 public:
     static std::vector<std::string> getAlbumDirectories(const std::string& path);
 
-    static std::vector<std::string> getSongFiles(const std::string& path, const std::string& extensions = "*.wav");
+    static std::vector<std::string> getSongFiles(const std::string& path, const std::string& musicExtensions = "*.wav");
+
+    static std::string getPicturePath(const std::string& path, const std::string& pictureExtensions);
 };
 
 }}
