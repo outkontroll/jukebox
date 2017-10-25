@@ -15,8 +15,6 @@ std::vector<std::string> FileSystem::getAlbumDirectories(const std::string& path
     std::vector<std::string> albumDirs;
     //TODO
     albumDirs.push_back(path);
-    albumDirs.push_back("kamu");
-    albumDirs.push_back(std::string("adatok"));
     
     return albumDirs;
 }

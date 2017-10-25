@@ -102,6 +102,7 @@ MainComponent::MainComponent ()
 
 
     //[UserPreSize]
+    txtAlbumList->setVisible(false);
     singleAlbumCanvas->setVisible(false);
 
     addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
