@@ -42,7 +42,7 @@ void MultiImageCanvas::loadImage(const juce::String& imagePath)
 
 Rectangle<float> MultiImageCanvas::calculateImagePlace(Position position) const
 {
-    auto width = static_cast<float>(getWidth() / 3);
-    auto height = static_cast<float>(getHeight() / 3);
+    const float width = static_cast<float>(getWidth() / 3);
+    const float height = static_cast<float>(getHeight() / 3);
     return {width * position.x, height * position.y, width, height};
 }
