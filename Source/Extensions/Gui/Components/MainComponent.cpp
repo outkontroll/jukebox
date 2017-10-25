@@ -102,7 +102,7 @@ MainComponent::MainComponent ()
     addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
     //[/UserPreSize]
 
-    setSize (1000, 650);
+    setSize (1400, 800);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -164,16 +164,16 @@ void MainComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    infoCredit->setBounds (728, 24, 56, 24);
-    lblCredits->setBounds (792, 24, 32, 24);
-    lblStatus->setBounds (32, 560, 150, 24);
-    txtAlbumList->setBounds (32, 24, 272, 216);
-    infoPlayQueue->setBounds (728, 176, 150, 24);
-    infoCurrentSong->setBounds (728, 64, 150, 24);
-    txtCurrentSong->setBounds (728, 104, 150, 24);
-    multipleImageCanvas->setBounds (250, 250, 500, 320);
+    infoCredit->setBounds (1128, 32, 56, 24);
+    lblCredits->setBounds (1192, 32, 32, 24);
+    lblStatus->setBounds (32, 760, 300, 24);
+    txtAlbumList->setBounds (32, 32, 272, 216);
+    infoPlayQueue->setBounds (1128, 184, 150, 24);
+    infoCurrentSong->setBounds (1128, 72, 150, 24);
+    txtCurrentSong->setBounds (1128, 112, 200, 24);
+    multipleImageCanvas->setBounds (32, 32, 1064, 712);
     //[UserResized] Add your own custom resize handling here..
-    listBox->setBounds(728, 220, 200, 150);
+    listBox->setBounds(1128, 228, 200, 150);
     //[/UserResized]
 }
 
@@ -251,46 +251,46 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="MainComponent" componentName=""
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="1000" initialHeight="650">
+                 fixedSize="0" initialWidth="1400" initialHeight="800">
   <METHODS>
     <METHOD name="keyPressed (const KeyPress&amp; key)"/>
   </METHODS>
   <BACKGROUND backgroundColour="ffd2691e"/>
   <LABEL name="credits info label" id="b06a2a5d220c224b" memberName="infoCredit"
-         virtualName="" explicitFocusOrder="0" pos="728 24 56 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="1128 32 56 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Credits:" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
   <LABEL name="credits label" id="559731314e5f9fe6" memberName="lblCredits"
-         virtualName="" explicitFocusOrder="0" pos="792 24 32 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="1192 32 32 24" edTextCol="ff000000"
          edBkgCol="0" labelText="0" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="18"
          bold="0" italic="0" justification="33"/>
   <LABEL name="Status label" id="2888f5d9f29162ec" memberName="lblStatus"
-         virtualName="" explicitFocusOrder="0" pos="32 560 150 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 760 300 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Ready" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="List of albums" id="c309162dc4be8cd5" memberName="txtAlbumList"
-              virtualName="" explicitFocusOrder="0" pos="32 24 272 216" bkgcol="ffdadada"
+              virtualName="" explicitFocusOrder="0" pos="32 32 272 216" bkgcol="ffdadada"
               initialText="" multiline="1" retKeyStartsLine="0" readonly="1"
               scrollbars="1" caret="0" popupmenu="1"/>
   <LABEL name="playlist queue info label" id="14603449b7b89fe8" memberName="infoPlayQueue"
-         virtualName="" explicitFocusOrder="0" pos="728 176 150 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="1128 184 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Songs in the queue" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="15" bold="0" italic="0" justification="33"/>
   <LABEL name="current song info label" id="e2e9b0ce64f022e0" memberName="infoCurrentSong"
-         virtualName="" explicitFocusOrder="0" pos="728 64 150 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="1128 72 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Currently playing:" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="15" bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="current song text" id="e9cd5fc0ca8c98f6" memberName="txtCurrentSong"
-              virtualName="" explicitFocusOrder="0" pos="728 104 150 24" initialText=""
+              virtualName="" explicitFocusOrder="0" pos="1128 112 200 24" initialText=""
               multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="1"
               caret="0" popupmenu="1"/>
   <GENERICCOMPONENT name="canvas to draw album images" id="98e3b5ee3d8d0f7b" memberName="multipleImageCanvas"
-                    virtualName="" explicitFocusOrder="0" pos="250 250 500 320" class="jukebox::gui::MultiImageCanvas"
+                    virtualName="" explicitFocusOrder="0" pos="32 32 1064 712" class="jukebox::gui::MultiImageCanvas"
                     params=""/>
 </JUCER_COMPONENT>
 
