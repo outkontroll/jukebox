@@ -94,11 +94,16 @@ MainComponent::MainComponent ()
     txtCurrentSong->setPopupMenuEnabled (true);
     txtCurrentSong->setText (String());
 
-    addAndMakeVisible (multipleImageCanvas = new jukebox::gui::MultiImageCanvas());
-    multipleImageCanvas->setName ("canvas to draw album images");
+    addAndMakeVisible (multipleAlbumsCanvas = new jukebox::gui::MultipleAlbumsCanvas());
+    multipleAlbumsCanvas->setName ("canvas to draw multiple album content");
+
+    addAndMakeVisible (singleAlbumCanvas = new jukebox::gui::SingleAlbumCanvas());
+    singleAlbumCanvas->setName ("canvas to draw single album content");
 
 
     //[UserPreSize]
+    singleAlbumCanvas->setVisible(false);
+
     addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
     //[/UserPreSize]
 
@@ -125,7 +130,8 @@ MainComponent::~MainComponent()
     infoPlayQueue = nullptr;
     infoCurrentSong = nullptr;
     txtCurrentSong = nullptr;
-    multipleImageCanvas = nullptr;
+    multipleAlbumsCanvas = nullptr;
+    singleAlbumCanvas = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -171,8 +177,10 @@ void MainComponent::resized()
     infoPlayQueue->setBounds (1128, 184, 150, 24);
     infoCurrentSong->setBounds (1128, 72, 150, 24);
     txtCurrentSong->setBounds (1128, 112, 200, 24);
-    multipleImageCanvas->setBounds (32, 32, 1064, 712);
+    multipleAlbumsCanvas->setBounds (32, 32, 1064, 712);
+    singleAlbumCanvas->setBounds (32, 32, 1064, 712);
     //[UserResized] Add your own custom resize handling here..
+    //singleAlbumCanvas->setBounds(multipleAlbumsCanvas->getBounds());
     listBox->setBounds(1128, 228, 200, 150);
     //[/UserResized]
 }
@@ -206,7 +214,14 @@ void MainComponent::updateAlbumList(const String& albumList)
 
 void MainComponent::loadPicture(const String& picturePath)
 {
-    multipleImageCanvas->loadImage(picturePath);
+    multipleAlbumsCanvas->loadImage(picturePath);
+    singleAlbumCanvas->loadImage(picturePath);
+}
+
+void MainComponent::switchBetweenAlbumViews()
+{
+    multipleAlbumsCanvas->setVisible(!multipleAlbumsCanvas->isVisible());
+    singleAlbumCanvas->setVisible(!singleAlbumCanvas->isVisible());
 }
 
 void MainComponent::setCurrentlyPlayedSong(const jukebox::audio::Song& song)
@@ -289,8 +304,13 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="1128 112 200 24" initialText=""
               multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="1"
               caret="0" popupmenu="1"/>
-  <GENERICCOMPONENT name="canvas to draw album images" id="98e3b5ee3d8d0f7b" memberName="multipleImageCanvas"
-                    virtualName="" explicitFocusOrder="0" pos="32 32 1064 712" class="jukebox::gui::MultiImageCanvas"
+  <GENERICCOMPONENT name="canvas to draw multiple album content" id="98e3b5ee3d8d0f7b"
+                    memberName="multipleAlbumsCanvas" virtualName="" explicitFocusOrder="0"
+                    pos="32 32 1064 712" class="jukebox::gui::MultipleAlbumsCanvas"
+                    params=""/>
+  <GENERICCOMPONENT name="canvas to draw single album content" id="e884540ad76a0310"
+                    memberName="singleAlbumCanvas" virtualName="" explicitFocusOrder="0"
+                    pos="888 504 302 208" class="jukebox::gui::SingleAlbumCanvas"
                     params=""/>
 </JUCER_COMPONENT>
 

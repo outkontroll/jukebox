@@ -93,6 +93,10 @@ void Gui::keyPressed(const KeyPress& key)
     {
         shutDownSignal();
     }
+    else if(textCharacter == 'h')
+    {
+        mainComponent->switchBetweenAlbumViews();
+    }
     else if(textCharacter == 'x')
     {
         static int fileToPlay = 0;

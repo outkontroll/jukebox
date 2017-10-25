@@ -12,14 +12,6 @@
         <FILE id="dzPdRk" name="MainWindow.cpp" compile="1" resource="0" file="Source/Base/MainWindow.cpp"/>
         <FILE id="mB4NtC" name="MainWindow.h" compile="0" resource="0" file="Source/Base/MainWindow.h"/>
       </GROUP>
-      <GROUP id="{69869A28-EDBD-6268-FF24-7B5B3417ED08}" name="Components">
-        <FILE id="LhDVTL" name="ListBox.hpp" compile="0" resource="0" file="Source/Components/ListBox.hpp"/>
-        <FILE id="ZeSBqU" name="ListBoxImplementation.hpp" compile="0" resource="0"
-              file="Source/Components/ListBoxImplementation.hpp"/>
-        <FILE id="CVIOaR" name="MainComponent.cpp" compile="1" resource="0"
-              file="Source/Components/MainComponent.cpp"/>
-        <FILE id="wMoe6M" name="MainComponent.h" compile="0" resource="0" file="Source/Components/MainComponent.h"/>
-      </GROUP>
       <GROUP id="{DC9AA3BF-2E7D-CD20-5E76-FB7650967DA7}" name="Extensions">
         <GROUP id="{A4B72D61-3058-2318-76E5-1CC79E6CA294}" name="Core">
           <FILE id="agihCg" name="Core.cpp" compile="1" resource="0" file="Source/Extensions/Core/Core.cpp"/>
@@ -31,6 +23,22 @@
           <FILE id="nKFeej" name="CreditManager.h" compile="0" resource="0" file="Source/Extensions/CreditManager/CreditManager.h"/>
         </GROUP>
         <GROUP id="{E8CC8400-D76C-A852-8B3D-FF3CC709F923}" name="Gui">
+          <GROUP id="{C94FA82C-C22A-34C9-2575-39FDCB671DD8}" name="Components">
+            <FILE id="k6YcpD" name="ListBox.hpp" compile="0" resource="0" file="Source/Extensions/Gui/Components/ListBox.hpp"/>
+            <FILE id="wh0n6S" name="ListBoxImplementation.hpp" compile="0" resource="0"
+                  file="Source/Extensions/Gui/Components/ListBoxImplementation.hpp"/>
+            <FILE id="JZRA0p" name="MainComponent.cpp" compile="1" resource="0"
+                  file="Source/Extensions/Gui/Components/MainComponent.cpp"/>
+            <FILE id="mBceO5" name="MainComponent.h" compile="0" resource="0" file="Source/Extensions/Gui/Components/MainComponent.h"/>
+            <FILE id="LIVXQO" name="MultipleAlbumsCanvas.cpp" compile="1" resource="0"
+                  file="Source/Extensions/Gui/Components/MultipleAlbumsCanvas.cpp"/>
+            <FILE id="YRXIzX" name="MultipleAlbumsCanvas.h" compile="0" resource="0"
+                  file="Source/Extensions/Gui/Components/MultipleAlbumsCanvas.h"/>
+            <FILE id="dze5Od" name="SingleAlbumCanvas.cpp" compile="1" resource="0"
+                  file="Source/Extensions/Gui/Components/SingleAlbumCanvas.cpp"/>
+            <FILE id="SQXwar" name="SingleAlbumCanvas.h" compile="0" resource="0"
+                  file="Source/Extensions/Gui/Components/SingleAlbumCanvas.h"/>
+          </GROUP>
           <FILE id="qnMYao" name="Gui.cpp" compile="1" resource="0" file="Source/Extensions/Gui/Gui.cpp"/>
           <FILE id="BxgQTo" name="Gui.h" compile="0" resource="0" file="Source/Extensions/Gui/Gui.h"/>
         </GROUP>

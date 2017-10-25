@@ -12,7 +12,8 @@ set(HEADER_SOURCES
     ${SOURCE_DIR}/Base/MainWindow.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBox.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MultiImageCanvas.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MultipleAlbumsCanvas.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/SingleAlbumCanvas.h
 )
 
 # sources
@@ -22,7 +23,8 @@ set(CPP_SOURCES
     ${SOURCE_DIR}/Base/MainWindow.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBoxImplementation.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MultiImageCanvas.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MultipleAlbumsCanvas.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/SingleAlbumCanvas.cpp
 )
 
 # project

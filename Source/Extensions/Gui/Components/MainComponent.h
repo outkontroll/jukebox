@@ -23,7 +23,8 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "ListBox.hpp"
-#include "MultiImageCanvas.h"
+#include "MultipleAlbumsCanvas.h"
+#include "SingleAlbumCanvas.h"
 #include "Signals.hpp"
 #include <string>
 #include <deque>
@@ -63,6 +64,7 @@ public:
     void updateAlbumList(const String& albumList);
     void loadPicture(const String& picturePath);
     //ENDTODO
+    void switchBetweenAlbumViews();
     void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     void enqueue(const jukebox::audio::Song &song);
     void removeCurrentSong();
@@ -90,7 +92,8 @@ private:
     ScopedPointer<Label> infoPlayQueue;
     ScopedPointer<Label> infoCurrentSong;
     ScopedPointer<TextEditor> txtCurrentSong;
-    ScopedPointer<jukebox::gui::MultiImageCanvas> multipleImageCanvas;
+    ScopedPointer<jukebox::gui::MultipleAlbumsCanvas> multipleAlbumsCanvas;
+    ScopedPointer<jukebox::gui::SingleAlbumCanvas> singleAlbumCanvas;
 
 
     //==============================================================================
