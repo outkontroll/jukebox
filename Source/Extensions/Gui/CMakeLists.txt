@@ -10,9 +10,9 @@ set(HEADER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ResourceString.h
     ${SOURCE_DIR}/Base/MainWindow.h
-    ${SOURCE_DIR}/Components/MainComponent.h
-    ${SOURCE_DIR}/Components/ListBox.hpp
-    ${SOURCE_DIR}/Components/MultiImageCanvas.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBox.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MultiImageCanvas.h
 )
 
 # sources
@@ -20,9 +20,9 @@ set(HEADER_SOURCES
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.cpp
     ${SOURCE_DIR}/Base/MainWindow.cpp
-    ${SOURCE_DIR}/Components/MainComponent.cpp
-    ${SOURCE_DIR}/Components/ListBoxImplementation.hpp
-    ${SOURCE_DIR}/Components/MultiImageCanvas.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBoxImplementation.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MultiImageCanvas.cpp
 )
 
 # project
@@ -36,7 +36,7 @@ add_library(gui
 set(INCLUDE_DIRS
     ${EXTENSION_INCLUDE_DIRS}
     ${SOURCE_DIR}/Base/
-    ${SOURCE_DIR}/Components/
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components/
     #TODO: remove this
     ${JUCE_DIRECTORY}
 )
