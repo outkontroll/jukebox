@@ -165,7 +165,8 @@ void Gui::updateAlbumList()
     }));
 
     //TODO get actual pictures instead of one page
-    mainComponent->loadAlbums(musicFolder, 9);
+    const int currentAlbumIndex = 13;
+    mainComponent->loadAlbums(musicFolder, currentAlbumIndex);
 }
 
 void Gui::showHelp()
