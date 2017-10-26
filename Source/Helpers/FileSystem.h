@@ -13,7 +13,7 @@ public:
 
     static std::vector<std::string> getSongFiles(const std::string& path, const std::string& musicExtensions = "*.wav");
 
-    static std::string getPicturePath(const std::string& path, const std::string& pictureExtensions);
+    static std::string getPicturePath(const std::string& musicDirectory, int albumIndex, const std::string& pictureExtensions);
 };
 
 }}

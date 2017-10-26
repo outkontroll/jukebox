@@ -1,6 +1,6 @@
 #include "FileSystem.h"
+#include "Formaters.h"
 #include "Logger.h"
-#include "JuceHeader.h"
 
 using namespace jukebox::filesystem;
 
@@ -32,14 +32,14 @@ std::vector<std::string> FileSystem::getSongFiles(const std::string& path, const
     return songFiles;
 }
 
-std::string FileSystem::getPicturePath(const std::string& path, const std::string& pictureExtensions)
+std::string FileSystem::getPicturePath(const std::string& musicDirectory, int albumIndex, const std::string& pictureExtensions)
 {
-    if(path == "")
+    if(musicDirectory == "")
     {
         LOG_WARNING("called with empty path!");
         return {};
     }
 
     //TODO get actal files, match only one extension
-    return path + "/cover" + pictureExtensions;
+    return musicDirectory + "/" + FillWithLeadingZeros(albumIndex, 3) + "/cover" + pictureExtensions;
 }

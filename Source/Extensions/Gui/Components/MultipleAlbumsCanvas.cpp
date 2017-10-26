@@ -1,54 +1,55 @@
 #include "MultipleAlbumsCanvas.h"
+#include "FileSystem.h"
 
 using namespace jukebox::gui;
 using namespace juce;
-
-MultipleAlbumsCanvas::MultipleAlbumsCanvas()
-{
-
-}
 
 void MultipleAlbumsCanvas::paint(Graphics& g)
 {
     //TODO just for testing purposes
     g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
 
+    const float slotWidth = static_cast<float>(getWidth() / colums);
+    const float slotHeight = static_cast<float>(getHeight() / rows);
+
+    int index(0);
     for(const auto& image : images)
     {
         if(image.isValid())
         {
-            g.drawImage(image,
-                        calculateImagePlace({1, 0}),
-                        RectanglePlacement::stretchToFit);
+            const auto position = getPositionFromIndex(index);
 
             g.drawImage(image,
-                        calculateImagePlace({0, 1}),
-                        RectanglePlacement::stretchToFit);
-
-            g.drawImage(image,
-                        calculateImagePlace({2, 0}),
+                        calculateImagePlace(position, slotWidth, slotHeight),
                         RectanglePlacement::stretchToFit);
         }
+
+        ++index;
     }
 }
 
-void MultipleAlbumsCanvas::loadImage(const juce::String& imagePath)
+void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex)
 {
-    auto image = ImageFileFormat::loadFrom(File(imagePath));
-    if(!image.isValid())
+    images.clear();
+
+    for(int albumIndex = firstAlbumIndex; albumIndex < firstAlbumIndex + colums * rows; ++albumIndex)
     {
-        //TODO error handling
-        return;
-    }
+        auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectoy, albumIndex, ".jpg");
+        auto image = ImageFileFormat::loadFrom(File(imagePath));
 
-    images.push_back(image);
+        images.push_back(image);
+    }
 }
 
-Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position) const
+Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, float slotWidth, float slotHeight) const
 {
-    const float slotWidth = static_cast<float>(getWidth() / 4);
-    const float slotHeight = static_cast<float>(getHeight() / 2);
     const float imageWidth = slotWidth - 20;
     const float imageHeigth = imageWidth;
+
     return {slotWidth * position.x + (slotWidth - imageWidth) / 2, slotHeight * position.y + (slotHeight - imageHeigth) / 1.8f, imageWidth, imageHeigth};
+}
+
+MultipleAlbumsCanvas::Position MultipleAlbumsCanvas::getPositionFromIndex(int index) const
+{
+    return { index % colums, index / colums };
 }

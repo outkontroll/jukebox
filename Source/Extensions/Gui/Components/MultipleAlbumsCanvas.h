@@ -3,27 +3,30 @@
 
 #include "JuceHeader.h"
 #include <vector>
+#include <string>
 
 namespace jukebox { namespace gui {
 
 class MultipleAlbumsCanvas : public juce::Component
 {
 public:
-    MultipleAlbumsCanvas();
     void paint(juce::Graphics& g) override;
 
-    void loadImage(const juce::String& imagePath);
+    void loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex);
 
 private:
     struct Position
     {
-        float x;
-        float y;
+        int x;
+        int y;
     };
 
-    juce::Rectangle<float> calculateImagePlace(Position position) const;
+    juce::Rectangle<float> calculateImagePlace(Position position, float slotWidth, float slotHeight) const;
+    Position getPositionFromIndex(int index) const;
 
     std::vector<juce::Image> images;
+    int colums = 4;
+    int rows = 2;
 };
 
 }}

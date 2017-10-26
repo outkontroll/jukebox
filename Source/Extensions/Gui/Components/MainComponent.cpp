@@ -213,10 +213,10 @@ void MainComponent::updateAlbumList(const String& albumList)
     txtAlbumList->setText(albumList);
 }
 
-void MainComponent::loadPicture(const String& picturePath)
+void MainComponent::loadAlbums(const std::string& musicDirectory, int firstAlbumIndex)
 {
-    multipleAlbumsCanvas->loadImage(picturePath);
-    singleAlbumCanvas->loadImage(picturePath);
+    multipleAlbumsCanvas->loadAlbums(musicDirectory, firstAlbumIndex);
+    singleAlbumCanvas->loadImage(musicDirectory);
 }
 
 void MainComponent::switchBetweenAlbumViews()

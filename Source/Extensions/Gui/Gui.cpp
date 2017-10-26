@@ -164,9 +164,8 @@ void Gui::updateAlbumList()
                                                        return init + "\n" + directory;
     }));
 
-    //TODO get actual pictures instead of one
-    const auto picturePath(FileSystem::getPicturePath(musicFolder + "/" + FillWithLeadingZeros(13, 3), ".jpg"));
-    mainComponent->loadPicture(picturePath);
+    //TODO get actual pictures instead of one page
+    mainComponent->loadAlbums(musicFolder, 9);
 }
 
 void Gui::showHelp()

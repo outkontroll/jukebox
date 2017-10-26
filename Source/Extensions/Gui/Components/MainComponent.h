@@ -62,7 +62,7 @@ public:
     void showStatusMessage(const String& message);
     //TODO
     void updateAlbumList(const String& albumList);
-    void loadPicture(const String& picturePath);
+    void loadAlbums(const std::string& musicDirectory, int firstAlbumIndex);
     //ENDTODO
     void switchBetweenAlbumViews();
     void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
