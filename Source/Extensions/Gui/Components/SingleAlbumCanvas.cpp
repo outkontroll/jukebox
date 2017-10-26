@@ -50,6 +50,7 @@ void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int firstAl
     albumIndex = firstAlbumIndex;
     auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectory, albumIndex, ".jpg");
     image = ImageFileFormat::loadFrom(File(imagePath));
+    repaint();
 }
 
 Rectangle<float> SingleAlbumCanvas::calculateImagePlace(float imageSize) const

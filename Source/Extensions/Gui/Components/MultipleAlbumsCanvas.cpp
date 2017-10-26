@@ -65,6 +65,7 @@ void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firs
 
         albums.push_back({image, albumIndex});
     }
+    repaint();
 }
 
 Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, float slotWidth, float slotHeight) const

@@ -62,8 +62,8 @@ public:
     void showStatusMessage(const String& message);
     //TODO
     void updateAlbumList(const String& albumList);
+    //END TODO
     void loadAlbums(const std::string& musicDirectory, int firstAlbumIndex);
-    //ENDTODO
     void switchBetweenAlbumViews();
     void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     void enqueue(const jukebox::audio::Song &song);

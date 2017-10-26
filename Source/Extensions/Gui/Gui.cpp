@@ -18,10 +18,6 @@ using namespace jukebox::filesystem;
 using namespace juce;
 
 namespace {
-    const std::string InvalidString = "";
-    const unsigned int InvalidPosition = 0;
-    const unsigned int FirstPosition = 1;
-
     //TODO remove this as this is just for testing purposes
     const std::array<unsigned, 3> filesToPlay = {{ 1, 16, 4 }};
 }
@@ -30,9 +26,7 @@ Song createSong(unsigned int albumNumber, unsigned int songNumber, const std::st
 
 Gui::Gui(const std::string& applicationName)
     : mainComponent(std::make_unique<MainComponent>()),
-      mainWindow(std::make_unique<MainWindow>(applicationName, mainComponent.get())),
-      musicFolder(InvalidString),
-      position(InvalidPosition)
+      mainWindow(std::make_unique<MainWindow>(applicationName, mainComponent.get()))
 {
     eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
     eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
@@ -57,6 +51,61 @@ void Gui::keyPressed(const KeyPress& key)
     {
         removePlayedSongSignal();
     }
+    else if(textCharacter == '+')
+    {
+        //TODO what if we are in the current album mode?
+        currentAlbumIndex -= albumIndexStep;
+        //TODO check underflow
+        mainComponent->loadAlbums(musicFolder, currentAlbumIndex);
+    }
+    else if(textCharacter == '-')
+    {
+        //TODO what if we are in the current album mode?
+        currentAlbumIndex += albumIndexStep;
+        //TODO check overflow
+        mainComponent->loadAlbums(musicFolder, currentAlbumIndex);
+    }
+    else if(textCharacter == '0')
+    {
+        //TODO
+    }
+    else if(textCharacter == '1')
+    {
+        //TODO
+    }
+    else if(textCharacter == '2')
+    {
+        //TODO
+    }
+    else if(textCharacter == '3')
+    {
+        //TODO
+    }
+    else if(textCharacter == '4')
+    {
+        //TODO
+    }
+    else if(textCharacter == '5')
+    {
+        //TODO
+    }
+    else if(textCharacter == '6')
+    {
+        //TODO
+    }
+    else if(textCharacter == '7')
+    {
+        //TODO
+    }
+    else if(textCharacter == '8')
+    {
+        //TODO
+    }
+    else if(textCharacter == '9')
+    {
+        //TODO
+    }
+
     else if(textCharacter == 'a')
     {
         increaseSoundVolumeSignal();
@@ -130,7 +179,6 @@ void Gui::showStatusMessage(ResourceId messageId)
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
-    position = FirstPosition;
     updateAlbumList();
 }
 
@@ -165,7 +213,6 @@ void Gui::updateAlbumList()
     }));
 
     //TODO get actual pictures instead of one page
-    const int currentAlbumIndex = 13;
     mainComponent->loadAlbums(musicFolder, currentAlbumIndex);
 }
 

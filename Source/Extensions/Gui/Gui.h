@@ -18,7 +18,6 @@ class Gui : public IGui
 {
 public:
     Gui(const std::string& applicationName);
-    //TODO: check why is the = default one wrong
     ~Gui();
 
     void playNextSong(const audio::Song& song);
@@ -45,8 +44,9 @@ private:
     std::unique_ptr<juce::MainComponent> mainComponent;
     std::unique_ptr<MainWindow> mainWindow;
     
-    std::string musicFolder;
-    unsigned int position;
+    std::string musicFolder = "";
+    unsigned int currentAlbumIndex = 1;
+    unsigned int albumIndexStep = 8;
 };
 
 }}
