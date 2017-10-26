@@ -8,7 +8,7 @@ set(HEADER_SOURCES
     ${INTERFACE_DIRECTORY}/IGui.h
     ${INTERFACE_DIRECTORY}/ResourceId.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/ResourceString.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Resources/ResourceString.h
     ${SOURCE_DIR}/Base/MainWindow.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBox.hpp
@@ -20,7 +20,7 @@ set(HEADER_SOURCES
 
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ResourceString.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Resources/ResourceString.cpp
     ${SOURCE_DIR}/Base/MainWindow.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBoxImplementation.hpp
@@ -39,8 +39,9 @@ add_library(gui
 set(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${EXTENSION_INCLUDE_DIRS}
-    ${SOURCE_DIR}/Base/
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/
+    ${SOURCE_DIR}/Base
+    ${CMAKE_CURRENT_SOURCE_DIR}/Resources
+    ${CMAKE_CURRENT_SOURCE_DIR}/Components
     #TODO: remove this
     ${JUCE_DIRECTORY}
 )
