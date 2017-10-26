@@ -8,7 +8,8 @@ enum class ResourceId
     ErrorFewCreditsSong,
     ErrorFewCreditsAlbum,
     ErrorDuringSongPlaying,
-    WarningNotPlayingSong
+    WarningNotPlayingSong,
+    ErrorImageNotFound
 };
 
 }

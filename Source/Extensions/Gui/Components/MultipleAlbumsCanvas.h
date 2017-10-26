@@ -22,9 +22,10 @@ private:
     };
 
     juce::Rectangle<float> calculateImagePlace(Position position, float slotWidth, float slotHeight) const;
+    juce::Rectangle<float> calculateTextPlace(Position position, float slotWidth, float slotHeight) const;
     Position getPositionFromIndex(int index) const;
 
-    std::vector<juce::Image> images;
+    std::vector<std::pair<juce::Image, int>> albums;
     int colums = 4;
     int rows = 2;
 };

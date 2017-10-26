@@ -124,7 +124,7 @@ void Gui::refreshCredits(unsigned int credits)
 
 void Gui::showStatusMessage(ResourceId messageId)
 {
-    mainComponent->showStatusMessage(getResourceStringFromId(messageId));
+    mainComponent->showStatusMessage(Resources::getResourceStringFromId(messageId));
 }
 
 void Gui::setMusicFolder(const std::string& folder)

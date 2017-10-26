@@ -20,6 +20,7 @@ set(HEADER_SOURCES
 
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ResourceString.cpp
     ${SOURCE_DIR}/Base/MainWindow.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBoxImplementation.hpp
@@ -36,6 +37,7 @@ add_library(gui
 )
 
 set(INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${EXTENSION_INCLUDE_DIRS}
     ${SOURCE_DIR}/Base/
     ${CMAKE_CURRENT_SOURCE_DIR}/Components/
