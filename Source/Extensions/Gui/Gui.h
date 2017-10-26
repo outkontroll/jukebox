@@ -35,9 +35,15 @@ public:
     
 private:
     void keyPressed(const juce::KeyPress& key);
-    
-    void updateAlbumList();
+
+    void switchBetweenAlbumModes();
     void showHelp();
+    void handleStepInAllAlbumMode(bool increase);
+    void handleStepInSingleAlbumMode(bool increase);
+    void handleStepInMultipleAlbumsMode(bool increase);
+
+    unsigned int getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const;
+    unsigned int getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const;
 
     jukebox::signals::Slot eventsSlot;
     
@@ -45,8 +51,10 @@ private:
     std::unique_ptr<MainWindow> mainWindow;
     
     std::string musicFolder = "";
-    unsigned int currentAlbumIndex = 1;
+    unsigned int visibleAlbumsIndex = 1;
+    unsigned int selectedAlbumIndex = 1;
     unsigned int albumIndexStep = 8;
+    bool isInMultipleAlbumsMode = true;
 };
 
 }}

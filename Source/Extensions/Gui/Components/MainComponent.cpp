@@ -216,7 +216,11 @@ void MainComponent::updateAlbumList(const String& albumList)
 void MainComponent::loadAlbums(const std::string& musicDirectory, int firstAlbumIndex)
 {
     multipleAlbumsCanvas->loadAlbums(musicDirectory, firstAlbumIndex);
-    singleAlbumCanvas->loadAlbum(musicDirectory, firstAlbumIndex);
+}
+
+void MainComponent::loadSingleAlbum(const std::string& musicDirectory, int albumIndex)
+{
+    singleAlbumCanvas->loadAlbum(musicDirectory, albumIndex);
 }
 
 void MainComponent::switchBetweenAlbumViews()

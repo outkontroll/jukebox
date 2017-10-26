@@ -18,6 +18,7 @@ using namespace jukebox::filesystem;
 using namespace juce;
 
 namespace {
+    static const unsigned int defaultAlbumIndex = 1;
     //TODO remove this as this is just for testing purposes
     const std::array<unsigned, 3> filesToPlay = {{ 1, 16, 4 }};
 }
@@ -53,17 +54,11 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(textCharacter == '+')
     {
-        //TODO what if we are in the current album mode?
-        currentAlbumIndex -= albumIndexStep;
-        //TODO check underflow
-        mainComponent->loadAlbums(musicFolder, currentAlbumIndex);
+        handleStepInAllAlbumMode(false);
     }
     else if(textCharacter == '-')
     {
-        //TODO what if we are in the current album mode?
-        currentAlbumIndex += albumIndexStep;
-        //TODO check overflow
-        mainComponent->loadAlbums(musicFolder, currentAlbumIndex);
+        handleStepInAllAlbumMode(true);
     }
     else if(textCharacter == '0')
     {
@@ -144,7 +139,7 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(textCharacter == 'h')
     {
-        mainComponent->switchBetweenAlbumViews();
+        switchBetweenAlbumModes();
     }
     else if(textCharacter == 'x')
     {
@@ -179,7 +174,11 @@ void Gui::showStatusMessage(ResourceId messageId)
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
-    updateAlbumList();
+    //these two is needed if we set another folder during runtime
+    visibleAlbumsIndex = defaultAlbumIndex;
+    selectedAlbumIndex = defaultAlbumIndex;
+    mainComponent->loadAlbums(musicFolder, visibleAlbumsIndex);
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
 }
 
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
@@ -202,23 +201,69 @@ void Gui::prepareForExit()
     mainComponent->prepareForExit();
 }
 
-void Gui::updateAlbumList()
+void Gui::switchBetweenAlbumModes()
 {
-    const auto directories(FileSystem::getAlbumDirectories(musicFolder));
-    mainComponent->updateAlbumList(std::accumulate(std::begin(directories),
-                                                   std::end(directories),
-                                                   std::string(),
-                                                   [](const std::string& init, const std::string& directory) {
-                                                       return init + "\n" + directory;
-    }));
-
-    //TODO get actual pictures instead of one page
-    mainComponent->loadAlbums(musicFolder, currentAlbumIndex);
+    isInMultipleAlbumsMode = !isInMultipleAlbumsMode;
+    mainComponent->switchBetweenAlbumViews();
 }
 
 void Gui::showHelp()
 {
 
+}
+
+void Gui::handleStepInAllAlbumMode(bool increase)
+{
+    if(isInMultipleAlbumsMode)
+        handleStepInMultipleAlbumsMode(increase);
+    else
+        handleStepInSingleAlbumMode(increase);
+}
+
+void Gui::handleStepInMultipleAlbumsMode(bool increase)
+{
+    visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
+    mainComponent->loadAlbums(musicFolder, visibleAlbumsIndex);
+
+    selectedAlbumIndex = visibleAlbumsIndex;
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+}
+
+void Gui::handleStepInSingleAlbumMode(bool increase)
+{
+    selectedAlbumIndex = getNextSelectedAlbumIndex(selectedAlbumIndex, increase);
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+
+    if((increase && selectedAlbumIndex >= visibleAlbumsIndex + albumIndexStep) ||
+       (!increase && selectedAlbumIndex < visibleAlbumsIndex))
+    {
+        visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
+        mainComponent->loadAlbums(musicFolder, visibleAlbumsIndex);
+    }
+}
+
+unsigned int Gui::getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const
+{
+    if(increase)
+        currentVisibleAlbumsIndex += albumIndexStep;
+    else
+        currentVisibleAlbumsIndex -= albumIndexStep;
+
+    //TODO check underflow
+
+    return currentVisibleAlbumsIndex;
+}
+
+unsigned int Gui::getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const
+{
+    if(increase)
+        ++currentSelectedAlbumIndex;
+    else
+        --currentSelectedAlbumIndex;
+
+    //TODO check underflow
+
+    return currentSelectedAlbumIndex;
 }
 
 Song createSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory)
