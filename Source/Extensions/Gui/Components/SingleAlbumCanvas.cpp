@@ -24,7 +24,7 @@ void SingleAlbumCanvas::paint(Graphics& g)
 
 void SingleAlbumCanvas::loadImage(const juce::String& imagePath)
 {
-    image = ImageFileFormat::loadFrom(File::File(imagePath));
+    image = ImageFileFormat::loadFrom(File(imagePath));
 }
 
 Rectangle<float> SingleAlbumCanvas::calculateImagePlace() const

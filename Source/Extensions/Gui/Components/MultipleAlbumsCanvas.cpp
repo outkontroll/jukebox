@@ -24,13 +24,17 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
             g.drawImage(image,
                         calculateImagePlace({0, 1}),
                         RectanglePlacement::stretchToFit);
+
+            g.drawImage(image,
+                        calculateImagePlace({2, 0}),
+                        RectanglePlacement::stretchToFit);
         }
     }
 }
 
 void MultipleAlbumsCanvas::loadImage(const juce::String& imagePath)
 {
-    auto image = ImageFileFormat::loadFrom(File::File(imagePath));
+    auto image = ImageFileFormat::loadFrom(File(imagePath));
     if(!image.isValid())
     {
         //TODO error handling
