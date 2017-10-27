@@ -63,9 +63,10 @@ public:
     //TODO
     void updateAlbumList(const String& albumList);
     //END TODO
-    void loadAlbums(const std::string& musicDirectory, int firstAlbumIndex);
+    void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex);
     void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
     void switchBetweenAlbumViews();
+    void updateSelection(int selectedAlbumIndex);
     void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     void enqueue(const jukebox::audio::Song &song);
     void removeCurrentSong();

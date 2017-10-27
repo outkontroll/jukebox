@@ -213,7 +213,7 @@ void MainComponent::updateAlbumList(const String& albumList)
     txtAlbumList->setText(albumList);
 }
 
-void MainComponent::loadAlbums(const std::string& musicDirectory, int firstAlbumIndex)
+void MainComponent::loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex)
 {
     multipleAlbumsCanvas->loadAlbums(musicDirectory, firstAlbumIndex);
 }
@@ -227,6 +227,11 @@ void MainComponent::switchBetweenAlbumViews()
 {
     multipleAlbumsCanvas->setVisible(!multipleAlbumsCanvas->isVisible());
     singleAlbumCanvas->setVisible(!singleAlbumCanvas->isVisible());
+}
+
+void MainComponent::updateSelection(int selectedAlbumIndex)
+{
+    multipleAlbumsCanvas->setSelection(selectedAlbumIndex);
 }
 
 void MainComponent::setCurrentlyPlayedSong(const jukebox::audio::Song& song)

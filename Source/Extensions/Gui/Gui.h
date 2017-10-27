@@ -39,9 +39,9 @@ private:
     void switchBetweenAlbumModes();
     void stepSelection();
     void showHelp();
-    void handleStepInAllAlbumMode(bool increase);
-    void handleStepInSingleAlbumMode(bool increase);
-    void handleStepInMultipleAlbumsMode(bool increase);
+    void handleAlbumSwitchInAllAlbumMode(bool increase);
+    void handleAlbumSwitchInSingleAlbumMode(bool increase);
+    void handleAlbumSwitchInMultipleAlbumsMode(bool increase);
 
     unsigned int getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const;
     unsigned int getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const;

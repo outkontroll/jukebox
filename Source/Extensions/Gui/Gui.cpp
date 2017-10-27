@@ -54,11 +54,11 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(textCharacter == '+')
     {
-        handleStepInAllAlbumMode(false);
+        handleAlbumSwitchInAllAlbumMode(false);
     }
     else if(textCharacter == '-')
     {
-        handleStepInAllAlbumMode(true);
+        handleAlbumSwitchInAllAlbumMode(true);
     }
     else if(textCharacter == '0')
     {
@@ -182,7 +182,7 @@ void Gui::setMusicFolder(const std::string& folder)
     //these two is needed if we set another folder during runtime
     visibleAlbumsIndex = defaultAlbumIndex;
     selectedAlbumIndex = defaultAlbumIndex;
-    mainComponent->loadAlbums(musicFolder, visibleAlbumsIndex);
+    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex);
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
 }
 
@@ -226,6 +226,7 @@ void Gui::stepSelection()
     }
 
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+    mainComponent->updateSelection(selectedAlbumIndex);
 }
 
 void Gui::showHelp()
@@ -233,24 +234,26 @@ void Gui::showHelp()
 
 }
 
-void Gui::handleStepInAllAlbumMode(bool increase)
+void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)
 {
     if(isInMultipleAlbumsMode)
-        handleStepInMultipleAlbumsMode(increase);
+        handleAlbumSwitchInMultipleAlbumsMode(increase);
     else
-        handleStepInSingleAlbumMode(increase);
+        handleAlbumSwitchInSingleAlbumMode(increase);
+
+    mainComponent->updateSelection(selectedAlbumIndex);
 }
 
-void Gui::handleStepInMultipleAlbumsMode(bool increase)
+void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 {
     visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
-    mainComponent->loadAlbums(musicFolder, visibleAlbumsIndex);
+    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex);
 
     selectedAlbumIndex = visibleAlbumsIndex;
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
 }
 
-void Gui::handleStepInSingleAlbumMode(bool increase)
+void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
 {
     selectedAlbumIndex = getNextSelectedAlbumIndex(selectedAlbumIndex, increase);
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
@@ -259,7 +262,7 @@ void Gui::handleStepInSingleAlbumMode(bool increase)
        (!increase && selectedAlbumIndex < visibleAlbumsIndex))
     {
         visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
-        mainComponent->loadAlbums(musicFolder, visibleAlbumsIndex);
+        mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex);
     }
 }
 

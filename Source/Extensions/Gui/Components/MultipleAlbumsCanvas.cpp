@@ -9,16 +9,20 @@ using namespace juce;
 
 namespace {
     const float bigFontSize = 24.0f;
+    const float albumNumberTextWidth = 35.0f;
     const float defaultImageOffsetX = 20.0f;
     const float defaultTextOffsetX = 10.0f;
     const float defaultTextOffsetY = 10.0f;
     const float imageOffsetYMultiplier = 1.8f;
+    const float selectionThickness = 4.0f;
 }
 
 void MultipleAlbumsCanvas::paint(Graphics& g)
 {
     //TODO just for testing purposes
     g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
+
+    g.setColour(Colours::black);
 
     const float slotWidth = static_cast<float>(getWidth() / colums);
     const float slotHeight = static_cast<float>(getHeight() / rows);
@@ -27,11 +31,11 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
     currentFont.setHeight(bigFontSize);
     g.setFont(currentFont);
 
-    int index(0);
+    int onScreenindex(0);
     for(const auto& album : albums)
     {
         const auto& image = album.first;
-        const auto position = getPositionFromIndex(index);
+        const auto position = getPositionFromIndex(onScreenindex);
 
         // album's number
         const auto textPlace = calculateTextPlace(position, slotWidth, slotHeight);
@@ -50,7 +54,21 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
             g.drawText(Resources::getResourceStringFromId(ResourceId::ErrorImageNotFound), imagePlace, Justification::centred );
         }
 
-        ++index;
+        // selection frame (if this is the selected album)
+        if(album.second == selectedAlbumIndex)
+        {
+            g.setColour(Colours::yellow);
+
+            const auto selectionImagePlace = calculateSelectionPlace(imagePlace);
+            g.drawRect(selectionImagePlace, selectionThickness);
+
+            const auto selectionTextPlace = calculateSelectionPlace(textPlace);
+            g.drawRect(selectionTextPlace, selectionThickness);
+
+            g.setColour(Colours::black);
+        }
+
+        ++onScreenindex;
     }
 }
 
@@ -68,21 +86,42 @@ void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firs
     repaint();
 }
 
+void MultipleAlbumsCanvas::setSelection(int selectedIndex)
+{
+    selectedAlbumIndex = selectedIndex;
+    //TODO: is this needed? rethink the repaint calls
+    repaint();
+}
+
 Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, float slotWidth, float slotHeight) const
 {
     const float imageWidth = slotWidth - defaultImageOffsetX;
-    const float imageHeigth = imageWidth;
+    const float imageHeight = imageWidth;
 
-    return {slotWidth * position.x + (slotWidth - imageWidth) / 2, slotHeight * position.y + (slotHeight - imageHeigth) / imageOffsetYMultiplier, imageWidth, imageHeigth};
+    return { slotWidth * position.x + (slotWidth - imageWidth) / 2,
+             slotHeight * position.y + (slotHeight - imageHeight) / imageOffsetYMultiplier,
+             imageWidth,
+             imageHeight };
 }
 
-juce::Rectangle<float> MultipleAlbumsCanvas::calculateTextPlace(MultipleAlbumsCanvas::Position position, float slotWidth, float slotHeight) const
+juce::Rectangle<float> MultipleAlbumsCanvas::calculateTextPlace(Position position, float slotWidth, float slotHeight) const
 {
     const float textHeight = bigFontSize;
-    const float textWidth = slotWidth;
+    const float textWidth = albumNumberTextWidth;
     const float imageWidth = slotWidth - defaultImageOffsetX;
 
-    return {slotWidth * position.x + (slotWidth - imageWidth) / 2 + defaultTextOffsetX, slotHeight * position.y + defaultTextOffsetY, textWidth, textHeight};
+    return { slotWidth * position.x + (slotWidth - imageWidth) / 2 + defaultTextOffsetX,
+             slotHeight * position.y + defaultTextOffsetY,
+             textWidth,
+             textHeight };
+}
+
+juce::Rectangle<float> MultipleAlbumsCanvas::calculateSelectionPlace(const juce::Rectangle<float>& placeToSelect)
+{
+    return { placeToSelect.getX() - selectionThickness,
+             placeToSelect.getY() - selectionThickness,
+             placeToSelect.getWidth() + 2 * selectionThickness,
+             placeToSelect.getHeight() + 2 * selectionThickness };
 }
 
 MultipleAlbumsCanvas::Position MultipleAlbumsCanvas::getPositionFromIndex(int index) const
