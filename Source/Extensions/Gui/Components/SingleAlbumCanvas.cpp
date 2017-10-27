@@ -11,6 +11,7 @@ namespace {
     const float bigFontSize = 24.0f;
     const float defaultTextOffsetX = 10.0f;
     const float defaultTextOffsetY = 10.0f;
+    const float offsetXRatio = 0.963f;
 }
 
 void SingleAlbumCanvas::paint(Graphics& g)
@@ -55,14 +56,16 @@ void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int firstAl
 
 Rectangle<float> SingleAlbumCanvas::calculateImagePlace(float imageSize) const
 {
+    const float xPosition = (getWidth() / 2 - imageSize * offsetXRatio) / 2;
     const float yPosition = (getHeight() - imageSize) / 2;
-    return {0, yPosition, imageSize, imageSize};
+    return {xPosition, yPosition, imageSize, imageSize};
 }
 
-juce::Rectangle<float> SingleAlbumCanvas::calculateTextPlace(float /*imageSize*/) const
+juce::Rectangle<float> SingleAlbumCanvas::calculateTextPlace(float imageSize) const
 {
+    const float xPosition = (getWidth() / 2 - imageSize * offsetXRatio) / 2 + defaultTextOffsetX;
     const float textHeight = bigFontSize;
     const float textWidth = getWidth();
 
-    return { defaultTextOffsetX, defaultTextOffsetY, textWidth, textHeight};
+    return { xPosition, defaultTextOffsetY, textWidth, textHeight};
 }
