@@ -19,21 +19,24 @@ void SingleAlbumCanvas::paint(Graphics& g)
     //TODO just for testing purposes
     g.setColour(Colours::aqua);
     g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
-    g.setColour(Colours::black);
     //END TODO
+
+    g.setColour(Colours::black);
 
     auto currentFont = g.getCurrentFont();
     currentFont.setHeight(bigFontSize);
     g.setFont(currentFont);
 
-    const float pictureSize = static_cast<float>(getWidth() / 2);
+    const float width = getWidth();
+    const float height = getHeight();
+    const float pictureSize = static_cast<float>(width / 2);
 
     // album's number
-    const auto textPlace = calculateTextPlace(pictureSize);
+    const auto textPlace = calculateTextPlace(pictureSize, width);
     g.drawText(jukebox::FillWithLeadingZeros(albumIndex, 3), textPlace, Justification::centredLeft);
 
     // album's image, if we can find one
-    const auto imagePlace = calculateImagePlace(pictureSize);
+    const auto imagePlace = calculateImagePlace(pictureSize, width, height);
     if(image.isValid())
     {
         g.drawImage(image,
@@ -44,28 +47,98 @@ void SingleAlbumCanvas::paint(Graphics& g)
     {
         g.drawText(Resources::getResourceStringFromId(ResourceId::ErrorImageNotFound), imagePlace, Justification::centred );
     }
+
+    // album's contain, if there is one
+    if(!artistName.isEmpty())
+    {
+        const auto artistNamePlace = calculateArtistTextPlace(pictureSize, width);
+        g.drawText(artistName, artistNamePlace, Justification::centred);
+    }
+
+    if(!otherLines.isEmpty())
+    {
+        const auto otherLinesPlace = calculateOtherLinesPlace(pictureSize, width, height);
+        g.drawMultiLineText(otherLines, otherLinesPlace.startX, otherLinesPlace.baselineY, otherLinesPlace.maximumLineWidth);
+    }
 }
 
-void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int firstAlbumIndex)
+void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex)
 {
-    albumIndex = firstAlbumIndex;
-    auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectory, albumIndex, ".jpg");
-    image = ImageFileFormat::loadFrom(File(imagePath));
+    albumIndex = selectedAlbumIndex;
+    loadImage(musicDirectory);
+    loadInfoFile(musicDirectory);
+
     repaint();
 }
 
-Rectangle<float> SingleAlbumCanvas::calculateImagePlace(float imageSize) const
+void SingleAlbumCanvas::loadImage(const std::string& musicDirectory)
 {
-    const float xPosition = (getWidth() / 2 - imageSize * offsetXRatio) / 2;
-    const float yPosition = (getHeight() - imageSize) / 2;
-    return {xPosition, yPosition, imageSize, imageSize};
+    auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectory, albumIndex, ".jpg");
+    image = ImageFileFormat::loadFrom(File(imagePath));
 }
 
-juce::Rectangle<float> SingleAlbumCanvas::calculateTextPlace(float imageSize) const
+void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
 {
-    const float xPosition = (getWidth() / 2 - imageSize * offsetXRatio) / 2 + defaultTextOffsetX;
-    const float textHeight = bigFontSize;
-    const float textWidth = getWidth();
+    otherLines = "";
+    artistName = "";
+    auto infoFilePath = jukebox::filesystem::FileSystem::getInfoFilePath(musicDirectory, albumIndex);
+    File infoFile(infoFilePath);
+    if(!infoFile.existsAsFile())
+    {
+        return;
+    }
 
-    return { xPosition, defaultTextOffsetY, textWidth, textHeight};
+    StringArray lines;
+    infoFile.readLines(lines);
+
+    if(lines.size() == 0)
+    {
+        return;
+    }
+
+    artistName = lines[0];
+    // to not read the artist twice
+    lines.remove(0);
+
+    for(auto& line : lines)
+    {
+        if(!line.isEmpty())
+        {
+            otherLines += line + "\n";
+        }
+    }
+}
+
+Rectangle<float> SingleAlbumCanvas::calculateImagePlace(float imageSize, float width, float height) const
+{
+    const float xPosition = (width / 2 - imageSize * offsetXRatio) / 2;
+    const float yPosition = (height - imageSize) / 2;
+    return { xPosition, yPosition, imageSize, imageSize };
+}
+
+juce::Rectangle<float> SingleAlbumCanvas::calculateTextPlace(float imageSize, float width) const
+{
+    const float xPosition = (width / 2 - imageSize * offsetXRatio) / 2 + defaultTextOffsetX;
+    const float textHeight = bigFontSize;
+    const float textWidth = width;
+
+    return { xPosition, defaultTextOffsetY, textWidth, textHeight };
+}
+
+juce::Rectangle<float> SingleAlbumCanvas::calculateArtistTextPlace(float imageSize, float width) const
+{
+    const float xPosition = (width / 2 - imageSize * offsetXRatio) / 2 + defaultTextOffsetX + imageSize;
+    const float textHeight = bigFontSize;
+    const float textWidth = width / 2;
+
+    return { xPosition, defaultTextOffsetX, textWidth, textHeight };
+}
+
+SingleAlbumCanvas::MultipleLinesPosition SingleAlbumCanvas::calculateOtherLinesPlace(float imageSize, float width, float height) const
+{
+    const int startX = (width / 2 - imageSize * offsetXRatio) / 2 + defaultTextOffsetX + imageSize;
+    const int baseLineY = (height - imageSize) / 2;
+    const int maximumLineWidth = width - startX - defaultTextOffsetX;
+
+    return { startX, baseLineY, maximumLineWidth };
 }

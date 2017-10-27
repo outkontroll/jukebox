@@ -43,3 +43,15 @@ std::string FileSystem::getPicturePath(const std::string& musicDirectory, int al
     //TODO get actal files, match only one extension
     return musicDirectory + "/" + FillWithLeadingZeros(albumIndex, 3) + "/cover" + pictureExtensions;
 }
+
+std::string FileSystem::getInfoFilePath(const std::string& musicDirectory, int albumIndex)
+{
+    if(musicDirectory == "")
+    {
+        LOG_WARNING("called with empty path!");
+        return {};
+    }
+
+    //TODO get actal file, not just by guessing
+    return musicDirectory + "/" + FillWithLeadingZeros(albumIndex, 3) + "/eloado.txt";
+}

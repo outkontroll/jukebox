@@ -104,7 +104,7 @@ Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, fl
              imageHeight };
 }
 
-juce::Rectangle<float> MultipleAlbumsCanvas::calculateTextPlace(Position position, float slotWidth, float slotHeight) const
+Rectangle<float> MultipleAlbumsCanvas::calculateTextPlace(Position position, float slotWidth, float slotHeight) const
 {
     const float textHeight = bigFontSize;
     const float textWidth = albumNumberTextWidth;
@@ -116,7 +116,7 @@ juce::Rectangle<float> MultipleAlbumsCanvas::calculateTextPlace(Position positio
              textHeight };
 }
 
-juce::Rectangle<float> MultipleAlbumsCanvas::calculateSelectionPlace(const juce::Rectangle<float>& placeToSelect)
+Rectangle<float> MultipleAlbumsCanvas::calculateSelectionPlace(const Rectangle<float>& placeToSelect)
 {
     return { placeToSelect.getX() - selectionThickness,
              placeToSelect.getY() - selectionThickness,

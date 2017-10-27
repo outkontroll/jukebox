@@ -11,13 +11,27 @@ class SingleAlbumCanvas : public juce::Component
 public:
     void paint(juce::Graphics& g) override;
 
-    void loadAlbum(const std::string& musicDirectory, int firstAlbumIndex);
+    void loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex);
 
 private:
-    juce::Rectangle<float> calculateImagePlace(float imageSize) const;
-    juce::Rectangle<float> calculateTextPlace(float imageSize) const;
+    struct MultipleLinesPosition
+    {
+        int startX;
+        int baselineY;
+        int maximumLineWidth;
+    };
+
+    void loadImage(const std::string& musicDirectory);
+    void loadInfoFile(const std::string& musicDirectory);
+
+    juce::Rectangle<float> calculateImagePlace(float imageSize, float width, float height) const;
+    juce::Rectangle<float> calculateTextPlace(float imageSize, float width) const;
+    juce::Rectangle<float> calculateArtistTextPlace(float imageSize, float width) const;
+    MultipleLinesPosition calculateOtherLinesPlace(float imageSize, float width, float height) const;
 
     juce::Image image;
+    juce::String artistName = "";
+    juce::String otherLines = "";
     int albumIndex;
 };
 
