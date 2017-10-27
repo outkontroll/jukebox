@@ -37,6 +37,7 @@ private:
     void keyPressed(const juce::KeyPress& key);
 
     void switchBetweenAlbumModes();
+    void stepSelection();
     void showHelp();
     void handleStepInAllAlbumMode(bool increase);
     void handleStepInSingleAlbumMode(bool increase);

@@ -141,6 +141,11 @@ void Gui::keyPressed(const KeyPress& key)
     {
         switchBetweenAlbumModes();
     }
+    else if(textCharacter == 'c')
+    {
+        stepSelection();
+    }
+    //TODO these two are here just for testing!
     else if(textCharacter == 'x')
     {
         static int fileToPlay = 0;
@@ -205,6 +210,22 @@ void Gui::switchBetweenAlbumModes()
 {
     isInMultipleAlbumsMode = !isInMultipleAlbumsMode;
     mainComponent->switchBetweenAlbumViews();
+}
+
+void Gui::stepSelection()
+{
+    if(!isInMultipleAlbumsMode)
+    {
+        return;
+    }
+
+    ++selectedAlbumIndex;
+    if(selectedAlbumIndex >= visibleAlbumsIndex + albumIndexStep)
+    {
+        selectedAlbumIndex = visibleAlbumsIndex;
+    }
+
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
 }
 
 void Gui::showHelp()
