@@ -4,6 +4,7 @@
 #include "FileSystem.h"
 #include "Logger.h"
 #include "Song.h"
+#include "ResourceId.h"
 #include "ResourceString.h"
 #include <algorithm>
 #include <numeric>
@@ -238,7 +239,15 @@ void Gui::handleUserInputNumbers(char number)
     {
         int albumNumber = std::stoi(userInputSongNumber.substr(0, 3));
         int songNumber = std::stoi(userInputSongNumber.substr(3));
-        playSongSignal(createSong(albumNumber, songNumber, musicFolder));
+        const auto song = createSong(albumNumber, songNumber, musicFolder);
+        if(!song.getFileName().empty())
+        {
+            playSongSignal(song);
+        }
+        else
+        {
+            showStatusMessage(ResourceId::ErrorSongNotExists);
+        }
 
         userInputSongNumber = "";
         mainComponent->setCurrentUserInputNumber(userInputSongNumber);
@@ -284,8 +293,7 @@ unsigned int Gui::getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumInd
 
 Song createSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory)
 {
-    //TODO: get the files list and use the one with leading number
     return { Album(albumNumber),
              songNumber,
-             std::string(musicDirectory + "/" + FillWithLeadingZeros(albumNumber, 3) + "/" + FillWithLeadingZeros(songNumber, 2) + ".mp3") };
+             FileSystem::getSongFilePath(musicDirectory, FillWithLeadingZeros(albumNumber, 3), FillWithLeadingZeros(songNumber, 2), "*.mp3")};
 }
