@@ -295,5 +295,5 @@ Song createSong(unsigned int albumNumber, unsigned int songNumber, const std::st
 {
     return { Album(albumNumber),
              songNumber,
-             FileSystem::getSongFilePath(musicDirectory, FillWithLeadingZeros(albumNumber, 3), FillWithLeadingZeros(songNumber, 2), "*.mp3")};
+             FileSystem::getSongFilePath(musicDirectory, albumNumber, songNumber, "*.mp3")};
 }

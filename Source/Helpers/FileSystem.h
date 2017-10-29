@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include "JuceHeader.h"
 
 namespace jukebox { namespace filesystem {
   
@@ -14,7 +13,7 @@ public:
 
     static std::string getInfoFilePath(const std::string& musicDirectory, int albumIndex);
 
-    static std::string getSongFilePath(const std::string& musicDirectory, const juce::String& albumDir, const std::string& songNum, const std::string& extensionPattern);
+    static std::string getSongFilePath(const std::string& musicDirectory, int albumIndex, int songIndex, const std::string& extensionPattern);
 };
 
 }}
