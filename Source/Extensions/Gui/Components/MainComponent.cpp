@@ -90,23 +90,23 @@ MainComponent::MainComponent ()
     addAndMakeVisible (singleAlbumCanvas = new jukebox::gui::SingleAlbumCanvas());
     singleAlbumCanvas->setName ("canvas to draw single album content");
 
-    addAndMakeVisible (txtAlbumNumber = new TextEditor ("selected Album number"));
-    txtAlbumNumber->setMultiLine (false);
-    txtAlbumNumber->setReturnKeyStartsNewLine (false);
-    txtAlbumNumber->setReadOnly (true);
-    txtAlbumNumber->setScrollbarsShown (false);
-    txtAlbumNumber->setCaretVisible (false);
-    txtAlbumNumber->setPopupMenuEnabled (true);
-    txtAlbumNumber->setText (String());
+    addAndMakeVisible (lblAlbumNumber = new Label ("show album number user input",
+                                                   String()));
+    lblAlbumNumber->setFont (Font (32.00f, Font::plain));
+    lblAlbumNumber->setJustificationType (Justification::centredLeft);
+    lblAlbumNumber->setEditable (false, false, false);
+    lblAlbumNumber->setColour (Label::backgroundColourId, Colours::white);
+    lblAlbumNumber->setColour (TextEditor::textColourId, Colours::black);
+    lblAlbumNumber->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (txtSongNumber = new TextEditor ("selected Song number"));
-    txtSongNumber->setMultiLine (false);
-    txtSongNumber->setReturnKeyStartsNewLine (false);
-    txtSongNumber->setReadOnly (true);
-    txtSongNumber->setScrollbarsShown (false);
-    txtSongNumber->setCaretVisible (false);
-    txtSongNumber->setPopupMenuEnabled (true);
-    txtSongNumber->setText (String());
+    addAndMakeVisible (lblSongNumber = new Label ("show song number user input",
+                                                  String()));
+    lblSongNumber->setFont (Font (32.00f, Font::plain));
+    lblSongNumber->setJustificationType (Justification::centredLeft);
+    lblSongNumber->setEditable (false, false, false);
+    lblSongNumber->setColour (Label::backgroundColourId, Colours::white);
+    lblSongNumber->setColour (TextEditor::textColourId, Colours::black);
+    lblSongNumber->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
 
     //[UserPreSize]
@@ -119,7 +119,6 @@ MainComponent::MainComponent ()
 
 
     //[Constructor] You can add your own custom stuff here..
-    number = 0;
     setWantsKeyboardFocus(true);
     grabKeyboardFocus();
     focusInitialised = hasKeyboardFocus(true);
@@ -139,8 +138,8 @@ MainComponent::~MainComponent()
     txtCurrentSong = nullptr;
     multipleAlbumsCanvas = nullptr;
     singleAlbumCanvas = nullptr;
-    txtAlbumNumber = nullptr;
-    txtSongNumber = nullptr;
+    lblAlbumNumber = nullptr;
+    lblSongNumber = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -187,8 +186,8 @@ void MainComponent::resized()
     txtCurrentSong->setBounds (1128, 168, 200, 24);
     multipleAlbumsCanvas->setBounds (32, 32, 1064, 712);
     singleAlbumCanvas->setBounds (888, 504, 302, 208);
-    txtAlbumNumber->setBounds (1128, 32, 56, 48);
-    txtSongNumber->setBounds (1192, 32, 47, 48);
+    lblAlbumNumber->setBounds (1128, 32, 57, 40);
+    lblSongNumber->setBounds (1192, 32, 42, 40);
     //[UserResized] Add your own custom resize handling here..
     //singleAlbumCanvas->setBounds(multipleAlbumsCanvas->getBounds());
     singleAlbumCanvas->setBounds (32, 32, 1064, 712);
@@ -237,6 +236,12 @@ void MainComponent::switchBetweenAlbumViews()
 void MainComponent::updateSelection(int selectedAlbumIndex)
 {
     multipleAlbumsCanvas->setSelection(selectedAlbumIndex);
+}
+
+void MainComponent::setCurrentUserInputNumber(const String& userInput)
+{
+    lblAlbumNumber->setText(userInput.substring(0, 3), dontSendNotification);
+    lblSongNumber->setText(userInput.substring(3), dontSendNotification);
 }
 
 void MainComponent::setCurrentlyPlayedSong(const jukebox::audio::Song& song)
@@ -323,14 +328,16 @@ BEGIN_JUCER_METADATA
                     memberName="singleAlbumCanvas" virtualName="" explicitFocusOrder="0"
                     pos="888 504 302 208" class="jukebox::gui::SingleAlbumCanvas"
                     params=""/>
-  <TEXTEDITOR name="selected Album number" id="dd300c722d609b43" memberName="txtAlbumNumber"
-              virtualName="" explicitFocusOrder="0" pos="1128 32 56 48" initialText=""
-              multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="0"
-              caret="0" popupmenu="1"/>
-  <TEXTEDITOR name="selected Song number" id="7314e1464df8b8f3" memberName="txtSongNumber"
-              virtualName="" explicitFocusOrder="0" pos="1192 32 47 48" initialText=""
-              multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="0"
-              caret="0" popupmenu="1"/>
+  <LABEL name="show album number user input" id="2d9fc52c8ca67f72" memberName="lblAlbumNumber"
+         virtualName="" explicitFocusOrder="0" pos="1128 32 57 40" bkgCol="ffffffff"
+         edTextCol="ff000000" edBkgCol="0" labelText="" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="32" bold="0" italic="0" justification="33"/>
+  <LABEL name="show song number user input" id="393e6ac770590d6d" memberName="lblSongNumber"
+         virtualName="" explicitFocusOrder="0" pos="1192 32 42 40" bkgCol="ffffffff"
+         edTextCol="ff000000" edBkgCol="0" labelText="" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="32" bold="0" italic="0" justification="33"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

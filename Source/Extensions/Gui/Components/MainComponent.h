@@ -64,6 +64,7 @@ public:
     void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
     void switchBetweenAlbumViews();
     void updateSelection(int selectedAlbumIndex);
+    void setCurrentUserInputNumber(const String& userInput);
     void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     void enqueue(const jukebox::audio::Song &song);
     void removeCurrentSong();
@@ -79,7 +80,6 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;
-    unsigned int number;
     bool focusInitialised;
     //[/UserVariables]
 
@@ -92,8 +92,8 @@ private:
     ScopedPointer<TextEditor> txtCurrentSong;
     ScopedPointer<jukebox::gui::MultipleAlbumsCanvas> multipleAlbumsCanvas;
     ScopedPointer<jukebox::gui::SingleAlbumCanvas> singleAlbumCanvas;
-    ScopedPointer<TextEditor> txtAlbumNumber;
-    ScopedPointer<TextEditor> txtSongNumber;
+    ScopedPointer<Label> lblAlbumNumber;
+    ScopedPointer<Label> lblSongNumber;
 
 
     //==============================================================================

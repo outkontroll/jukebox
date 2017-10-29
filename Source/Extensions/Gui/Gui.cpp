@@ -63,45 +63,18 @@ void Gui::keyPressed(const KeyPress& key)
     {
         handleAlbumSwitchInAllAlbumMode(true);
     }
-    else if(textCharacter == '0')
+    else if(textCharacter == '0' ||
+            textCharacter == '1' ||
+            textCharacter == '2' ||
+            textCharacter == '3' ||
+            textCharacter == '4' ||
+            textCharacter == '5' ||
+            textCharacter == '6' ||
+            textCharacter == '7' ||
+            textCharacter == '8' ||
+            textCharacter == '9')
     {
-        //TODO
-    }
-    else if(textCharacter == '1')
-    {
-        //TODO
-    }
-    else if(textCharacter == '2')
-    {
-        //TODO
-    }
-    else if(textCharacter == '3')
-    {
-        //TODO
-    }
-    else if(textCharacter == '4')
-    {
-        //TODO
-    }
-    else if(textCharacter == '5')
-    {
-        //TODO
-    }
-    else if(textCharacter == '6')
-    {
-        //TODO
-    }
-    else if(textCharacter == '7')
-    {
-        //TODO
-    }
-    else if(textCharacter == '8')
-    {
-        //TODO
-    }
-    else if(textCharacter == '9')
-    {
-        //TODO
+        handleUserInputNumbers(textCharacter);
     }
 
     else if(textCharacter == 'a')
@@ -254,6 +227,22 @@ void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 
     selectedAlbumIndex = visibleAlbumsIndex;
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+}
+
+void Gui::handleUserInputNumbers(char number)
+{
+    userInputSongNumber += number;
+    mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+    if(userInputSongNumber.length() == 5)
+    {
+        int albumNumber = std::stoi(userInputSongNumber.substr(0, 3));
+        int songNumber = std::stoi(userInputSongNumber.substr(3));
+        playSongSignal(createSong(albumNumber, songNumber, musicFolder));
+
+        userInputSongNumber = "";
+        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+    }
 }
 
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)

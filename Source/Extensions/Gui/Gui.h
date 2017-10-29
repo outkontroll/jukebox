@@ -42,6 +42,7 @@ private:
     void handleAlbumSwitchInAllAlbumMode(bool increase);
     void handleAlbumSwitchInSingleAlbumMode(bool increase);
     void handleAlbumSwitchInMultipleAlbumsMode(bool increase);
+    void handleUserInputNumbers(char number);
 
     unsigned int getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const;
     unsigned int getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const;
@@ -52,6 +53,7 @@ private:
     std::unique_ptr<MainWindow> mainWindow;
     
     std::string musicFolder = "";
+    std::string userInputSongNumber = "";
     unsigned int visibleAlbumsIndex = 1;
     unsigned int selectedAlbumIndex = 1;
     unsigned int albumIndexStep = 8;
