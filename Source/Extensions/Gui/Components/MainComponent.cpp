@@ -59,16 +59,6 @@ MainComponent::MainComponent ()
     lblStatus->setColour (TextEditor::textColourId, Colours::black);
     lblStatus->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (txtAlbumList = new TextEditor ("List of albums"));
-    txtAlbumList->setMultiLine (true);
-    txtAlbumList->setReturnKeyStartsNewLine (false);
-    txtAlbumList->setReadOnly (true);
-    txtAlbumList->setScrollbarsShown (true);
-    txtAlbumList->setCaretVisible (false);
-    txtAlbumList->setPopupMenuEnabled (true);
-    txtAlbumList->setColour (TextEditor::backgroundColourId, Colour (0xffdadada));
-    txtAlbumList->setText (String());
-
     addAndMakeVisible (infoPlayQueue = new Label ("playlist queue info label",
                                                   TRANS("Songs in the queue")));
     infoPlayQueue->setFont (Font (15.00f, Font::plain));
@@ -89,7 +79,7 @@ MainComponent::MainComponent ()
     txtCurrentSong->setMultiLine (false);
     txtCurrentSong->setReturnKeyStartsNewLine (false);
     txtCurrentSong->setReadOnly (true);
-    txtCurrentSong->setScrollbarsShown (true);
+    txtCurrentSong->setScrollbarsShown (false);
     txtCurrentSong->setCaretVisible (false);
     txtCurrentSong->setPopupMenuEnabled (true);
     txtCurrentSong->setText (String());
@@ -100,9 +90,26 @@ MainComponent::MainComponent ()
     addAndMakeVisible (singleAlbumCanvas = new jukebox::gui::SingleAlbumCanvas());
     singleAlbumCanvas->setName ("canvas to draw single album content");
 
+    addAndMakeVisible (txtAlbumNumber = new TextEditor ("selected Album number"));
+    txtAlbumNumber->setMultiLine (false);
+    txtAlbumNumber->setReturnKeyStartsNewLine (false);
+    txtAlbumNumber->setReadOnly (true);
+    txtAlbumNumber->setScrollbarsShown (false);
+    txtAlbumNumber->setCaretVisible (false);
+    txtAlbumNumber->setPopupMenuEnabled (true);
+    txtAlbumNumber->setText (String());
+
+    addAndMakeVisible (txtSongNumber = new TextEditor ("selected Song number"));
+    txtSongNumber->setMultiLine (false);
+    txtSongNumber->setReturnKeyStartsNewLine (false);
+    txtSongNumber->setReadOnly (true);
+    txtSongNumber->setScrollbarsShown (false);
+    txtSongNumber->setCaretVisible (false);
+    txtSongNumber->setPopupMenuEnabled (true);
+    txtSongNumber->setText (String());
+
 
     //[UserPreSize]
-    txtAlbumList->setVisible(false);
     singleAlbumCanvas->setVisible(false);
 
     addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
@@ -127,12 +134,13 @@ MainComponent::~MainComponent()
     infoCredit = nullptr;
     lblCredits = nullptr;
     lblStatus = nullptr;
-    txtAlbumList = nullptr;
     infoPlayQueue = nullptr;
     infoCurrentSong = nullptr;
     txtCurrentSong = nullptr;
     multipleAlbumsCanvas = nullptr;
     singleAlbumCanvas = nullptr;
+    txtAlbumNumber = nullptr;
+    txtSongNumber = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -171,18 +179,20 @@ void MainComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    infoCredit->setBounds (1128, 32, 56, 24);
-    lblCredits->setBounds (1192, 32, 32, 24);
+    infoCredit->setBounds (1128, 88, 56, 24);
+    lblCredits->setBounds (1192, 88, 32, 24);
     lblStatus->setBounds (32, 760, 300, 24);
-    txtAlbumList->setBounds (32, 32, 272, 216);
-    infoPlayQueue->setBounds (1128, 184, 150, 24);
-    infoCurrentSong->setBounds (1128, 72, 150, 24);
-    txtCurrentSong->setBounds (1128, 112, 200, 24);
+    infoPlayQueue->setBounds (1128, 240, 150, 24);
+    infoCurrentSong->setBounds (1128, 128, 150, 24);
+    txtCurrentSong->setBounds (1128, 168, 200, 24);
     multipleAlbumsCanvas->setBounds (32, 32, 1064, 712);
-    singleAlbumCanvas->setBounds (32, 32, 1064, 712);
+    singleAlbumCanvas->setBounds (888, 504, 302, 208);
+    txtAlbumNumber->setBounds (1128, 32, 56, 48);
+    txtSongNumber->setBounds (1192, 32, 47, 48);
     //[UserResized] Add your own custom resize handling here..
     //singleAlbumCanvas->setBounds(multipleAlbumsCanvas->getBounds());
-    listBox->setBounds(1128, 228, 200, 150);
+    singleAlbumCanvas->setBounds (32, 32, 1064, 712);
+    listBox->setBounds(1128, 284, 200, 150);
     //[/UserResized]
 }
 
@@ -206,11 +216,6 @@ void MainComponent::refreshCredits(unsigned int credits)
 void MainComponent::showStatusMessage(const String& message)
 {
     lblStatus->setText(message, dontSendNotification);
-}
-
-void MainComponent::updateAlbumList(const String& albumList)
-{
-    txtAlbumList->setText(albumList);
 }
 
 void MainComponent::loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex)
@@ -282,12 +287,12 @@ BEGIN_JUCER_METADATA
   </METHODS>
   <BACKGROUND backgroundColour="ffd2691e"/>
   <LABEL name="credits info label" id="b06a2a5d220c224b" memberName="infoCredit"
-         virtualName="" explicitFocusOrder="0" pos="1128 32 56 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="1128 88 56 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Credits:" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
   <LABEL name="credits label" id="559731314e5f9fe6" memberName="lblCredits"
-         virtualName="" explicitFocusOrder="0" pos="1192 32 32 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="1192 88 32 24" edTextCol="ff000000"
          edBkgCol="0" labelText="0" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="18"
          bold="0" italic="0" justification="33"/>
@@ -296,23 +301,19 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="Ready" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
-  <TEXTEDITOR name="List of albums" id="c309162dc4be8cd5" memberName="txtAlbumList"
-              virtualName="" explicitFocusOrder="0" pos="32 32 272 216" bkgcol="ffdadada"
-              initialText="" multiline="1" retKeyStartsLine="0" readonly="1"
-              scrollbars="1" caret="0" popupmenu="1"/>
   <LABEL name="playlist queue info label" id="14603449b7b89fe8" memberName="infoPlayQueue"
-         virtualName="" explicitFocusOrder="0" pos="1128 184 150 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="1128 240 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Songs in the queue" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="15" bold="0" italic="0" justification="33"/>
   <LABEL name="current song info label" id="e2e9b0ce64f022e0" memberName="infoCurrentSong"
-         virtualName="" explicitFocusOrder="0" pos="1128 72 150 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="1128 128 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Currently playing:" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="15" bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="current song text" id="e9cd5fc0ca8c98f6" memberName="txtCurrentSong"
-              virtualName="" explicitFocusOrder="0" pos="1128 112 200 24" initialText=""
-              multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="1"
+              virtualName="" explicitFocusOrder="0" pos="1128 168 200 24" initialText=""
+              multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="0"
               caret="0" popupmenu="1"/>
   <GENERICCOMPONENT name="canvas to draw multiple album content" id="98e3b5ee3d8d0f7b"
                     memberName="multipleAlbumsCanvas" virtualName="" explicitFocusOrder="0"
@@ -322,6 +323,14 @@ BEGIN_JUCER_METADATA
                     memberName="singleAlbumCanvas" virtualName="" explicitFocusOrder="0"
                     pos="888 504 302 208" class="jukebox::gui::SingleAlbumCanvas"
                     params=""/>
+  <TEXTEDITOR name="selected Album number" id="dd300c722d609b43" memberName="txtAlbumNumber"
+              virtualName="" explicitFocusOrder="0" pos="1128 32 56 48" initialText=""
+              multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="0"
+              caret="0" popupmenu="1"/>
+  <TEXTEDITOR name="selected Song number" id="7314e1464df8b8f3" memberName="txtSongNumber"
+              virtualName="" explicitFocusOrder="0" pos="1192 32 47 48" initialText=""
+              multiline="0" retKeyStartsLine="0" readonly="1" scrollbars="0"
+              caret="0" popupmenu="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

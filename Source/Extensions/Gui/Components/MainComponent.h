@@ -60,9 +60,6 @@ public:
 
     void refreshCredits(unsigned int credits);
     void showStatusMessage(const String& message);
-    //TODO
-    void updateAlbumList(const String& albumList);
-    //END TODO
     void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex);
     void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
     void switchBetweenAlbumViews();
@@ -90,12 +87,13 @@ private:
     ScopedPointer<Label> infoCredit;
     ScopedPointer<Label> lblCredits;
     ScopedPointer<Label> lblStatus;
-    ScopedPointer<TextEditor> txtAlbumList;
     ScopedPointer<Label> infoPlayQueue;
     ScopedPointer<Label> infoCurrentSong;
     ScopedPointer<TextEditor> txtCurrentSong;
     ScopedPointer<jukebox::gui::MultipleAlbumsCanvas> multipleAlbumsCanvas;
     ScopedPointer<jukebox::gui::SingleAlbumCanvas> singleAlbumCanvas;
+    ScopedPointer<TextEditor> txtAlbumNumber;
+    ScopedPointer<TextEditor> txtSongNumber;
 
 
     //==============================================================================
