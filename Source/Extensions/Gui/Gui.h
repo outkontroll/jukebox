@@ -14,6 +14,8 @@ class MainWindow;
 
 namespace jukebox { namespace gui {
 
+class JukeboxTimer;
+
 class Gui : public IGui
 {
 public:
@@ -51,6 +53,8 @@ private:
     
     std::unique_ptr<juce::MainComponent> mainComponent;
     std::unique_ptr<MainWindow> mainWindow;
+
+    std::unique_ptr<JukeboxTimer> fiveSecondsToPlayTimer;
     
     std::string musicFolder = "";
     std::string userInputSongNumber = "";

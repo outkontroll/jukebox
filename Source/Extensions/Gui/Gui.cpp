@@ -6,6 +6,7 @@
 #include "Song.h"
 #include "ResourceId.h"
 #include "ResourceString.h"
+#include "JukeboxTimer.h"
 #include <algorithm>
 #include <numeric>
 //TODO remove this as this is just for testing purposes
@@ -20,6 +21,8 @@ using namespace juce;
 
 namespace {
     static const unsigned int defaultAlbumIndex = 1;
+    constexpr int timeToPlay = 5000;
+
     //TODO remove this as this is just for testing purposes
     const std::array<unsigned, 3> filesToPlay = {{ 1, 16, 4 }};
 }
@@ -242,15 +245,23 @@ void Gui::handleUserInputNumbers(char number)
         const auto song = createSong(albumNumber, songNumber, musicFolder);
         if(!song.getFileName().empty())
         {
-            playSongSignal(song);
+            fiveSecondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
+               playSongSignal(song);
+               userInputSongNumber = "";
+               mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+               fiveSecondsToPlayTimer.reset();
+            });
+
+            fiveSecondsToPlayTimer->startTimer(timeToPlay);
         }
         else
         {
             showStatusMessage(ResourceId::ErrorSongNotExists);
-        }
 
-        userInputSongNumber = "";
-        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+            userInputSongNumber = "";
+            mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+        }
     }
 }
 

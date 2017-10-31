@@ -2,30 +2,35 @@ cmake_minimum_required(VERSION 2.8)
 
 project(gui)
 
+set(COMPONENTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Components)
+set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
+
 # headers
 
 set(HEADER_SOURCES
     ${INTERFACE_DIRECTORY}/IGui.h
     ${INTERFACE_DIRECTORY}/ResourceId.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Resources/ResourceString.h
+    ${RESOURCES_DIR}/ResourceString.h
     ${SOURCE_DIR}/Base/MainWindow.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBox.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MultipleAlbumsCanvas.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/SingleAlbumCanvas.h
+    ${COMPONENTS_DIR}/MainComponent.h
+    ${COMPONENTS_DIR}/ListBox.hpp
+    ${COMPONENTS_DIR}/MultipleAlbumsCanvas.h
+    ${COMPONENTS_DIR}/SingleAlbumCanvas.h
+    ${COMPONENTS_DIR}/JukeboxTimer.h
 )
 
 # sources
 
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Resources/ResourceString.cpp
+    ${RESOURCES_DIR}/ResourceString.cpp
     ${SOURCE_DIR}/Base/MainWindow.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MainComponent.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/ListBoxImplementation.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/MultipleAlbumsCanvas.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components/SingleAlbumCanvas.cpp
+    ${COMPONENTS_DIR}/MainComponent.cpp
+    ${COMPONENTS_DIR}/ListBoxImplementation.hpp
+    ${COMPONENTS_DIR}/MultipleAlbumsCanvas.cpp
+    ${COMPONENTS_DIR}/SingleAlbumCanvas.cpp
+    ${COMPONENTS_DIR}/JukeboxTimer.cpp
 )
 
 # project
@@ -40,8 +45,8 @@ set(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${EXTENSION_INCLUDE_DIRS}
     ${SOURCE_DIR}/Base
-    ${CMAKE_CURRENT_SOURCE_DIR}/Resources
-    ${CMAKE_CURRENT_SOURCE_DIR}/Components
+    ${RESOURCES_DIR}
+    ${COMPONENTS_DIR}
     #TODO: remove this
     ${JUCE_DIRECTORY}
 )
