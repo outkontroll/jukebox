@@ -235,6 +235,9 @@ void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 
 void Gui::handleUserInputNumbers(char number)
 {
+    if(userInputSongNumber.length() >= 5)
+        return;
+
     userInputSongNumber += number;
     mainComponent->setCurrentUserInputNumber(userInputSongNumber);
 
