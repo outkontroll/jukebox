@@ -45,6 +45,7 @@ private:
     void handleAlbumSwitchInSingleAlbumMode(bool increase);
     void handleAlbumSwitchInMultipleAlbumsMode(bool increase);
     void handleUserInputNumbers(char number);
+    void handleCPressed();
 
     unsigned int getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const;
     unsigned int getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const;

@@ -123,7 +123,7 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(textCharacter == 'c')
     {
-        stepSelection();
+        handleCPressed();
     }
     //TODO these two are here just for testing!
     else if(textCharacter == 'x')
@@ -265,6 +265,21 @@ void Gui::handleUserInputNumbers(char number)
             userInputSongNumber = "";
             mainComponent->setCurrentUserInputNumber(userInputSongNumber);
         }
+    }
+}
+
+void Gui::handleCPressed()
+{
+    if(fiveSecondsToPlayTimer && fiveSecondsToPlayTimer->isTimerRunning())
+    {
+        fiveSecondsToPlayTimer.reset();
+
+        userInputSongNumber = "";
+        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+    }
+    else
+    {
+        stepSelection();
     }
 }
 
