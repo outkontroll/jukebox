@@ -57,7 +57,7 @@ public:
 
     inline bool operator==(const Song& other) const
     {
-        return std::tie(albumNumber, songNumber) == std::tie(other.albumNumber, other.songNumber);
+        return std::tie(albumNumber, songNumber, fileName) == std::tie(other.albumNumber, other.songNumber, fileName);
     }
 
     inline const std::string& toString() const
