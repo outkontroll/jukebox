@@ -1,4 +1,5 @@
 cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+        or  -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 
 + global: listbox model -> queue or vector...
 + global: listbox model -> template
@@ -10,17 +11,18 @@ cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER
 + build: use cmake
 + build: use separate projects
 + build: add googleTest
-- build: introduce classloader
+- build: introduce classloader / use dll-s
 + global: use album as a separate entity
 + mp3: spike playing of a song
-- mp3: play a given song
++ mp3: play a given song
 - gui: use fullscreen
 + gui: spike picture and selection
 + gui: swap list of albums/songs with custom paint
 - gui: layout manager
 + gui: set current place changeable (step +-12)
+- gui: expand queue visible size
 - input: add new functionality
-- input: add numeric-button handling
++ input: add numeric-button handling
 - input: add previous functionality
 - statistics: improve statistics handling
   - add file IO
