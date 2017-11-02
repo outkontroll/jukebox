@@ -169,6 +169,7 @@ void Gui::setMusicFolder(const std::string& folder)
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
 {
     mainComponent->setCurrentlyPlayedSong(song);
+    mainComponent->showStatusMessage(Resources::getResourceStringFromId(ResourceId::Playing));
 }
 
 void Gui::enqueue(const audio::Song& song)
@@ -248,15 +249,15 @@ void Gui::handleUserInputNumbers(char number)
         const auto song = createSong(albumNumber, songNumber, musicFolder);
         if(!song.getFileName().empty())
         {
-            fiveSecondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
+            secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
                playSongSignal(song);
                userInputSongNumber = "";
                mainComponent->setCurrentUserInputNumber(userInputSongNumber);
 
-               fiveSecondsToPlayTimer.reset();
+               secondsToPlayTimer.reset();
             });
 
-            fiveSecondsToPlayTimer->startTimer(timeToPlay);
+            secondsToPlayTimer->startTimer(timeToPlay);
         }
         else
         {
@@ -270,9 +271,9 @@ void Gui::handleUserInputNumbers(char number)
 
 void Gui::handleCPressed()
 {
-    if(fiveSecondsToPlayTimer && fiveSecondsToPlayTimer->isTimerRunning())
+    if(secondsToPlayTimer && secondsToPlayTimer->isTimerRunning())
     {
-        fiveSecondsToPlayTimer.reset();
+        secondsToPlayTimer.reset();
 
         userInputSongNumber = "";
         mainComponent->setCurrentUserInputNumber(userInputSongNumber);

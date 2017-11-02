@@ -55,7 +55,7 @@ private:
     std::unique_ptr<juce::MainComponent> mainComponent;
     std::unique_ptr<MainWindow> mainWindow;
 
-    std::unique_ptr<JukeboxTimer> fiveSecondsToPlayTimer;
+    std::unique_ptr<JukeboxTimer> secondsToPlayTimer;
     
     std::string musicFolder = "";
     std::string userInputSongNumber = "";

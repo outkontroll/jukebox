@@ -20,12 +20,17 @@
 //[Headers] You can add your own extra header files here...
 #include "Logger.h"
 #include "Song.h"
+#include "JukeboxTimer.h"
 //[/Headers]
 
 #include "MainComponent.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+namespace {
+    constexpr int timeBetweenSongs = 1000;
+}
+
 using namespace juce;
 //[/MiscUserDefs]
 
@@ -119,6 +124,11 @@ MainComponent::MainComponent ()
 
 
     //[Constructor] You can add your own custom stuff here..
+    timerBetweenSongs = new jukebox::gui::JukeboxTimer([this](){
+        removeCurrentSongImmediately();
+    });
+
+
     setWantsKeyboardFocus(true);
     grabKeyboardFocus();
     focusInitialised = hasKeyboardFocus(true);
@@ -144,6 +154,7 @@ MainComponent::~MainComponent()
 
     //[Destructor]. You can add your own custom destruction code here..
     listBox = nullptr;
+    timerBetweenSongs = nullptr;
     //[/Destructor]
 }
 
@@ -256,11 +267,17 @@ void MainComponent::enqueue(const jukebox::audio::Song& song)
 
 void MainComponent::removeCurrentSong()
 {
+    showStatusMessage("");
+    timerBetweenSongs->runOnce(timeBetweenSongs);
+}
+
+void MainComponent::removeCurrentSongImmediately()
+{
     txtCurrentSong->setText("");
 
     if(listBox->hasNextItem())
     {
-        auto nextItem = listBox->getNextItem();
+        const auto nextItem = listBox->getNextItem();
         listBox->removeCurrentItem();
         playNextSongSignal(nextItem);
     }

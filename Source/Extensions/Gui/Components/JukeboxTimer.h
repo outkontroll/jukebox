@@ -18,8 +18,11 @@ public:
     // Timer interface
     void timerCallback() override;
 
+    void runOnce(int intervalInMilliseconds) noexcept;
+
 private:
     std::function<void()> functionToCall;
+    bool shouldRunOnce = false;
 };
 
 }}

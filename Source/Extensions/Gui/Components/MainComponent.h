@@ -29,7 +29,11 @@
 #include <string>
 #include <deque>
 
-namespace jukebox { namespace audio {
+namespace jukebox {
+namespace gui {
+    class JukeboxTimer;
+}
+namespace audio {
     class Song;
 }}
 
@@ -79,7 +83,10 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    void removeCurrentSongImmediately();
+
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;
+    ScopedPointer<jukebox::gui::JukeboxTimer> timerBetweenSongs;
     bool focusInitialised;
     //[/UserVariables]
 

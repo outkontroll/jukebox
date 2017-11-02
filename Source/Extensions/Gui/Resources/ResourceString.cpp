@@ -12,6 +12,7 @@ namespace {
     const std::string ErrorSongNotExists = "The given song is not exitsing!";
     const std::string WarningNotPlayingSong = "Music already stopped!";
     const std::string ErrorImageNotFound = "Image not available";
+    const std::string Playing = "Playing";
 }
 
 std::string Resources::getResourceStringFromId(jukebox::ResourceId resourceId)
@@ -24,6 +25,7 @@ std::string Resources::getResourceStringFromId(jukebox::ResourceId resourceId)
     case ResourceId::ErrorSongNotExists: return ErrorSongNotExists;
     case ResourceId::WarningNotPlayingSong: return WarningNotPlayingSong;
     case ResourceId::ErrorImageNotFound: return ErrorImageNotFound;
+    case ResourceId::Playing: return Playing;
     default: return UnknownError;
     }
 }
