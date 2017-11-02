@@ -127,7 +127,11 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(textCharacter == 'c')
     {
-        handleCPressed();
+        stepSelection();
+    }
+    else if(textCharacter == '.')
+    {
+        handleDotPressed();
     }
     //TODO these two are here just for testing!
     else if(textCharacter == 'x')
@@ -273,19 +277,15 @@ void Gui::handleUserInputNumbers(char number)
     }
 }
 
-void Gui::handleCPressed()
+void Gui::handleDotPressed()
 {
-    if(secondsToPlayTimer && secondsToPlayTimer->isTimerRunning())
+    if(secondsToPlayTimer)
     {
         secondsToPlayTimer.reset();
+    }
 
-        userInputSongNumber = "";
-        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
-    }
-    else
-    {
-        stepSelection();
-    }
+    userInputSongNumber = "";
+    mainComponent->setCurrentUserInputNumber(userInputSongNumber);
 }
 
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
