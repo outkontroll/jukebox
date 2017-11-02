@@ -41,6 +41,7 @@ public:
 
     jukebox::signals::Signal<> increaseSoundVolumeSignal;
     jukebox::signals::Signal<> decreaseSoundVolumeSignal;
+    jukebox::signals::Signal<> switchMuteStatusSignal;
     
     jukebox::signals::Signal<> creditIncreaseSignal;
     jukebox::signals::Signal<> creditDecreaseSignal;

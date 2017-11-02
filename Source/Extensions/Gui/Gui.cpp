@@ -89,6 +89,10 @@ void Gui::keyPressed(const KeyPress& key)
     {
         decreaseSoundVolumeSignal();
     }
+    else if(textCharacter == 'm')
+    {
+        switchMuteStatusSignal();
+    }
     else if(textCharacter == 'n')
     {
         showHelp();
