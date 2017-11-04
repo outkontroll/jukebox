@@ -143,4 +143,4 @@ add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
 add_subdirectory(${SOURCE_DIR}/Juce ${PROJECT_BINARY_DIR}/Source/Juce)   #Juce
 add_subdirectory(${SOURCE_DIR}/Tests)
 
-target_link_libraries(music_jukebox PUBLIC logger project_juce core gui creditManager musicPlayer statistics settings)
+target_link_libraries(music_jukebox PUBLIC logger project_juce core gui creditManager musicPlayer statistics songBuilder settings)

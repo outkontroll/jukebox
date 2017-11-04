@@ -21,7 +21,7 @@ public:
         return albumNumber;
     }
 private:
-    unsigned int albumNumber;
+    const unsigned int albumNumber;
 };
 
 class Song
@@ -66,10 +66,10 @@ public:
     }
 
 private:
-    unsigned int albumNumber = 0;
-    unsigned int songNumber = 0;
-    std::string fileName = "";
-    std::string visibleName = "";
+    const unsigned int albumNumber = 0;
+    const unsigned int songNumber = 0;
+    const std::string fileName = "";
+    const std::string visibleName = "";
 };
 
 }}

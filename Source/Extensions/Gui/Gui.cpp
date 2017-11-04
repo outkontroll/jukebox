@@ -254,25 +254,32 @@ void Gui::handleUserInputNumbers(char number)
     {
         int albumNumber = std::stoi(userInputSongNumber.substr(0, 3));
         int songNumber = std::stoi(userInputSongNumber.substr(3));
-        const auto song = createSong(albumNumber, songNumber, musicFolder);
-        if(!song.getFileName().empty())
+        if(songNumber != 0)
         {
-            secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
-               playSongSignal(song);
-               userInputSongNumber = "";
-               mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+            const auto song = createSong(albumNumber, songNumber, musicFolder);
+            if(!song.getFileName().empty())
+            {
+                secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
+                   playSongSignal(song);
+                   userInputSongNumber = "";
+                   mainComponent->setCurrentUserInputNumber(userInputSongNumber);
 
-               secondsToPlayTimer.reset();
-            });
+                   secondsToPlayTimer.reset();
+                });
 
-            secondsToPlayTimer->startTimer(timeToPlay);
+                secondsToPlayTimer->startTimer(timeToPlay);
+            }
+            else
+            {
+                showStatusMessage(ResourceId::ErrorSongNotExists);
+
+                userInputSongNumber = "";
+                mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+            }
         }
         else
         {
-            showStatusMessage(ResourceId::ErrorSongNotExists);
-
-            userInputSongNumber = "";
-            mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+            //TODO
         }
     }
 }
