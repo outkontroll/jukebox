@@ -14,20 +14,19 @@ namespace jukebox { namespace log {
 
   inline std::string methodName(const std::string& functionName)
   {
-      size_t firstParenthesis = functionName.find("(");
-      size_t lastColons = functionName.rfind("::", firstParenthesis);
+      const size_t firstParenthesis = functionName.find("(");
+      const size_t lastColons = functionName.rfind("::", firstParenthesis);
     
       if(lastColons == std::string::npos)
       {
           //basic functions: void f()
-          size_t begin = functionName.rfind(" ") + 1;
-          size_t end = firstParenthesis - begin;
+          const size_t begin = functionName.rfind(" ") + 1;
+          const size_t end = firstParenthesis - begin;
 
           return functionName.substr(begin, end);
       }
       else
       {
-          size_t end = std::string::npos;
           size_t classNameBegin = functionName.rfind("::", lastColons - 1);
           
           if(classNameBegin == std::string::npos)
@@ -41,7 +40,7 @@ namespace jukebox { namespace log {
               classNameBegin += colonSize;
           }
 
-          end = firstParenthesis - classNameBegin;
+          const size_t end = firstParenthesis - classNameBegin;
           return functionName.substr(classNameBegin, end);
       }
 
