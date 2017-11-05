@@ -9,6 +9,7 @@ namespace {
     const std::string ErrorFewCreditsSong = "Too few credits to play a song!";
     const std::string ErrorFewCreditsAlbum = "Too few credits to play an album!";
     const std::string ErrorDuringSongPlaying = "An unexpected error occured during playing song: ";
+    const std::string ErrorDuringAlbumPlaying = "An unexpected error occured during playing album: ";
     const std::string ErrorSongNotExists = "The given song is not exitsing!";
     const std::string WarningNotPlayingSong = "Music already stopped!";
     const std::string ErrorImageNotFound = "Image not available";
@@ -22,6 +23,7 @@ std::string Resources::getResourceStringFromId(jukebox::ResourceId resourceId)
     case ResourceId::ErrorFewCreditsSong: return ErrorFewCreditsSong;
     case ResourceId::ErrorFewCreditsAlbum: return ErrorFewCreditsAlbum;
     case ResourceId::ErrorDuringSongPlaying: return ErrorDuringSongPlaying;
+    case ResourceId::ErrorDuringAlbumPlaying: return ErrorDuringAlbumPlaying;
     case ResourceId::ErrorSongNotExists: return ErrorSongNotExists;
     case ResourceId::WarningNotPlayingSong: return WarningNotPlayingSong;
     case ResourceId::ErrorImageNotFound: return ErrorImageNotFound;
