@@ -43,11 +43,12 @@ private:
     void coinInserted100();
     void coinInserted200();
     
-    void playSong(const audio::Song&);
-    void playAlbum(const audio::Album&);
+    void playSong(const audio::Song& song);
+    void playAlbum(const std::vector<audio::Song>& songs);
     void removePlayedSong();
     void finishedPlaying();
     void playNextSong(const audio::Song& song);
+    void playOrEnqueue(const audio::Song& song);
     
     void creditIncrease();
     void creditDecrease();

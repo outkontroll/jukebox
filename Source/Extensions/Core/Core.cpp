@@ -80,27 +80,10 @@ void Core::playSong(const Song& song)
     gui->refreshCredits(creditManager->getCredits());
     statistics->songPlayed(song);
 
-    try
-    {
-        if(!musicPlayer->isPlaying())
-        {
-            musicPlayer->playSong(song.fileName);
-            gui->setCurrentlyPlayedSong(song);
-        }
-        else
-        {
-            gui->enqueue(song);
-        }
-
-    }
-    catch(MusicPlayerException&)
-    {
-        LOG_ERROR("Song playing is unsuccessful, song: " << song.visibleName);
-        gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying);
-    }
+    playOrEnqueue(song);
 }
 
-void Core::playAlbum(const Album& album)
+void Core::playAlbum(const std::vector<Song>& /*songs*/)
 {
     if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {
@@ -110,12 +93,12 @@ void Core::playAlbum(const Album& album)
 
     creditManager->startPlayAlbum();
     gui->refreshCredits(creditManager->getCredits());
-    statistics->albumPlayed(album);
+    //statistics->albumPlayed(songs);
 
     //TODO play an album
-    //for(Song song : album)
-    //musicPlayer->playSong(song);
-    gui->enqueue(SongBuilder::buildSong(album.getAlbumNumber(), 0, "albumTesting"));
+    /*
+    for(Song song : songs)
+        playOrEnqueue(song);*/
 }
 
 void Core::removePlayedSong()
@@ -179,6 +162,27 @@ void Core::playNextSong(const Song& song)
     {
         gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying/*, song.toString()*/);
         gui->removeCurrentSong();
+    }
+}
+
+void Core::playOrEnqueue(const Song& song)
+{
+    try
+    {
+        if(!musicPlayer->isPlaying())
+        {
+            musicPlayer->playSong(song.fileName);
+            gui->setCurrentlyPlayedSong(song);
+        }
+        else
+        {
+            gui->enqueue(song);
+        }
+    }
+    catch(MusicPlayerException&)
+    {
+        LOG_ERROR("Song playing is unsuccessful, song: " << song.visibleName);
+        gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying);
     }
 }
 

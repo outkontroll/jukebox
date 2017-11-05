@@ -36,7 +36,7 @@ public:
     jukebox::signals::Signal<> coinInserted200Signal;
     
     jukebox::signals::Signal<const audio::Song&> playSongSignal;
-    jukebox::signals::Signal<const audio::Album&> playAlbumSignal;
+    jukebox::signals::Signal<const std::vector<audio::Song>&> playAlbumSignal;
     jukebox::signals::Signal<> removePlayedSongSignal;
 
     jukebox::signals::Signal<> increaseSoundVolumeSignal;

@@ -145,7 +145,7 @@ void Gui::keyPressed(const KeyPress& key)
     else if(textCharacter == 'v')
     {
         //TODO
-        playAlbumSignal(Album(12));
+        //playAlbumSignal(Album(12));
     }    
 }
 

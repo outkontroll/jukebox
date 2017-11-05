@@ -171,12 +171,10 @@ TEST_F(CoreTest, whenGuiSendsAlbumToPlay_HasNotEnoughCredits_thenGuiGetsNotifica
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(false));
 
-    Album album(1);
-
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum());
     EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorFewCreditsAlbum));
 
-    guiMock->playAlbumSignal(album);
+    guiMock->playAlbumSignal({});
 }
 
 // playNextSong
