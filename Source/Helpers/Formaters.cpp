@@ -16,13 +16,3 @@ std::string jukebox::FillWithLeadingZeros(unsigned int number, unsigned int leng
     
     return ss.str();
 }
-
-std::string jukebox::GetTrimmedString(const std::string& what, unsigned int maxLength)
-{
-    if(maxLength >= what.length())
-    {
-        return what;
-    }
-    
-    return what.substr(what.length() - maxLength - 1);
-}
