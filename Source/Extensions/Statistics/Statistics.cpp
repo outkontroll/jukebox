@@ -41,7 +41,7 @@ void Statistics::showStatistics(std::ostream& os)
 
     for(auto playedSong : playedSongs)
     {
-        os << playedSong.first.toString()
+        os << playedSong.first.visibleName
            << ": "
            << playedSong.second
            << std::endl;

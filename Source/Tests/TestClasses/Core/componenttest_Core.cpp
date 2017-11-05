@@ -100,7 +100,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsNotPlayi
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong());
     EXPECT_CALL(*musicPlayerMock, isPlaying());
     EXPECT_CALL(*creditManagerMock, startPlaySong());
-    EXPECT_CALL(*musicPlayerMock, playSong(song.getFileName()));
+    EXPECT_CALL(*musicPlayerMock, playSong(song.fileName));
     EXPECT_CALL(*statisticsMock, songPlayed(song));
     EXPECT_CALL(*creditManagerMock, getCredits());
     EXPECT_CALL(*guiMock, refreshCredits(13));
@@ -121,7 +121,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCredits_AndMusicPlayerIsNotPlay
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).Times(2);
     EXPECT_CALL(*musicPlayerMock, isPlaying()).Times(2);
     EXPECT_CALL(*creditManagerMock, startPlaySong()).Times(2);
-    EXPECT_CALL(*musicPlayerMock, playSong(song.getFileName())).Times(2);
+    EXPECT_CALL(*musicPlayerMock, playSong(song.fileName)).Times(2);
     EXPECT_CALL(*statisticsMock, songPlayed(song)).Times(2);
     EXPECT_CALL(*creditManagerMock, getCredits()).Times(2);
     EXPECT_CALL(*guiMock, refreshCredits(13)).Times(2);
@@ -187,7 +187,7 @@ TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsNotPlaying_thenMusicPl
     Song song{1, 1, "fakeFileName", "fakeVisibleName"};
 
     EXPECT_CALL(*musicPlayerMock, isPlaying());
-    EXPECT_CALL(*musicPlayerMock, playSong(song.getFileName()));
+    EXPECT_CALL(*musicPlayerMock, playSong(song.fileName));
     EXPECT_CALL(*guiMock, setCurrentlyPlayedSong(song));
 
     guiMock->playNextSongSignal(song);
@@ -213,7 +213,7 @@ TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsNotPlaying_AndMusicPla
     Song song{1, 1, "fakeFileName", "fakeVisibleName"};
 
     EXPECT_CALL(*musicPlayerMock, isPlaying()).Times(2);
-    EXPECT_CALL(*musicPlayerMock, playSong(song.getFileName())).Times(2);
+    EXPECT_CALL(*musicPlayerMock, playSong(song.fileName)).Times(2);
     EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorDuringSongPlaying)).Times(2);
     EXPECT_CALL(*guiMock, removeCurrentSong()).Times(2);
 

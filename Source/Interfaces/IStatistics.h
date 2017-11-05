@@ -4,7 +4,7 @@
 #include <iosfwd>
 
 namespace jukebox { namespace audio {
-    class Song;
+    struct Song;
     class Album;
 }}
 

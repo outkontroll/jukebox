@@ -257,7 +257,7 @@ void Gui::handleUserInputNumbers(char number)
         if(songNumber != 0)
         {
             const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder);
-            if(!song.getFileName().empty())
+            if(!song.fileName.empty())
             {
                 secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
                    playSongSignal(song);

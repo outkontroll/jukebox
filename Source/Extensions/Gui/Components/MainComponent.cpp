@@ -257,7 +257,7 @@ void MainComponent::setCurrentUserInputNumber(const String& userInput)
 
 void MainComponent::setCurrentlyPlayedSong(const jukebox::audio::Song& song)
 {
-    txtCurrentSong->setText(song.toString());
+    txtCurrentSong->setText(song.visibleName);
 }
 
 void MainComponent::enqueue(const jukebox::audio::Song& song)

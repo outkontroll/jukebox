@@ -4,7 +4,7 @@
 #include "Signals.hpp"
 
 namespace jukebox { namespace audio {
-    class Song;
+    struct Song;
     class Album;
 }}
 

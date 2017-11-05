@@ -84,7 +84,7 @@ void Core::playSong(const Song& song)
     {
         if(!musicPlayer->isPlaying())
         {
-            musicPlayer->playSong(song.getFileName());
+            musicPlayer->playSong(song.fileName);
             gui->setCurrentlyPlayedSong(song);
         }
         else
@@ -95,7 +95,7 @@ void Core::playSong(const Song& song)
     }
     catch(MusicPlayerException&)
     {
-        LOG_ERROR("Song playing is unsuccessful, song: " << song.toString());
+        LOG_ERROR("Song playing is unsuccessful, song: " << song.visibleName);
         gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying);
     }
 }
@@ -165,14 +165,14 @@ void Core::playNextSong(const Song& song)
 {
     if(musicPlayer->isPlaying())
     {
-        LOG_ERROR("MusicPlayer is currently playing, tried to play: " << song.toString());
+        LOG_ERROR("MusicPlayer is currently playing, tried to play: " << song.visibleName);
         gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying);
         return;
     }
 
     try
     {
-        musicPlayer->playSong(song.getFileName());
+        musicPlayer->playSong(song.fileName);
         gui->setCurrentlyPlayedSong(song);
     }
     catch(MusicPlayerException&)

@@ -34,7 +34,7 @@ namespace gui {
     class JukeboxTimer;
 }
 namespace audio {
-    class Song;
+    struct Song;
 }}
 
 namespace juce {

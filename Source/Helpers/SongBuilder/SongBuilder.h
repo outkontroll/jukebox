@@ -7,7 +7,7 @@
 
 namespace jukebox { namespace songbuilder {
 
-class SongBuilder
+struct SongBuilder
 {
 public:
     static audio::Song buildSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory);

@@ -4,10 +4,6 @@
 #include "JuceHeader.h"
 #include <functional>
 
-namespace jukebox { namespace audio {
-    class Song;
-}}
-
 namespace jukebox { namespace gui {
 
 class JukeboxTimer : public juce::Timer

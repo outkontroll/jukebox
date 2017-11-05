@@ -14,7 +14,7 @@ namespace creditmanager {
 }
 namespace audio {
     class IMusicPlayer;
-    class Song;
+    struct Song;
     class Album;
 }
 namespace statistics {
