@@ -43,7 +43,18 @@ std::vector<std::pair<std::string, int>> FileSystem::getAllSongFilePaths(const s
 
     std::transform(files.begin(), files.end(), std::back_inserter(paths), [](const File& file){
         const auto filePath = file.getFullPathName().toStdString();
-        const int index = std::stoi(file.getFileNameWithoutExtension().substring(0, 2).toStdString());
+        const int index = [&](){
+            try
+            {
+                return std::stoi(file.getFileNameWithoutExtension().substring(0, 2).toStdString());
+            }
+            catch(std::exception e)
+            {
+                LOG_ERROR(e.what());
+                return -1;
+            }
+        }();
+
         return std::make_pair(filePath, index);
     });
 
