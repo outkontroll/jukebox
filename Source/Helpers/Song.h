@@ -3,8 +3,6 @@
 
 #include <tuple>
 #include <string>
-//TODO eliminate this from here as soon as there is a cpp involved
-#include "Formaters.h"
 
 namespace jukebox { namespace audio {
 
@@ -32,14 +30,6 @@ public:
         songNumber(songNumber_),
         fileName(fileName_),
         visibleName(visibleName_)
-    {
-    }
-
-    Song(Album album, unsigned int songNumber_, const std::string& fileName_)
-    :   albumNumber(album.getAlbumNumber()),
-        songNumber(songNumber_),
-        fileName(fileName_),
-        visibleName(std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)))
     {
     }
 

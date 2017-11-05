@@ -31,11 +31,11 @@ TEST_F(StatisticsTest, empty)
 
 TEST_F(StatisticsTest, playOneSong)
 {
-    statistics.songPlayed(Song(Album(12), 3, "fakeFileName"));
+    statistics.songPlayed(Song(12, 3, "fakeFileName", "fakeVisibleName"));
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 0\n01203: 1\n");
+    std::string expected("Inserted: 0\nfakeVisibleName: 1\n");
     EXPECT_EQ(expected, ss.str());
 }
 
@@ -82,7 +82,7 @@ TEST_F(StatisticsTest, coinInsert200)
 TEST_F(StatisticsTest, multiplePlays)
 {
     statistics.coinInserted50();
-    statistics.songPlayed(Song(Album(12), 3, "fakeFileName"));
+    statistics.songPlayed(Song(12, 3, "fakeFileName", "fakeVisibleName"));
     statistics.coinInserted200();
     statistics.albumPlayed(Album(9));
     statistics.coinInserted50();
@@ -90,11 +90,11 @@ TEST_F(StatisticsTest, multiplePlays)
     statistics.coinInserted100();
     statistics.albumPlayed(Album(8));
     statistics.albumPlayed(Album(9));
-    statistics.songPlayed(Song(Album(12), 3, "fakeFileName"));
-    statistics.songPlayed(Song(Album(12), 3, "fakeFileName"));
+    statistics.songPlayed(Song(12, 3, "fakeFileName", "fakeVisibleName"));
+    statistics.songPlayed(Song(12, 3, "fakeFileName", "fakeVisibleName"));
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 450\n00800: 1\n00900: 2\n01203: 3\n");
+    std::string expected("Inserted: 450\n00800: 1\n00900: 2\nfakeVisibleName: 3\n");
     EXPECT_EQ(expected, ss.str());
 }
