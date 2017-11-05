@@ -256,30 +256,11 @@ void Gui::handleUserInputNumbers(char number)
         int songNumber = std::stoi(userInputSongNumber.substr(3));
         if(songNumber != 0)
         {
-            const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder);
-            if(!song.fileName.empty())
-            {
-                secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
-                   playSongSignal(song);
-                   userInputSongNumber = "";
-                   mainComponent->setCurrentUserInputNumber(userInputSongNumber);
-
-                   secondsToPlayTimer.reset();
-                });
-
-                secondsToPlayTimer->startTimer(timeToPlay);
-            }
-            else
-            {
-                showStatusMessage(ResourceId::ErrorSongNotExists);
-
-                userInputSongNumber = "";
-                mainComponent->setCurrentUserInputNumber(userInputSongNumber);
-            }
+            playSongWithDelay(albumNumber, songNumber);
         }
         else
         {
-            //TODO
+            playAlbumWithDelay(albumNumber);
         }
     }
 }
@@ -293,6 +274,54 @@ void Gui::handleDotPressed()
 
     userInputSongNumber = "";
     mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+}
+
+void Gui::playSongWithDelay(int albumNumber, int songNumber)
+{
+    const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder);
+    if(!song.fileName.empty())
+    {
+        secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
+           playSongSignal(song);
+           userInputSongNumber = "";
+           mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+           secondsToPlayTimer.reset();
+        });
+
+        secondsToPlayTimer->startTimer(timeToPlay);
+    }
+    else
+    {
+        showStatusMessage(ResourceId::ErrorSongNotExists);
+
+        userInputSongNumber = "";
+        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+    }
+}
+
+void Gui::playAlbumWithDelay(int albumNumber)
+{
+    const auto songs = SongBuilder::buildSongsInAlbum(albumNumber, musicFolder);
+    if(!songs.empty())
+    {
+        secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, songs](){
+            playAlbumSignal(songs);
+            userInputSongNumber = "";
+            mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+            secondsToPlayTimer.reset();
+        });
+
+        secondsToPlayTimer->startTimer(timeToPlay);
+    }
+    else
+    {
+        showStatusMessage(ResourceId::ErrorDuringAlbumPlaying);
+
+        userInputSongNumber = "";
+        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+    }
 }
 
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)

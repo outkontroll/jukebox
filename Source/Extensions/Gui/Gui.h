@@ -46,6 +46,9 @@ private:
     void handleAlbumSwitchInMultipleAlbumsMode(bool increase);
     void handleUserInputNumbers(char number);
     void handleDotPressed();
+    //TODO: these two functions could be merged into one entity with templates
+    void playSongWithDelay(int albumNumber, int songNumber);
+    void playAlbumWithDelay(int albumNumber);
 
     unsigned int getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const;
     unsigned int getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const;
