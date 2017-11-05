@@ -20,7 +20,7 @@ namespace jukebox { namespace log {
       if(lastColons == std::string::npos)
       {
           //basic functions: void f()
-          const size_t begin = functionName.rfind(" ") + 1;
+          const size_t begin = functionName.find(" ") + 1;
           const size_t end = firstParenthesis - begin;
 
           return functionName.substr(begin, end);
