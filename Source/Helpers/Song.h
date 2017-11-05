@@ -27,6 +27,14 @@ private:
 class Song
 {
 public:
+    Song(unsigned int albumNumber_, unsigned int songNumber_, const std::string& fileName_, const std::string& visibleName_)
+    :   albumNumber(albumNumber_),
+        songNumber(songNumber_),
+        fileName(fileName_),
+        visibleName(visibleName_)
+    {
+    }
+
     Song(Album album, unsigned int songNumber_, const std::string& fileName_)
     :   albumNumber(album.getAlbumNumber()),
         songNumber(songNumber_),
@@ -52,7 +60,7 @@ public:
 
     inline bool operator<(const Song& other) const
     {
-        return std::tie(albumNumber, songNumber) < std::tie(other.albumNumber, other.songNumber);
+        return std::tie(albumNumber, songNumber, fileName) < std::tie(other.albumNumber, other.songNumber, fileName);
     }
 
     inline bool operator==(const Song& other) const

@@ -27,4 +27,4 @@ set(INCLUDE_DIRS
 
 target_include_directories(core PUBLIC ${INCLUDE_DIRS})
 
-target_link_libraries(core helpers)
+target_link_libraries(core songBuilder helpers)

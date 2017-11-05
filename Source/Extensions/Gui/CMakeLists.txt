@@ -47,7 +47,6 @@ set(INCLUDE_DIRS
     ${SOURCE_DIR}/Base
     ${RESOURCES_DIR}
     ${COMPONENTS_DIR}
-    #TODO: remove this
     ${JUCE_DIRECTORY}
 )
 

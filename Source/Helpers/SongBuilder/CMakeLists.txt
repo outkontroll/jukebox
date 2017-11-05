@@ -5,7 +5,6 @@ project(songBuilder)
 # headers
 
 set(HEADER_SOURCES
-    ${INTERFACE_DIRECTORY}/ISongBuilder.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SongBuilder.h
 )
 
@@ -23,7 +22,9 @@ add_library(songBuilder
 	    ${CPP_SOURCES})
 
 set(INCLUDE_DIRS
-    ${EXTENSION_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_include_directories(songBuilder PUBLIC ${INCLUDE_DIRS})
+
+target_link_libraries(songBuilder project_juce helpers)

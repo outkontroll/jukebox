@@ -1,6 +1,7 @@
 #include "Gui.h"
 #include "MainWindow.h"
 #include "MainComponent.h"
+#include "SongBuilder.h"
 #include "FileSystem.h"
 #include "Logger.h"
 #include "Song.h"
@@ -17,6 +18,7 @@ using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
 using namespace jukebox::filesystem;
+using namespace jukebox::songbuilder;
 using namespace juce;
 
 namespace {
@@ -26,8 +28,6 @@ namespace {
     //TODO remove this as this is just for testing purposes
     const std::array<unsigned, 3> filesToPlay = {{ 1, 16, 4 }};
 }
-
-Song createSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory);
 
 Gui::Gui(const std::string& applicationName)
     : mainComponent(std::make_unique<MainComponent>()),
@@ -140,7 +140,7 @@ void Gui::keyPressed(const KeyPress& key)
         ++fileToPlay;
         fileToPlay = fileToPlay % 3;
         //TODO
-        playSongSignal(createSong(7, filesToPlay[fileToPlay], musicFolder));
+        playSongSignal(SongBuilder::buildSong(7, filesToPlay[fileToPlay], musicFolder));
     }
     else if(textCharacter == 'v')
     {
@@ -256,7 +256,7 @@ void Gui::handleUserInputNumbers(char number)
         int songNumber = std::stoi(userInputSongNumber.substr(3));
         if(songNumber != 0)
         {
-            const auto song = createSong(albumNumber, songNumber, musicFolder);
+            const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder);
             if(!song.getFileName().empty())
             {
                 secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
@@ -330,11 +330,4 @@ unsigned int Gui::getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumInd
     //TODO check underflow
 
     return currentSelectedAlbumIndex;
-}
-
-Song createSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory)
-{
-    return { Album(albumNumber),
-             songNumber,
-             FileSystem::getSongFilePath(musicDirectory, albumNumber, songNumber, "*.mp3")};
 }

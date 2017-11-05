@@ -27,3 +27,5 @@ set(INCLUDE_DIRS
 )
 
 target_include_directories(statistics PUBLIC ${INCLUDE_DIRS})
+
+target_link_libraries(statistics songBuilder)

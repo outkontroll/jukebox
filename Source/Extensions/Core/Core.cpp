@@ -6,6 +6,7 @@
 #include "ISettings.h"
 #include "Logger.h"
 #include "MusicPlayerExceptions.h"
+#include "SongBuilder.h"
 #include "Song.h"
 #include "ResourceId.h"
 #include <iostream>
@@ -17,6 +18,7 @@ using namespace jukebox::signals;
 using namespace jukebox::audio;
 using namespace jukebox::statistics;
 using namespace jukebox::settings;
+using namespace jukebox::songbuilder;
 
 Core::Core(std::unique_ptr<gui::IGui> iGui,
            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
@@ -113,8 +115,7 @@ void Core::playAlbum(const Album& album)
     //TODO play an album
     //for(Song song : album)
     //musicPlayer->playSong(song);
-    Song song(album, 0, "albumTesting");
-    gui->enqueue(song);
+    gui->enqueue(SongBuilder::buildSong(album.getAlbumNumber(), 0, "albumTesting"));
 }
 
 void Core::removePlayedSong()

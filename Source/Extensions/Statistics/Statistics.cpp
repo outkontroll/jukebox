@@ -1,7 +1,9 @@
 #include "Statistics.h"
-#include "Formaters.h"
 #include "Song.h"
 #include <ostream>
+//TODO
+#include "SongBuilder.h"
+using namespace jukebox::songbuilder;
 
 using namespace jukebox::statistics;
 using namespace jukebox::audio;
@@ -14,7 +16,8 @@ void Statistics::songPlayed(const Song& song)
 void Statistics::albumPlayed(const Album& album)
 {
     //TODO
-    ++playedSongs[Song(album, 0, "")];
+    auto song = SongBuilder::buildSong(album.getAlbumNumber(), 0, "albumTesting");
+    ++playedSongs[song];
 }
 
 void Statistics::coinInserted50()
