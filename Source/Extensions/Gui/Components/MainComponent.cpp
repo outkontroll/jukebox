@@ -218,6 +218,11 @@ bool MainComponent::keyPressed (const KeyPress& key)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+MainComponent::MainComponent(bool /*testingConstructor*/)
+{
+    //do nothing, this is for testing purposes
+}
+
 void MainComponent::refreshCredits(unsigned int credits)
 {
     lblCredits->setText(String(credits), dontSendNotification);

@@ -34,7 +34,11 @@ public:
     void removeCurrentSong() override;
 
     void prepareForExit() override;
-    
+
+protected:
+    //this constructor is for testing purposes only
+    Gui(std::unique_ptr<juce::MainComponent> mainComp);
+
 private:
     void keyPressed(const juce::KeyPress& key);
 

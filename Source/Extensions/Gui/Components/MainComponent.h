@@ -83,6 +83,11 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+protected:
+    //this constructor is for testing purposes only to avoid segmentation fault in mocked tests
+    MainComponent(bool testingConstructor);
+
+private:
     void removeCurrentSongImmediately();
 
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;

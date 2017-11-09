@@ -37,6 +37,13 @@ Gui::Gui(const std::string& applicationName)
     eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
 }
 
+Gui::Gui(std::unique_ptr<MainComponent> mainComp)
+    : mainComponent(std::move(mainComp))
+{
+    eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
+    eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
+}
+
 Gui::~Gui() = default;
 
 void Gui::keyPressed(const KeyPress& key)

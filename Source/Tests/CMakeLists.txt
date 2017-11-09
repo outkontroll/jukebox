@@ -36,9 +36,9 @@ set(MOCK_HEADERS
 #link_directories(${LINK_DIRS})
 
 add_subdirectory(TestClasses/CreditManager)
+add_subdirectory(TestClasses/Gui)
 add_subdirectory(TestClasses/Settings)
 add_subdirectory(TestClasses/Statistics)
-#TODO: test Core functionality trough integration tests
 add_subdirectory(TestClasses/Core)
 
 enable_testing()
