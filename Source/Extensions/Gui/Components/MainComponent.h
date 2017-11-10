@@ -23,8 +23,6 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "ListBox.hpp"
-#include "MultipleAlbumsCanvas.h"
-#include "SingleAlbumCanvas.h"
 #include "Signals.hpp"
 #include <string>
 #include <deque>
@@ -32,6 +30,8 @@
 namespace jukebox {
 namespace gui {
     class JukeboxTimer;
+    class MultipleAlbumsCanvas;
+    class SingleAlbumCanvas;
 }
 namespace audio {
     struct Song;
@@ -62,12 +62,15 @@ public:
     jukebox::signals::Signal<const KeyPress&> keyPressedSignal;
     jukebox::signals::Signal<const jukebox::audio::Song&> playNextSongSignal;
 
+    //the virtuals are here only to enable easier testing and mocking
+    //TODO should reconsider the class because of this
+
     void refreshCredits(unsigned int credits);
     void showStatusMessage(const String& message);
     void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex);
-    void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
-    void switchBetweenAlbumViews();
-    void updateSelection(int selectedAlbumIndex);
+    virtual void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
+    virtual void switchBetweenAlbumViews();
+    virtual void updateSelection(int selectedAlbumIndex);
     void setCurrentUserInputNumber(const String& userInput);
     void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     void enqueue(const jukebox::audio::Song &song);

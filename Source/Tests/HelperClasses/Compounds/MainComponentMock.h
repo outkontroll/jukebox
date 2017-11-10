@@ -9,8 +9,11 @@ struct MainComponentMock : public juce::MainComponent
     MainComponentMock()
         : MainComponent(true)
     {
-        //TODO
     }
+
+    MOCK_METHOD0(switchBetweenAlbumViews, void());
+    MOCK_METHOD2(loadSingleAlbum, void(const std::string&, int));
+    MOCK_METHOD1(updateSelection, void(int));
 };
 
 #endif // MAINCOMPONENTMOCK_H

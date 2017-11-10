@@ -21,6 +21,8 @@
 #include "Logger.h"
 #include "Song.h"
 #include "JukeboxTimer.h"
+#include "MultipleAlbumsCanvas.h"
+#include "SingleAlbumCanvas.h"
 //[/Headers]
 
 #include "MainComponent.h"
