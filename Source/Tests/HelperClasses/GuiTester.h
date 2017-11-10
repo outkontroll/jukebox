@@ -11,12 +11,6 @@ struct GuiTester : public jukebox::gui::Gui
         : Gui(std::move(mainComponent_))
     {
     }
-
-    MainComponentMock* getMainComponentMock()
-    {
-        //TODO
-        return nullptr;
-    }
 };
 
 #endif // GUITESTER_H

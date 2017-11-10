@@ -34,6 +34,8 @@ target_link_libraries(integrationtest_Gui
 		      #helpers
 		      ${LIBRARY_DIRECTORIES}/Libs/libgtest.a
 		      ${LIBRARY_DIRECTORIES}/Libs/libgtest_main.a
+                      ${LIBRARY_DIRECTORIES}/Libs/libgmock.a
+                      ${LIBRARY_DIRECTORIES}/Libs/libgmock_main.a
 		      pthread
 )
 
