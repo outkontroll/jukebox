@@ -15,7 +15,9 @@ public:
 
     static std::string getSongFilePath(const std::string& musicDirectory, int albumIndex, int songIndex, const std::string& extensionPattern);
 
-    static std::vector<std::pair<std::string, int>> getAllSongFilePaths(const std::string& musicDicertory, int albumIndex, const std::string& extensionPattern);
+    static std::vector<std::pair<std::string, int>> getAllSongFilesWithFullPaths(const std::string& musicDicertory, int albumIndex, const std::string& extensionPattern);
+
+    static std::vector<std::string> getAllSongFilesNamesOnly(const std::string& musicDirectory, int albumIndex, const std::string& extensionPattern);
 };
 
 }}

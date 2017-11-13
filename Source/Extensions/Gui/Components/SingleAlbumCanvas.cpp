@@ -12,6 +12,8 @@ namespace {
     const float defaultTextOffsetX = 10.0f;
     const float defaultTextOffsetY = 10.0f;
     const float offsetXRatio = 0.963f;
+    const std::string defaultImageExtension = ".jpg";
+    const std::string defaultMusicExtension = "*.mp3";
 }
 
 void SingleAlbumCanvas::paint(Graphics& g)
@@ -73,7 +75,7 @@ void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selecte
 
 void SingleAlbumCanvas::loadImage(const std::string& musicDirectory)
 {
-    auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectory, albumIndex, ".jpg");
+    auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectory, albumIndex, defaultImageExtension);
     image = ImageFileFormat::loadFrom(File(imagePath));
 }
 
@@ -81,15 +83,24 @@ void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
 {
     otherLines = "";
     artistName = "";
+
+    StringArray lines;
     auto infoFilePath = jukebox::filesystem::FileSystem::getInfoFilePath(musicDirectory, albumIndex);
     File infoFile(infoFilePath);
     if(!infoFile.existsAsFile())
     {
-        return;
-    }
+        lines.add(Resources::getResourceStringFromId(ResourceId::DefaultArtistName));
 
-    StringArray lines;
-    infoFile.readLines(lines);
+        auto musicFiles = jukebox::filesystem::FileSystem::getAllSongFilesNamesOnly(musicDirectory, albumIndex, defaultMusicExtension);
+        for(auto& musicFile : musicFiles)
+        {
+            lines.add(musicFile);
+        }
+    }
+    else
+    {
+        infoFile.readLines(lines);
+    }
 
     if(lines.size() == 0)
     {

@@ -22,7 +22,7 @@ Song SongBuilder::buildSong(unsigned int albumNumber, unsigned int songNumber, c
 
 std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const std::string& musicDirectory)
 {
-    const auto paths = FileSystem::getAllSongFilePaths(musicDirectory, albumNumber, DefaultExtensionPattern);
+    const auto paths = FileSystem::getAllSongFilesWithFullPaths(musicDirectory, albumNumber, DefaultExtensionPattern);
     std::vector<Song> songs;
     songs.reserve(paths.size());
 
