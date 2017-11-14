@@ -108,16 +108,10 @@ void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
     }
 
     artistName = lines[0];
-    // to not read the artist twice
-    lines.remove(0);
 
-    for(auto& line : lines)
-    {
-        if(!line.isEmpty())
-        {
-            otherLines += line + "\n";
-        }
-    }
+    otherLines = std::accumulate(std::next(lines.begin()), lines.end(), juce::String(""), [](const juce::String& current, const juce::String& line){
+       return line.isEmpty() ? current : current + line + '\n';
+    });
 }
 
 Rectangle<float> SingleAlbumCanvas::calculateImagePlace(float imageSize, float width, float height) const
