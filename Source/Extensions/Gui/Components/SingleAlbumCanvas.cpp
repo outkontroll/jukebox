@@ -82,36 +82,44 @@ void SingleAlbumCanvas::loadImage(const std::string& musicDirectory)
 void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
 {
     otherLines = "";
-    artistName = "";
+    artistName = Resources::getResourceStringFromId(ResourceId::DefaultArtistName);
 
-    StringArray lines;
+    auto readMusicFiles = [&]() mutable {
+        auto musicFiles = jukebox::filesystem::FileSystem::getAllSongFilesNamesOnly(musicDirectory, albumIndex, defaultMusicExtension);
+        otherLines = std::accumulate(musicFiles.begin(), musicFiles.end(), juce::String(""), [](const juce::String& current, const std::string& line){
+           return current + line + '\n';
+        });
+    };
+
     auto infoFilePath = jukebox::filesystem::FileSystem::getInfoFilePath(musicDirectory, albumIndex);
     File infoFile(infoFilePath);
+
     if(!infoFile.existsAsFile())
     {
-        lines.add(Resources::getResourceStringFromId(ResourceId::DefaultArtistName));
-
-        auto musicFiles = jukebox::filesystem::FileSystem::getAllSongFilesNamesOnly(musicDirectory, albumIndex, defaultMusicExtension);
-        for(auto& musicFile : musicFiles)
-        {
-            lines.add(musicFile);
-        }
+        readMusicFiles();
     }
     else
     {
+        StringArray lines;
         infoFile.readLines(lines);
+
+        if(lines.size() > 0)
+        {
+            if(lines[0].isNotEmpty())
+            {
+                artistName = lines[0];
+            }
+
+            otherLines = std::accumulate(std::next(lines.begin()), lines.end(), juce::String(""), [](const juce::String& current, const juce::String& line){
+               return line.isEmpty() ? current : current + line + '\n';
+            });
+        }
+
+        if(otherLines.isEmpty())
+        {
+            readMusicFiles();
+        }
     }
-
-    if(lines.size() == 0)
-    {
-        return;
-    }
-
-    artistName = lines[0];
-
-    otherLines = std::accumulate(std::next(lines.begin()), lines.end(), juce::String(""), [](const juce::String& current, const juce::String& line){
-       return line.isEmpty() ? current : current + line + '\n';
-    });
 }
 
 Rectangle<float> SingleAlbumCanvas::calculateImagePlace(float imageSize, float width, float height) const
