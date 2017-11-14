@@ -77,6 +77,8 @@ std::vector<std::string> FileSystem::getAllSongFilesNamesOnly(const std::string&
         return file.getFileNameWithoutExtension().toStdString();
     });
 
+    std::sort(musicSongs.begin(), musicSongs.end());
+
     return musicSongs;
 }
 
