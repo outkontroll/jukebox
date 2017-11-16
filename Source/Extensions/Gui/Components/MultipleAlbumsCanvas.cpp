@@ -33,16 +33,16 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
         const auto& image = album.image;
 
         // album's number
-        g.drawText(jukebox::FillWithLeadingZeros(album.albumNumber, 3), album.textPlace, Justification::centredLeft);
+        g.drawText(jukebox::FillWithLeadingZeros(album.albumNumber, 3), album.position.textPlace, Justification::centredLeft);
 
         // album's image, if we can find one
         if(image.isValid())
         {
-            g.drawImage(image, album.imagePlace, RectanglePlacement::stretchToFit);
+            g.drawImage(image, album.position.imagePlace, RectanglePlacement::stretchToFit);
         }
         else
         {
-            g.drawText(Resources::getResourceStringFromId(ResourceId::ErrorImageNotFound), album.imagePlace, Justification::centred );
+            g.drawText(Resources::getResourceStringFromId(ResourceId::ErrorImageNotFound), album.position.imagePlace, Justification::centred );
         }
 
         // selection frame (if this is the selected album)
@@ -63,24 +63,29 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
 
 void MultipleAlbumsCanvas::parentSizeChanged()
 {
-    slotWidth = static_cast<float>(getWidth() / colums);
+    slotWidth = static_cast<float>(getWidth() / columns);
     slotHeight = static_cast<float>(getHeight() / rows);
+    for(int visibleAlbumIndex = 0; visibleAlbumIndex < columns * rows; ++visibleAlbumIndex)
+    {
+        const auto position = getPositionFromIndex(visibleAlbumIndex);
+        const auto imagePlace = calculateImagePlace(position, slotWidth, slotHeight);
+        const auto textPlace = calculateTextPlace(position, slotWidth, slotHeight);
+
+        albumPositions.push_back({imagePlace, textPlace});
+    }
 }
 
 void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex)
 {
     albums.clear();
 
-    for(int albumIndex = firstAlbumIndex, visibleAlbumIndex = 0; albumIndex < firstAlbumIndex + colums * rows; ++albumIndex, ++visibleAlbumIndex)
-    {
+    int albumIndex = firstAlbumIndex;
+    std::for_each(albumPositions.begin(), albumPositions.end(), [&, this](const auto& albumPosition){
         const auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectoy, albumIndex, ".jpg");
         const auto image = ImageFileFormat::loadFrom(File(imagePath));
-        const auto position = getPositionFromIndex(visibleAlbumIndex);
-        const auto imagePlace = calculateImagePlace(position, slotWidth, slotHeight);
-        const auto textPlace = calculateTextPlace(position, slotWidth, slotHeight);
 
-        albums.push_back({image, albumIndex, imagePlace, textPlace});
-    }
+        albums.push_back({image, albumPosition, albumIndex++});
+    });
 }
 
 void MultipleAlbumsCanvas::setSelection(int selectedIndex)
@@ -89,8 +94,8 @@ void MultipleAlbumsCanvas::setSelection(int selectedIndex)
     if(!albums.empty())
     {
         const auto selectedPosition = selectedAlbumIndex - albums.begin()->albumNumber;
-        selectionTextPlace = calculateSelectionPlace(albums[selectedPosition].textPlace);
-        selectionImagePlace = calculateSelectionPlace(albums[selectedPosition].imagePlace);
+        selectionTextPlace = calculateSelectionPlace(albums[selectedPosition].position.textPlace);
+        selectionImagePlace = calculateSelectionPlace(albums[selectedPosition].position.imagePlace);
     }
 
     repaint();
@@ -129,5 +134,5 @@ Rectangle<float> MultipleAlbumsCanvas::calculateSelectionPlace(const Rectangle<f
 
 MultipleAlbumsCanvas::Position MultipleAlbumsCanvas::getPositionFromIndex(int index) const
 {
-    return { index % colums, index / colums };
+    return { index % columns, index / columns };
 }

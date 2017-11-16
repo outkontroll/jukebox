@@ -28,18 +28,24 @@ private:
     juce::Rectangle<float> calculateSelectionPlace(const juce::Rectangle<float>& placeToSelect);
     Position getPositionFromIndex(int index) const;
 
-    struct VisibleAlbum
+    struct AlbumPositionInfo
     {
-        const juce::Image image;
-        const int albumNumber;
         const juce::Rectangle<float> imagePlace;
         const juce::Rectangle<float> textPlace;
     };
 
+    struct VisibleAlbum
+    {
+        const juce::Image image;
+        const AlbumPositionInfo position;
+        const int albumNumber;
+    };
+
+    std::vector<AlbumPositionInfo> albumPositions;
     std::vector<VisibleAlbum> albums;
     juce::Rectangle<float> selectionImagePlace;
     juce::Rectangle<float> selectionTextPlace;
-    int colums = 4;
+    int columns = 4;
     int rows = 2;
     int selectedAlbumIndex = 1;
     float slotWidth = 0;
