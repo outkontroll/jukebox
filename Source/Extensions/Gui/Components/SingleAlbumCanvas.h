@@ -10,6 +10,7 @@ class SingleAlbumCanvas : public juce::Component
 {
 public:
     void paint(juce::Graphics& g) override;
+    void parentSizeChanged() override;
 
     void loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex);
 
@@ -33,6 +34,10 @@ private:
     juce::String artistName = "";
     juce::String otherLines = "";
     int albumIndex;
+    juce::Rectangle<float> textPlace;
+    juce::Rectangle<float> imagePlace;
+    juce::Rectangle<float> artistNamePlace;
+    MultipleLinesPosition otherLinesPlace;
 };
 
 }}

@@ -29,16 +29,10 @@ void SingleAlbumCanvas::paint(Graphics& g)
     currentFont.setHeight(bigFontSize);
     g.setFont(currentFont);
 
-    const float width = getWidth();
-    const float height = getHeight();
-    const float pictureSize = static_cast<float>(width / 2);
-
     // album's number
-    const auto textPlace = calculateTextPlace(pictureSize, width);
     g.drawText(jukebox::FillWithLeadingZeros(albumIndex, 3), textPlace, Justification::centredLeft);
 
     // album's image, if we can find one
-    const auto imagePlace = calculateImagePlace(pictureSize, width, height);
     if(image.isValid())
     {
         g.drawImage(image,
@@ -53,15 +47,24 @@ void SingleAlbumCanvas::paint(Graphics& g)
     // album's contain, if there is one
     if(!artistName.isEmpty())
     {
-        const auto artistNamePlace = calculateArtistTextPlace(pictureSize, width);
         g.drawText(artistName, artistNamePlace, Justification::centred);
     }
 
     if(!otherLines.isEmpty())
     {
-        const auto otherLinesPlace = calculateOtherLinesPlace(pictureSize, width, height);
         g.drawMultiLineText(otherLines, otherLinesPlace.startX, otherLinesPlace.baselineY, otherLinesPlace.maximumLineWidth);
     }
+}
+
+void SingleAlbumCanvas::parentSizeChanged()
+{
+    const float width = getWidth();
+    const float height = getHeight();
+    const float pictureSize = static_cast<float>(width / 2);
+    textPlace = calculateTextPlace(pictureSize, width);
+    imagePlace = calculateImagePlace(pictureSize, width, height);
+    artistNamePlace = calculateArtistTextPlace(pictureSize, width);
+    otherLinesPlace = calculateOtherLinesPlace(pictureSize, width, height);
 }
 
 void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex)
