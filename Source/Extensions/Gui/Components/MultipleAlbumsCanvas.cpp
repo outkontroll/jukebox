@@ -81,7 +81,6 @@ void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firs
 
         albums.push_back({image, albumIndex, imagePlace, textPlace});
     }
-    repaint();
 }
 
 void MultipleAlbumsCanvas::setSelection(int selectedIndex)
@@ -93,7 +92,7 @@ void MultipleAlbumsCanvas::setSelection(int selectedIndex)
         selectionTextPlace = calculateSelectionPlace(albums[selectedPosition].textPlace);
         selectionImagePlace = calculateSelectionPlace(albums[selectedPosition].imagePlace);
     }
-    //TODO: is this needed? rethink the repaint calls
+
     repaint();
 }
 
