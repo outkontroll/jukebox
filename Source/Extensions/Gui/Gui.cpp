@@ -179,6 +179,7 @@ void Gui::setMusicFolder(const std::string& folder)
     selectedAlbumIndex = defaultAlbumIndex;
     mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex);
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+    mainComponent->updateSelection(selectedAlbumIndex);
 }
 
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)

@@ -10,6 +10,7 @@ using namespace testing;
 
 namespace {
     const std::string defaultMusicDir = "";
+    const auto setMusicDir = "fakeMusicDir";
     constexpr int defaultSelectedAlbumIndex = 1;
     juce::KeyPress keyC(99, 0, 'c');
     juce::KeyPress keyH(104, 0, 'h');
@@ -67,4 +68,13 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressed
 
     mainComponentMock->keyPressedSignal(keyC);
     mainComponentMock->keyPressedSignal(keyC);
+}
+
+TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbumsAndUpdateSelection)
+{
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(setMusicDir, defaultSelectedAlbumIndex));
+    EXPECT_CALL(*mainComponentMock, updateSelection(defaultSelectedAlbumIndex));
+
+    gui->setMusicFolder(setMusicDir);
 }

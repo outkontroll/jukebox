@@ -24,64 +24,62 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
 
     g.setColour(Colours::black);
 
-    const float slotWidth = static_cast<float>(getWidth() / colums);
-    const float slotHeight = static_cast<float>(getHeight() / rows);
-
     auto currentFont = g.getCurrentFont();
     currentFont.setHeight(bigFontSize);
     g.setFont(currentFont);
 
     int onScreenindex(0);
-    for(const auto& album : albums)
-    {
-        const auto& image = album.first;
-        const auto position = getPositionFromIndex(onScreenindex);
+    std::for_each(albums.begin(), albums.end(), [&g, &onScreenindex, this](const auto& album){
+        const auto& image = album.image;
 
         // album's number
-        const auto textPlace = calculateTextPlace(position, slotWidth, slotHeight);
-        g.drawText(jukebox::FillWithLeadingZeros(album.second, 3), textPlace, Justification::centredLeft);
+        g.drawText(jukebox::FillWithLeadingZeros(album.albumNumber, 3), album.textPlace, Justification::centredLeft);
 
         // album's image, if we can find one
-        const auto imagePlace = calculateImagePlace(position, slotWidth, slotHeight);
         if(image.isValid())
         {
-            g.drawImage(image,
-                        imagePlace,
-                        RectanglePlacement::stretchToFit);
+            g.drawImage(image, album.imagePlace, RectanglePlacement::stretchToFit);
         }
         else
         {
-            g.drawText(Resources::getResourceStringFromId(ResourceId::ErrorImageNotFound), imagePlace, Justification::centred );
+            g.drawText(Resources::getResourceStringFromId(ResourceId::ErrorImageNotFound), album.imagePlace, Justification::centred );
         }
 
         // selection frame (if this is the selected album)
-        if(album.second == selectedAlbumIndex)
+        if(album.albumNumber == selectedAlbumIndex)
         {
             g.setColour(Colours::yellow);
 
-            const auto selectionImagePlace = calculateSelectionPlace(imagePlace);
             g.drawRect(selectionImagePlace, selectionThickness);
 
-            const auto selectionTextPlace = calculateSelectionPlace(textPlace);
             g.drawRect(selectionTextPlace, selectionThickness);
 
             g.setColour(Colours::black);
         }
 
         ++onScreenindex;
-    }
+    });
+}
+
+void MultipleAlbumsCanvas::parentSizeChanged()
+{
+    slotWidth = static_cast<float>(getWidth() / colums);
+    slotHeight = static_cast<float>(getHeight() / rows);
 }
 
 void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex)
 {
     albums.clear();
 
-    for(int albumIndex = firstAlbumIndex; albumIndex < firstAlbumIndex + colums * rows; ++albumIndex)
+    for(int albumIndex = firstAlbumIndex, visibleAlbumIndex = 0; albumIndex < firstAlbumIndex + colums * rows; ++albumIndex, ++visibleAlbumIndex)
     {
-        auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectoy, albumIndex, ".jpg");
-        auto image = ImageFileFormat::loadFrom(File(imagePath));
+        const auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectoy, albumIndex, ".jpg");
+        const auto image = ImageFileFormat::loadFrom(File(imagePath));
+        const auto position = getPositionFromIndex(visibleAlbumIndex);
+        const auto imagePlace = calculateImagePlace(position, slotWidth, slotHeight);
+        const auto textPlace = calculateTextPlace(position, slotWidth, slotHeight);
 
-        albums.push_back({image, albumIndex});
+        albums.push_back({image, albumIndex, imagePlace, textPlace});
     }
     repaint();
 }
@@ -89,6 +87,12 @@ void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firs
 void MultipleAlbumsCanvas::setSelection(int selectedIndex)
 {
     selectedAlbumIndex = selectedIndex;
+    if(!albums.empty())
+    {
+        const auto selectedPosition = selectedAlbumIndex - albums.begin()->albumNumber;
+        selectionTextPlace = calculateSelectionPlace(albums[selectedPosition].textPlace);
+        selectionImagePlace = calculateSelectionPlace(albums[selectedPosition].imagePlace);
+    }
     //TODO: is this needed? rethink the repaint calls
     repaint();
 }

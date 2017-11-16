@@ -13,6 +13,7 @@ struct MainComponentMock : public juce::MainComponent
 
     MOCK_METHOD0(switchBetweenAlbumViews, void());
     MOCK_METHOD2(loadSingleAlbum, void(const std::string&, int));
+    MOCK_METHOD2(loadMultipleAlbums, void(const std::string&, int));
     MOCK_METHOD1(updateSelection, void(int));
 };
 

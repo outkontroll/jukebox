@@ -65,17 +65,17 @@ public:
     //the virtuals are here only to enable easier testing and mocking
     //TODO should reconsider the class because of this
 
-    void refreshCredits(unsigned int credits);
-    void showStatusMessage(const String& message);
-    void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex);
+    virtual void refreshCredits(unsigned int credits);
+    virtual void showStatusMessage(const String& message);
+    virtual void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex);
     virtual void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
     virtual void switchBetweenAlbumViews();
     virtual void updateSelection(int selectedAlbumIndex);
-    void setCurrentUserInputNumber(const String& userInput);
-    void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
-    void enqueue(const jukebox::audio::Song &song);
-    void removeCurrentSong();
-    void prepareForExit();
+    virtual void setCurrentUserInputNumber(const String& userInput);
+    virtual void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
+    virtual void enqueue(const jukebox::audio::Song &song);
+    virtual void removeCurrentSong();
+    virtual void prepareForExit();
     //[/UserMethods]
 
     void paint (Graphics& g) override;

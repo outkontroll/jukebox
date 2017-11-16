@@ -11,6 +11,7 @@ class MultipleAlbumsCanvas : public juce::Component
 {
 public:
     void paint(juce::Graphics& g) override;
+    void parentSizeChanged() override;
 
     void loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex);
     void setSelection(int selectedAlbumIndex);
@@ -18,8 +19,8 @@ public:
 private:
     struct Position
     {
-        int x;
-        int y;
+        const int x;
+        const int y;
     };
 
     juce::Rectangle<float> calculateImagePlace(Position position, float slotWidth, float slotHeight) const;
@@ -27,10 +28,22 @@ private:
     juce::Rectangle<float> calculateSelectionPlace(const juce::Rectangle<float>& placeToSelect);
     Position getPositionFromIndex(int index) const;
 
-    std::vector<std::pair<juce::Image, int>> albums;
+    struct VisibleAlbum
+    {
+        const juce::Image image;
+        const int albumNumber;
+        const juce::Rectangle<float> imagePlace;
+        const juce::Rectangle<float> textPlace;
+    };
+
+    std::vector<VisibleAlbum> albums;
+    juce::Rectangle<float> selectionImagePlace;
+    juce::Rectangle<float> selectionTextPlace;
     int colums = 4;
     int rows = 2;
     int selectedAlbumIndex = 1;
+    float slotWidth = 0;
+    float slotHeight = 0;
 };
 
 }}
