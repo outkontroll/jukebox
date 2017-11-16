@@ -26,12 +26,12 @@ std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const
     std::vector<Song> songs;
     songs.reserve(paths.size());
 
-    std::for_each(paths.begin(), paths.end(), [&songs, albumNumber](const auto& path){
-        songs.emplace_back(Song{ albumNumber,
-                                 static_cast<unsigned int>(path.second),
-                                 path.first,
-                                 std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(path.second, 2))
-                                 });
+    std::transform(paths.begin(), paths.end(), std::back_inserter(songs), [albumNumber](const auto& path){
+        return Song{ albumNumber,
+                     static_cast<unsigned int>(path.second),
+                     path.first,
+                     std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(path.second, 2))
+                     };
     });
 
     return songs;

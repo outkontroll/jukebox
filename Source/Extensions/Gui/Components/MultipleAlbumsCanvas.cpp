@@ -28,8 +28,8 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
     currentFont.setHeight(bigFontSize);
     g.setFont(currentFont);
 
-    int onScreenindex(0);
-    std::for_each(albums.begin(), albums.end(), [&g, &onScreenindex, this](const auto& album){
+    for(const auto& album : albums)
+    {
         const auto& image = album.image;
 
         // album's number
@@ -56,15 +56,15 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
 
             g.setColour(Colours::black);
         }
-
-        ++onScreenindex;
-    });
+    }
 }
 
 void MultipleAlbumsCanvas::parentSizeChanged()
 {
     slotWidth = static_cast<float>(getWidth() / columns);
     slotHeight = static_cast<float>(getHeight() / rows);
+    albumPositions.reserve(columns * rows);
+    albums.reserve(columns * rows);
     for(int visibleAlbumIndex = 0; visibleAlbumIndex < columns * rows; ++visibleAlbumIndex)
     {
         const auto position = getPositionFromIndex(visibleAlbumIndex);
