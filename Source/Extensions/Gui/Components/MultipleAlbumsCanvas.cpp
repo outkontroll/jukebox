@@ -63,14 +63,19 @@ void MultipleAlbumsCanvas::parentSizeChanged()
 {
     slotWidth = static_cast<float>(getWidth() / columns);
     slotHeight = static_cast<float>(getHeight() / rows);
-    albumPositions.reserve(columns * rows);
-    albums.reserve(columns * rows);
-    for(int visibleAlbumIndex = 0; visibleAlbumIndex < columns * rows; ++visibleAlbumIndex)
-    {
+
+    std::vector<int> indexes(columns * rows);
+    std::iota(indexes.begin(), indexes.end(), 0);
+
+    albumPositions.reserve(indexes.size());
+    albums.reserve(indexes.size());
+
+    std::transform(indexes.begin(), indexes.end(), std::back_inserter(albumPositions), [this](int visibleAlbumIndex){
         const auto position = getPositionFromIndex(visibleAlbumIndex);
-        albumPositions.push_back({calculateImagePlace(position, slotWidth, slotHeight),
-                                  calculateTextPlace(position, slotWidth, slotHeight)});
-    }
+        return AlbumPositionInfo{calculateImagePlace(position, slotWidth, slotHeight),
+                                 calculateTextPlace(position, slotWidth, slotHeight)};
+    });
+
 }
 
 void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex)

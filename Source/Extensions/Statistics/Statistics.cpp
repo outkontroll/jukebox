@@ -39,7 +39,7 @@ void Statistics::showStatistics(std::ostream& os)
 {
     os << "Inserted: " << insertedCoins << std::endl;
 
-    for(auto playedSong : playedSongs)
+    for(const auto& playedSong : playedSongs)
     {
         os << playedSong.first.visibleName
            << ": "
