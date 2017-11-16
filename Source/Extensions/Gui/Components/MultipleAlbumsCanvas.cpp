@@ -68,10 +68,8 @@ void MultipleAlbumsCanvas::parentSizeChanged()
     for(int visibleAlbumIndex = 0; visibleAlbumIndex < columns * rows; ++visibleAlbumIndex)
     {
         const auto position = getPositionFromIndex(visibleAlbumIndex);
-        const auto imagePlace = calculateImagePlace(position, slotWidth, slotHeight);
-        const auto textPlace = calculateTextPlace(position, slotWidth, slotHeight);
-
-        albumPositions.push_back({imagePlace, textPlace});
+        albumPositions.push_back({calculateImagePlace(position, slotWidth, slotHeight),
+                                  calculateTextPlace(position, slotWidth, slotHeight)});
     }
 }
 
@@ -79,12 +77,13 @@ void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firs
 {
     albums.clear();
 
-    int albumIndex = firstAlbumIndex;
-    std::for_each(albumPositions.begin(), albumPositions.end(), [&, this](const auto& albumPosition){
+    std::accumulate(albumPositions.begin(), albumPositions.end(), firstAlbumIndex, [&, this](int albumIndex, const auto& albumPosition){
         const auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectoy, albumIndex, ".jpg");
         const auto image = ImageFileFormat::loadFrom(File(imagePath));
 
-        albums.push_back({image, albumPosition, albumIndex++});
+        albums.push_back({image, albumPosition, albumIndex});
+
+        return ++albumIndex;
     });
 }
 
