@@ -3,7 +3,9 @@
 #include "GuiTester.h"
 #include "Song.h"
 #include "FreeFunctions.h"
+#include "ResourceId.h"
 
+using namespace jukebox;
 using namespace jukebox::gui;
 using namespace jukebox::audio;
 using namespace testing;
@@ -12,11 +14,14 @@ namespace {
     const std::string defaultMusicDir = "";
     const auto setMusicDir = "fakeMusicDir";
     constexpr int defaultSelectedAlbumIndex = 1;
+    constexpr unsigned int testCredits = 12;
     const juce::String emptyString = "";
+    const juce::String TranslatedStringPlaying = "Playing";
+
     //apparently the first parameter can be anything as long as the last one is the correct char and the second is zero
-    juce::KeyPress keyC(0, 0, 'c');
-    juce::KeyPress keyH(0, 0, 'h');
-    juce::KeyPress keyDot(0, 0, '.');
+    const juce::KeyPress keyC(0, 0, 'c');
+    const juce::KeyPress keyH(0, 0, 'h');
+    const juce::KeyPress keyDot(0, 0, '.');
 }
 
 class GuiTest : public ::testing::Test
@@ -34,6 +39,8 @@ protected:
 
     jukebox::signals::Slot eventsSlot;
 };
+
+// signal subscriptions
 
 TEST_F(GuiTest, WhenMainComponentSendsPlayNextSongSignal_ThenGuiSignalizeIt)
 {
@@ -73,6 +80,29 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressed
     mainComponentMock->keyPressedSignal(keyC);
 }
 
+TEST_F(GuiTest, GivenThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPressedSignalDot_ThenCurrentUserInputNumberIsReset)
+{
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
+
+    mainComponentMock->keyPressedSignal(keyDot);
+}
+
+// public interface
+
+TEST_F(GuiTest, WhenRefreshCreditsCalled_ThenSameIsCalledOnMainComponentWithSameParameter)
+{
+    EXPECT_CALL(*mainComponentMock, refreshCredits(testCredits));
+
+    gui->refreshCredits(testCredits);
+}
+
+TEST_F(GuiTest, WhenShowStatusMessageIsCalledWithResourceId_ThenTheSameIsCalledOnMainComponentWithTranslatedString)
+{
+    EXPECT_CALL(*mainComponentMock, showStatusMessage(TranslatedStringPlaying));
+
+    gui->showStatusMessage(ResourceId::Playing);
+}
+
 TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbumsAndUpdateSelection)
 {
     EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex));
@@ -82,9 +112,35 @@ TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbu
     gui->setMusicFolder(setMusicDir);
 }
 
-TEST_F(GuiTest, GivenThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPressedSignalDot_ThenCurrentUserInputNumberIsReset)
+TEST_F(GuiTest, WhenSetCurrentlyPlayedSongIsCalled_ThenTheSameAndStatusUpdateIsCalledOnMainComponent)
 {
-    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
+    Song song{1, 1, "fakeFileName", "fakeVisibleName"};
 
-    mainComponentMock->keyPressedSignal(keyDot);
+    EXPECT_CALL(*mainComponentMock, setCurrentlyPlayedSong(song));
+    EXPECT_CALL(*mainComponentMock, showStatusMessage(TranslatedStringPlaying));
+
+    gui->setCurrentlyPlayedSong(song);
+}
+
+TEST_F(GuiTest, WhenEnqueueIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    Song song{1, 1, "fakeFileName", "fakeVisibleName"};
+
+    EXPECT_CALL(*mainComponentMock, enqueue(song));
+
+    gui->enqueue(song);
+}
+
+TEST_F(GuiTest, WhenRemoveCurrentSongIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    EXPECT_CALL(*mainComponentMock, removeCurrentSong());
+
+    gui->removeCurrentSong();
+}
+
+TEST_F(GuiTest, WhenPrepareForExitIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    EXPECT_CALL(*mainComponentMock, prepareForExit());
+
+    gui->prepareForExit();
 }

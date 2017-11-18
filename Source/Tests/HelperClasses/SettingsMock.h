@@ -10,7 +10,7 @@ struct SettingsMock : public jukebox::settings::ISettings
 public:
     std::string getMusicDirectory() const override
     {
-        return "";
+        return "FakeMusicDirectory";
     }
 };
 

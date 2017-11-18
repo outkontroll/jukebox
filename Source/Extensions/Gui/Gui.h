@@ -22,8 +22,6 @@ public:
     Gui(const std::string& applicationName);
     ~Gui();
 
-    void playNextSong(const audio::Song& song);
-
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(ResourceId messageId) override;
     
@@ -42,6 +40,7 @@ protected:
 private:
     void keyPressed(const juce::KeyPress& key);
 
+    void playNextSong(const audio::Song& song);
     void switchBetweenAlbumModes();
     void stepSelection();
     void showHelp();
