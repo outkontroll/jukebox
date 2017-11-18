@@ -11,10 +11,17 @@ struct MainComponentMock : public juce::MainComponent
     {
     }
 
-    MOCK_METHOD0(switchBetweenAlbumViews, void());
-    MOCK_METHOD2(loadSingleAlbum, void(const std::string&, int));
+    MOCK_METHOD1(refreshCredits, void(unsigned int));
+    MOCK_METHOD1(showStatusMessage, void(const juce::String&));
     MOCK_METHOD2(loadMultipleAlbums, void(const std::string&, int));
+    MOCK_METHOD2(loadSingleAlbum, void(const std::string&, int));
+    MOCK_METHOD0(switchBetweenAlbumViews, void());
     MOCK_METHOD1(updateSelection, void(int));
+    MOCK_METHOD1(setCurrentUserInputNumber, void(const juce::String&));
+    MOCK_METHOD1(setCurrentlyPlayedSong, void(const jukebox::audio::Song&));
+    MOCK_METHOD1(enqueue, void(const jukebox::audio::Song&));
+    MOCK_METHOD0(removeCurrentSong, void());
+    MOCK_METHOD0(prepareForExit, void());
 };
 
 #endif // MAINCOMPONENTMOCK_H

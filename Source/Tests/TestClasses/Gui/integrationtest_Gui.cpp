@@ -12,8 +12,11 @@ namespace {
     const std::string defaultMusicDir = "";
     const auto setMusicDir = "fakeMusicDir";
     constexpr int defaultSelectedAlbumIndex = 1;
-    juce::KeyPress keyC(99, 0, 'c');
-    juce::KeyPress keyH(104, 0, 'h');
+    const juce::String emptyString = "";
+    //apparently the first parameter can be anything as long as the last one is the correct char and the second is zero
+    juce::KeyPress keyC(0, 0, 'c');
+    juce::KeyPress keyH(0, 0, 'h');
+    juce::KeyPress keyDot(0, 0, '.');
 }
 
 class GuiTest : public ::testing::Test
@@ -77,4 +80,11 @@ TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbu
     EXPECT_CALL(*mainComponentMock, updateSelection(defaultSelectedAlbumIndex));
 
     gui->setMusicFolder(setMusicDir);
+}
+
+TEST_F(GuiTest, GivenThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPressedSignalDot_ThenCurrentUserInputNumberIsReset)
+{
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
+
+    mainComponentMock->keyPressedSignal(keyDot);
 }
