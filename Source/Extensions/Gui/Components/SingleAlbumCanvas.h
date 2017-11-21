@@ -25,26 +25,27 @@ private:
         int maximumLineWidth;
     };
 
-    void drawMultiLines(const juce::String& text, const std::vector<juce::String>& lines, MultipleLinesPosition position, juce::Graphics& g);
-
     void loadImage(const std::string& musicDirectory);
     void loadInfoFile(const std::string& musicDirectory);
 
     juce::Rectangle<float> calculateImagePlace(float imageSize, float width, float height) const;
     juce::Rectangle<float> calculateTextPlace(float imageSize, float width) const;
     juce::Rectangle<float> calculateArtistTextPlace(float imageSize, float width) const;
+    juce::Rectangle<float> calculateSelectionBounds(const std::vector<juce::String>& lines, MultipleLinesPosition position);
     MultipleLinesPosition calculateOtherLinesPlace(float imageSize, float width, float height) const;
 
     juce::Image image;
     juce::String artistName = "";
-    juce::String otherLines;
-    std::vector<juce::String> allTheOtherLines;
-    int albumIndex;
-    juce::Rectangle<float> textPlace;
-    juce::Rectangle<float> imagePlace;
-    juce::Rectangle<float> artistNamePlace;
+    juce::String otherLines = "";
+    std::vector<juce::String> songNames;
+    int albumIndex = 0;
+    juce::Rectangle<float> textPlace = {0, 0, 0, 0};
+    juce::Rectangle<float> imagePlace = {0, 0, 0, 0};
+    juce::Rectangle<float> artistNamePlace = {0, 0, 0, 0};
+    juce::Rectangle<float> selectionBounds = {0, 0, 0, 0};
     MultipleLinesPosition otherLinesPlace;
     int currentSelectedLine = 0;
+
 };
 
 }}

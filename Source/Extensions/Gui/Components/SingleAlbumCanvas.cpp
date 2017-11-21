@@ -55,8 +55,11 @@ void SingleAlbumCanvas::paint(Graphics& g)
 
     if(!otherLines.isEmpty())
     {
-        //g.drawMultiLineText(otherLines, otherLinesPlace.startX, otherLinesPlace.baselineY, otherLinesPlace.maximumLineWidth);
-        drawMultiLines(otherLines, allTheOtherLines, otherLinesPlace, g);
+        g.setColour(Colours::yellow);
+        g.drawRect(selectionBounds, selectionThickness);
+        g.setColour(Colours::black);
+
+        g.drawMultiLineText(otherLines, otherLinesPlace.startX, otherLinesPlace.baselineY, otherLinesPlace.maximumLineWidth);
     }
 }
 
@@ -74,50 +77,11 @@ void SingleAlbumCanvas::parentSizeChanged()
 void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex)
 {
     albumIndex = selectedAlbumIndex;
+    currentSelectedLine = 0;
     loadImage(musicDirectory);
     loadInfoFile(musicDirectory);
 
     repaint();
-}
-
-void SingleAlbumCanvas::drawMultiLines(const String& text, const std::vector<juce::String>& lines, MultipleLinesPosition position, Graphics& g)
-{
-    if (text.isNotEmpty() /*&& position.startX < context.getClipBounds().getRight()*/)
-    {
-        GlyphArrangement arr;
-        arr.addJustifiedText (g.getCurrentFont(), text,
-                              (float) position.startX, (float) position.baselineY, (float) position.maximumLineWidth,
-                              Justification::left);
-
-        const int charCount = [&](){
-            int count = 0;
-            //C++17:
-        //        std::for_each_n(lines.begin(), lines.end(), currentSelectedLine + 1, [&charCount](const auto& line){
-        //           charCount += line.size();
-        //        });
-
-            std::vector<int> indexes(currentSelectedLine + 1);
-            std::iota(indexes.begin(), indexes.end(), 0);
-            count = std::accumulate(indexes.begin(), indexes.end(), 0, [&lines](int count, int index){
-                return count + lines[index].length();
-            });
-            return count;
-        }();
-
-        const auto selectionTopLeft = arr.getGlyph(currentSelectedLine).getBounds().getTopLeft().translated(-offsetX, -offsetY);
-        const auto selectionBottom = arr.getGlyph(charCount - 1).getBounds().getBottomRight().translated(0.0f, offsetY).getY();
-        const Point<float> selectionBottomRight = {static_cast<float>(position.startX) + position.maximumLineWidth /*+ offsetX*/,
-                                                   selectionBottom};
-        const Rectangle<float> selectionBounds {selectionTopLeft,
-                                                selectionBottomRight};
-
-        g.setColour(Colours::yellow);
-
-        g.drawRect(selectionBounds, selectionThickness);
-        g.setColour(Colours::black);
-
-        arr.draw (g);
-    }
 }
 
 void SingleAlbumCanvas::loadImage(const std::string& musicDirectory)
@@ -130,7 +94,7 @@ void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
 {
     otherLines = "";
     artistName = Resources::getResourceStringFromId(ResourceId::DefaultArtistName);
-    allTheOtherLines.clear();
+    songNames.clear();
 
     auto readMusicFiles = [&]() mutable {
         auto musicFiles = jukebox::filesystem::FileSystem::getAllSongFilesNamesOnly(musicDirectory, albumIndex, defaultMusicExtension);
@@ -138,7 +102,7 @@ void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
            return current + line + '\n';
         });
 
-        std::transform(musicFiles.begin(), musicFiles.end(), std::back_inserter(allTheOtherLines), [](const std::string& line){
+        std::transform(musicFiles.begin(), musicFiles.end(), std::back_inserter(songNames), [](const std::string& line){
            return line;
         });
     };
@@ -171,7 +135,7 @@ void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
                return current + line + '\n';
             });
 
-            std::transform(lines.begin(), lines.end(), std::back_inserter(allTheOtherLines), [](const juce::String& current){
+            std::transform(lines.begin(), lines.end(), std::back_inserter(songNames), [](const juce::String& current){
                 return current;
             });
         }
@@ -181,6 +145,9 @@ void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
             readMusicFiles();
         }
     }
+
+    if(!songNames.empty())
+        selectionBounds = calculateSelectionBounds(songNames, otherLinesPlace);
 }
 
 Rectangle<float> SingleAlbumCanvas::calculateImagePlace(float imageSize, float width, float height) const
@@ -215,4 +182,39 @@ SingleAlbumCanvas::MultipleLinesPosition SingleAlbumCanvas::calculateOtherLinesP
     const int maximumLineWidth = width - startX - defaultTextOffsetX;
 
     return { startX, baseLineY, maximumLineWidth };
+}
+
+juce::Rectangle<float> SingleAlbumCanvas::calculateSelectionBounds(const std::vector<String>& lines, MultipleLinesPosition position)
+{
+    //TODO
+    //assert(currentSelectedLine < lines.size());
+
+    const juce::Font font(bigFontSize);
+    std::vector<int> lineCounts(currentSelectedLine + 1);
+
+    std::transform(lineCounts.begin(), lineCounts.end(), lines.begin(), lineCounts.begin(), [&](int, const String& line){
+        return (font.getStringWidth(line) / position.maximumLineWidth) + 1;
+    });
+
+    GlyphArrangement glyphArrangement;
+    glyphArrangement.addJustifiedText (font,
+                                       "0",
+                                       static_cast<float>(position.startX),
+                                       static_cast<float>(position.baselineY),
+                                       static_cast<float>(position.maximumLineWidth),
+                                       Justification::left);
+
+    const auto topOfSelectedLine = std::accumulate(lineCounts.begin(),
+                                                   lineCounts.end() - 1,
+                                                   glyphArrangement.getGlyph(0).getBounds().getTopLeft().getY(),
+                                                   [&](float currentHeight, int lineCount){
+        return currentHeight + lineCount * bigFontSize;
+    });
+
+    const Point<float> selectionTopLeft = {static_cast<float>(position.startX) - offsetX,
+                                           topOfSelectedLine - offsetY};
+    const Point<float> selectionBottomRight = {static_cast<float>(position.startX) + position.maximumLineWidth + offsetX,
+                                               topOfSelectedLine + lineCounts[currentSelectedLine] * bigFontSize + offsetY};
+
+    return {selectionTopLeft, selectionBottomRight};
 }
