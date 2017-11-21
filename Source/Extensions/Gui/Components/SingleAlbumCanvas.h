@@ -3,8 +3,11 @@
 
 #include "JuceHeader.h"
 #include <string>
+#include <memory>
 
 namespace jukebox { namespace gui {
+
+class SelectableMultiLineText;
 
 class SingleAlbumCanvas : public juce::Component
 {
@@ -22,6 +25,8 @@ private:
         int maximumLineWidth;
     };
 
+    void drawMultiLines(const juce::String& text, const std::vector<juce::String>& lines, MultipleLinesPosition position, juce::Graphics& g);
+
     void loadImage(const std::string& musicDirectory);
     void loadInfoFile(const std::string& musicDirectory);
 
@@ -32,12 +37,14 @@ private:
 
     juce::Image image;
     juce::String artistName = "";
-    juce::String otherLines = "";
+    juce::String otherLines;
+    std::vector<juce::String> allTheOtherLines;
     int albumIndex;
     juce::Rectangle<float> textPlace;
     juce::Rectangle<float> imagePlace;
     juce::Rectangle<float> artistNamePlace;
     MultipleLinesPosition otherLinesPlace;
+    int currentSelectedLine = 0;
 };
 
 }}
