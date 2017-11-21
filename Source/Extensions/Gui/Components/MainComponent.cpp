@@ -251,9 +251,14 @@ void MainComponent::switchBetweenAlbumViews()
     singleAlbumCanvas->setVisible(!singleAlbumCanvas->isVisible());
 }
 
-void MainComponent::updateSelection(int selectedAlbumIndex)
+void MainComponent::updateAlbumSelection(int selectedAlbumIndex)
 {
     multipleAlbumsCanvas->setSelection(selectedAlbumIndex);
+}
+
+void MainComponent::updateSongSelection(int selectedSongIndex)
+{
+    singleAlbumCanvas->setSelection(selectedSongIndex);
 }
 
 void MainComponent::setCurrentUserInputNumber(const String& userInput)

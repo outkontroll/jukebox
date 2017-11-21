@@ -16,6 +16,7 @@ public:
     void parentSizeChanged() override;
 
     void loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex);
+    void setSelection(int selectedSongIndex);
 
 private:
     struct MultipleLinesPosition

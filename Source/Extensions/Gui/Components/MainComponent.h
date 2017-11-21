@@ -70,7 +70,8 @@ public:
     virtual void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex);
     virtual void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
     virtual void switchBetweenAlbumViews();
-    virtual void updateSelection(int selectedAlbumIndex);
+    virtual void updateAlbumSelection(int selectedAlbumIndex);
+    virtual void updateSongSelection(int selectedSongIndex);
     virtual void setCurrentUserInputNumber(const String& userInput);
     virtual void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     virtual void enqueue(const jukebox::audio::Song &song);

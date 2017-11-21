@@ -22,7 +22,8 @@ using namespace jukebox::songbuilder;
 using namespace juce;
 
 namespace {
-    static const unsigned int defaultAlbumIndex = 1;
+    constexpr unsigned int defaultAlbumIndex = 1;
+    constexpr unsigned int defaultSongIndex = 0;
     constexpr int timeToPlay = 5000;
 
     //TODO remove this as this is just for testing purposes
@@ -177,9 +178,11 @@ void Gui::setMusicFolder(const std::string& folder)
     //these two is needed if we set another folder during runtime
     visibleAlbumsIndex = defaultAlbumIndex;
     selectedAlbumIndex = defaultAlbumIndex;
+    selectedSongIndex = defaultSongIndex;
     mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex);
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
-    mainComponent->updateSelection(selectedAlbumIndex);
+    mainComponent->updateAlbumSelection(selectedAlbumIndex);
+    mainComponent->updateSongSelection(selectedSongIndex);
 }
 
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
@@ -213,17 +216,37 @@ void Gui::stepSelection()
 {
     if(!isInMultipleAlbumsMode)
     {
-        return;
+        stepSelectionSingleAlbumMode();
     }
+    else
+    {
+        stepSelectionMultipleAlbumsMode();
+    }
+}
 
+void Gui::stepSelectionMultipleAlbumsMode()
+{
     ++selectedAlbumIndex;
     if(selectedAlbumIndex >= visibleAlbumsIndex + albumIndexStep)
     {
         selectedAlbumIndex = visibleAlbumsIndex;
     }
 
+    selectedSongIndex = defaultSongIndex;
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
-    mainComponent->updateSelection(selectedAlbumIndex);
+    mainComponent->updateAlbumSelection(selectedAlbumIndex);
+    mainComponent->updateSongSelection(selectedSongIndex);
+}
+
+void Gui::stepSelectionSingleAlbumMode()
+{
+    ++selectedSongIndex;
+
+    //TODO: handle proper overflow
+    if(selectedSongIndex > visibleSongsIndex)
+        selectedSongIndex = 0;
+
+    mainComponent->updateSongSelection(selectedSongIndex);
 }
 
 void Gui::showHelp()
@@ -238,7 +261,7 @@ void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)
     else
         handleAlbumSwitchInSingleAlbumMode(increase);
 
-    mainComponent->updateSelection(selectedAlbumIndex);
+    mainComponent->updateAlbumSelection(selectedAlbumIndex);
 }
 
 void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)

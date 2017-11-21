@@ -14,6 +14,7 @@ namespace {
     const std::string defaultMusicDir = "";
     const auto setMusicDir = "fakeMusicDir";
     constexpr int defaultSelectedAlbumIndex = 1;
+    constexpr int defaultSelectedSongIndex = 0;
     constexpr unsigned int testCredits = 12;
     const juce::String emptyString = "";
     const juce::String TranslatedStringPlaying = "Playing";
@@ -56,27 +57,49 @@ TEST_F(GuiTest, WhenMainComponentSendsPlayNextSongSignal_ThenGuiSignalizeIt)
 
 TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetweenAlbumViews)
 {
-    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews()).Times(2);
 
+    mainComponentMock->keyPressedSignal(keyH);
     mainComponentMock->keyPressedSignal(keyH);
 }
 
-TEST_F(GuiTest, GivenGuiIsInDefaultState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateSelection)
+TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateAlbumAndSongSelection)
 {
     EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1));
-    EXPECT_CALL(*mainComponentMock, updateSelection(defaultSelectedAlbumIndex + 1));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 1));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 2));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 2));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex)).Times(2);
 
+    mainComponentMock->keyPressedSignal(keyC);
     mainComponentMock->keyPressedSignal(keyC);
 }
 
-TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateSelection)
+TEST_F(GuiTest, GivenGuiIsInSingleAlbumsState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsUpdateSongSelection)
 {
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1));
-    EXPECT_CALL(*mainComponentMock, updateSelection(defaultSelectedAlbumIndex + 1));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 2));
-    EXPECT_CALL(*mainComponentMock, updateSelection(defaultSelectedAlbumIndex + 2));
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyH);
+
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex + 1));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex + 2));
 
     mainComponentMock->keyPressedSignal(keyC);
+    mainComponentMock->keyPressedSignal(keyC);
+}
+
+TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndSongSelectionIsDifferent_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateAlbumAndSongSelection)
+{
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyH);
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex + 1));
+    mainComponentMock->keyPressedSignal(keyC);
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyH);
+
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 1));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
+
     mainComponentMock->keyPressedSignal(keyC);
 }
 
@@ -86,6 +109,8 @@ TEST_F(GuiTest, GivenThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPresse
 
     mainComponentMock->keyPressedSignal(keyDot);
 }
+
+//TODO +/- keys
 
 // public interface
 
@@ -107,7 +132,8 @@ TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbu
 {
     EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex));
     EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(setMusicDir, defaultSelectedAlbumIndex));
-    EXPECT_CALL(*mainComponentMock, updateSelection(defaultSelectedAlbumIndex));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
     gui->setMusicFolder(setMusicDir);
 }

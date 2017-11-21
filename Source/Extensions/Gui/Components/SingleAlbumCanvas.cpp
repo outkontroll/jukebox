@@ -81,6 +81,19 @@ void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selecte
     loadImage(musicDirectory);
     loadInfoFile(musicDirectory);
 
+    if(!songNames.empty())
+        selectionBounds = calculateSelectionBounds(songNames, otherLinesPlace);
+
+    repaint();
+}
+
+void SingleAlbumCanvas::setSelection(int selectedSongIndex)
+{
+    currentSelectedLine = selectedSongIndex;
+
+    if(!songNames.empty())
+        selectionBounds = calculateSelectionBounds(songNames, otherLinesPlace);
+
     repaint();
 }
 
@@ -145,9 +158,6 @@ void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
             readMusicFiles();
         }
     }
-
-    if(!songNames.empty())
-        selectionBounds = calculateSelectionBounds(songNames, otherLinesPlace);
 }
 
 Rectangle<float> SingleAlbumCanvas::calculateImagePlace(float imageSize, float width, float height) const

@@ -43,6 +43,8 @@ private:
     void playNextSong(const audio::Song& song);
     void switchBetweenAlbumModes();
     void stepSelection();
+    void stepSelectionMultipleAlbumsMode();
+    void stepSelectionSingleAlbumMode();
     void showHelp();
     void handleAlbumSwitchInAllAlbumMode(bool increase);
     void handleAlbumSwitchInSingleAlbumMode(bool increase);
@@ -68,6 +70,8 @@ private:
     unsigned int visibleAlbumsIndex = 1;
     unsigned int selectedAlbumIndex = 1;
     unsigned int albumIndexStep = 8;
+    unsigned int selectedSongIndex = 0;
+    unsigned int visibleSongsIndex = 20; //TODO
     bool isInMultipleAlbumsMode = true;
 };
 
