@@ -15,6 +15,7 @@ namespace {
     const auto setMusicDir = "fakeMusicDir";
     constexpr int defaultSelectedAlbumIndex = 1;
     constexpr int defaultSelectedSongIndex = 0;
+    constexpr int defaultAlbumStep = 8;
     constexpr unsigned int testCredits = 12;
     const juce::String emptyString = "";
     const juce::String TranslatedStringPlaying = "Playing";
@@ -23,6 +24,8 @@ namespace {
     const juce::KeyPress keyC(0, 0, 'c');
     const juce::KeyPress keyH(0, 0, 'h');
     const juce::KeyPress keyDot(0, 0, '.');
+    const juce::KeyPress keyMinus(0, 0, '-');
+    const juce::KeyPress keyPlus(0, 0, '+');
 }
 
 class GuiTest : public ::testing::Test
@@ -110,7 +113,73 @@ TEST_F(GuiTest, GivenThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPresse
     mainComponentMock->keyPressedSignal(keyDot);
 }
 
-//TODO +/- keys
+TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndNotOnEndOfRange_WhenMainComponentSendsKeyPressedSignalMinus_ThenGuiLoadsTheNextSetOfAlbums)
+{
+    const int expectedIndex = defaultSelectedAlbumIndex + defaultAlbumStep;
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
+
+    mainComponentMock->keyPressedSignal(keyMinus);
+}
+
+TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndNotAtTheEndOfRange_WhenMainComponentSendsKeyPressedSignalPlus_ThenGuiLoadsThePreviousSetOfAlbums)
+{
+    //this block is needed as setup because we are at the begin so underflow would occur
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(_));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(_));
+    mainComponentMock->keyPressedSignal(keyMinus);
+
+    const int expectedIndex = defaultSelectedAlbumIndex;
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
+
+    mainComponentMock->keyPressedSignal(keyPlus);
+}
+
+//TODO test range edges
+
+//TODO test overflow, underflow
+
+TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSendsKeyPressedSignalMinus_ThenGuiLoadsTheNextAlbum)
+{
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyH);
+
+    const int expectedIndex = defaultSelectedAlbumIndex + 1;
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
+
+    mainComponentMock->keyPressedSignal(keyMinus);
+}
+
+TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSendsKeyPressedSignalPlus_ThenGuiLoadsThePreviousAlbum)
+{
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyH);
+    //this block is needed as setup because we are at the begin so underflow would occur
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(_));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(_));
+    mainComponentMock->keyPressedSignal(keyMinus);
+
+    const int expectedIndex = defaultSelectedAlbumIndex;
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
+
+    mainComponentMock->keyPressedSignal(keyPlus);
+}
+
+//TODO test range edges
+
+//TODO test overflow, underflow
 
 // public interface
 

@@ -262,6 +262,8 @@ void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)
         handleAlbumSwitchInSingleAlbumMode(increase);
 
     mainComponent->updateAlbumSelection(selectedAlbumIndex);
+    selectedSongIndex = defaultSongIndex;
+    mainComponent->updateSongSelection(selectedSongIndex);
 }
 
 void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
