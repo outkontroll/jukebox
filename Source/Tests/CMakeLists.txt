@@ -19,6 +19,7 @@ set(TESTING_INCLUDE_DIRS
 
 set(MOCK_HEADERS
     ${TESTING_DIR}/HelperClasses/CreditManagerMock.h
+    ${TESTING_DIR}/HelperClasses/FileSystemMock.h
     ${TESTING_DIR}/HelperClasses/GuiMock.h
     ${TESTING_DIR}/HelperClasses/MusicPlayerMock.h
     ${TESTING_DIR}/HelperClasses/SettingsMock.h

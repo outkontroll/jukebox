@@ -10,6 +10,10 @@ namespace juce {
     class MainComponent;
 }
 
+namespace jukebox { namespace filesystem {
+    class IFileSystem;
+}}
+
 class MainWindow;
 
 namespace jukebox { namespace gui {
@@ -25,6 +29,7 @@ public:
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(ResourceId messageId) override;
     
+    void setFileSystem(jukebox::filesystem::IFileSystem* filesys) override;
     void setMusicFolder(const std::string& folder) override;
     
     void setCurrentlyPlayedSong(const audio::Song& song) override;
@@ -73,6 +78,7 @@ private:
     unsigned int selectedSongIndex = 0;
     unsigned int visibleSongsIndex = 20; //TODO
     bool isInMultipleAlbumsMode = true;
+    jukebox::filesystem::IFileSystem* fileSys = nullptr;
 };
 
 }}

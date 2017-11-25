@@ -23,7 +23,9 @@ namespace statistics {
 namespace settings {
     class ISettings;
 }
-
+namespace filesystem {
+    class IFileSystem;
+}
 namespace core {
 
 class Core
@@ -33,7 +35,8 @@ public:
          std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
          std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
          std::unique_ptr<statistics::IStatistics> iStatistics,
-         std::unique_ptr<settings::ISettings> iSettings);
+         std::unique_ptr<settings::ISettings> iSettings,
+         std::unique_ptr<filesystem::IFileSystem> iFileSystem);
 
     //TODO: this should be private
     jukebox::signals::Signal<> exitRequestedSignal;
@@ -61,6 +64,7 @@ private:
     std::unique_ptr<audio::IMusicPlayer> musicPlayer;
     std::unique_ptr<statistics::IStatistics> statistics;
     std::unique_ptr<settings::ISettings> settings;
+    std::unique_ptr<filesystem::IFileSystem> fileSys;
 };
 
 }}

@@ -3,13 +3,15 @@
 
 #include "Signals.hpp"
 
-namespace jukebox { namespace audio {
-    struct Song;
-    class Album;
-}}
-
 namespace jukebox {
     enum class ResourceId;
+namespace audio {
+    struct Song;
+    class Album;
+}
+namespace filesystem {
+    class IFileSystem;
+}
 }
 
 namespace jukebox { namespace gui {
@@ -22,6 +24,7 @@ public:
     virtual void refreshCredits(unsigned int credits) = 0;
     virtual void showStatusMessage(ResourceId messageId) = 0;
     
+    virtual void setFileSystem(jukebox::filesystem::IFileSystem* fileSys) = 0;
     virtual void setMusicFolder(const std::string& folder) = 0;
     
     virtual void setCurrentlyPlayedSong(const audio::Song&) = 0;

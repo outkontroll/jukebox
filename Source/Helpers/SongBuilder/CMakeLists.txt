@@ -23,6 +23,7 @@ add_library(songBuilder
 
 set(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${INTERFACE_DIRECTORY}
 )
 
 target_include_directories(songBuilder PUBLIC ${INCLUDE_DIRS})

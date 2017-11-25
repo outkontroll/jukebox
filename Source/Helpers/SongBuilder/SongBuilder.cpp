@@ -1,5 +1,5 @@
 #include "SongBuilder.h"
-#include "FileSystem.h"
+#include "IFileSystem.h"
 #include "Formaters.h"
 #include <algorithm>
 
@@ -11,18 +11,18 @@ namespace {
     const auto DefaultExtensionPattern = "*.mp3";
 }
 
-Song SongBuilder::buildSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory)
+Song SongBuilder::buildSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory, const IFileSystem& filesys)
 {
     return { albumNumber,
              songNumber,
-             FileSystem::getSongFilePath(musicDirectory, albumNumber, songNumber, DefaultExtensionPattern),
+             filesys.getSongFilePath(musicDirectory, albumNumber, songNumber, DefaultExtensionPattern),
              std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2))
              };
 }
 
-std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const std::string& musicDirectory)
+std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const std::string& musicDirectory, const IFileSystem& filesys)
 {
-    const auto paths = FileSystem::getAllSongFilesWithFullPaths(musicDirectory, albumNumber, DefaultExtensionPattern);
+    const auto paths = filesys.getAllSongFilesWithFullPaths(musicDirectory, albumNumber, DefaultExtensionPattern);
     std::vector<Song> songs;
     songs.reserve(paths.size());
 

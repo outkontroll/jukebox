@@ -1,5 +1,5 @@
 #include "MultipleAlbumsCanvas.h"
-#include "FileSystem.h"
+#include "IFileSystem.h"
 #include "Formaters.h"
 #include "ResourceId.h"
 #include "ResourceString.h"
@@ -78,12 +78,12 @@ void MultipleAlbumsCanvas::parentSizeChanged()
 
 }
 
-void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex)
+void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex, const filesystem::IFileSystem& fileSys)
 {
     albums.clear();
 
     std::accumulate(albumPositions.begin(), albumPositions.end(), firstAlbumIndex, [&, this](int albumIndex, const auto& albumPosition){
-        const auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectoy, albumIndex, ".jpg");
+        const auto imagePath = fileSys.getPicturePath(musicDirectoy, albumIndex, ".jpg");
         const auto image = ImageFileFormat::loadFrom(File(imagePath));
 
         albums.push_back({image, albumPosition, albumIndex});

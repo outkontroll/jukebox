@@ -6,6 +6,7 @@
 #include "MusicPlayer.h"
 #include "Statistics.h"
 #include "Settings.h"
+#include "FileSystem.h"
 //ENDTODO
 #include "Logger.h"
 
@@ -43,7 +44,8 @@ void jukeboxApplication::initialise (const juce::String& commandLine)
                                         std::make_unique<creditmanager::CreditManager>(),
                                         std::make_unique<audio::MusicPlayer>(),
                                         std::make_unique<statistics::Statistics>(),
-                                        std::make_unique<settings::Settings>());
+                                        std::make_unique<settings::Settings>(),
+                                        std::make_unique<filesystem::FileSystem>());
 
     eventsSlot.connect(this, &jukeboxApplication::exitRequested, core->exitRequestedSignal);
     

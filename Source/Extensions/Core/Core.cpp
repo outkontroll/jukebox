@@ -4,6 +4,7 @@
 #include "IMusicPlayer.h"
 #include "IStatistics.h"
 #include "ISettings.h"
+#include "IFileSystem.h"
 #include "Logger.h"
 #include "MusicPlayerExceptions.h"
 #include "SongBuilder.h"
@@ -24,12 +25,14 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
            std::unique_ptr<creditmanager::ICreditManager> iCreditManager,
            std::unique_ptr<audio::IMusicPlayer> iMusicPlayer,
            std::unique_ptr<statistics::IStatistics> iStatistics,
-           std::unique_ptr<settings::ISettings> iSettings)
+           std::unique_ptr<settings::ISettings> iSettings,
+           std::unique_ptr<filesystem::IFileSystem> iFileSystem)
     : gui(std::move(iGui)),
       creditManager(std::move(iCreditManager)),
       musicPlayer(std::move(iMusicPlayer)),
       statistics(std::move(iStatistics)),
-      settings(std::move(iSettings))
+      settings(std::move(iSettings)),
+      fileSys(std::move(iFileSystem))
 {
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
     eventsSlot.connect(this, &Core::coinInserted100, gui->coinInserted100Signal);
@@ -44,6 +47,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::playNextSong, gui->playNextSongSignal);
 
     eventsSlot.connect(this, &Core::finishedPlaying, musicPlayer->finishedPlayingSignal);
+    gui->setFileSystem(fileSys.get());
     gui->setMusicFolder(settings->getMusicDirectory());
 }
 

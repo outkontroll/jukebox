@@ -5,6 +5,10 @@
 #include <string>
 #include <memory>
 
+namespace jukebox { namespace filesystem {
+    class IFileSystem;
+}}
+
 namespace jukebox { namespace gui {
 
 class SelectableMultiLineText;
@@ -15,7 +19,7 @@ public:
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;
 
-    void loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex);
+    void loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex, const filesystem::IFileSystem& fileSys);
     void setSelection(int selectedSongIndex);
 
 private:
@@ -26,8 +30,8 @@ private:
         int maximumLineWidth;
     };
 
-    void loadImage(const std::string& musicDirectory);
-    void loadInfoFile(const std::string& musicDirectory);
+    void loadImage(const std::string& musicDirectory, const filesystem::IFileSystem& fileSys);
+    void loadInfoFile(const std::string& musicDirectory, const jukebox::filesystem::IFileSystem& fileSys);
 
     juce::Rectangle<float> calculateImagePlace(float imageSize, float width, float height) const;
     juce::Rectangle<float> calculateTextPlace(float imageSize, float width) const;

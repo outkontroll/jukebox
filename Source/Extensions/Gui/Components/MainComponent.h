@@ -33,6 +33,9 @@ namespace gui {
     class MultipleAlbumsCanvas;
     class SingleAlbumCanvas;
 }
+namespace filesystem {
+    class IFileSystem;
+}
 namespace audio {
     struct Song;
 }}
@@ -67,8 +70,8 @@ public:
 
     virtual void refreshCredits(unsigned int credits);
     virtual void showStatusMessage(const String& message);
-    virtual void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex);
-    virtual void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
+    virtual void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys);
+    virtual void loadSingleAlbum(const std::string& musicDirectory, int albumIndex, const jukebox::filesystem::IFileSystem& fileSys);
     virtual void switchBetweenAlbumViews();
     virtual void updateAlbumSelection(int selectedAlbumIndex);
     virtual void updateSongSelection(int selectedSongIndex);

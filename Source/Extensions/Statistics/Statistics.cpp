@@ -13,11 +13,11 @@ void Statistics::songPlayed(const Song& song)
     ++playedSongs[song];
 }
 
-void Statistics::albumPlayed(const Album& album)
+void Statistics::albumPlayed(const Album& /*album*/)
 {
-    //TODO
-    auto song = SongBuilder::buildSong(album.getAlbumNumber(), 0, "albumTesting");
-    ++playedSongs[song];
+    //TODO add playedAlbums
+    //auto song = SongBuilder::buildSong(album.getAlbumNumber(), 0, "albumTesting");
+    //++playedSongs[song];
 }
 
 void Statistics::coinInserted50()

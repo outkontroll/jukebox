@@ -9,7 +9,6 @@ project(helpers)
 
 set(HEADER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Formaters.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ScopeGuard.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Exceptions/JukeboxException.h
 )
@@ -18,7 +17,6 @@ set(HEADER_SOURCES
 
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Formaters.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.cpp
 )
 
 # project

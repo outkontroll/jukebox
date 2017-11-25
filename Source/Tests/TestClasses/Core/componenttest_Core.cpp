@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "Core.h"
 #include "Logger.h"
+#include "FileSystemMock.h"
 #include "GuiMock.h"
 #include "CreditManagerMock.h"
 #include "MusicPlayerMock.h"
@@ -19,6 +20,8 @@ struct CoreTest : public Test
 {    
     void SetUp() override
     {
+        auto filesys = std::make_unique<StrictMock<FileSystemMock>>();
+        fileSystemMock = filesys.get();
         auto gui = std::make_unique<StrictMock<GuiMock>>();
         guiMock = gui.get();
         auto creditManager = std::make_unique<StrictMock<CreditManagerMock>>();
@@ -30,17 +33,21 @@ struct CoreTest : public Test
         auto settings = std::make_unique<StrictMock<SettingsMock>>();
         settingsMock = settings.get();
 
-        EXPECT_CALL(*guiMock, setMusicFolder(settings->getMusicDirectory())).Times(1);
+        //TODO check order of the calls as it matters
+        EXPECT_CALL(*guiMock, setFileSystem(fileSystemMock));
+        EXPECT_CALL(*guiMock, setMusicFolder(settings->getMusicDirectory()));
 
         core = std::make_unique<Core>(std::move(gui),
                                       std::move(creditManager),
                                       std::move(musicPlayer),
                                       std::move(statistics),
-                                      std::move(settings));
+                                      std::move(settings),
+                                      std::move(filesys));
     }
 protected:
     std::unique_ptr<Core> core;
 
+    FileSystemMock* fileSystemMock;
     GuiMock* guiMock;
     CreditManagerMock* creditManagerMock;
     MusicPlayerMock* musicPlayerMock;

@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "MainComponentMock.h"
+#include "FileSystemMock.h"
 #include "GuiTester.h"
 #include "Song.h"
 #include "FreeFunctions.h"
@@ -35,11 +36,14 @@ protected:
     {
         auto mainCompMock = std::make_unique<StrictMock<MainComponentMock>>();
         mainComponentMock = mainCompMock.get();
+        auto filesysMock = std::make_unique<NiceMock<FileSystemMock>>();
+        fileSystemMock = filesysMock.get();
         gui = std::make_unique<GuiTester>(std::move(mainCompMock));
     }
 
     std::unique_ptr<GuiTester> gui;
     StrictMock<MainComponentMock>* mainComponentMock;
+    NiceMock<FileSystemMock>* fileSystemMock;
 
     jukebox::signals::Slot eventsSlot;
 };
@@ -68,9 +72,9 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetwee
 
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateAlbumAndSongSelection)
 {
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 1));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 2));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 2, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 2));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex)).Times(2);
 
@@ -99,7 +103,7 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndSongSelectionIsDifferent_WhenM
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
 
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 1));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
@@ -116,8 +120,8 @@ TEST_F(GuiTest, GivenThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPresse
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndNotOnEndOfRange_WhenMainComponentSendsKeyPressedSignalMinus_ThenGuiLoadsTheNextSetOfAlbums)
 {
     const int expectedIndex = defaultSelectedAlbumIndex + defaultAlbumStep;
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(defaultMusicDir, expectedIndex));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(defaultMusicDir, expectedIndex, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
@@ -127,15 +131,15 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndNotOnEndOfRange_WhenMainCompon
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndNotAtTheEndOfRange_WhenMainComponentSendsKeyPressedSignalPlus_ThenGuiLoadsThePreviousSetOfAlbums)
 {
     //this block is needed as setup because we are at the begin so underflow would occur
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, _));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, _, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(_));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(_));
     mainComponentMock->keyPressedSignal(keyMinus);
 
     const int expectedIndex = defaultSelectedAlbumIndex;
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(defaultMusicDir, expectedIndex));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(defaultMusicDir, expectedIndex, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
@@ -152,7 +156,7 @@ TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSends
     mainComponentMock->keyPressedSignal(keyH);
 
     const int expectedIndex = defaultSelectedAlbumIndex + 1;
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
@@ -164,13 +168,13 @@ TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSends
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
     //this block is needed as setup because we are at the begin so underflow would occur
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(_));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(_));
     mainComponentMock->keyPressedSignal(keyMinus);
 
     const int expectedIndex = defaultSelectedAlbumIndex;
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
@@ -199,8 +203,8 @@ TEST_F(GuiTest, WhenShowStatusMessageIsCalledWithResourceId_ThenTheSameIsCalledO
 
 TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbumsAndUpdateSelection)
 {
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex));
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(setMusicDir, defaultSelectedAlbumIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex, _));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(setMusicDir, defaultSelectedAlbumIndex, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 

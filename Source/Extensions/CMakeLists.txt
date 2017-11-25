@@ -11,6 +11,7 @@ set(EXTENSION_INCLUDE_DIRS
 
 add_subdirectory(Core)
 add_subdirectory(CreditManager)
+add_subdirectory(FileSystem)
 add_subdirectory(Gui)
 add_subdirectory(MusicPlayer)
 add_subdirectory(Statistics)

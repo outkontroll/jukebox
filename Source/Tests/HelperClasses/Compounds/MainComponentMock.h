@@ -13,8 +13,8 @@ struct MainComponentMock : public juce::MainComponent
 
     MOCK_METHOD1(refreshCredits, void(unsigned int));
     MOCK_METHOD1(showStatusMessage, void(const juce::String&));
-    MOCK_METHOD2(loadMultipleAlbums, void(const std::string&, int));
-    MOCK_METHOD2(loadSingleAlbum, void(const std::string&, int));
+    MOCK_METHOD3(loadMultipleAlbums, void(const std::string&, int, const jukebox::filesystem::IFileSystem&));
+    MOCK_METHOD3(loadSingleAlbum, void(const std::string&, int, const jukebox::filesystem::IFileSystem&));
     MOCK_METHOD0(switchBetweenAlbumViews, void());
     MOCK_METHOD1(updateAlbumSelection, void(int));
     MOCK_METHOD1(updateSongSelection, void(int));

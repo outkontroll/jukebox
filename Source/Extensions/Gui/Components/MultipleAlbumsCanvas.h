@@ -5,6 +5,10 @@
 #include <vector>
 #include <string>
 
+namespace jukebox { namespace filesystem {
+    class IFileSystem;
+}}
+
 namespace jukebox { namespace gui {
 
 class MultipleAlbumsCanvas : public juce::Component
@@ -13,7 +17,7 @@ public:
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;
 
-    void loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex);
+    void loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys);
     void setSelection(int selectedAlbumIndex);
 
 private:

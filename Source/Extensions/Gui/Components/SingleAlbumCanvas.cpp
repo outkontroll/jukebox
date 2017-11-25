@@ -2,7 +2,7 @@
 #include "ResourceId.h"
 #include "ResourceString.h"
 #include "Formaters.h"
-#include "FileSystem.h"
+#include "IFileSystem.h"
 
 using namespace jukebox::gui;
 using namespace juce;
@@ -74,12 +74,12 @@ void SingleAlbumCanvas::parentSizeChanged()
     otherLinesPlace = calculateOtherLinesPlace(pictureSize, width, height);
 }
 
-void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex)
+void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys)
 {
     albumIndex = selectedAlbumIndex;
     currentSelectedLine = 0;
-    loadImage(musicDirectory);
-    loadInfoFile(musicDirectory);
+    loadImage(musicDirectory, fileSys);
+    loadInfoFile(musicDirectory, fileSys);
 
     if(!songNames.empty())
         selectionBounds = calculateSelectionBounds(songNames, otherLinesPlace);
@@ -97,20 +97,20 @@ void SingleAlbumCanvas::setSelection(int selectedSongIndex)
     repaint();
 }
 
-void SingleAlbumCanvas::loadImage(const std::string& musicDirectory)
+void SingleAlbumCanvas::loadImage(const std::string& musicDirectory, const filesystem::IFileSystem& fileSys)
 {
-    auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectory, albumIndex, defaultImageExtension);
+    auto imagePath = fileSys.getPicturePath(musicDirectory, albumIndex, defaultImageExtension);
     image = ImageFileFormat::loadFrom(File(imagePath));
 }
 
-void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
+void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory, const filesystem::IFileSystem& fileSys)
 {
     otherLines = "";
     artistName = Resources::getResourceStringFromId(ResourceId::DefaultArtistName);
     songNames.clear();
 
     auto readMusicFiles = [&]() mutable {
-        auto musicFiles = jukebox::filesystem::FileSystem::getAllSongFilesNamesOnly(musicDirectory, albumIndex, defaultMusicExtension);
+        auto musicFiles = fileSys.getAllSongFilesNamesOnly(musicDirectory, albumIndex, defaultMusicExtension);
         otherLines = std::accumulate(musicFiles.begin(), musicFiles.end(), juce::String(""), [](const juce::String& current, const std::string& line){
            return current + line + '\n';
         });
@@ -120,7 +120,7 @@ void SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory)
         });
     };
 
-    auto infoFilePath = jukebox::filesystem::FileSystem::getInfoFilePath(musicDirectory, albumIndex);
+    auto infoFilePath = fileSys.getInfoFilePath(musicDirectory, albumIndex);
     File infoFile(infoFilePath);
 
     if(!infoFile.existsAsFile())

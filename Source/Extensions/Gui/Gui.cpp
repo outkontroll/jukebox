@@ -2,7 +2,6 @@
 #include "MainWindow.h"
 #include "MainComponent.h"
 #include "SongBuilder.h"
-#include "FileSystem.h"
 #include "Logger.h"
 #include "Song.h"
 #include "ResourceId.h"
@@ -17,7 +16,6 @@ using namespace jukebox;
 using namespace jukebox::gui;
 using namespace jukebox::signals;
 using namespace jukebox::audio;
-using namespace jukebox::filesystem;
 using namespace jukebox::songbuilder;
 using namespace juce;
 
@@ -148,7 +146,7 @@ void Gui::keyPressed(const KeyPress& key)
         ++fileToPlay;
         fileToPlay = fileToPlay % 3;
         //TODO
-        playSongSignal(SongBuilder::buildSong(7, filesToPlay[fileToPlay], musicFolder));
+        playSongSignal(SongBuilder::buildSong(7, filesToPlay[fileToPlay], musicFolder, *fileSys));
     }
     else if(textCharacter == 'v')
     {
@@ -172,6 +170,12 @@ void Gui::showStatusMessage(ResourceId messageId)
     mainComponent->showStatusMessage(Resources::getResourceStringFromId(messageId));
 }
 
+void Gui::setFileSystem(filesystem::IFileSystem* filesys)
+{
+    assert(filesys != nullptr);
+    fileSys = filesys;
+}
+
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
@@ -179,8 +183,8 @@ void Gui::setMusicFolder(const std::string& folder)
     visibleAlbumsIndex = defaultAlbumIndex;
     selectedAlbumIndex = defaultAlbumIndex;
     selectedSongIndex = defaultSongIndex;
-    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex);
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex, *fileSys);
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
     mainComponent->updateAlbumSelection(selectedAlbumIndex);
     mainComponent->updateSongSelection(selectedSongIndex);
 }
@@ -233,7 +237,7 @@ void Gui::stepSelectionMultipleAlbumsMode()
     }
 
     selectedSongIndex = defaultSongIndex;
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
     mainComponent->updateAlbumSelection(selectedAlbumIndex);
     mainComponent->updateSongSelection(selectedSongIndex);
 }
@@ -269,10 +273,10 @@ void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)
 void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 {
     visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
-    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex);
+    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex, *fileSys);
 
     selectedAlbumIndex = visibleAlbumsIndex;
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
 }
 
 void Gui::handleUserInputNumbers(char number)
@@ -311,7 +315,7 @@ void Gui::handleDotPressed()
 
 void Gui::playSongWithDelay(int albumNumber, int songNumber)
 {
-    const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder);
+    const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder, *fileSys);
     if(!song.fileName.empty())
     {
         secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
@@ -335,7 +339,7 @@ void Gui::playSongWithDelay(int albumNumber, int songNumber)
 
 void Gui::playAlbumWithDelay(int albumNumber)
 {
-    const auto songs = SongBuilder::buildSongsInAlbum(albumNumber, musicFolder);
+    const auto songs = SongBuilder::buildSongsInAlbum(albumNumber, musicFolder, *fileSys);
     if(!songs.empty())
     {
         secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, songs](){
@@ -360,13 +364,13 @@ void Gui::playAlbumWithDelay(int albumNumber)
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
 {
     selectedAlbumIndex = getNextSelectedAlbumIndex(selectedAlbumIndex, increase);
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
 
     if((increase && selectedAlbumIndex >= visibleAlbumsIndex + albumIndexStep) ||
        (!increase && selectedAlbumIndex < visibleAlbumsIndex))
     {
         visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
-        mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex);
+        mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex, *fileSys);
     }
 }
 

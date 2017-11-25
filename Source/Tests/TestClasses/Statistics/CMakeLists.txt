@@ -12,7 +12,7 @@ set(CPP_SOURCES
 # project
 
 add_executable(unittest_Statistics
-	    ${CPP_SOURCES}
+    ${CPP_SOURCES}
 )
 
 set(INCLUDE_DIRS
