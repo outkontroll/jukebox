@@ -355,7 +355,7 @@ using internal::FunctionMocker;
 // INTERNAL IMPLEMENTATION - DON'T USE IN USER CODE!!!
 #define GMOCK_METHOD0_(tn, constness, ct, Method, ...) \
   GMOCK_RESULT_(tn, __VA_ARGS__) ct Method( \
-      ) constness { \
+      ) constness override{ \
     GTEST_COMPILE_ASSERT_((::testing::tuple_size<                          \
         tn ::testing::internal::Function<__VA_ARGS__>::ArgumentTuple>::value \
             == 0), \
@@ -374,7 +374,7 @@ using internal::FunctionMocker;
 // INTERNAL IMPLEMENTATION - DON'T USE IN USER CODE!!!
 #define GMOCK_METHOD1_(tn, constness, ct, Method, ...) \
   GMOCK_RESULT_(tn, __VA_ARGS__) ct Method( \
-      GMOCK_ARG_(tn, 1, __VA_ARGS__) gmock_a1) constness { \
+      GMOCK_ARG_(tn, 1, __VA_ARGS__) gmock_a1) constness override{ \
     GTEST_COMPILE_ASSERT_((::testing::tuple_size<                          \
         tn ::testing::internal::Function<__VA_ARGS__>::ArgumentTuple>::value \
             == 1), \
@@ -394,7 +394,7 @@ using internal::FunctionMocker;
 #define GMOCK_METHOD2_(tn, constness, ct, Method, ...) \
   GMOCK_RESULT_(tn, __VA_ARGS__) ct Method( \
       GMOCK_ARG_(tn, 1, __VA_ARGS__) gmock_a1, \
-      GMOCK_ARG_(tn, 2, __VA_ARGS__) gmock_a2) constness { \
+      GMOCK_ARG_(tn, 2, __VA_ARGS__) gmock_a2) constness override{ \
     GTEST_COMPILE_ASSERT_((::testing::tuple_size<                          \
         tn ::testing::internal::Function<__VA_ARGS__>::ArgumentTuple>::value \
             == 2), \
@@ -416,7 +416,7 @@ using internal::FunctionMocker;
   GMOCK_RESULT_(tn, __VA_ARGS__) ct Method( \
       GMOCK_ARG_(tn, 1, __VA_ARGS__) gmock_a1, \
       GMOCK_ARG_(tn, 2, __VA_ARGS__) gmock_a2, \
-      GMOCK_ARG_(tn, 3, __VA_ARGS__) gmock_a3) constness { \
+      GMOCK_ARG_(tn, 3, __VA_ARGS__) gmock_a3) constness override{ \
     GTEST_COMPILE_ASSERT_((::testing::tuple_size<                          \
         tn ::testing::internal::Function<__VA_ARGS__>::ArgumentTuple>::value \
             == 3), \
@@ -442,7 +442,7 @@ using internal::FunctionMocker;
       GMOCK_ARG_(tn, 1, __VA_ARGS__) gmock_a1, \
       GMOCK_ARG_(tn, 2, __VA_ARGS__) gmock_a2, \
       GMOCK_ARG_(tn, 3, __VA_ARGS__) gmock_a3, \
-      GMOCK_ARG_(tn, 4, __VA_ARGS__) gmock_a4) constness { \
+      GMOCK_ARG_(tn, 4, __VA_ARGS__) gmock_a4) constness override{ \
     GTEST_COMPILE_ASSERT_((::testing::tuple_size<                          \
         tn ::testing::internal::Function<__VA_ARGS__>::ArgumentTuple>::value \
             == 4), \
