@@ -7,8 +7,8 @@ project(integrationtest_Gui)
 set(CPP_SOURCES
     ${TESTING_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/integrationtest_Gui.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GuiTester.h
     ${HELPERCLASSES_DIR}/Compounds/MainComponentMock.h
-    ${HELPERCLASSES_DIR}/GuiTester.h
 )
 
 # project
@@ -31,7 +31,6 @@ target_include_directories(integrationtest_Gui PUBLIC ${INCLUDE_DIRS})
 target_link_libraries(integrationtest_Gui
 		      gui
                       songBuilder
-		      #helpers
 		      ${LIBRARY_DIRECTORIES}/Libs/libgtest.a
 		      ${LIBRARY_DIRECTORIES}/Libs/libgtest_main.a
                       ${LIBRARY_DIRECTORIES}/Libs/libgmock.a
