@@ -11,6 +11,7 @@ public:
     virtual ~ISettings() = default;
 
     virtual std::string getMusicDirectory() const = 0;
+    virtual void setMusicDirectory(std::string musicDirectory) = 0;
     virtual int getTimeToPlaySong() const = 0;
     virtual void setTimeToPlaySong(int millisecsToPlaySong) = 0;
 };

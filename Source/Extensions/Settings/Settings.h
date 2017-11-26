@@ -10,7 +10,7 @@ class Settings : public ISettings
 {
 public:
     std::string getMusicDirectory() const override;
-    void setMusicDirectory(std::string musicDirectory);
+    void setMusicDirectory(std::string musicDirectory) override;
     int getTimeToPlaySong() const override;
     void setTimeToPlaySong(int millisecsToPlaySong) override;
 

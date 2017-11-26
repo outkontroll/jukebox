@@ -49,6 +49,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::finishedPlaying, musicPlayer->finishedPlayingSignal);
     gui->setFileSystem(fileSys.get());
     gui->setMusicFolder(settings->getMusicDirectory());
+    gui->setTimeToPlaySong(settings->getTimeToPlaySong());
 }
 
 void Core::coinInserted50()

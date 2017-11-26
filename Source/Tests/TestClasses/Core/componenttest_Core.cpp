@@ -33,9 +33,14 @@ struct CoreTest : public Test
         auto settings = std::make_unique<StrictMock<SettingsMock>>();
         settingsMock = settings.get();
 
+        ON_CALL(*settingsMock, getMusicDirectory()).WillByDefault(Return("FakeMusicDirectory"));
+        ON_CALL(*settingsMock, getTimeToPlaySong()).WillByDefault(Return(5000));
+        EXPECT_CALL(*settingsMock, getMusicDirectory());
+        EXPECT_CALL(*settingsMock, getTimeToPlaySong());
         //TODO check order of the calls as it matters
         EXPECT_CALL(*guiMock, setFileSystem(fileSystemMock));
-        EXPECT_CALL(*guiMock, setMusicFolder(settings->getMusicDirectory()));
+        EXPECT_CALL(*guiMock, setMusicFolder("FakeMusicDirectory"));
+        EXPECT_CALL(*guiMock, setTimeToPlaySong(5000));
 
         core = std::make_unique<Core>(std::move(gui),
                                       std::move(creditManager),

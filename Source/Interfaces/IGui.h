@@ -26,6 +26,7 @@ public:
     
     virtual void setFileSystem(jukebox::filesystem::IFileSystem* fileSys) = 0;
     virtual void setMusicFolder(const std::string& folder) = 0;
+    virtual void setTimeToPlaySong(int millisecs) = 0;
     
     virtual void setCurrentlyPlayedSong(const audio::Song&) = 0;
     virtual void enqueue(const audio::Song& song) = 0;

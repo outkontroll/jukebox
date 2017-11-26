@@ -22,7 +22,6 @@ using namespace juce;
 namespace {
     constexpr unsigned int defaultAlbumIndex = 1;
     constexpr unsigned int defaultSongIndex = 0;
-    constexpr int timeToPlay = 5000;
 
     //TODO remove this as this is just for testing purposes
     const std::array<unsigned, 3> filesToPlay = {{ 1, 16, 4 }};
@@ -189,6 +188,11 @@ void Gui::setMusicFolder(const std::string& folder)
     mainComponent->updateSongSelection(selectedSongIndex);
 }
 
+void Gui::setTimeToPlaySong(int millisecs)
+{
+    timeToPlaySong = millisecs;
+}
+
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
 {
     mainComponent->setCurrentlyPlayedSong(song);
@@ -326,7 +330,7 @@ void Gui::playSongWithDelay(int albumNumber, int songNumber)
            secondsToPlayTimer.reset();
         });
 
-        secondsToPlayTimer->startTimer(timeToPlay);
+        secondsToPlayTimer->startTimer(timeToPlaySong);
     }
     else
     {
@@ -350,7 +354,7 @@ void Gui::playAlbumWithDelay(int albumNumber)
             secondsToPlayTimer.reset();
         });
 
-        secondsToPlayTimer->startTimer(timeToPlay);
+        secondsToPlayTimer->startTimer(timeToPlaySong);
     }
     else
     {

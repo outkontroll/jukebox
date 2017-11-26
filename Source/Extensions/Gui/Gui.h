@@ -31,6 +31,7 @@ public:
     
     void setFileSystem(jukebox::filesystem::IFileSystem* filesys) override;
     void setMusicFolder(const std::string& folder) override;
+    void setTimeToPlaySong(int millisecs) override;
     
     void setCurrentlyPlayedSong(const audio::Song& song) override;
     void enqueue(const audio::Song& song) override;
@@ -77,6 +78,7 @@ private:
     unsigned int albumIndexStep = 8;
     unsigned int selectedSongIndex = 0;
     unsigned int visibleSongsIndex = 20; //TODO
+    int timeToPlaySong = 0;
     bool isInMultipleAlbumsMode = true;
     jukebox::filesystem::IFileSystem* fileSys = nullptr;
 };
