@@ -18,6 +18,7 @@ struct SongBuilder
 public:
     static audio::Song buildSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory, const jukebox::filesystem::IFileSystem& filesys);
     static std::vector<audio::Song> buildSongsInAlbum(unsigned int albumNumber, const std::string& musicDirectory, const jukebox::filesystem::IFileSystem& filesys);
+    static std::string createVisibleName(int albumNumber, int songNumber);
 };
 
 }}

@@ -18,6 +18,9 @@ using namespace testing;
 namespace {
     const std::string defaultMusicDir = "";
     const auto setMusicDir = "fakeMusicDir";
+    const auto songPath = "fakeSongPath";
+    const juce::String userInputNumber1("00101");
+    const juce::String userInputNumber2("00102");
     constexpr int defaultSelectedAlbumIndex = 1;
     constexpr int defaultSelectedSongIndex = 0;
     constexpr int defaultAlbumStep = 8;
@@ -204,11 +207,28 @@ TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASongButSongIsNotExists_W
     mainComponentMock->keyPressedSignal(keyNumber9);
 }
 
-//TODO
-TEST_F(GuiTest, DISABLED_GivenGuiIsInSingleAlbumsStateAndThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPressedSignalDot_ThenTheCurrentSelectedSongWillBePlayed)
+//TODO this test is incomplete because when the timer expires there will be additional (currently untested) calls too
+TEST_F(GuiTest, GivenGuiIsInSingleAlbumsStateAndThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPressedSignalDot_ThenTheFirstSongWillBePlayed)
 {
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
+
+    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return(songPath));
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(userInputNumber1));
+
+    mainComponentMock->keyPressedSignal(keyDot);
+}
+
+//TODO this test is incomplete because when the timer expires there will be additional (currently untested) calls too
+TEST_F(GuiTest, GivenGuiIsInSingleAlbumsStateAndThereIsNoSongSelectedToPlayAndTheCurrentSongIsNotTheFirstOne_WhenMainComponentSendsKeyPressedSignalDot_ThenTheCurrentSelectedSongWillBePlayed)
+{
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyH);
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex + 1));
+    mainComponentMock->keyPressedSignal(keyC);
+
+    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return(songPath));
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(userInputNumber2));
 
     mainComponentMock->keyPressedSignal(keyDot);
 }

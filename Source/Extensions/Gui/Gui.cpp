@@ -308,13 +308,17 @@ void Gui::handleUserInputNumbers(char number)
 
 void Gui::handleDotPressed()
 {
-    if(secondsToPlayTimer)
+    if(secondsToPlayTimer || isInMultipleAlbumsMode)
     {
         secondsToPlayTimer.reset();
+        userInputSongNumber = "";
+        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
     }
-
-    userInputSongNumber = "";
-    mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+    else if(!secondsToPlayTimer && !isInMultipleAlbumsMode)
+    {
+        mainComponent->setCurrentUserInputNumber(SongBuilder::createVisibleName(selectedAlbumIndex, selectedSongIndex + 1));
+        playSongWithDelay(selectedAlbumIndex, selectedSongIndex + 1);
+    }
 }
 
 void Gui::playSongWithDelay(int albumNumber, int songNumber)

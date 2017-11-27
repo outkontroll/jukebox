@@ -16,7 +16,7 @@ Song SongBuilder::buildSong(unsigned int albumNumber, unsigned int songNumber, c
     return { albumNumber,
              songNumber,
              filesys.getSongFilePath(musicDirectory, albumNumber, songNumber, DefaultExtensionPattern),
-             std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2))
+             createVisibleName(albumNumber, songNumber)
              };
 }
 
@@ -30,9 +30,14 @@ std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const
         return Song{ albumNumber,
                      static_cast<unsigned int>(path.second),
                      path.first,
-                     std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(path.second, 2))
+                     createVisibleName(albumNumber, path.second)
                      };
     });
 
     return songs;
+}
+
+std::string SongBuilder::createVisibleName(int albumNumber, int songNumber)
+{
+    return {FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)};
 }
