@@ -323,11 +323,11 @@ void Gui::playSongWithDelay(int albumNumber, int songNumber)
     if(!song.fileName.empty())
     {
         secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
-           playSongSignal(song);
-           userInputSongNumber = "";
-           mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+            playSongSignal(song);
+            userInputSongNumber = "";
+            mainComponent->setCurrentUserInputNumber(userInputSongNumber);
 
-           secondsToPlayTimer.reset();
+            secondsToPlayTimer.reset();
         });
 
         secondsToPlayTimer->startTimer(timeToPlaySong);

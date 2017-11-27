@@ -10,7 +10,7 @@ namespace {
     const std::string ErrorFewCreditsAlbum = "Too few credits to play an album!";
     const std::string ErrorDuringSongPlaying = "An unexpected error occured during playing song: ";
     const std::string ErrorDuringAlbumPlaying = "An unexpected error occured during playing album: ";
-    const std::string ErrorSongNotExists = "The given song is not exitsing!";
+    const std::string ErrorSongNotExists = "The given song is not existing!";
     const std::string WarningNotPlayingSong = "Music already stopped!";
     const std::string ErrorImageNotFound = "Image not available";
     const std::string Playing = "Playing";
