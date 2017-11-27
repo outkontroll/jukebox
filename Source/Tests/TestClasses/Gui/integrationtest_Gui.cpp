@@ -141,9 +141,28 @@ TEST_F(GuiTest, DISABLED_GivenThereIsAlmostEnoughCurrentUserInputToPlayASong_Whe
     mainComponentMock->keyPressedSignal(keyNumber9);
 
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
-    //TODO: sign up for signal
+
+    //TODO sign up for signal
+
     using namespace std::chrono_literals;
     std::this_thread::sleep_for(2s);
+}
+
+TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsFifthKeyPressedNumberAndSongIsNotExisting_ThenErrorIsShown)
+{
+    gui->setTimeToPlaySong(5000);
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
+    mainComponentMock->keyPressedSignal(keyNumber5);
+    mainComponentMock->keyPressedSignal(keyNumber6);
+    mainComponentMock->keyPressedSignal(keyNumber7);
+    mainComponentMock->keyPressedSignal(keyNumber8);
+
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_));
+    const juce::String errorSongNotExists(Resources::getResourceStringFromId(ResourceId::ErrorSongNotExists));
+    EXPECT_CALL(*mainComponentMock, showStatusMessage(errorSongNotExists));
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
+
+    mainComponentMock->keyPressedSignal(keyNumber9);
 }
 
 TEST_F(GuiTest, GivenThereIsNoCurrentUserInput_WhenMainComponentSendsKeyPressedSignalDot_ThenCurrentUserInputNumberIsReset)
@@ -179,32 +198,31 @@ TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASongAndNoDotPr
     mainComponentMock->keyPressedSignal(keyNumber9);
 
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString)).Times(0);
-    //TODO: use platform independent wait
-    sleep(2);
+
+    //TODO sign up for signal
+
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(2s);
 
     mainComponentMock->keyPressedSignal(keyDot);
 }
 
-TEST_F(GuiTest, DISABLED_GivenThereEnoughCurrentUserInputToPlayASongButPressArriveInTime_WhenMainComponentSendsKeyPressedSignalDot_ThenCurrentUserInputNumberIsReset)
-{
-
-}
-
-TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASongButSongIsNotExists_WhenMainComponentSendsFifthKeyPressedNumber_ThenErrorIsShown)
+TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedSignalDotInTimeToCancel_ThenCurrentUserInputNumberIsReset)
 {
     gui->setTimeToPlaySong(5000);
-    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
     mainComponentMock->keyPressedSignal(keyNumber5);
     mainComponentMock->keyPressedSignal(keyNumber6);
     mainComponentMock->keyPressedSignal(keyNumber7);
     mainComponentMock->keyPressedSignal(keyNumber8);
-
-    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_));
-    const juce::String errorSongNotExists(Resources::getResourceStringFromId(ResourceId::ErrorSongNotExists));
-    EXPECT_CALL(*mainComponentMock, showStatusMessage(errorSongNotExists));
-    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
-
     mainComponentMock->keyPressedSignal(keyNumber9);
+
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(2s);
+
+    //TODO set expectations
+
+    mainComponentMock->keyPressedSignal(keyDot);
 }
 
 //TODO this test is incomplete because when the timer expires there will be additional (currently untested) calls too
