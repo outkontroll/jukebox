@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 project(unittest_Settings)
 
 # sources
 
 set(CPP_SOURCES
-    ${TESTING_DIR}/main.cpp
+    ${TESTING_MAIN}
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_Settings.cpp
 )
 
@@ -25,8 +25,8 @@ target_include_directories(unittest_Settings PUBLIC ${INCLUDE_DIRS})
 target_link_libraries(unittest_Settings
 		      settings
 		      helpers
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest.a
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest_main.a
+                      ${GTest}
+                      ${GTestMain}
 		      pthread
 )
 
@@ -35,6 +35,5 @@ add_test(MyTest unittest_Settings)
 
 add_custom_command(TARGET unittest_Settings
                    POST_BUILD
-                   COMMAND ${EXECUTABLE_OUTPUT_PATH}/unittest_Settings
-                   WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
+                   COMMAND ./unittest_Settings
                    COMMENT "Running unittest_Settings" VERBATIM)

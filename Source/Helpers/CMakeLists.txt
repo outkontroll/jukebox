@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 add_subdirectory(Logging)
 add_subdirectory(SongBuilder)
@@ -30,11 +30,9 @@ add_library(helpers
 
 set(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/Logging/
-    #TODO
-    ${JUCE_DIRECTORY}
-    ${JUCE_MODULE_DIRECTORY}
 )
 
-target_include_directories(helpers PUBLIC ${INCLUDE_DIRS})
+target_include_directories(helpers PRIVATE ${INCLUDE_DIRS})
+target_include_directories(helpers SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
 target_link_libraries(helpers logger)

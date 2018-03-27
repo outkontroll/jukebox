@@ -1,4 +1,5 @@
 #include "SingleAlbumCanvas.h"
+#include <numeric>
 #include "ResourceId.h"
 #include "ResourceString.h"
 #include "Formaters.h"

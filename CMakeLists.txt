@@ -3,7 +3,7 @@
 
 # cmake
 
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 # project
 
@@ -11,14 +11,16 @@ project(music_jukebox)
 
 # compiler
 
-MESSAGE( STATUS "** CMAKE_C_COMPILER : ${CMAKE_C_COMPILER}" )
-MESSAGE( STATUS "** CMAKE_CXX_COMPILER : ${CMAKE_CXX_COMPILER}" )
+message( STATUS "** CMAKE_C_COMPILER : ${CMAKE_C_COMPILER}" )
+message( STATUS "** CMAKE_CXX_COMPILER : ${CMAKE_CXX_COMPILER}" )
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
+#This property is initialized by the value of the CMAKE_CXX_STANDARD variable if it is set when a target is created. ON)
+
 # compiler flags
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 if(UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Werror -fPIC")
@@ -26,12 +28,9 @@ if(UNIX)
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++98-compat -Wno-c++98-compat-bind-to-temporary-copy -Wno-padded -Wno-exit-time-destructors -Wno-weak-vtables")
     #END TODO
-    #if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
-    #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-    #endif()
 endif()
 
-MESSAGE( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )
+message( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )
 
 # compiler features
 
@@ -57,27 +56,15 @@ endif()
 
 # build directories
 
-MESSAGE( STATUS "** PROJECT_BINARY_DIR : ${PROJECT_BINARY_DIR}" )
+message( STATUS "** PROJECT_BINARY_DIR : ${PROJECT_BINARY_DIR}" )
 
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../${CMAKE_BUILD_TYPE} CACHE PATH "Library output path")
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../${CMAKE_BUILD_TYPE} CACHE PATH "Executable output path")
+#set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../${CMAKE_BUILD_TYPE} CACHE PATH "Library output path")
+#set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../${CMAKE_BUILD_TYPE} CACHE PATH "Executable output path")
 
-MESSAGE( STATUS "** LIBRARY_OUTPUT_PATH : ${LIBRARY_OUTPUT_PATH}" )
-MESSAGE( STATUS "** EXECUTABLE_OUTPUT_PATH : ${EXECUTABLE_OUTPUT_PATH}" )
+#message( STATUS "** LIBRARY_OUTPUT_PATH : ${LIBRARY_OUTPUT_PATH}" )
+#message( STATUS "** EXECUTABLE_OUTPUT_PATH : ${EXECUTABLE_OUTPUT_PATH}" )
 
-MESSAGE( STATUS "** CMAKE_CURRENT_SOURCE_DIR : ${CMAKE_CURRENT_SOURCE_DIR}" )
-
-# juce
-
-set(JUCE_DIRECTORY
-    ${CMAKE_CURRENT_SOURCE_DIR}/JuceLibraryCode
-)
-
-set(JUCE_MODULE_DIRECTORY
-    ${JUCE_DIRECTORY}/modules
-)
-
-MESSAGE( STATUS "** JUCE_DIRECTORY : ${JUCE_DIRECTORY}" )
+message( STATUS "** CMAKE_CURRENT_SOURCE_DIR : ${CMAKE_CURRENT_SOURCE_DIR}" )
 
 # global definitions
 
@@ -88,6 +75,22 @@ set(SOURCE_DIR
 set(LIBRARY_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/Libraries
 )
+
+set(LIBRARY_LINK_DIRS
+    ${LIBRARY_DIRECTORIES}/Libs
+)
+
+# juce
+
+set(JUCE_DIRECTORY
+    ${LIBRARY_DIRECTORIES}/JuceLibraryCode
+)
+
+set(JUCE_MODULE_DIRECTORY
+    ${JUCE_DIRECTORY}/modules
+)
+
+message( STATUS "** JUCE_DIRECTORY : ${JUCE_DIRECTORY}" )
 
 # headers
 
@@ -102,6 +105,12 @@ set(CPP_SOURCES
     ${SOURCE_DIR}/Base/Application.cpp
 )
 
+find_library(PROJECT_JUCE project_juce ${LIBRARY_LINK_DIRS})
+#TODO
+#find_package(project_juce PATHS ${LIBRARY_LINK_DIRS})
+#message( STATUS "** PROJECT_JUCE : ${PROJECT_JUCE}" )
+#link_directories(music_jukebox PRIVATE ${LIBRARY_LINK_DIRS})
+
 # executable
 
 add_executable(music_jukebox ${HEADER_SOURCES} ${CPP_SOURCES})
@@ -112,11 +121,13 @@ set(INTERFACE_DIRECTORY
     ${SOURCE_DIR}/Interfaces
 )
 
+set(LOGGER_INCLUDE_DIR
+    ${SOURCE_DIR}/Helpers/Logging
+)
+
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Base
     ${INTERFACE_DIRECTORY}
-    ${JUCE_DIRECTORY}
-    ${JUCE_MODULE_DIRECTORY}
     #TODO remove these after classloader:
     ${SOURCE_DIR}/Extensions/Core
     ${SOURCE_DIR}/Helpers
@@ -129,7 +140,13 @@ set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/Settings
 )
 
+set(JUCE_INCLUDE_DIRS
+    ${JUCE_DIRECTORY}
+    ${JUCE_MODULE_DIRECTORY}
+)
+
 target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
+target_include_directories(music_jukebox SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
 # compiler features
 
@@ -140,7 +157,6 @@ target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
 
 add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
 add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
-add_subdirectory(${SOURCE_DIR}/Juce ${PROJECT_BINARY_DIR}/Source/Juce)   #Juce
 add_subdirectory(${SOURCE_DIR}/Tests)
 
-target_link_libraries(music_jukebox PUBLIC logger project_juce core gui creditManager musicPlayer statistics songBuilder settings)
+target_link_libraries(music_jukebox PUBLIC ${PROJECT_JUCE} logger core gui creditManager musicPlayer statistics songBuilder settings)

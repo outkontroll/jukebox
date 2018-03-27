@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(statistics)
 
@@ -22,10 +22,15 @@ add_library(statistics
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(INCLUDE_DIRS
-    ${EXTENSION_INCLUDE_DIRS}
+set(PUBLIC_INCLUDE_DIRS
+    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
+)
+
+set(IMPL_INCLUDE_DIRS
+    ${EXTENSION_IMPL_INCLUDE_DIRS}
 )
 
 target_include_directories(statistics PUBLIC ${INCLUDE_DIRS})
+target_include_directories(statistics PRIVATE ${IMPL_INCLUDE_DIRS})
 
 target_link_libraries(statistics songBuilder)

@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(componenttest_Core)
 
 # sources
 
 set(CPP_SOURCES
-    ${TESTING_DIR}/main.cpp
+    ${TESTING_MAIN}
     ${CMAKE_CURRENT_SOURCE_DIR}/componenttest_Core.cpp
 )
 
@@ -27,11 +27,11 @@ target_include_directories(componenttest_Core PUBLIC ${INCLUDE_DIRS}
 target_link_libraries(componenttest_Core
 		      core
 		      helpers
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest.a
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest_main.a
-                      ${LIBRARY_DIRECTORIES}/Libs/libgmock.a
-                      ${LIBRARY_DIRECTORIES}/Libs/libgmock_main.a
-		      pthread
+                      ${GTest}
+                      ${GTestMain}
+                      ${GMock}
+                      ${GMockMain}
+                      pthread
 )
 
 enable_testing()
@@ -39,6 +39,5 @@ add_test(MyTest componenttest_Core)
 
 add_custom_command(TARGET componenttest_Core
                    POST_BUILD
-                   COMMAND ${EXECUTABLE_OUTPUT_PATH}/componenttest_Core
-                   WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
+                   COMMAND ./componenttest_Core
                    COMMENT "Running componenttest_Core" VERBATIM)

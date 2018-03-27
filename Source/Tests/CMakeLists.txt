@@ -1,7 +1,26 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
+
+#TODO
+#find_package(GTest REQUIRED)
+#message(STATUS "GTest: ${GTEST_BOTH_LIBRARIES}")
+
+find_library(GTest gtest PATHS ${LIBRARY_LINK_DIRS} NO_DEFAULT_PATH)
+find_library(GTestMain gtest_main PATHS ${LIBRARY_LINK_DIRS} NO_DEFAULT_PATH)
+set(GTestInclude ${LIBRARY_DIRECTORIES}/googletest/googletest/include)
+#message(STATUS "** GTest and GTestMain: ${GTest} ${GTestMain} ${GTestInclude}")
+
+find_library(GMock gmock PATHS ${LIBRARY_LINK_DIRS} NO_DEFAULT_PATH)
+find_library(GMockMain gmock_main PATHS ${LIBRARY_LINK_DIRS} NO_DEFAULT_PATH)
+set(GMockInclude ${LIBRARY_DIRECTORIES}/googletest/googlemock/include)
+#message(STATUS "Path: ${LIBRARY_DIRECTORIES}")
+#message( STATUS "** GMock and GMockMain: ${GMock} ${GMockMain} ${GMockInclude}" )
 
 set(TESTING_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+set(TESTING_MAIN
+    ${TESTING_DIR}/main.cpp
 )
 
 set(HELPERCLASSES_DIR
@@ -13,8 +32,10 @@ set(TESTCLASSES_DIR
 )
 
 set(TESTING_INCLUDE_DIRS
-    ${LIBRARY_DIRECTORIES}/googletest/googletest/include
-    ${LIBRARY_DIRECTORIES}/googletest/googlemock/include
+#    ${GTEST_INCLUDE_DIRS}
+    ${GTestInclude}
+    ${GMockInclude}
+    ${LOGGER_INCLUDE_DIR}
 )
 
 set(MOCK_HEADERS
@@ -24,16 +45,6 @@ set(MOCK_HEADERS
     ${TESTING_DIR}/HelperClasses/SettingsMock.h
     ${TESTING_DIR}/HelperClasses/StatisticsMock.h
 )
-
-#set(LINK_DIRS
-#    ${CMAKE_CURRENT_SOURCE_DIR}/../../googleTest
-#)
-
-#find_library(gtest
-#             NAMES "gtest"
-#             PATHS ${LINK_DIRS} NO_DEFAULT_PATH)
-
-#link_directories(${LINK_DIRS})
 
 add_subdirectory(TestClasses/CreditManager)
 add_subdirectory(TestClasses/Gui)

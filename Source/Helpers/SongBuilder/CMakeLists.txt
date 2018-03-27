@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(songBuilder)
 
@@ -27,4 +27,4 @@ set(INCLUDE_DIRS
 
 target_include_directories(songBuilder PUBLIC ${INCLUDE_DIRS})
 
-target_link_libraries(songBuilder project_juce helpers)
+target_link_libraries(songBuilder ${PROJECT_JUCE} helpers)

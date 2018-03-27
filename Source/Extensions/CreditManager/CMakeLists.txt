@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(creditManager)
 
@@ -22,8 +22,13 @@ add_library(creditManager
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(INCLUDE_DIRS
-    ${EXTENSION_INCLUDE_DIRS}
+set(PUBLIC_INCLUDE_DIRS
+    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
 )
 
-target_include_directories(creditManager PUBLIC ${INCLUDE_DIRS})
+set(IMPL_INCLUDE_DIRS
+    ${EXTENSION_IMPL_INCLUDE_DIRS}
+)
+
+target_include_directories(creditManager PUBLIC ${PUBLIC_INCLUDE_DIRS})
+target_include_directories(creditManager PRIVATE ${IMPL_INCLUDE_DIRS})
