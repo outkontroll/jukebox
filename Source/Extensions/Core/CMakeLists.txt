@@ -32,4 +32,5 @@ set(IMPL_INCLUDE_DIRS
 target_include_directories(core PUBLIC ${PUBLIC_INCLUDE_DIRS})
 target_include_directories(core PUBLIC ${IMPL_INCLUDE_DIRS})
 
-target_link_libraries(core songBuilder helpers)
+target_link_libraries(core PUBLIC signals)
+target_link_libraries(core PRIVATE songBuilder helpers)

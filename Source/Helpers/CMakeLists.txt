@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 add_subdirectory(Logging)
 add_subdirectory(SongBuilder)
+add_subdirectory(Signaling)
 
 project(helpers)
 

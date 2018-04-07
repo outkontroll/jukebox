@@ -20,17 +20,13 @@ message( STATUS "** CMAKE_CXX_COMPILER : ${CMAKE_CXX_COMPILER}" )
 
 # compiler flags
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
-
 if(UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Werror -fPIC")
+    add_compile_options(-g -Wall -Wextra -Werror -fPIC)
     #TODO: this is for testing
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++98-compat -Wno-c++98-compat-bind-to-temporary-copy -Wno-padded -Wno-exit-time-destructors -Wno-weak-vtables")
     #END TODO
 endif()
-
-message( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )
 
 # compiler features
 
@@ -38,13 +34,6 @@ message( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )
 #foreach(i ${CMAKE_CXX_COMPILE_FEATURES})
 #    message("${i}")
 #endforeach()
-
-#set(CPP_COMPILER_FEATURES
-#    cxx_auto_type
-#    cxx_noexcept
-#    cxx_nullptr
-#    cxx_override
-#)
 
 # build architecture
 
@@ -57,13 +46,6 @@ endif()
 # build directories
 
 message( STATUS "** PROJECT_BINARY_DIR : ${PROJECT_BINARY_DIR}" )
-
-#set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../${CMAKE_BUILD_TYPE} CACHE PATH "Library output path")
-#set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../${CMAKE_BUILD_TYPE} CACHE PATH "Executable output path")
-
-#message( STATUS "** LIBRARY_OUTPUT_PATH : ${LIBRARY_OUTPUT_PATH}" )
-#message( STATUS "** EXECUTABLE_OUTPUT_PATH : ${EXECUTABLE_OUTPUT_PATH}" )
-
 message( STATUS "** CMAKE_CURRENT_SOURCE_DIR : ${CMAKE_CURRENT_SOURCE_DIR}" )
 
 # global definitions
@@ -150,6 +132,7 @@ target_include_directories(music_jukebox SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
 # compiler features
 
+set_property(TARGET music_jukebox PROPERTY CXX_STANDARD 17)
 # it is not used because it can not set globally
 #target_compile_features(music_jukebox PUBLIC ${CPP_COMPILER_FEATURES})
 

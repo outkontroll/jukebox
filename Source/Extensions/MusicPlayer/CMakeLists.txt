@@ -35,3 +35,5 @@ set(IMPL_INCLUDE_DIRS
 target_include_directories(musicPlayer PUBLIC ${PUBLIC_INCLUDE_DIRS})
 target_include_directories(musicPlayer PRIVATE ${IMPL_INCLUDE_DIRS})
 target_include_directories(musicPlayer SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
+
+target_link_libraries(musicPlayer PUBLIC signals)
