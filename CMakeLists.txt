@@ -1,5 +1,6 @@
-# cmake parameters
-# cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+# cmake agrs: -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+# OR
+# cmake agrs: -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 
 # cmake
 
@@ -9,27 +10,23 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 project(music_jukebox)
 
-# compiler
-
-message( STATUS "** CMAKE_C_COMPILER : ${CMAKE_C_COMPILER}" )
-message( STATUS "** CMAKE_CXX_COMPILER : ${CMAKE_CXX_COMPILER}" )
-
 #set(CMAKE_VERBOSE_MAKEFILE ON)
-
-#This property is initialized by the value of the CMAKE_CXX_STANDARD variable if it is set when a target is created. ON)
 
 # compiler flags
 
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR
-   ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    add_compile_options(-g -Wall -Wextra -Werror -Weverything -fPIC)
-    # these are needed for -Weverithing compilation
-    add_compile_options(-Wno-c++98-compat #multiple
-                        -Wno-padded #multiple
-                        -Wno-weak-vtables #multiple
-                        -Wno-exit-time-destructors #logger
-                        -Wno-reserved-id-macro #maincomponent
-    )
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
+   CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_compile_options(-g -Wall -Wextra -Werror -fPIC)
+
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        add_compile_options(-Weverything
+                            -Wno-c++98-compat #multiple
+                            -Wno-padded #multiple
+                            -Wno-weak-vtables #multiple
+                            -Wno-exit-time-destructors #logger
+                            -Wno-reserved-id-macro #maincomponent
+        )
+    endif()
 endif()
 
 # compiler features
@@ -46,11 +43,6 @@ if("${CMAKE_SIZEOF_VOID_P}" EQUAL 4)
 else()
     set(BUILD_ARCHITECTURE "64bit")
 endif()
-
-# build directories
-
-message( STATUS "** PROJECT_BINARY_DIR : ${PROJECT_BINARY_DIR}" )
-message( STATUS "** CMAKE_CURRENT_SOURCE_DIR : ${CMAKE_CURRENT_SOURCE_DIR}" )
 
 # global definitions
 
