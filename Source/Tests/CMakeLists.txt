@@ -46,6 +46,20 @@ set(MOCK_HEADERS
     ${TESTING_DIR}/HelperClasses/StatisticsMock.h
 )
 
+# this is needed because of the googletest libraries are generating tons of warnings
+# and those should be used by find_package (and the cmakefiles modified accordingly)
+add_compile_options(
+    -Wno-undef
+    -Wno-zero-as-null-pointer-constant
+    -Wno-c++98-compat-pedantic
+    -Wno-missing-noreturn
+    -Wno-shift-sign-overflow
+    -Wno-used-but-marked-unused
+    -Wno-global-constructors
+    -Wno-deprecated
+    -Wno-sign-conversion
+)
+
 add_subdirectory(TestClasses/CreditManager)
 add_subdirectory(TestClasses/Gui)
 add_subdirectory(TestClasses/Settings)

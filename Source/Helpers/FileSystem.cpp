@@ -15,31 +15,31 @@ ReturnType getFilePathInAlbum(const std::string& musicDirectory, const String& a
 template<typename ReturnType, bool ReturnAllElements>
 ReturnType getAllFileInAlbum(const std::string& musicDirectory, const String& albumDir, const std::string& wildCardPattern);
 
-std::string FileSystem::getPicturePath(const std::string& musicDirectory, int albumIndex, const std::string& pictureExtensions)
+std::string FileSystem::getPicturePath(const std::string& musicDirectory, unsigned int albumIndex, const std::string& pictureExtensions)
 {
     std::string wildCardPattern("*" + pictureExtensions);
     return getFilePathInAlbum<std::string, false>(musicDirectory, FillWithLeadingZeros(albumIndex, 3), wildCardPattern);
 }
 
-std::string FileSystem::getInfoFilePath(const std::string& musicDirectory, int albumIndex)
+std::string FileSystem::getInfoFilePath(const std::string& musicDirectory, unsigned int albumIndex)
 {
     return getFilePathInAlbum<std::string, false>(musicDirectory, FillWithLeadingZeros(albumIndex, 3), "*.txt");
 }
 
-std::string FileSystem::getSongFilePath(const std::string& musicDirectory, int albumIndex, int songIndex, const std::string& extensionPattern)
+std::string FileSystem::getSongFilePath(const std::string& musicDirectory, unsigned int albumIndex, unsigned int songIndex, const std::string& extensionPattern)
 {
     //TODO iterate through all the patterns and include the song number in front of the asterisk
     std::string wildCardPattern(FillWithLeadingZeros(songIndex, 2) + extensionPattern);
     return getFilePathInAlbum<std::string, false>(musicDirectory, FillWithLeadingZeros(albumIndex, 3), wildCardPattern);
 }
 
-std::vector<std::pair<std::string, int>> FileSystem::getAllSongFilesWithFullPaths(const std::string& musicDicertory, int albumIndex, const std::string& extensionPattern)
+std::vector<std::pair<std::string, int>> FileSystem::getAllSongFilesWithFullPaths(const std::string& musicDicertory, unsigned int albumIndex, const std::string& extensionPattern)
 {
     //TODO iterate through all the patterns
     const auto files = getAllFileInAlbum<Array<File>, true>(musicDicertory, FillWithLeadingZeros(albumIndex, 3), extensionPattern);
 
     std::vector<std::pair<std::string, int>> paths;
-    paths.reserve(files.size());
+    paths.reserve(static_cast<unsigned int>(files.size()));
 
     std::transform(files.begin(), files.end(), std::back_inserter(paths), [](const File& file){
         const auto filePath = file.getFullPathName().toStdString();
@@ -65,13 +65,13 @@ std::vector<std::pair<std::string, int>> FileSystem::getAllSongFilesWithFullPath
     return paths;
 }
 
-std::vector<std::string> FileSystem::getAllSongFilesNamesOnly(const std::string& musicDirectory, int albumIndex, const std::string& extensionPattern)
+std::vector<std::string> FileSystem::getAllSongFilesNamesOnly(const std::string& musicDirectory, unsigned int albumIndex, const std::string& extensionPattern)
 {
     //TODO iterate through all the patterns
     const auto files = getAllFileInAlbum<Array<File>, true>(musicDirectory, FillWithLeadingZeros(albumIndex, 3), extensionPattern);
 
     std::vector<std::string> musicSongs;
-    musicSongs.reserve(files.size());
+    musicSongs.reserve(static_cast<unsigned int>(files.size()));
 
     std::transform(files.begin(), files.end(), std::back_inserter(musicSongs), [](const File& file){
         return file.getFileNameWithoutExtension().toStdString();

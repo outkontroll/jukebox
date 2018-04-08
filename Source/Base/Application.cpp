@@ -37,13 +37,13 @@ bool jukeboxApplication::moreThanOneInstanceAllowed()
     return false;
 }
     
-void jukeboxApplication::initialise (const juce::String& commandLine)
+void jukeboxApplication::initialise(const juce::String& commandLine)
 {
     core = std::make_unique<core::Core>(std::make_unique<gui::Gui>(getApplicationName().toStdString()),
                                         std::make_unique<creditmanager::CreditManager>(),
                                         std::make_unique<audio::MusicPlayer>(),
                                         std::make_unique<statistics::Statistics>(),
-                                        std::make_unique<settings::Settings>());
+                                        std::make_unique<settings::Settings>("/home/adam/Music/test_data/music"));
 
     eventsSlot.connect(this, &jukeboxApplication::exitRequested, core->exitRequestedSignal);
     

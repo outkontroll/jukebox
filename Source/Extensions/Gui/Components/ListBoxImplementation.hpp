@@ -79,7 +79,7 @@ void ListBox<Container, Item>::resized()
 template<template<class, class> class Container, class Item>
 int ListBoxContents<Container, Item>::getNumRows()
 {
-    return items.size();
+    return static_cast<int>(items.size());
 }
 
 template<template<class, class> class Container, class Item>
@@ -101,7 +101,7 @@ void ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Gr
     g.setColour (juce::Colours::black);
     g.setFont (height * 0.7f);
 
-    g.drawText (items[rowNumber].visibleName, 5, 0, width, height,
+    g.drawText (items[static_cast<unsigned>(rowNumber)].visibleName, 5, 0, width, height,
                 juce::Justification::centredLeft, true);
 }
 

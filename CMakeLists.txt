@@ -20,12 +20,16 @@ message( STATUS "** CMAKE_CXX_COMPILER : ${CMAKE_CXX_COMPILER}" )
 
 # compiler flags
 
-if(UNIX)
-    add_compile_options(-g -Wall -Wextra -Werror -fPIC)
-    #TODO: this is for testing
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++98-compat -Wno-c++98-compat-bind-to-temporary-copy -Wno-padded -Wno-exit-time-destructors -Wno-weak-vtables")
-    #END TODO
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR
+   ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    add_compile_options(-g -Wall -Wextra -Werror -Weverything -fPIC)
+    # these are needed for -Weverithing compilation
+    add_compile_options(-Wno-c++98-compat #multiple
+                        -Wno-padded #multiple
+                        -Wno-weak-vtables #multiple
+                        -Wno-exit-time-destructors #logger
+                        -Wno-reserved-id-macro #maincomponent
+    )
 endif()
 
 # compiler features
@@ -133,8 +137,6 @@ target_include_directories(music_jukebox SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 # compiler features
 
 set_property(TARGET music_jukebox PROPERTY CXX_STANDARD 17)
-# it is not used because it can not set globally
-#target_compile_features(music_jukebox PUBLIC ${CPP_COMPILER_FEATURES})
 
 # projects
 
@@ -143,3 +145,6 @@ add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
 add_subdirectory(${SOURCE_DIR}/Tests)
 
 target_link_libraries(music_jukebox PUBLIC ${PROJECT_JUCE} logger core gui creditManager musicPlayer statistics songBuilder settings)
+target_compile_options(music_jukebox PRIVATE
+    -Wno-cast-qual
+)

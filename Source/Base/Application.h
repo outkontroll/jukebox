@@ -18,7 +18,7 @@ class jukeboxApplication : public juce::JUCEApplication
 {
 public:
     jukeboxApplication();
-    ~jukeboxApplication();
+    ~jukeboxApplication() override;
     
     const juce::String getApplicationName() override;
     

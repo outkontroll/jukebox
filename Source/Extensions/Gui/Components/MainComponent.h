@@ -55,7 +55,7 @@ class MainComponent  : public Component
 public:
     //==============================================================================
     MainComponent ();
-    ~MainComponent();
+    ~MainComponent() override;
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -67,11 +67,11 @@ public:
 
     virtual void refreshCredits(unsigned int credits);
     virtual void showStatusMessage(const String& message);
-    virtual void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex);
-    virtual void loadSingleAlbum(const std::string& musicDirectory, int albumIndex);
+    virtual void loadMultipleAlbums(const std::string& musicDirectory, unsigned int firstAlbumIndex);
+    virtual void loadSingleAlbum(const std::string& musicDirectory, unsigned int albumIndex);
     virtual void switchBetweenAlbumViews();
-    virtual void updateAlbumSelection(int selectedAlbumIndex);
-    virtual void updateSongSelection(int selectedSongIndex);
+    virtual void updateAlbumSelection(unsigned int selectedAlbumIndex);
+    virtual void updateSongSelection(unsigned int selectedSongIndex);
     virtual void setCurrentUserInputNumber(const String& userInput);
     virtual void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     virtual void enqueue(const jukebox::audio::Song &song);

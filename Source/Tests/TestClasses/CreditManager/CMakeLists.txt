@@ -17,10 +17,10 @@ add_executable(unittest_CreditManager
 
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/CreditManager
-    ${TESTING_INCLUDE_DIRS}
 )
 
 target_include_directories(unittest_CreditManager PUBLIC ${INCLUDE_DIRS})
+target_include_directories(unittest_CreditManager SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
 target_link_libraries(unittest_CreditManager
 		      creditManager

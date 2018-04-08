@@ -235,12 +235,12 @@ void MainComponent::showStatusMessage(const String& message)
     lblStatus->setText(message, dontSendNotification);
 }
 
-void MainComponent::loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex)
+void MainComponent::loadMultipleAlbums(const std::string& musicDirectory, unsigned int firstAlbumIndex)
 {
     multipleAlbumsCanvas->loadAlbums(musicDirectory, firstAlbumIndex);
 }
 
-void MainComponent::loadSingleAlbum(const std::string& musicDirectory, int albumIndex)
+void MainComponent::loadSingleAlbum(const std::string& musicDirectory, unsigned int albumIndex)
 {
     singleAlbumCanvas->loadAlbum(musicDirectory, albumIndex);
 }
@@ -251,12 +251,12 @@ void MainComponent::switchBetweenAlbumViews()
     singleAlbumCanvas->setVisible(!singleAlbumCanvas->isVisible());
 }
 
-void MainComponent::updateAlbumSelection(int selectedAlbumIndex)
+void MainComponent::updateAlbumSelection(unsigned int selectedAlbumIndex)
 {
     multipleAlbumsCanvas->setSelection(selectedAlbumIndex);
 }
 
-void MainComponent::updateSongSelection(int selectedSongIndex)
+void MainComponent::updateSongSelection(unsigned int selectedSongIndex)
 {
     singleAlbumCanvas->setSelection(selectedSongIndex);
 }

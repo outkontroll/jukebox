@@ -13,20 +13,20 @@ public:
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;
 
-    void loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex);
-    void setSelection(int selectedAlbumIndex);
+    void loadAlbums(const std::string& musicDirectoy, unsigned int firstAlbumIndex);
+    void setSelection(unsigned int selectedAlbumIndex);
 
 private:
     struct Position
     {
-        const int x;
-        const int y;
+        const unsigned int x;
+        const unsigned int y;
     };
 
     juce::Rectangle<float> calculateImagePlace(Position position, float slotWidth, float slotHeight) const;
     juce::Rectangle<float> calculateTextPlace(Position position, float slotWidth, float slotHeight) const;
     juce::Rectangle<float> calculateSelectionPlace(const juce::Rectangle<float>& placeToSelect);
-    Position getPositionFromIndex(int index) const;
+    Position getPositionFromIndex(unsigned int index) const;
 
     struct AlbumPositionInfo
     {
@@ -38,16 +38,16 @@ private:
     {
         const juce::Image image;
         const AlbumPositionInfo position;
-        const int albumNumber;
+        const unsigned int albumNumber;
     };
 
     std::vector<AlbumPositionInfo> albumPositions;
     std::vector<VisibleAlbum> albums;
     juce::Rectangle<float> selectionImagePlace;
     juce::Rectangle<float> selectionTextPlace;
-    int columns = 4;
-    int rows = 2;
-    int selectedAlbumIndex = 1;
+    unsigned int columns = 4;
+    unsigned int rows = 2;
+    unsigned int selectedAlbumIndex = 1;
     float slotWidth = 0;
     float slotHeight = 0;
 };

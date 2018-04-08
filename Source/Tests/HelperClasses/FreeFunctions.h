@@ -6,6 +6,7 @@
 
 struct IFoo
 {
+    virtual ~IFoo() = default;
     virtual void foo() = 0;
     virtual void fooSong(const jukebox::audio::Song&) = 0;
 };

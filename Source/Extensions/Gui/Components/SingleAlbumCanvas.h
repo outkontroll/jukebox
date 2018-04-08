@@ -15,8 +15,8 @@ public:
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;
 
-    void loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex);
-    void setSelection(int selectedSongIndex);
+    void loadAlbum(const std::string& musicDirectory, unsigned int selectedAlbumIndex);
+    void setSelection(unsigned int selectedSongIndex);
 
 private:
     struct MultipleLinesPosition
@@ -39,14 +39,13 @@ private:
     juce::String artistName = "";
     juce::String otherLines = "";
     std::vector<juce::String> songNames;
-    int albumIndex = 0;
+    unsigned int albumIndex = 0;
     juce::Rectangle<float> textPlace = {0, 0, 0, 0};
     juce::Rectangle<float> imagePlace = {0, 0, 0, 0};
     juce::Rectangle<float> artistNamePlace = {0, 0, 0, 0};
     juce::Rectangle<float> selectionBounds = {0, 0, 0, 0};
     MultipleLinesPosition otherLinesPlace;
-    int currentSelectedLine = 0;
-
+    unsigned int currentSelectedLine = 0;
 };
 
 }}

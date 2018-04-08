@@ -16,8 +16,8 @@ namespace {
     const float selectionThickness = 4.0f;
     const float offsetX = 4.0f;
     const float offsetY = 3.0f;
-    const std::string defaultImageExtension = ".jpg";
-    const std::string defaultMusicExtension = "*.mp3";
+    const char* defaultImageExtension = ".jpg";
+    const char* defaultMusicExtension = "*.mp3";
 }
 
 void SingleAlbumCanvas::paint(Graphics& g)
@@ -75,7 +75,7 @@ void SingleAlbumCanvas::parentSizeChanged()
     otherLinesPlace = calculateOtherLinesPlace(pictureSize, width, height);
 }
 
-void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selectedAlbumIndex)
+void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, unsigned int selectedAlbumIndex)
 {
     albumIndex = selectedAlbumIndex;
     currentSelectedLine = 0;
@@ -88,7 +88,7 @@ void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, int selecte
     repaint();
 }
 
-void SingleAlbumCanvas::setSelection(int selectedSongIndex)
+void SingleAlbumCanvas::setSelection(unsigned int selectedSongIndex)
 {
     currentSelectedLine = selectedSongIndex;
 
@@ -188,9 +188,9 @@ juce::Rectangle<float> SingleAlbumCanvas::calculateArtistTextPlace(float imageSi
 
 SingleAlbumCanvas::MultipleLinesPosition SingleAlbumCanvas::calculateOtherLinesPlace(float imageSize, float width, float height) const
 {
-    const int startX = (width / 2 - imageSize * offsetXRatio) / 2 + defaultTextOffsetX + imageSize;
-    const int baseLineY = (height - imageSize) / 2;
-    const int maximumLineWidth = width - startX - defaultTextOffsetX;
+    const int startX = static_cast<int>((width / 2 - imageSize * offsetXRatio) / 2 + defaultTextOffsetX + imageSize);
+    const int baseLineY = static_cast<int>((height - imageSize) / 2);
+    const int maximumLineWidth = static_cast<int>(width - startX - defaultTextOffsetX);
 
     return { startX, baseLineY, maximumLineWidth };
 }

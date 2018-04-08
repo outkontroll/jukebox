@@ -20,7 +20,7 @@ class Gui : public IGui
 {
 public:
     Gui(const std::string& applicationName);
-    ~Gui();
+    ~Gui() override;
 
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(ResourceId messageId) override;
@@ -52,8 +52,8 @@ private:
     void handleUserInputNumbers(char number);
     void handleDotPressed();
     //TODO: these two functions could be merged into one entity with templates
-    void playSongWithDelay(int albumNumber, int songNumber);
-    void playAlbumWithDelay(int albumNumber);
+    void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
+    void playAlbumWithDelay(unsigned int albumNumber);
 
     unsigned int getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const;
     unsigned int getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const;

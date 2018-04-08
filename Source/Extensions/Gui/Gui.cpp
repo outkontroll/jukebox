@@ -86,7 +86,7 @@ void Gui::keyPressed(const KeyPress& key)
             textCharacter == '8' ||
             textCharacter == '9')
     {
-        handleUserInputNumbers(textCharacter);
+        handleUserInputNumbers(static_cast<char>(textCharacter));
     }
 
     else if(textCharacter == 'a')
@@ -144,7 +144,7 @@ void Gui::keyPressed(const KeyPress& key)
     //TODO these two are here just for testing!
     else if(textCharacter == 'x')
     {
-        static int fileToPlay = 0;
+        static unsigned int fileToPlay = 0;
         ++fileToPlay;
         fileToPlay = fileToPlay % 3;
         //TODO
@@ -285,8 +285,8 @@ void Gui::handleUserInputNumbers(char number)
 
     if(userInputSongNumber.length() == 5)
     {
-        int albumNumber = std::stoi(userInputSongNumber.substr(0, 3));
-        int songNumber = std::stoi(userInputSongNumber.substr(3));
+        unsigned int albumNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(0, 3)));
+        unsigned int songNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(3)));
         if(songNumber != 0)
         {
             playSongWithDelay(albumNumber, songNumber);
@@ -309,7 +309,7 @@ void Gui::handleDotPressed()
     mainComponent->setCurrentUserInputNumber(userInputSongNumber);
 }
 
-void Gui::playSongWithDelay(int albumNumber, int songNumber)
+void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)
 {
     const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder);
     if(!song.fileName.empty())
@@ -333,7 +333,7 @@ void Gui::playSongWithDelay(int albumNumber, int songNumber)
     }
 }
 
-void Gui::playAlbumWithDelay(int albumNumber)
+void Gui::playAlbumWithDelay(unsigned int albumNumber)
 {
     const auto songs = SongBuilder::buildSongsInAlbum(albumNumber, musicFolder);
     if(!songs.empty())

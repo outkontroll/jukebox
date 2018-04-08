@@ -7,7 +7,7 @@ class ICreditManager
 {
 public:
     virtual ~ICreditManager() = default;
-    
+
     virtual unsigned int getCredits() const = 0;
         
     virtual void coinInsert50() = 0;

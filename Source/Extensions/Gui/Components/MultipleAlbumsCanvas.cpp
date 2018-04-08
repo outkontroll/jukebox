@@ -62,16 +62,16 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
 
 void MultipleAlbumsCanvas::parentSizeChanged()
 {
-    slotWidth = static_cast<float>(getWidth() / columns);
-    slotHeight = static_cast<float>(getHeight() / rows);
+    slotWidth = static_cast<float>(getWidth()) / columns;
+    slotHeight = static_cast<float>(getHeight()) / rows;
 
-    std::vector<int> indexes(columns * rows);
+    std::vector<unsigned int> indexes(columns * rows);
     std::iota(indexes.begin(), indexes.end(), 0);
 
     albumPositions.reserve(indexes.size());
     albums.reserve(indexes.size());
 
-    std::transform(indexes.begin(), indexes.end(), std::back_inserter(albumPositions), [this](int visibleAlbumIndex){
+    std::transform(indexes.begin(), indexes.end(), std::back_inserter(albumPositions), [this](unsigned int visibleAlbumIndex){
         const auto position = getPositionFromIndex(visibleAlbumIndex);
         return AlbumPositionInfo{calculateImagePlace(position, slotWidth, slotHeight),
                                  calculateTextPlace(position, slotWidth, slotHeight)};
@@ -79,11 +79,11 @@ void MultipleAlbumsCanvas::parentSizeChanged()
 
 }
 
-void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firstAlbumIndex)
+void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, unsigned int firstAlbumIndex)
 {
     albums.clear();
 
-    std::accumulate(albumPositions.begin(), albumPositions.end(), firstAlbumIndex, [&, this](int albumIndex, const auto& albumPosition){
+    std::accumulate(albumPositions.begin(), albumPositions.end(), firstAlbumIndex, [&, this](unsigned int albumIndex, const auto& albumPosition){
         const auto imagePath = jukebox::filesystem::FileSystem::getPicturePath(musicDirectoy, albumIndex, ".jpg");
         const auto image = ImageFileFormat::loadFrom(File(imagePath));
 
@@ -93,7 +93,7 @@ void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, int firs
     });
 }
 
-void MultipleAlbumsCanvas::setSelection(int selectedIndex)
+void MultipleAlbumsCanvas::setSelection(unsigned int selectedIndex)
 {
     selectedAlbumIndex = selectedIndex;
     if(!albums.empty())
@@ -106,25 +106,25 @@ void MultipleAlbumsCanvas::setSelection(int selectedIndex)
     repaint();
 }
 
-Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, float slotWidth, float slotHeight) const
+Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, float slotWidth_, float slotHeight_) const
 {
-    const float imageWidth = slotWidth - defaultImageOffsetX;
+    const float imageWidth = slotWidth_ - defaultImageOffsetX;
     const float imageHeight = imageWidth;
 
-    return { slotWidth * position.x + (slotWidth - imageWidth) / 2,
-             slotHeight * position.y + (slotHeight - imageHeight) / imageOffsetYMultiplier,
+    return { slotWidth_ * position.x + (slotWidth_ - imageWidth) / 2,
+             slotHeight_ * position.y + (slotHeight_ - imageHeight) / imageOffsetYMultiplier,
              imageWidth,
              imageHeight };
 }
 
-Rectangle<float> MultipleAlbumsCanvas::calculateTextPlace(Position position, float slotWidth, float slotHeight) const
+Rectangle<float> MultipleAlbumsCanvas::calculateTextPlace(Position position, float slotWidth_, float slotHeight_) const
 {
     const float textHeight = bigFontSize;
     const float textWidth = albumNumberTextWidth;
-    const float imageWidth = slotWidth - defaultImageOffsetX;
+    const float imageWidth = slotWidth_ - defaultImageOffsetX;
 
-    return { slotWidth * position.x + (slotWidth - imageWidth) / 2 + defaultTextOffsetX,
-             slotHeight * position.y + defaultTextOffsetY,
+    return { slotWidth_ * position.x + (slotWidth_ - imageWidth) / 2 + defaultTextOffsetX,
+             slotHeight_ * position.y + defaultTextOffsetY,
              textWidth,
              textHeight };
 }
@@ -137,7 +137,7 @@ Rectangle<float> MultipleAlbumsCanvas::calculateSelectionPlace(const Rectangle<f
              placeToSelect.getHeight() + 2 * selectionThickness };
 }
 
-MultipleAlbumsCanvas::Position MultipleAlbumsCanvas::getPositionFromIndex(int index) const
+MultipleAlbumsCanvas::Position MultipleAlbumsCanvas::getPositionFromIndex(unsigned int index) const
 {
     return { index % columns, index / columns };
 }

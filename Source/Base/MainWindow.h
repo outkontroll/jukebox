@@ -10,7 +10,7 @@ public:
     MainWindow(const juce::String& name, juce::Component* guiComponent);
     
 private:
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };
 
 

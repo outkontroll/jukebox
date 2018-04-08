@@ -11,7 +11,7 @@ using namespace jukebox::audio;
 using namespace testing;
 
 namespace {
-    const std::string defaultMusicDir = "";
+    const char* defaultMusicDir = "";
     const auto setMusicDir = "fakeMusicDir";
     constexpr int defaultSelectedAlbumIndex = 1;
     constexpr int defaultSelectedSongIndex = 0;

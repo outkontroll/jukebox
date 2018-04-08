@@ -30,7 +30,7 @@ std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const
         return Song{ albumNumber,
                      static_cast<unsigned int>(path.second),
                      path.first,
-                     std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(path.second, 2))
+                     std::string(FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(static_cast<unsigned int>(path.second), 2))
                      };
     });
 

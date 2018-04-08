@@ -9,15 +9,15 @@ namespace jukebox { namespace filesystem {
 class FileSystem
 {
 public:
-    static std::string getPicturePath(const std::string& musicDirectory, int albumIndex, const std::string& pictureExtensions);
+    static std::string getPicturePath(const std::string& musicDirectory, unsigned int albumIndex, const std::string& pictureExtensions);
 
-    static std::string getInfoFilePath(const std::string& musicDirectory, int albumIndex);
+    static std::string getInfoFilePath(const std::string& musicDirectory, unsigned int albumIndex);
 
-    static std::string getSongFilePath(const std::string& musicDirectory, int albumIndex, int songIndex, const std::string& extensionPattern);
+    static std::string getSongFilePath(const std::string& musicDirectory, unsigned int albumIndex, unsigned int songIndex, const std::string& extensionPattern);
 
-    static std::vector<std::pair<std::string, int>> getAllSongFilesWithFullPaths(const std::string& musicDicertory, int albumIndex, const std::string& extensionPattern);
+    static std::vector<std::pair<std::string, int>> getAllSongFilesWithFullPaths(const std::string& musicDicertory, unsigned int albumIndex, const std::string& extensionPattern);
 
-    static std::vector<std::string> getAllSongFilesNamesOnly(const std::string& musicDirectory, int albumIndex, const std::string& extensionPattern);
+    static std::vector<std::string> getAllSongFilesNamesOnly(const std::string& musicDirectory, unsigned int albumIndex, const std::string& extensionPattern);
 };
 
 }}

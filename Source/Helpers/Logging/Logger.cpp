@@ -10,12 +10,6 @@ Logger& Logger::getInstance()
     return logger;
 }
 
-Logger::Logger()
-:   logFileName(""),
-    enabled(true)
-{
-}
-
 void Logger::setLogFileName(const std::string& fileName)
 {
     logFileName = fileName;
