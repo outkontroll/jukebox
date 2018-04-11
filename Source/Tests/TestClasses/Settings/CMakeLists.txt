@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(unittest_Settings)
+project(settings_test)
 
 # sources
 
@@ -11,18 +11,18 @@ set(CPP_SOURCES
 
 # project
 
-add_executable(unittest_Settings
-	    ${CPP_SOURCES}
+add_executable(${PROJECT_NAME}
+    ${CPP_SOURCES}
 )
 
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/Settings
-    ${TESTING_INCLUDE_DIRS}
 )
 
-target_include_directories(unittest_Settings PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
-target_link_libraries(unittest_Settings
+target_link_libraries(${PROJECT_NAME}
 		      settings
 		      helpers
                       ${GTest}
@@ -30,10 +30,10 @@ target_link_libraries(unittest_Settings
 		      pthread
 )
 
-enable_testing()
-add_test(MyTest unittest_Settings)
+add_test(NAME settings_unit_test
+         COMMAND ${PROJECT_NAME})
 
-add_custom_command(TARGET unittest_Settings
+add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./unittest_Settings
-                   COMMENT "Running unittest_Settings" VERBATIM)
+                   COMMAND ./${PROJECT_NAME}
+                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)

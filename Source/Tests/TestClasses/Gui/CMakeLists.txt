@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(integrationtest_Gui)
+project(gui_test)
 
 # sources
 
@@ -13,8 +13,8 @@ set(CPP_SOURCES
 
 # project
 
-add_executable(integrationtest_Gui
-	    ${CPP_SOURCES}
+add_executable(${PROJECT_NAME}
+    ${CPP_SOURCES}
 )
 
 set(INCLUDE_DIRS
@@ -26,9 +26,9 @@ set(INCLUDE_DIRS
     ${TESTING_INCLUDE_DIRS}
 )
 
-target_include_directories(integrationtest_Gui PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 
-target_link_libraries(integrationtest_Gui
+target_link_libraries(${PROJECT_NAME}
 		      gui
                       songBuilder
                       helpers
@@ -41,10 +41,10 @@ target_link_libraries(integrationtest_Gui
                       pthread
 )
 
-enable_testing()
-add_test(MyTest integrationtest_Gui)
+add_test(NAME gui_integration_test
+         COMMAND ${PROJECT_NAME})
 
-add_custom_command(TARGET integrationtest_Gui
+add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./integrationtest_Gui
-                   COMMENT "Running integrationtest_Gui" VERBATIM)
+                   COMMAND ./${PROJECT_NAME}
+                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)

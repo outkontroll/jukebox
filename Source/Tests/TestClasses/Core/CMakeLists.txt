@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(componenttest_Core)
+project(core_test)
 
 # sources
 
@@ -11,7 +11,7 @@ set(CPP_SOURCES
 
 # project
 
-add_executable(componenttest_Core
+add_executable(${PROJECT_NAME}
                ${CPP_SOURCES}
                ${MOCK_HEADERS}
 )
@@ -21,10 +21,10 @@ set(INCLUDE_DIRS
     ${HELPERCLASSES_DIR}
 )
 
-target_include_directories(componenttest_Core PUBLIC ${INCLUDE_DIRS}
-                                         SYSTEM ${TESTING_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
-target_link_libraries(componenttest_Core
+target_link_libraries(${PROJECT_NAME}
 		      core
 		      helpers
                       ${GTest}
@@ -34,10 +34,10 @@ target_link_libraries(componenttest_Core
                       pthread
 )
 
-enable_testing()
-add_test(MyTest componenttest_Core)
+add_test(NAME core_component_test
+         COMMAND ${PROJECT_NAME})
 
-add_custom_command(TARGET componenttest_Core
+add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./componenttest_Core
-                   COMMENT "Running componenttest_Core" VERBATIM)
+                   COMMAND ./${PROJECT_NAME}
+                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)

@@ -67,5 +67,3 @@ add_subdirectory(TestClasses/Gui)
 add_subdirectory(TestClasses/Settings)
 add_subdirectory(TestClasses/Statistics)
 add_subdirectory(TestClasses/Core)
-
-enable_testing()

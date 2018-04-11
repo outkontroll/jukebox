@@ -1,6 +1,8 @@
 # cmake agrs: -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
 # OR
 # cmake agrs: -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+# test coverages: -DTEST_COVERAGE=ON
+
 
 # cmake
 
@@ -9,6 +11,8 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 # project
 
 project(music_jukebox)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -27,6 +31,16 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
                             -Wno-reserved-id-macro #maincomponent
         )
     endif()
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
+   TEST_COVERAGE)
+        set(GENERATE_TEST_COVERAGE ON CACHE BOOL "Generate test coverage information" FORCE)
+        include(CodeCoverage)
+        APPEND_COVERAGE_COMPILER_FLAGS()
+        set(COVERAGE_EXCLUDES '.git/*' 'CMakeModules/*' 'Libraries/*' '*/7/*')
+elseif(TEST_COVERAGE)
+    message(WARNING "Code coverage for ${CMAKE_CXX_COMPILER_ID} is not supported!")
 endif()
 
 # compiler features
@@ -129,6 +143,14 @@ target_include_directories(music_jukebox SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 # compiler features
 
 set_property(TARGET music_jukebox PROPERTY CXX_STANDARD 17)
+target_link_libraries(music_jukebox PUBLIC ${PROJECT_JUCE} logger core gui creditManager musicPlayer statistics songBuilder settings)
+target_compile_options(music_jukebox PRIVATE
+    -Wno-cast-qual
+)
+
+# testing
+
+enable_testing()
 
 # projects
 
@@ -136,7 +158,16 @@ add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extension
 add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
 add_subdirectory(${SOURCE_DIR}/Tests)
 
-target_link_libraries(music_jukebox PUBLIC ${PROJECT_JUCE} logger core gui creditManager musicPlayer statistics songBuilder settings)
-target_compile_options(music_jukebox PRIVATE
-    -Wno-cast-qual
-)
+# code coverage
+
+if(GENERATE_TEST_COVERAGE)
+    setup_target_for_coverage(NAME code_coverage
+                              EXECUTABLE ctest -Q
+                              DEPENDENCIES core_test
+                                           creditManager_test
+                                           gui_test
+                                           settings_test
+                                           statistics_test
+                                           music_jukebox
+                             )
+endif()

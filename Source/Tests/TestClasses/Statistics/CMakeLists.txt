@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(unittest_Statistics)
+project(statistics_test)
 
 # sources
 
@@ -11,18 +11,18 @@ set(CPP_SOURCES
 
 # project
 
-add_executable(unittest_Statistics
+add_executable(${PROJECT_NAME}
 	    ${CPP_SOURCES}
 )
 
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/Statistics
-    ${TESTING_INCLUDE_DIRS}
 )
 
-target_include_directories(unittest_Statistics PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
-target_link_libraries(unittest_Statistics 
+target_link_libraries(${PROJECT_NAME}
 		      statistics
 		      helpers
                       ${GTest}
@@ -30,10 +30,10 @@ target_link_libraries(unittest_Statistics
                       pthread
 )
 
-enable_testing()
-add_test(MyTest unittest_Statistics)
+add_test(NAME statistics_unit_test
+         COMMAND ${PROJECT_NAME})
 
-add_custom_command(TARGET unittest_Statistics
+add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./unittest_Statistics
-                   COMMENT "Running unittest_Statistics" VERBATIM)
+                   COMMAND ./${PROJECT_NAME}
+                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)
