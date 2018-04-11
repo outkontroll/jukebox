@@ -26,6 +26,9 @@ namespace {
     const juce::KeyPress keyDot(0, 0, '.');
     const juce::KeyPress keyMinus(0, 0, '-');
     const juce::KeyPress keyPlus(0, 0, '+');
+    const juce::KeyPress keyF4(juce::KeyPress::F4Key);
+    const juce::KeyPress keyEsc(juce::KeyPress::escapeKey);
+    const juce::KeyPress keyBackspace(juce::KeyPress::backspaceKey);
 }
 
 class GuiTest : public ::testing::Test
@@ -64,6 +67,36 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetwee
 
     mainComponentMock->keyPressedSignal(keyH);
     mainComponentMock->keyPressedSignal(keyH);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalF4_ThenGuiSignalsExitRequested)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->exitRequestedSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyF4);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSignalsShowStatistics)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->showStatisticsSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyEsc);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalBackspace_ThenGuiSignalsRemovePlayedSong)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->removePlayedSongSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyBackspace);
 }
 
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateAlbumAndSongSelection)
