@@ -58,6 +58,20 @@ TEST_F(CreditManagerTest, notEnoughCreditsToPlayAlbum_tooFewInserted)
     EXPECT_FALSE(creditManager.hasEnoughCreditsToPlayAlbum());
 }
 
+TEST_F(CreditManagerTest, startPlaySong_enoughCredits)
+{
+    creditManager.coinInsert50();
+
+    EXPECT_TRUE(creditManager.startPlaySong());
+}
+
+TEST_F(CreditManagerTest, startPlayAlbum_enoughCredits)
+{
+    creditManager.coinInsert200();
+
+    EXPECT_TRUE(creditManager.startPlayAlbum());
+}
+
 TEST_F(CreditManagerTest, creditIncrease_empty)
 {
     creditManager.creditIncrease();
