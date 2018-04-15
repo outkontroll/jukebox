@@ -23,6 +23,7 @@
 #include "JukeboxTimer.h"
 #include "MultipleAlbumsCanvas.h"
 #include "SingleAlbumCanvas.h"
+#include "SetupPage.h"
 //[/Headers]
 
 #include "MainComponent.h"
@@ -118,8 +119,9 @@ MainComponent::MainComponent ()
 
     //[UserPreSize]
     singleAlbumCanvas->setVisible(false);
+    addAndMakeVisible(listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
 
-    addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
+    addChildComponent(setupPage = new jukebox::gui::SetupPage);
     //[/UserPreSize]
 
     setSize (1400, 800);
@@ -129,7 +131,6 @@ MainComponent::MainComponent ()
     timerBetweenSongs = new jukebox::gui::JukeboxTimer([this](){
         removeCurrentSongImmediately();
     });
-
 
     setWantsKeyboardFocus(true);
     grabKeyboardFocus();
@@ -204,6 +205,7 @@ void MainComponent::resized()
     //[UserResized] Add your own custom resize handling here..
     //singleAlbumCanvas->setBounds(multipleAlbumsCanvas->getBounds());
     singleAlbumCanvas->setBounds (32, 32, 1064, 712);
+    setupPage->setBounds (32, 32, 1064, 712);
     listBox->setBounds(1128, 284, 200, 150);
     //[/UserResized]
 }
@@ -249,6 +251,13 @@ void MainComponent::switchBetweenAlbumViews()
 {
     multipleAlbumsCanvas->setVisible(!multipleAlbumsCanvas->isVisible());
     singleAlbumCanvas->setVisible(!singleAlbumCanvas->isVisible());
+}
+
+void MainComponent::switchBetweenUserModeViews()
+{
+    setupPage->setVisible(!setupPage->isVisible());
+    multipleAlbumsCanvas->setVisible(!setupPage->isVisible());
+    singleAlbumCanvas->setVisible(false);
 }
 
 void MainComponent::updateAlbumSelection(unsigned int selectedAlbumIndex)

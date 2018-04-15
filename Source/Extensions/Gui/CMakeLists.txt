@@ -18,6 +18,7 @@ set(HEADER_SOURCES
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.h
     ${COMPONENTS_DIR}/SingleAlbumCanvas.h
     ${COMPONENTS_DIR}/JukeboxTimer.h
+    ${COMPONENTS_DIR}/SetupPage.h
 )
 
 # sources
@@ -31,6 +32,7 @@ set(CPP_SOURCES
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.cpp
     ${COMPONENTS_DIR}/SingleAlbumCanvas.cpp
     ${COMPONENTS_DIR}/JukeboxTimer.cpp
+    ${COMPONENTS_DIR}/SetupPage.cpp
 )
 
 # project

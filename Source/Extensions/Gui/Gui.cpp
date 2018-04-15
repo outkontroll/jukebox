@@ -61,7 +61,7 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(keyCode == KeyPress::escapeKey)
     {
-        showStatisticsSignal();
+        switchBetweenUserModes();
     }
     else if(keyCode == KeyPress::backspaceKey)
     {
@@ -208,8 +208,22 @@ void Gui::prepareForExit()
 
 void Gui::switchBetweenAlbumModes()
 {
+    if(!isInUserMode)
+        return;
+
     isInMultipleAlbumsMode = !isInMultipleAlbumsMode;
     mainComponent->switchBetweenAlbumViews();
+}
+
+void Gui::switchBetweenUserModes()
+{
+    isInUserMode = !isInUserMode;
+    mainComponent->switchBetweenUserModeViews();
+
+    if(isInUserMode && !isInMultipleAlbumsMode)
+    {
+        mainComponent->switchBetweenAlbumViews();
+    }
 }
 
 void Gui::stepSelection()

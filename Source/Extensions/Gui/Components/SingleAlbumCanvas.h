@@ -5,9 +5,7 @@
 #include <string>
 #include <memory>
 
-namespace jukebox { namespace gui {
-
-class SelectableMultiLineText;
+namespace jukebox::gui {
 
 class SingleAlbumCanvas : public juce::Component
 {
@@ -44,10 +42,10 @@ private:
     juce::Rectangle<float> imagePlace = {0, 0, 0, 0};
     juce::Rectangle<float> artistNamePlace = {0, 0, 0, 0};
     juce::Rectangle<float> selectionBounds = {0, 0, 0, 0};
-    MultipleLinesPosition otherLinesPlace;
+    MultipleLinesPosition otherLinesPlace = {0, 0, 0};
     unsigned int currentSelectedLine = 0;
 };
 
-}}
+}
 
 #endif // SINGLEALBUMCANVAS_S

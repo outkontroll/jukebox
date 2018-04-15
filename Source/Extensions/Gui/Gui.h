@@ -24,7 +24,7 @@ public:
 
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(ResourceId messageId) override;
-    
+
     void setMusicFolder(const std::string& folder) override;
     
     void setCurrentlyPlayedSong(const audio::Song& song) override;
@@ -42,6 +42,7 @@ private:
 
     void playNextSong(const audio::Song& song);
     void switchBetweenAlbumModes();
+    void switchBetweenUserModes();
     void stepSelection();
     void stepSelectionMultipleAlbumsMode();
     void stepSelectionSingleAlbumMode();
@@ -72,6 +73,7 @@ private:
     unsigned int albumIndexStep = 8;
     unsigned int selectedSongIndex = 0;
     unsigned int visibleSongsIndex = 20; //TODO
+    bool isInUserMode = true;
     bool isInMultipleAlbumsMode = true;
 };
 
