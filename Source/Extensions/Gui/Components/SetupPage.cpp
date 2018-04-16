@@ -86,13 +86,15 @@ SetupPage::MusicDirectoryListener::MusicDirectoryListener(SetupPage& owner) :
 void SetupPage::MusicDirectoryListener::buttonClicked(Button*)
 {
     auto fc = FileChooser("Choose a music directory...",
-                          File::getCurrentWorkingDirectory(),
+                          File(ownerPage.txtMusicDirectory->getText()),
                           "*",
                           true);
-    fc.showDialog(FileBrowserComponent::openMode | FileBrowserComponent::canSelectDirectories, nullptr);
-    auto result = fc.getResult();
-    auto name = result.isDirectory() ? result.getFullPathName()
-                                     : result.getParentDirectory().getFullPathName();
+    if(fc.showDialog(FileBrowserComponent::openMode | FileBrowserComponent::canSelectDirectories, nullptr))
+    {
+        auto result = fc.getResult();
+        auto name = result.isDirectory() ? result.getFullPathName()
+                                         : result.getParentDirectory().getFullPathName();
 
-    ownerPage.musicDirectoryChangedSignal(name.toStdString());
+        ownerPage.musicDirectoryChangedSignal(name.toStdString());
+    }
 }

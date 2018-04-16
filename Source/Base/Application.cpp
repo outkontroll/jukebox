@@ -43,7 +43,7 @@ void jukeboxApplication::initialise(const juce::String& commandLine)
                                         std::make_unique<creditmanager::CreditManager>(),
                                         std::make_unique<audio::MusicPlayer>(),
                                         std::make_unique<statistics::Statistics>(),
-                                        std::make_unique<settings::Settings>("/home/adam/Music/test_data/music"));
+                                        std::make_unique<settings::Settings>(juce::File::getCurrentWorkingDirectory().getFullPathName().toStdString()));
 
     eventsSlot.connect(this, &jukeboxApplication::exitRequested, core->exitRequestedSignal);
     
