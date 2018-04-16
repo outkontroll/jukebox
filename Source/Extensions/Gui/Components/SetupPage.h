@@ -16,6 +16,7 @@ public:
     void parentSizeChanged() override;
 
     virtual void setMusicDirectory(const std::string& musicDirectory);
+    virtual void showStatistics(const std::string& statistics);
 
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
 private:
@@ -24,6 +25,8 @@ private:
     juce::ScopedPointer<juce::Label> infoMusicDirectory;
     juce::ScopedPointer<juce::TextEditor> txtMusicDirectory;
     juce::ScopedPointer<juce::TextButton> buttonMusicDirectory;
+    juce::ScopedPointer<juce::Label> infoStatistics;
+    juce::ScopedPointer<juce::TextEditor> txtStatistics;
     juce::Rectangle<float> textPlace = {0, 0, 0, 0};
 
     class MusicDirectoryListener : public juce::Button::Listener

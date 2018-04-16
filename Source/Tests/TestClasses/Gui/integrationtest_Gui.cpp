@@ -315,6 +315,14 @@ TEST_F(GuiTest, WhenRemoveCurrentSongIsCalled_ThenTheSameIsCalledOnMainComponent
     gui->removeCurrentSong();
 }
 
+TEST_F(GuiTest, WhenShowStatisticsIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    std::string statistics("fakeStat");
+    EXPECT_CALL(*mainComponentMock, showStatistics(statistics));
+
+    gui->showStatistics(statistics);
+}
+
 TEST_F(GuiTest, WhenPrepareForExitIsCalled_ThenTheSameIsCalledOnMainComponent)
 {
     EXPECT_CALL(*mainComponentMock, prepareForExit());

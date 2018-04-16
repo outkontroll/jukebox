@@ -24,6 +24,7 @@ public:
 
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(ResourceId messageId) override;
+    void showStatistics(const std::string& statistics) override;
 
     void setMusicFolder(const std::string& folder) override;
     

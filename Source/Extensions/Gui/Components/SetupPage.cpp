@@ -29,6 +29,22 @@ SetupPage::SetupPage()
     addAndMakeVisible(buttonMusicDirectory = new TextButton("music directory button"));
     buttonMusicDirectory->setButtonText("...");
     buttonMusicDirectory->addListener(musicDirectoryListener = new MusicDirectoryListener(*this));
+
+    addAndMakeVisible(infoStatistics = new Label("statistics info label", "Statistics:"));
+    infoStatistics->setFont (Font (15.00f, Font::plain));
+    infoStatistics->setJustificationType (Justification::centredLeft);
+    infoStatistics->setEditable (false, false, false);
+    infoStatistics->setColour (TextEditor::textColourId, Colours::black);
+    infoStatistics->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible(txtStatistics = new TextEditor("statistics text"));
+    txtStatistics->setMultiLine(true);
+    txtStatistics->setReturnKeyStartsNewLine(false);
+    txtStatistics->setReadOnly(true);
+    txtStatistics->setScrollbarsShown(true);
+    txtStatistics->setCaretVisible(false);
+    txtStatistics->setPopupMenuEnabled(true);
+    txtStatistics->setText(String());
 }
 
 SetupPage::~SetupPage()
@@ -61,11 +77,18 @@ void SetupPage::parentSizeChanged()
     infoMusicDirectory->setBounds(10, 60, 100, 24);
     txtMusicDirectory->setBounds(116, 60, 200, 24);
     buttonMusicDirectory->setBounds(328, 60, 36, 24);
+    infoStatistics->setBounds(10, 96, 100, 24);
+    txtStatistics->setBounds(10, 132, 600, 400);
 }
 
 void SetupPage::setMusicDirectory(const std::string& musicDirectory)
 {
     txtMusicDirectory->setText(musicDirectory);
+}
+
+void SetupPage::showStatistics(const std::string& statistics)
+{
+    txtStatistics->setText(statistics);
 }
 
 juce::Rectangle<float> SetupPage::calculateTextPlace(float width, float height) const

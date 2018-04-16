@@ -299,6 +299,11 @@ void MainComponent::removeCurrentSong()
     timerBetweenSongs->runOnce(timeBetweenSongs);
 }
 
+void MainComponent::showStatistics(const std::string& statistics)
+{
+    setupPage->showStatistics(statistics);
+}
+
 void MainComponent::removeCurrentSongImmediately()
 {
     txtCurrentSong->setText("");

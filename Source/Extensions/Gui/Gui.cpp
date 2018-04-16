@@ -178,6 +178,11 @@ void Gui::showStatusMessage(ResourceId messageId)
     mainComponent->showStatusMessage(Resources::getResourceStringFromId(messageId));
 }
 
+void Gui::showStatistics(const std::string& statistics)
+{
+    mainComponent->showStatistics(statistics);
+}
+
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;

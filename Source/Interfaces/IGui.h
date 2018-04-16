@@ -21,6 +21,7 @@ public:
     
     virtual void refreshCredits(unsigned int credits) = 0;
     virtual void showStatusMessage(ResourceId messageId) = 0;
+    virtual void showStatistics(const std::string& statistics) = 0;
     
     virtual void setMusicFolder(const std::string& folder) = 0;
     

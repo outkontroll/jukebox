@@ -24,6 +24,7 @@ struct MainComponentMock : public juce::MainComponent
     MOCK_METHOD1(setCurrentlyPlayedSong, void(const jukebox::audio::Song&));
     MOCK_METHOD1(enqueue, void(const jukebox::audio::Song&));
     MOCK_METHOD0(removeCurrentSong, void());
+    MOCK_METHOD1(showStatistics, void(const std::string&));
     MOCK_METHOD0(prepareForExit, void());
 };
 
