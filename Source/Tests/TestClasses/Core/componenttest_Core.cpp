@@ -55,7 +55,7 @@ protected:
 
 // insertCoin
 
-TEST_F(CoreTest, whenGuiSends50CoinInserted_thenCreditManagerGetsIt_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, WhenGuiSends50CoinInserted_ThenCreditManagerGetsItAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(1));
 
@@ -66,7 +66,7 @@ TEST_F(CoreTest, whenGuiSends50CoinInserted_thenCreditManagerGetsIt_GuiAndStatis
     guiMock->coinInserted50Signal();
 }
 
-TEST_F(CoreTest, whenGuiSends100CoinInserted_thenCreditManagerGetsIt_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, WhenGuiSends100CoinInserted_ThenCreditManagerGetsItAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(3));
 
@@ -78,7 +78,7 @@ TEST_F(CoreTest, whenGuiSends100CoinInserted_thenCreditManagerGetsIt_GuiAndStati
     guiMock->coinInserted100Signal();
 }
 
-TEST_F(CoreTest, whenGuiSends200CoinInserted_thenCreditManagerGetsIt_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, WhenGuiSends200CoinInserted_ThenCreditManagerGetsItAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(6));
 
@@ -92,7 +92,7 @@ TEST_F(CoreTest, whenGuiSends200CoinInserted_thenCreditManagerGetsIt_GuiAndStati
 
 // playSong
 
-TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsNotPlaying_thenPlaysMusicAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlaying_WhenGuiSendsSongToPlay_ThenPlaysMusicAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).WillByDefault(Return(true));
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
@@ -112,7 +112,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsNotPlayi
     guiMock->playSongSignal(song);
 }
 
-TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCredits_AndMusicPlayerIsNotPlayingAndThrowsException_thenPlaysMusicAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlayingAndThrowsException_WhenGuiSendsSongToPlay_ThenPlaysMusicAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).WillByDefault(Return(true));
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
@@ -136,7 +136,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCredits_AndMusicPlayerIsNotPlay
     guiMock->playSongSignal(song);
 }
 
-TEST_F(CoreTest, whenGuiSendsSongToPlay_HasNotEnoughCredits_thenGuiGetsNotification)
+TEST_F(CoreTest, GivenHasNotEnoughCredits_WhenGuiSendsSongToPlay_ThenGuiGetsNotification)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).WillByDefault(Return(false));
 
@@ -148,7 +148,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasNotEnoughCredits_thenGuiGetsNotificat
     guiMock->playSongSignal(song);
 }
 
-TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsPlaying_thenEnqueInGuiAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsPlaying_WhenGuiSendsSongToPlay_ThenEnqueInGuiAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlaySong()).WillByDefault(Return(true));
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(true));
@@ -170,7 +170,7 @@ TEST_F(CoreTest, whenGuiSendsSongToPlay_HasEnoughCreditsAndMusicPlayerIsPlaying_
 // playAlbum
 //TODO
 
-TEST_F(CoreTest, whenGuiSendsSingleSongToPlayAlbum_HasEnoughCreditsAndMusicPlayerIsNotPlaying_thenPlaysMusicAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlaying_WhenGuiSendsSingleSongToPlayAlbum_ThenPlaysMusicAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(true));
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
@@ -190,7 +190,7 @@ TEST_F(CoreTest, whenGuiSendsSingleSongToPlayAlbum_HasEnoughCreditsAndMusicPlaye
     guiMock->playAlbumSignal({song});
 }
 
-TEST_F(CoreTest, whenGuiSendsSingleSongToPlayAlbum_HasEnoughCredits_AndMusicPlayerIsNotPlayingAndThrowsException_thenPlaysMusicAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlayingAndThrowsException_WhenGuiSendsSingleSongToPlayAlbum_ThenPlaysMusicAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(true));
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
@@ -214,7 +214,7 @@ TEST_F(CoreTest, whenGuiSendsSingleSongToPlayAlbum_HasEnoughCredits_AndMusicPlay
     guiMock->playAlbumSignal({song});
 }
 
-TEST_F(CoreTest, whenGuiSendsSingleSongToPlayAlbum_HasEnoughCreditsAndMusicPlayerIsPlaying_thenEnqueInGuiAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsPlaying_WhenGuiSendsSingleSongToPlayAlbum_ThenEnqueInGuiAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(true));
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(true));
@@ -233,7 +233,7 @@ TEST_F(CoreTest, whenGuiSendsSingleSongToPlayAlbum_HasEnoughCreditsAndMusicPlaye
     guiMock->playAlbumSignal({song});
 }
 
-TEST_F(CoreTest, whenGuiSendsMultipleSongToPlayAlbum_HasEnoughCreditsAndMusicPlayerIsNotPlaying_thenPlaysFirstMusicEnqueOthersInGuiAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlaying_WhenGuiSendsMultipleSongToPlayAlbum_ThenPlaysFirstMusicEnqueOthersInGuiAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(true));
     ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(13));
@@ -258,7 +258,7 @@ TEST_F(CoreTest, whenGuiSendsMultipleSongToPlayAlbum_HasEnoughCreditsAndMusicPla
     guiMock->playAlbumSignal({song1, song2, song3});
 }
 
-TEST_F(CoreTest, whenGuiSendsMultipleSongToPlayAlbum_HasEnoughCreditsAndMusicPlayerIsPlaying_thenEnqueAllMusicInGuiAndCreditManagerDecreaseCredits_GuiAndStatisticsRefreshed)
+TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsPlaying_WhenGuiSendsMultipleSongToPlayAlbum_ThenEnqueAllMusicInGuiAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(true));
     ON_CALL(*creditManagerMock, getCredits()).WillByDefault(Return(13));
@@ -282,7 +282,7 @@ TEST_F(CoreTest, whenGuiSendsMultipleSongToPlayAlbum_HasEnoughCreditsAndMusicPla
     guiMock->playAlbumSignal({song1, song2, song3});
 }
 
-TEST_F(CoreTest, whenGuiSendsEmptyVectorOfSongsToPlayAlbum_HasEnoughCredits_thenGuiGetsNotification)
+TEST_F(CoreTest, GivenHasEnoughCredits_WhenGuiSendsEmptyVectorOfSongsToPlayAlbum_ThenGuiGetsNotification)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(true));
 
@@ -292,7 +292,7 @@ TEST_F(CoreTest, whenGuiSendsEmptyVectorOfSongsToPlayAlbum_HasEnoughCredits_then
     guiMock->playAlbumSignal({});
 }
 
-TEST_F(CoreTest, whenGuiSendsAlbumToPlay_HasNotEnoughCredits_thenGuiGetsNotification)
+TEST_F(CoreTest, GivenHasNotEnoughCredits_WhenGuiSendsAlbumToPlay_ThenGuiGetsNotification)
 {
     ON_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillByDefault(Return(false));
 
@@ -303,7 +303,7 @@ TEST_F(CoreTest, whenGuiSendsAlbumToPlay_HasNotEnoughCredits_thenGuiGetsNotifica
 }
 
 // playNextSong
-TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsNotPlaying_thenMusicPlayerStartsPlaying_AndGuiGetsRefreshed)
+TEST_F(CoreTest, GivenMusicPlayerIsNotPlaying_WhenGuiSendsPlayNextSong_ThenMusicPlayerStartsPlayingAndGuiGetsRefreshed)
 {
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
 
@@ -316,7 +316,7 @@ TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsNotPlaying_thenMusicPl
     guiMock->playNextSongSignal(song);
 }
 
-TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsPlaying_thenGuiGetsError)
+TEST_F(CoreTest, GivenMusicPlayerIsPlaying_WhenGuiSendsPlayNextSong_ThenGuiGetsError)
 {
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(true));
 
@@ -328,7 +328,7 @@ TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsPlaying_thenGuiGetsErr
     guiMock->playNextSongSignal(song);
 }
 
-TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsNotPlaying_AndMusicPlayerThrows_thenMusicPlayerStartsPlaying_AndGuiRemovesCurrentSongAndGetsErrors)
+TEST_F(CoreTest, GivenMusicPlayerIsNotPlayingAndThrows_WhenGuiSendsPlayNextSong_ThenMusicPlayerStartsPlayingAndGuiRemovesCurrentSongAndGetsErrors)
 {
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
     ON_CALL(*musicPlayerMock, playSong(_)).WillByDefault(Throw(FileNotFoundException()));
@@ -346,10 +346,9 @@ TEST_F(CoreTest, whenGuiSendsPlayNextSong_AndMusicPlayerIsNotPlaying_AndMusicPla
     guiMock->playNextSongSignal(song);
 }
 
-
 // removePlayed
 
-TEST_F(CoreTest, whenGuiSendsRemovePlayedSong_AndMusicPlayerIsPlaying_thenMusicStops)
+TEST_F(CoreTest, GivenMusicPlayerIsPlaying_WhenGuiSendsRemovePlayedSong_ThenMusicStops)
 {
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(true));
 
@@ -359,7 +358,7 @@ TEST_F(CoreTest, whenGuiSendsRemovePlayedSong_AndMusicPlayerIsPlaying_thenMusicS
     guiMock->removePlayedSongSignal();
 }
 
-TEST_F(CoreTest, whenGuiSendsRemovePlayedSong_AndMusicPlayerIsNotPlaying_thenGuiGetsWarning)
+TEST_F(CoreTest, GivenMusicPlayerIsNotPlaying_WhenGuiSendsRemovePlayedSong_ThenGuiGetsWarning)
 {
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
 
@@ -371,16 +370,39 @@ TEST_F(CoreTest, whenGuiSendsRemovePlayedSong_AndMusicPlayerIsNotPlaying_thenGui
 
 // finishedPlaying
 
-TEST_F(CoreTest, whenMusicPlayerSendsFinishedPlaying_thenGuiRemovesCurrentSong)
+TEST_F(CoreTest, WhenMusicPlayerSendsFinishedPlaying_ThenGuiRemovesCurrentSong)
 {
     EXPECT_CALL(*guiMock, removeCurrentSong());
 
     musicPlayerMock->finishedPlayingSignal();
 }
 
+// creditIncrease
+
+TEST_F(CoreTest, WhenGuiSendsCreditIncrease_ThenCreditManagerAndGuiUpdated)
+{
+    EXPECT_CALL(*creditManagerMock, getCredits()).WillOnce(Return(1));
+    EXPECT_CALL(*creditManagerMock, creditIncrease());
+    EXPECT_CALL(*guiMock, refreshCredits(1));
+
+    guiMock->creditIncreaseSignal();
+}
+
+// creaditDecraese
+
+
+TEST_F(CoreTest, WhenGuiSendsCreditDecrease_ThenCreditManagerAndGuiUpdated)
+{
+    EXPECT_CALL(*creditManagerMock, getCredits()).WillOnce(Return(1));
+    EXPECT_CALL(*creditManagerMock, creditDecrease());
+    EXPECT_CALL(*guiMock, refreshCredits(1));
+
+    guiMock->creditDecreaseSignal();
+}
+
 // exitRequest
 
-TEST_F(CoreTest, whenGuiSendsExit_AndMusicPlayerIsPlaying_thenMusicPlayerStopsPlaying_AndExitSignalIsCalled)
+TEST_F(CoreTest, GivenMusicPlayerIsPlaying_WhenGuiSendsExit_ThenMusicPlayerStopsPlayingAndExitSignalIsCalled)
 {
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(true));
     FooMock fooMock;
@@ -394,7 +416,7 @@ TEST_F(CoreTest, whenGuiSendsExit_AndMusicPlayerIsPlaying_thenMusicPlayerStopsPl
     guiMock->exitRequestedSignal();
 }
 
-TEST_F(CoreTest, whenGuiSendsExit_AndMusicPlayerIsNotPlaying_thenExitSignalIsCalled)
+TEST_F(CoreTest, GivenMusicPlayerIsNotPlaying_WhenGuiSendsExit_ThenExitSignalIsCalled)
 {
     ON_CALL(*musicPlayerMock, isPlaying()).WillByDefault(Return(false));
     FooMock fooMock;
@@ -408,7 +430,7 @@ TEST_F(CoreTest, whenGuiSendsExit_AndMusicPlayerIsNotPlaying_thenExitSignalIsCal
 
 // musicDirectoryChanged
 
-TEST_F(CoreTest, whenGuiSendsMusicDirectoryChangedSignal_thenSettingsIsNotified)
+TEST_F(CoreTest, WhenGuiSendsMusicDirectoryChangedSignal_ThenSettingsIsNotified)
 {
     std::string foo("fakeMusicDirectory");
     EXPECT_CALL(*settingsMock, setMusicDirectory(foo));
