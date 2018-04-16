@@ -236,6 +236,11 @@ void Gui::switchBetweenUserModes()
     {
         mainComponent->switchBetweenAlbumViews();
     }
+
+    if(!isInUserMode)
+    {
+        requestStatisticsSignal();
+    }
 }
 
 void Gui::stepSelection()

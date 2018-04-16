@@ -42,6 +42,8 @@ private:
     void coinInserted50();
     void coinInserted100();
     void coinInserted200();
+    void creditIncrease();
+    void creditDecrease();
     
     void playSong(const audio::Song& song);
     void playAlbum(const std::vector<audio::Song>& songs);
@@ -50,10 +52,9 @@ private:
     void playNextSong(const audio::Song& song);
     void playOrEnqueue(const audio::Song& song);
     
-    void creditIncrease();
-    void creditDecrease();
-    void exitRequested();
     void musicDirectoryChanged(const std::string& newMusicDirectory);
+    void showStatisticsRequested();
+    void exitRequested();
 
     jukebox::signals::Slot eventsSlot;
     std::unique_ptr<gui::IGui> gui;

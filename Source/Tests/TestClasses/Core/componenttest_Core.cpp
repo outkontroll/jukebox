@@ -9,6 +9,7 @@
 #include "FreeFunctions.h"
 #include "MusicPlayerExceptions.h"
 #include <memory>
+#include <sstream>
 
 using namespace jukebox;
 using namespace jukebox::core;
@@ -398,6 +399,16 @@ TEST_F(CoreTest, WhenGuiSendsCreditDecrease_ThenCreditManagerAndGuiUpdated)
     EXPECT_CALL(*guiMock, refreshCredits(1));
 
     guiMock->creditDecreaseSignal();
+}
+
+TEST_F(CoreTest, WhenGuiSendsRequestStatistics_ThenGuiGetsItFromStatisticsAndUpdatesGui)
+{
+    std::string stat("fakeStatistics");
+    std::stringstream ss;
+    EXPECT_CALL(*statisticsMock, showStatistics(_)).WillOnce(Invoke([&](ostream& ss){ss << stat;}));
+    EXPECT_CALL(*guiMock, showStatistics(stat));
+
+    guiMock->requestStatisticsSignal();
 }
 
 // exitRequest
