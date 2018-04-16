@@ -12,3 +12,8 @@ std::string Settings::getMusicDirectory() const
 {
     return musicDirectory;
 }
+
+void Settings::setMusicDirectory(const std::string& newMusicDirectory)
+{
+    musicDirectory = newMusicDirectory;
+}

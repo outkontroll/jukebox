@@ -48,7 +48,7 @@ public:
     
     jukebox::signals::Signal<> exitRequestedSignal;
     
-    jukebox::signals::Signal<> showStatisticsSignal;
+    jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
 
     jukebox::signals::Signal<const audio::Song&> playNextSongSignal;
 

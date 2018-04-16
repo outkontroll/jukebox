@@ -61,6 +61,18 @@ TEST_F(GuiTest, WhenMainComponentSendsPlayNextSongSignal_ThenGuiSignalizeIt)
     mainComponentMock->playNextSongSignal(song);
 }
 
+TEST_F(GuiTest, WhenMainComponentSendsMusicDirectoryChangedSignal_ThenGuiSignalizeIt)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::fooString, gui->musicDirectoryChangedSignal);
+
+    std::string foo("fakeMusicDir");
+
+    EXPECT_CALL(fooMock, fooString(foo));
+
+    mainComponentMock->musicDirectoryChangedSignal(foo);
+}
+
 TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetweenAlbumViews)
 {
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews()).Times(2);
@@ -268,6 +280,7 @@ TEST_F(GuiTest, WhenShowStatusMessageIsCalledWithResourceId_ThenTheSameIsCalledO
 
 TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbumsAndUpdateSelection)
 {
+    EXPECT_CALL(*mainComponentMock, setMusicDirectory(setMusicDir));
     EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex));
     EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(setMusicDir, defaultSelectedAlbumIndex));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex));

@@ -34,18 +34,24 @@ Gui::Gui(const std::string& applicationName)
     : mainComponent(std::make_unique<MainComponent>()),
       mainWindow(std::make_unique<MainWindow>(applicationName, mainComponent.get()))
 {
-    eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
-    eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
+    connectSignals();
 }
+
 
 Gui::Gui(std::unique_ptr<MainComponent> mainComp)
     : mainComponent(std::move(mainComp))
 {
-    eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
-    eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
+    connectSignals();
 }
 
 Gui::~Gui() = default;
+
+void Gui::connectSignals()
+{
+    eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
+    eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
+    eventsSlot.connect(this, &Gui::musicDirectoryChanged, mainComponent->musicDirectoryChangedSignal);
+}
 
 void Gui::keyPressed(const KeyPress& key)
 {
@@ -183,6 +189,7 @@ void Gui::setMusicFolder(const std::string& folder)
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex);
     mainComponent->updateAlbumSelection(selectedAlbumIndex);
     mainComponent->updateSongSelection(selectedSongIndex);
+    mainComponent->setMusicDirectory(musicFolder);
 }
 
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
@@ -321,6 +328,11 @@ void Gui::handleDotPressed()
 
     userInputSongNumber = "";
     mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+}
+
+void Gui::musicDirectoryChanged(const std::string& musicDirectory)
+{
+    musicDirectoryChangedSignal(musicDirectory);
 }
 
 void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)

@@ -21,3 +21,12 @@ TEST_F(SettingsTest, musicDir)
     std::string expected("/tmp");
     EXPECT_EQ(expected, settings.getMusicDirectory());
 }
+
+TEST_F(SettingsTest, setMusicDir)
+{
+    std::string newMusicDir("fakeMusicDir");
+
+    settings.setMusicDirectory(newMusicDir);
+
+    EXPECT_EQ(newMusicDir, settings.getMusicDirectory());
+}

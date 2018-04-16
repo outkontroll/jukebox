@@ -11,6 +11,7 @@ public:
     virtual ~ISettings() = default;
 
     virtual std::string getMusicDirectory() const = 0;
+    virtual void setMusicDirectory(const std::string& newMusicDirectory) = 0;
 };
 
 }}

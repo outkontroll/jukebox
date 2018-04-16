@@ -62,6 +62,7 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     jukebox::signals::Signal<const KeyPress&> keyPressedSignal;
     jukebox::signals::Signal<const jukebox::audio::Song&> playNextSongSignal;
+    jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
 
     //the virtuals are here only to enable easier testing and mocking
     //TODO should reconsider the class because of this
@@ -70,6 +71,7 @@ public:
     virtual void showStatusMessage(const String& message);
     virtual void loadMultipleAlbums(const std::string& musicDirectory, unsigned int firstAlbumIndex);
     virtual void loadSingleAlbum(const std::string& musicDirectory, unsigned int albumIndex);
+    virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void switchBetweenAlbumViews();
     virtual void switchBetweenUserModeViews();
     virtual void updateAlbumSelection(unsigned int selectedAlbumIndex);
@@ -95,10 +97,12 @@ protected:
 
 private:
     void removeCurrentSongImmediately();
+    void onMusicDirectoryChanged(const std::string& musicDirectory);
 
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;
     ScopedPointer<jukebox::gui::JukeboxTimer> timerBetweenSongs;
     bool focusInitialised;
+    jukebox::signals::Slot eventsSlot;
     //[/UserVariables]
 
     //==============================================================================

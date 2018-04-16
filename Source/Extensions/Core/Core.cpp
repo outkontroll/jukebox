@@ -40,7 +40,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::creditIncrease, gui->creditIncreaseSignal);
     eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
-    eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
+    eventsSlot.connect(this, &Core::musicDirectoryChanged, gui->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &Core::playNextSong, gui->playNextSongSignal);
 
     eventsSlot.connect(this, &Core::finishedPlaying, musicPlayer->finishedPlayingSignal);
@@ -144,10 +144,10 @@ void Core::exitRequested()
     exitRequestedSignal();
 }
 
-void Core::showStatistics()
+void Core::musicDirectoryChanged(const std::string& newMusicDirectory)
 {
-    //TODO: use file
-    statistics->showStatistics(std::cout);
+    settings->setMusicDirectory(newMusicDirectory);
+    gui->setMusicFolder(newMusicDirectory);
 }
 
 void Core::playNextSong(const Song& song)

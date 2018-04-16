@@ -122,6 +122,8 @@ MainComponent::MainComponent ()
     addAndMakeVisible(listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
 
     addChildComponent(setupPage = new jukebox::gui::SetupPage);
+    eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, setupPage->musicDirectoryChangedSignal);
+
     //[/UserPreSize]
 
     setSize (1400, 800);
@@ -247,6 +249,11 @@ void MainComponent::loadSingleAlbum(const std::string& musicDirectory, unsigned 
     singleAlbumCanvas->loadAlbum(musicDirectory, albumIndex);
 }
 
+void MainComponent::setMusicDirectory(const std::string& musicDirectory)
+{
+    setupPage->setMusicDirectory(musicDirectory);
+}
+
 void MainComponent::switchBetweenAlbumViews()
 {
     multipleAlbumsCanvas->setVisible(!multipleAlbumsCanvas->isVisible());
@@ -302,6 +309,11 @@ void MainComponent::removeCurrentSongImmediately()
         listBox->removeCurrentItem();
         playNextSongSignal(nextItem);
     }
+}
+
+void MainComponent::onMusicDirectoryChanged(const std::string& musicDirectory)
+{
+    musicDirectoryChangedSignal(musicDirectory);
 }
 
 void MainComponent::prepareForExit()

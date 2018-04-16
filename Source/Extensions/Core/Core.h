@@ -53,7 +53,7 @@ private:
     void creditIncrease();
     void creditDecrease();
     void exitRequested();
-    void showStatistics();
+    void musicDirectoryChanged(const std::string& newMusicDirectory);
 
     jukebox::signals::Slot eventsSlot;
     std::unique_ptr<gui::IGui> gui;

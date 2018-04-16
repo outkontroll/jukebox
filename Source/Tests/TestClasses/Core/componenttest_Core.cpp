@@ -14,38 +14,41 @@ using namespace jukebox;
 using namespace jukebox::core;
 using namespace jukebox::audio;
 using namespace testing;
+using namespace std;
 
 struct CoreTest : public Test
 {    
     void SetUp() override
     {
-        auto gui = std::make_unique<StrictMock<GuiMock>>();
+        auto gui = make_unique<StrictMock<GuiMock>>();
         guiMock = gui.get();
-        auto creditManager = std::make_unique<StrictMock<CreditManagerMock>>();
+        auto creditManager = make_unique<StrictMock<CreditManagerMock>>();
         creditManagerMock = creditManager.get();
-        auto musicPlayer = std::make_unique<StrictMock<MusicPlayerMock>>();
+        auto musicPlayer = make_unique<StrictMock<MusicPlayerMock>>();
         musicPlayerMock = musicPlayer.get();
-        auto statistics = std::make_unique<StrictMock<StatisticsMock>>();
+        auto statistics = make_unique<StrictMock<StatisticsMock>>();
         statisticsMock = statistics.get();
-        auto settings = std::make_unique<StrictMock<SettingsMock>>();
+        auto settings = make_unique<StrictMock<SettingsMock>>();
         settingsMock = settings.get();
 
-        EXPECT_CALL(*guiMock, setMusicFolder(settings->getMusicDirectory())).Times(1);
+        std::string musicDirectory("fakeMusicDirectory");
+        EXPECT_CALL(*settingsMock, getMusicDirectory()).WillOnce(Return(musicDirectory));
+        EXPECT_CALL(*guiMock, setMusicFolder(musicDirectory)).Times(1);
 
-        core = std::make_unique<Core>(std::move(gui),
-                                      std::move(creditManager),
-                                      std::move(musicPlayer),
-                                      std::move(statistics),
-                                      std::move(settings));
+        core = make_unique<Core>(move(gui),
+                                 move(creditManager),
+                                 move(musicPlayer),
+                                 move(statistics),
+                                 move(settings));
     }
 protected:
-    std::unique_ptr<Core> core;
+    unique_ptr<Core> core;
 
-    GuiMock* guiMock;
-    CreditManagerMock* creditManagerMock;
-    MusicPlayerMock* musicPlayerMock;
-    StatisticsMock* statisticsMock;
-    SettingsMock* settingsMock;
+    StrictMock<GuiMock>* guiMock;
+    StrictMock<CreditManagerMock>* creditManagerMock;
+    StrictMock<MusicPlayerMock>* musicPlayerMock;
+    StrictMock<StatisticsMock>* statisticsMock;
+    StrictMock<SettingsMock>* settingsMock;
 
     jukebox::signals::Slot eventsSlot;
 };
@@ -401,4 +404,15 @@ TEST_F(CoreTest, whenGuiSendsExit_AndMusicPlayerIsNotPlaying_thenExitSignalIsCal
     EXPECT_CALL(fooMock, foo());
 
     guiMock->exitRequestedSignal();
+}
+
+// musicDirectoryChanged
+
+TEST_F(CoreTest, whenGuiSendsMusicDirectoryChangedSignal_thenSettingsIsNotified)
+{
+    std::string foo("fakeMusicDirectory");
+    EXPECT_CALL(*settingsMock, setMusicDirectory(foo));
+    EXPECT_CALL(*guiMock, setMusicFolder(foo));
+
+    guiMock->musicDirectoryChangedSignal(foo);
 }

@@ -13,6 +13,7 @@ public:
     ~Settings() override = default;
 
     std::string getMusicDirectory() const override;
+    void setMusicDirectory(const std::string& newMusicDirectory) override;
 
 private:
     std::string musicDirectory = "";

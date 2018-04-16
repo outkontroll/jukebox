@@ -38,6 +38,7 @@ protected:
     Gui(std::unique_ptr<juce::MainComponent> mainComp);
 
 private:
+    void connectSignals();
     void keyPressed(const juce::KeyPress& key);
 
     void playNextSong(const audio::Song& song);
@@ -52,6 +53,7 @@ private:
     void handleAlbumSwitchInMultipleAlbumsMode(bool increase);
     void handleUserInputNumbers(char number);
     void handleDotPressed();
+    void musicDirectoryChanged(const std::string& musicDirectory);
     //TODO: these two functions could be merged into one entity with templates
     void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
     void playAlbumWithDelay(unsigned int albumNumber);
