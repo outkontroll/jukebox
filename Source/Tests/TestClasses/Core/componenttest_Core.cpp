@@ -405,7 +405,7 @@ TEST_F(CoreTest, WhenGuiSendsRequestStatistics_ThenGuiGetsItFromStatisticsAndUpd
 {
     std::string stat("fakeStatistics");
     std::stringstream ss;
-    EXPECT_CALL(*statisticsMock, showStatistics(_)).WillOnce(Invoke([&](ostream& ss){ss << stat;}));
+    EXPECT_CALL(*statisticsMock, showStatistics(_)).WillOnce(Invoke([&](ostream& ss_){ss_ << stat;}));
     EXPECT_CALL(*guiMock, showStatistics(stat));
 
     guiMock->requestStatisticsSignal();
