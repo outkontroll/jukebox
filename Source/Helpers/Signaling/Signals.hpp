@@ -1,11 +1,12 @@
 #ifndef SIGNALS_HPP
 #define SIGNALS_HPP
 
-
+#include <memory>
 #include <vector>
 #include <algorithm>
+#include <optional>
 
-namespace jukebox{ namespace signals{
+namespace jukebox::signals {
 
 template<class... Args>
 class Signal;
@@ -28,15 +29,15 @@ protected:
 
     void add(Signal<Args...>* sig)
     {
-        sigs.push_back(sig);
+        signal.emplace(sig);
     }
     
-    void remove(Signal<Args...>* sig)
+    void remove()
     {
-        sigs.erase(std::remove(sigs.begin(), sigs.end(), sig), sigs.end());
+        signal.reset();
     }
 
-    std::vector<Signal<Args...>*> sigs;
+    std::optional<Signal<Args...>*> signal;
 };
 
 template<class T, typename ReturnType, class... Args>
@@ -44,11 +45,10 @@ class ConcreteSlot : public AbstractSlot<Args...>
 {
 public:
     ConcreteSlot(T* t, ReturnType(T::*func)(Args...), Signal<Args...>& sig);
-
-private:
     ConcreteSlot(const ConcreteSlot&) = delete;
     ConcreteSlot& operator=(const ConcreteSlot&) = delete;
 
+private:
     friend class Signal<Args...>;
 
     void call(Args... args) override
@@ -65,12 +65,14 @@ class Signal
 {
 public:
     Signal() = default;
-    
+    Signal(const Signal&) = delete;
+    Signal& operator=(const Signal&) = delete;
+
     ~Signal()
     {
         for(auto i: abstactSlots)
         {
-            i->remove(this);
+            i->remove();
         }
     }
 
@@ -94,18 +96,15 @@ public:
     }
 
 private:
-    Signal(const Signal&) = delete;
-    Signal& operator=(const Signal&) = delete;
-
     std::vector<AbstractSlot<Args...>*> abstactSlots;
 };
 
 template<class... Args> 
 AbstractSlot<Args...>::~AbstractSlot()
 {
-    for(auto i : sigs)
+    if(signal.has_value())
     {
-        i->disconnect(*this);
+        signal.value()->disconnect(*this);
     }
 }
 
@@ -121,28 +120,19 @@ class Slot
 {
 public:
     Slot() = default;
-    
-    ~Slot()
-    {
-        for(auto i: baseSlots)
-        {
-            delete i;
-        }
-    }
+    Slot(const Slot&) = delete;
+    Slot& operator=(const Slot&) = delete;
 
     template<class T, typename ReturnType, class... Args>
     void connect(T* t, ReturnType(T::*func)(Args...), Signal<Args...>& sig)
     {
-        baseSlots.push_back(new ConcreteSlot<T, ReturnType, Args...>(t, func, sig));
+        baseSlots.emplace_back(std::make_unique<ConcreteSlot<T, ReturnType, Args...>>(t, func, sig));
     }
 
 private:
-    Slot(const Slot&) = delete;
-    Slot& operator=(const Slot&) = delete;
-
-    std::vector<BaseSlot*> baseSlots;
+    std::vector<std::unique_ptr<BaseSlot>> baseSlots;
 };
 
-}}
+}
 
 #endif //SIGNALS_HPP

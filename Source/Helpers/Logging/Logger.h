@@ -18,11 +18,11 @@ public:
     jukebox::ScopeGuard<bool> disableLog();
 
 private:
-    Logger();
+    Logger() = default;
 
 private:
-    std::string logFileName;
-    bool enabled;
+    std::string logFileName = "";
+    bool enabled = true;
 };
 
 #define LOG_INFO(logText) LOG_INFO_DETAILED(jukebox::log::Logger::getInstance(), logText);

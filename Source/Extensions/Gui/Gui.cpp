@@ -31,18 +31,24 @@ Gui::Gui(const std::string& applicationName)
     : mainComponent(std::make_unique<MainComponent>()),
       mainWindow(std::make_unique<MainWindow>(applicationName, mainComponent.get()))
 {
-    eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
-    eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
+    connectSignals();
 }
+
 
 Gui::Gui(std::unique_ptr<MainComponent> mainComp)
     : mainComponent(std::move(mainComp))
 {
-    eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
-    eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
+    connectSignals();
 }
 
 Gui::~Gui() = default;
+
+void Gui::connectSignals()
+{
+    eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
+    eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
+    eventsSlot.connect(this, &Gui::musicDirectoryChanged, mainComponent->musicDirectoryChangedSignal);
+}
 
 void Gui::keyPressed(const KeyPress& key)
 {
@@ -58,7 +64,7 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(keyCode == KeyPress::escapeKey)
     {
-        showStatisticsSignal();
+        switchBetweenUserModes();
     }
     else if(keyCode == KeyPress::backspaceKey)
     {
@@ -83,7 +89,7 @@ void Gui::keyPressed(const KeyPress& key)
             textCharacter == '8' ||
             textCharacter == '9')
     {
-        handleUserInputNumbers(textCharacter);
+        handleUserInputNumbers(static_cast<char>(textCharacter));
     }
 
     else if(textCharacter == 'a')
@@ -141,7 +147,7 @@ void Gui::keyPressed(const KeyPress& key)
     //TODO these two are here just for testing!
     else if(textCharacter == 'x')
     {
-        static int fileToPlay = 0;
+        static unsigned int fileToPlay = 0;
         ++fileToPlay;
         fileToPlay = fileToPlay % 3;
         //TODO
@@ -175,6 +181,11 @@ void Gui::setFileSystem(filesystem::IFileSystem* filesys)
     fileSys = filesys;
 }
 
+void Gui::showStatistics(const std::string& statistics)
+{
+    mainComponent->showStatistics(statistics);
+}
+
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
@@ -186,6 +197,7 @@ void Gui::setMusicFolder(const std::string& folder)
     mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
     mainComponent->updateAlbumSelection(selectedAlbumIndex);
     mainComponent->updateSongSelection(selectedSongIndex);
+    mainComponent->setMusicDirectory(musicFolder);
 }
 
 void Gui::setTimeToPlaySong(int millisecs)
@@ -216,8 +228,27 @@ void Gui::prepareForExit()
 
 void Gui::switchBetweenAlbumModes()
 {
+    if(!isInUserMode)
+        return;
+
     isInMultipleAlbumsMode = !isInMultipleAlbumsMode;
     mainComponent->switchBetweenAlbumViews();
+}
+
+void Gui::switchBetweenUserModes()
+{
+    isInUserMode = !isInUserMode;
+    mainComponent->switchBetweenUserModeViews();
+
+    if(isInUserMode && !isInMultipleAlbumsMode)
+    {
+        mainComponent->switchBetweenAlbumViews();
+    }
+
+    if(!isInUserMode)
+    {
+        requestStatisticsSignal();
+    }
 }
 
 void Gui::stepSelection()
@@ -293,8 +324,8 @@ void Gui::handleUserInputNumbers(char number)
 
     if(userInputSongNumber.length() == 5)
     {
-        int albumNumber = std::stoi(userInputSongNumber.substr(0, 3));
-        int songNumber = std::stoi(userInputSongNumber.substr(3));
+        unsigned int albumNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(0, 3)));
+        unsigned int songNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(3)));
         if(songNumber != 0)
         {
             playSongWithDelay(albumNumber, songNumber);
@@ -321,7 +352,12 @@ void Gui::handleDotPressed()
     }
 }
 
-void Gui::playSongWithDelay(int albumNumber, int songNumber)
+void Gui::musicDirectoryChanged(const std::string& musicDirectory)
+{
+    musicDirectoryChangedSignal(musicDirectory);
+}
+
+void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)
 {
     const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder, *fileSys);
     if(!song.fileName.empty())
@@ -345,7 +381,7 @@ void Gui::playSongWithDelay(int albumNumber, int songNumber)
     }
 }
 
-void Gui::playAlbumWithDelay(int albumNumber)
+void Gui::playAlbumWithDelay(unsigned int albumNumber)
 {
     const auto songs = SongBuilder::buildSongsInAlbum(albumNumber, musicFolder, *fileSys);
     if(!songs.empty())

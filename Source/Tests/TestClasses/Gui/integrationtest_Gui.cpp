@@ -16,7 +16,7 @@ using namespace jukebox::audio;
 using namespace testing;
 
 namespace {
-    const std::string defaultMusicDir = "";
+    const char* defaultMusicDir = "";
     const auto setMusicDir = "fakeMusicDir";
     const auto songPath = "fakeSongPath";
     const juce::String userInputNumber1("00101");
@@ -43,6 +43,9 @@ namespace {
     const juce::KeyPress keyNumber7(0, 0, '7');
     const juce::KeyPress keyNumber8(0, 0, '8');
     const juce::KeyPress keyNumber9(0, 0, '9');
+    const juce::KeyPress keyF4(juce::KeyPress::F4Key);
+    const juce::KeyPress keyEsc(juce::KeyPress::escapeKey);
+    const juce::KeyPress keyBackspace(juce::KeyPress::backspaceKey);
 }
 
 class GuiTest : public ::testing::Test
@@ -79,12 +82,97 @@ TEST_F(GuiTest, WhenMainComponentSendsPlayNextSongSignal_ThenGuiSignalizeIt)
     mainComponentMock->playNextSongSignal(song);
 }
 
+TEST_F(GuiTest, WhenMainComponentSendsMusicDirectoryChangedSignal_ThenGuiSignalizeIt)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::fooString, gui->musicDirectoryChangedSignal);
+
+    std::string foo("fakeMusicDir");
+
+    EXPECT_CALL(fooMock, fooString(foo));
+
+    mainComponentMock->musicDirectoryChangedSignal(foo);
+}
+
 TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetweenAlbumViews)
 {
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews()).Times(2);
 
     mainComponentMock->keyPressedSignal(keyH);
     mainComponentMock->keyPressedSignal(keyH);
+}
+
+TEST_F(GuiTest, GivenGuiIsInSetupState_WhenMainComponentSendsKeyPressedSignalH_ThenGuiDoesNotSwitch)
+{
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    mainComponentMock->keyPressedSignal(keyEsc);
+
+    mainComponentMock->keyPressedSignal(keyH);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalF4_ThenGuiSignalsExitRequested)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->exitRequestedSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyF4);
+}
+
+TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiCallsSwitchBetweenUserModeViewsAndSignalsUpdateStatistics)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->requestStatisticsSignal);
+
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyEsc);
+}
+
+TEST_F(GuiTest, GivenGuiIsInSingleAlbumState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiCallsSwitchBetweenUserModeViewsAndSignalsUpdateStatistics)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->requestStatisticsSignal);
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyH);
+
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyEsc);
+}
+
+TEST_F(GuiTest, GivenGuiWasInMultipleAlbumsStateAndIsInSetupState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchBackToMultipleAlbumsState)
+{
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    mainComponentMock->keyPressedSignal(keyEsc);
+
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    mainComponentMock->keyPressedSignal(keyEsc);
+}
+
+TEST_F(GuiTest, GivenGuiWasInSingleAlbumStateAndIsInSetupState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchBackToSingleAlbumState)
+{
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyH);
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    mainComponentMock->keyPressedSignal(keyEsc);
+
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
+    mainComponentMock->keyPressedSignal(keyEsc);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalBackspace_ThenGuiSignalsRemovePlayedSong)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->removePlayedSongSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyBackspace);
 }
 
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateAlbumAndSongSelection)
@@ -338,6 +426,7 @@ TEST_F(GuiTest, WhenShowStatusMessageIsCalledWithResourceId_ThenTheSameIsCalledO
 
 TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbumsAndUpdateSelection)
 {
+    EXPECT_CALL(*mainComponentMock, setMusicDirectory(setMusicDir));
     EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex, _));
     EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(setMusicDir, defaultSelectedAlbumIndex, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex));
@@ -371,6 +460,14 @@ TEST_F(GuiTest, WhenRemoveCurrentSongIsCalled_ThenTheSameIsCalledOnMainComponent
     EXPECT_CALL(*mainComponentMock, removeCurrentSong());
 
     gui->removeCurrentSong();
+}
+
+TEST_F(GuiTest, WhenShowStatisticsIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    std::string statistics("fakeStat");
+    EXPECT_CALL(*mainComponentMock, showStatistics(statistics));
+
+    gui->showStatistics(statistics);
 }
 
 TEST_F(GuiTest, WhenPrepareForExitIsCalled_ThenTheSameIsCalledOnMainComponent)

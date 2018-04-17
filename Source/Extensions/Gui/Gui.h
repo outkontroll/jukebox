@@ -24,11 +24,12 @@ class Gui : public IGui
 {
 public:
     Gui(const std::string& applicationName);
-    ~Gui();
+    ~Gui() override;
 
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(ResourceId messageId) override;
-    
+    void showStatistics(const std::string& statistics) override;
+
     void setFileSystem(jukebox::filesystem::IFileSystem* filesys) override;
     void setMusicFolder(const std::string& folder) override;
     void setTimeToPlaySong(int millisecs) override;
@@ -44,10 +45,12 @@ protected:
     Gui(std::unique_ptr<juce::MainComponent> mainComp);
 
 private:
+    void connectSignals();
     void keyPressed(const juce::KeyPress& key);
 
     void playNextSong(const audio::Song& song);
     void switchBetweenAlbumModes();
+    void switchBetweenUserModes();
     void stepSelection();
     void stepSelectionMultipleAlbumsMode();
     void stepSelectionSingleAlbumMode();
@@ -57,9 +60,10 @@ private:
     void handleAlbumSwitchInMultipleAlbumsMode(bool increase);
     void handleUserInputNumbers(char number);
     void handleDotPressed();
+    void musicDirectoryChanged(const std::string& musicDirectory);
     //TODO: these two functions could be merged into one entity with templates
-    void playSongWithDelay(int albumNumber, int songNumber);
-    void playAlbumWithDelay(int albumNumber);
+    void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
+    void playAlbumWithDelay(unsigned int albumNumber);
 
     unsigned int getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const;
     unsigned int getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const;
@@ -79,6 +83,7 @@ private:
     unsigned int selectedSongIndex = 0;
     unsigned int visibleSongsIndex = 20; //TODO
     int timeToPlaySong = 0;
+    bool isInUserMode = true;
     bool isInMultipleAlbumsMode = true;
     jukebox::filesystem::IFileSystem* fileSys = nullptr;
 };

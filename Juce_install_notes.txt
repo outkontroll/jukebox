@@ -1,0 +1,33 @@
+- mesa-common-dev - compile
++ libfreetype6-dev - compile
+- libasound-dev - compile
++ libxinerama-dev - compile
++ libxcursor-dev - compile
+- libxrender-dev - feature compile
+- libxcomposite-dev - feature compile
+- libglu1-mesa-dev - openGl compile
++ libxrandr-dev - compile
++ libcurl4-gnutls-dev - compile
+
+gtest
+
+libgtest-dev
+
+cmake - cmake... :)
+cmake 3.2
+- qtcreator-plugin-cmake-dev - 
+
+git clone https://github.com/julianstorer/JUCE
+
+qtcreator: -noload Welcome
+
+
+ODROID:
+
+ - JUCE:
+ 
+libfreetype6-dev
+libcurl4-gnutls-dev
+libxinerama-dev
+libxrandr-dev
+libglu1-mesa-dev

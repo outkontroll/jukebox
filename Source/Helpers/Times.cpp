@@ -3,7 +3,7 @@
 
 std::string jukebox::CurrentDateTime()
 {
-    time_t now = time(0);
+    time_t now = time(nullptr);
     struct tm* timeStruct;
     char buf[80];
     timeStruct = localtime(&now);

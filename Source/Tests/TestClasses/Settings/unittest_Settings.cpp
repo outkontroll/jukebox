@@ -7,7 +7,7 @@ using namespace jukebox::settings;
 class SettingsTest : public ::testing::Test
 {    
 public:
-    SettingsTest() = default;
+    SettingsTest() : settings("fakeMusicDir"){}
 protected:
     Settings settings;
 };
@@ -30,4 +30,13 @@ TEST_F(SettingsTest, WhenTimeToPlaySet_ThenItIsSet)
     settings.setTimeToPlaySong(4000);
 
     EXPECT_EQ(4000, settings.getTimeToPlaySong());
+}
+
+TEST_F(SettingsTest, setMusicDir)
+{
+    std::string newMusicDir("fakeMusicDir");
+
+    settings.setMusicDirectory(newMusicDir);
+
+    EXPECT_EQ(newMusicDir, settings.getMusicDirectory());
 }

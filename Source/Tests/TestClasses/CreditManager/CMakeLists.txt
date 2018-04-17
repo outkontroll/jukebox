@@ -1,40 +1,41 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
-project(unittest_CreditManager)
+project(creditManager_test)
 
 # sources
 
 set(CPP_SOURCES
-    ${TESTING_DIR}/main.cpp
+    ${TESTING_MAIN}
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_CreditManager.cpp
 )
 
 # project
 
-add_executable(unittest_CreditManager
+add_executable(${PROJECT_NAME}
 	    ${CPP_SOURCES}
 )
 
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/CreditManager
-    ${TESTING_INCLUDE_DIRS}
 )
 
-target_include_directories(unittest_CreditManager PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
-target_link_libraries(unittest_CreditManager
+target_link_libraries(${PROJECT_NAME}
 		      creditManager
 		      helpers
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest.a
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest_main.a
-		      pthread
+                      #GTest::GTest
+                      #GTest::Main
+                      ${GTest}
+                      ${GTestMain}
+                      pthread
 )
 
-enable_testing()
-add_test(MyTest unittest_CreditManager)
+add_test(NAME creditManager_unit_test
+         COMMAND ${PROJECT_NAME})
 
-add_custom_command(TARGET unittest_CreditManager
+add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ${EXECUTABLE_OUTPUT_PATH}/unittest_CreditManager
-                   WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
-                   COMMENT "Running unittest_CreditManager" VERBATIM)
+                   COMMAND ./${PROJECT_NAME}
+                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)

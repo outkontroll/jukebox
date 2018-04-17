@@ -23,7 +23,7 @@ class ListBoxContents : public juce::ListBoxModel, private IListBox<Item>
 {
 public:
     ListBoxContents() = default;
-    virtual ~ListBoxContents() = default;
+    ~ListBoxContents() override = default;
     
     // The following methods implement the necessary virtual functions from ListBoxModel,
     // telling the listbox how many rows there are, painting them, etc.
@@ -47,7 +47,7 @@ class ListBox : public juce::Component, private IListBox<Item>
 {
 public:
     ListBox();
-    virtual ~ListBox() = default;
+    ~ListBox() override = default;
 
     void paint (juce::Graphics&) override;
     void resized() override;

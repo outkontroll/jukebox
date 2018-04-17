@@ -21,7 +21,7 @@ class MusicPlayer : public juce::ChangeListener,
 {
 public:
     MusicPlayer();
-    ~MusicPlayer();
+    ~MusicPlayer() override;
 
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 

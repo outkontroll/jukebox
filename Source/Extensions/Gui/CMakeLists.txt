@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(gui)
 
@@ -18,6 +18,7 @@ set(HEADER_SOURCES
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.h
     ${COMPONENTS_DIR}/SingleAlbumCanvas.h
     ${COMPONENTS_DIR}/JukeboxTimer.h
+    ${COMPONENTS_DIR}/SetupPage.h
 )
 
 # sources
@@ -31,6 +32,7 @@ set(CPP_SOURCES
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.cpp
     ${COMPONENTS_DIR}/SingleAlbumCanvas.cpp
     ${COMPONENTS_DIR}/JukeboxTimer.cpp
+    ${COMPONENTS_DIR}/SetupPage.cpp
 )
 
 # project
@@ -41,15 +43,21 @@ add_library(gui
     ${CPP_SOURCES}
 )
 
-set(INCLUDE_DIRS
+set(PUBLIC_INCLUDE_DIRS
+    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
+)
+
+set(IMPL_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${EXTENSION_INCLUDE_DIRS}
     ${SOURCE_DIR}/Base
     ${RESOURCES_DIR}
     ${COMPONENTS_DIR}
-    ${JUCE_DIRECTORY}
+    ${EXTENSION_IMPL_INCLUDE_DIRS}
 )
 
-target_include_directories(gui PUBLIC ${INCLUDE_DIRS})
+target_include_directories(gui PUBLIC ${PUBLIC_INCLUDE_DIRS})
+target_include_directories(gui PRIVATE ${IMPL_INCLUDE_DIRS})
+target_include_directories(gui SYSTEM PUBLIC ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(gui project_juce helpers)
+target_link_libraries(gui PUBLIC signals)
+target_link_libraries(gui PRIVATE ${PROJECT_JUCE} helpers)

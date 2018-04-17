@@ -9,6 +9,7 @@ class CreditManager : public ICreditManager
 {
 public:
     CreditManager();
+    ~CreditManager() override = default;
     
     unsigned int getCredits() const override;
         

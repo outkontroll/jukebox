@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(musicPlayer)
 
@@ -24,10 +24,16 @@ add_library(musicPlayer
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(INCLUDE_DIRS
-    ${EXTENSION_INCLUDE_DIRS}
-    ${JUCE_DIRECTORY}
-    ${JUCE_MODULE_DIRECTORY}
+set(PUBLIC_INCLUDE_DIRS
+    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
 )
 
-target_include_directories(musicPlayer PUBLIC ${INCLUDE_DIRS})
+set(IMPL_INCLUDE_DIRS
+    ${EXTENSION_IMPL_INCLUDE_DIRS}
+)
+
+target_include_directories(musicPlayer PUBLIC ${PUBLIC_INCLUDE_DIRS})
+target_include_directories(musicPlayer PRIVATE ${IMPL_INCLUDE_DIRS})
+target_include_directories(musicPlayer SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
+
+target_link_libraries(musicPlayer PUBLIC signals)

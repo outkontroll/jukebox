@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
-project(integrationtest_Gui)
+project(gui_test)
 
 # sources
 
 set(CPP_SOURCES
-    ${TESTING_DIR}/main.cpp
+    ${TESTING_MAIN}
     ${CMAKE_CURRENT_SOURCE_DIR}/integrationtest_Gui.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GuiTester.h
     ${HELPERCLASSES_DIR}/Compounds/MainComponentMock.h
@@ -13,8 +13,8 @@ set(CPP_SOURCES
 
 # project
 
-add_executable(integrationtest_Gui
-	    ${CPP_SOURCES}
+add_executable(${PROJECT_NAME}
+    ${CPP_SOURCES}
 )
 
 set(INCLUDE_DIRS
@@ -26,23 +26,25 @@ set(INCLUDE_DIRS
     ${TESTING_INCLUDE_DIRS}
 )
 
-target_include_directories(integrationtest_Gui PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 
-target_link_libraries(integrationtest_Gui
+target_link_libraries(${PROJECT_NAME}
 		      gui
                       songBuilder
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest.a
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest_main.a
-                      ${LIBRARY_DIRECTORIES}/Libs/libgmock.a
-                      ${LIBRARY_DIRECTORIES}/Libs/libgmock_main.a
-		      pthread
+                      helpers
+                      #GTest::GTest
+                      #GTest::Main
+                      ${GTest}
+                      ${GTestMain}
+                      ${GMock}
+                      ${GMockMain}
+                      pthread
 )
 
-enable_testing()
-add_test(MyTest integrationtest_Gui)
+add_test(NAME gui_integration_test
+         COMMAND ${PROJECT_NAME})
 
-add_custom_command(TARGET integrationtest_Gui
+add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ${EXECUTABLE_OUTPUT_PATH}/integrationtest_Gui
-                   WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
-                   COMMENT "Running integrationtest_Gui" VERBATIM)
+                   COMMAND ./${PROJECT_NAME}
+                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)

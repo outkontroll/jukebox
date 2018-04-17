@@ -2,7 +2,7 @@
 #define IMUSICPLAYER_H_INCLUDED
 
 #include <string>
-#include"Signals.hpp"
+#include "Signals.hpp"
 
 namespace jukebox { namespace audio {
     

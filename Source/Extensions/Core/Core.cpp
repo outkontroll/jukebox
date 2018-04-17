@@ -37,14 +37,15 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::coinInserted50, gui->coinInserted50Signal);
     eventsSlot.connect(this, &Core::coinInserted100, gui->coinInserted100Signal);
     eventsSlot.connect(this, &Core::coinInserted200, gui->coinInserted200Signal);
+    eventsSlot.connect(this, &Core::creditIncrease, gui->creditIncreaseSignal);
+    eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
     eventsSlot.connect(this, &Core::playSong, gui->playSongSignal);
     eventsSlot.connect(this, &Core::playAlbum, gui->playAlbumSignal);
     eventsSlot.connect(this, &Core::removePlayedSong, gui->removePlayedSongSignal);
-    eventsSlot.connect(this, &Core::creditIncrease, gui->creditIncreaseSignal);
-    eventsSlot.connect(this, &Core::creditDecrease, gui->creditDecreaseSignal);
-    eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
-    eventsSlot.connect(this, &Core::showStatistics, gui->showStatisticsSignal);
     eventsSlot.connect(this, &Core::playNextSong, gui->playNextSongSignal);
+    eventsSlot.connect(this, &Core::musicDirectoryChanged, gui->musicDirectoryChangedSignal);
+    eventsSlot.connect(this, &Core::showStatisticsRequested, gui->requestStatisticsSignal);
+    eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
 
     eventsSlot.connect(this, &Core::finishedPlaying, musicPlayer->finishedPlayingSignal);
     gui->setFileSystem(fileSys.get());
@@ -149,10 +150,17 @@ void Core::exitRequested()
     exitRequestedSignal();
 }
 
-void Core::showStatistics()
+void Core::musicDirectoryChanged(const std::string& newMusicDirectory)
 {
-    //TODO: use file
-    statistics->showStatistics(std::cout);
+    settings->setMusicDirectory(newMusicDirectory);
+    gui->setMusicFolder(newMusicDirectory);
+}
+
+void Core::showStatisticsRequested()
+{
+    std::stringstream ss;
+    statistics->showStatistics(ss);
+    gui->showStatistics(ss.str());
 }
 
 void Core::playNextSong(const Song& song)

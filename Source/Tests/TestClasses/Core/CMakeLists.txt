@@ -1,17 +1,17 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
-project(componenttest_Core)
+project(core_test)
 
 # sources
 
 set(CPP_SOURCES
-    ${TESTING_DIR}/main.cpp
+    ${TESTING_MAIN}
     ${CMAKE_CURRENT_SOURCE_DIR}/componenttest_Core.cpp
 )
 
 # project
 
-add_executable(componenttest_Core
+add_executable(${PROJECT_NAME}
                ${CPP_SOURCES}
                ${MOCK_HEADERS}
 )
@@ -21,24 +21,23 @@ set(INCLUDE_DIRS
     ${HELPERCLASSES_DIR}
 )
 
-target_include_directories(componenttest_Core PUBLIC ${INCLUDE_DIRS}
-                                         SYSTEM ${TESTING_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
-target_link_libraries(componenttest_Core
+target_link_libraries(${PROJECT_NAME}
 		      core
 		      helpers
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest.a
-		      ${LIBRARY_DIRECTORIES}/Libs/libgtest_main.a
-                      ${LIBRARY_DIRECTORIES}/Libs/libgmock.a
-                      ${LIBRARY_DIRECTORIES}/Libs/libgmock_main.a
-		      pthread
+                      ${GTest}
+                      ${GTestMain}
+                      ${GMock}
+                      ${GMockMain}
+                      pthread
 )
 
-enable_testing()
-add_test(MyTest componenttest_Core)
+add_test(NAME core_component_test
+         COMMAND ${PROJECT_NAME})
 
-add_custom_command(TARGET componenttest_Core
+add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ${EXECUTABLE_OUTPUT_PATH}/componenttest_Core
-                   WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
-                   COMMENT "Running componenttest_Core" VERBATIM)
+                   COMMAND ./${PROJECT_NAME}
+                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)

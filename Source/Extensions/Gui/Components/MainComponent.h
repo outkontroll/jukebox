@@ -32,6 +32,7 @@ namespace gui {
     class JukeboxTimer;
     class MultipleAlbumsCanvas;
     class SingleAlbumCanvas;
+    class SetupPage;
 }
 namespace filesystem {
     class IFileSystem;
@@ -58,27 +59,31 @@ class MainComponent  : public Component
 public:
     //==============================================================================
     MainComponent ();
-    ~MainComponent();
+    ~MainComponent() override;
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     jukebox::signals::Signal<const KeyPress&> keyPressedSignal;
     jukebox::signals::Signal<const jukebox::audio::Song&> playNextSongSignal;
+    jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
 
     //the virtuals are here only to enable easier testing and mocking
     //TODO should reconsider the class because of this
 
     virtual void refreshCredits(unsigned int credits);
     virtual void showStatusMessage(const String& message);
-    virtual void loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys);
-    virtual void loadSingleAlbum(const std::string& musicDirectory, int albumIndex, const jukebox::filesystem::IFileSystem& fileSys);
+    virtual void loadMultipleAlbums(const std::string& musicDirectory, unsigned int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys);
+    virtual void loadSingleAlbum(const std::string& musicDirectory, unsigned int albumIndex, const jukebox::filesystem::IFileSystem& fileSys);
+    virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void switchBetweenAlbumViews();
-    virtual void updateAlbumSelection(int selectedAlbumIndex);
-    virtual void updateSongSelection(int selectedSongIndex);
+    virtual void switchBetweenUserModeViews();
+    virtual void updateAlbumSelection(unsigned int selectedAlbumIndex);
+    virtual void updateSongSelection(unsigned int selectedSongIndex);
     virtual void setCurrentUserInputNumber(const String& userInput);
     virtual void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     virtual void enqueue(const jukebox::audio::Song &song);
     virtual void removeCurrentSong();
+    virtual void showStatistics(const std::string& statistics);
     virtual void prepareForExit();
     //[/UserMethods]
 
@@ -96,10 +101,12 @@ protected:
 
 private:
     void removeCurrentSongImmediately();
+    void onMusicDirectoryChanged(const std::string& musicDirectory);
 
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;
     ScopedPointer<jukebox::gui::JukeboxTimer> timerBetweenSongs;
     bool focusInitialised;
+    jukebox::signals::Slot eventsSlot;
     //[/UserVariables]
 
     //==============================================================================
@@ -111,6 +118,7 @@ private:
     ScopedPointer<TextEditor> txtCurrentSong;
     ScopedPointer<jukebox::gui::MultipleAlbumsCanvas> multipleAlbumsCanvas;
     ScopedPointer<jukebox::gui::SingleAlbumCanvas> singleAlbumCanvas;
+    ScopedPointer<jukebox::gui::SetupPage> setupPage;
     ScopedPointer<Label> lblAlbumNumber;
     ScopedPointer<Label> lblSongNumber;
 

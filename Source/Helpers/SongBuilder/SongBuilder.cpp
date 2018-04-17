@@ -28,7 +28,7 @@ std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const
 
     std::transform(paths.begin(), paths.end(), std::back_inserter(songs), [albumNumber](const auto& path){
         return Song{ albumNumber,
-                     static_cast<unsigned int>(path.second),
+                     path.second,
                      path.first,
                      createVisibleName(albumNumber, path.second)
                      };
@@ -37,7 +37,7 @@ std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const
     return songs;
 }
 
-std::string SongBuilder::createVisibleName(int albumNumber, int songNumber)
+std::string SongBuilder::createVisibleName(unsigned int albumNumber, unsigned int songNumber)
 {
     return {FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)};
 }

@@ -1,37 +1,47 @@
-# cmake parameters
-# cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+# cmake agrs: -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+# OR
+# cmake agrs: -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+# test coverages: -DTEST_COVERAGE=ON
+
 
 # cmake
 
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 # project
 
 project(music_jukebox)
 
-# compiler
-
-MESSAGE( STATUS "** CMAKE_C_COMPILER : ${CMAKE_C_COMPILER}" )
-MESSAGE( STATUS "** CMAKE_CXX_COMPILER : ${CMAKE_CXX_COMPILER}" )
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # compiler flags
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
+   CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_compile_options(-g -Wall -Wextra -Werror -fPIC)
 
-if(UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Werror -fPIC")
-    #TODO: this is for testing
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++98-compat -Wno-c++98-compat-bind-to-temporary-copy -Wno-padded -Wno-exit-time-destructors -Wno-weak-vtables")
-    #END TODO
-    #if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
-    #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-    #endif()
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        add_compile_options(-Weverything
+                            -Wno-c++98-compat #multiple
+                            -Wno-padded #multiple
+                            -Wno-weak-vtables #multiple
+                            -Wno-exit-time-destructors #logger
+                            -Wno-reserved-id-macro #maincomponent
+        )
+    endif()
 endif()
 
-MESSAGE( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
+   TEST_COVERAGE)
+        set(GENERATE_TEST_COVERAGE ON CACHE BOOL "Generate test coverage information" FORCE)
+        include(CodeCoverage)
+        APPEND_COVERAGE_COMPILER_FLAGS()
+        set(COVERAGE_EXCLUDES '.git/*' 'CMakeModules/*' 'Libraries/*' '*/7/*')
+elseif(TEST_COVERAGE)
+    message(WARNING "Code coverage for ${CMAKE_CXX_COMPILER_ID} is not supported!")
+endif()
 
 # compiler features
 
@@ -40,13 +50,6 @@ MESSAGE( STATUS "** CMAKE_CXX_FLAGS : ${CMAKE_CXX_FLAGS}" )
 #    message("${i}")
 #endforeach()
 
-#set(CPP_COMPILER_FEATURES
-#    cxx_auto_type
-#    cxx_noexcept
-#    cxx_nullptr
-#    cxx_override
-#)
-
 # build architecture
 
 if("${CMAKE_SIZEOF_VOID_P}" EQUAL 4)
@@ -54,30 +57,6 @@ if("${CMAKE_SIZEOF_VOID_P}" EQUAL 4)
 else()
     set(BUILD_ARCHITECTURE "64bit")
 endif()
-
-# build directories
-
-MESSAGE( STATUS "** PROJECT_BINARY_DIR : ${PROJECT_BINARY_DIR}" )
-
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../${CMAKE_BUILD_TYPE} CACHE PATH "Library output path")
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../${CMAKE_BUILD_TYPE} CACHE PATH "Executable output path")
-
-MESSAGE( STATUS "** LIBRARY_OUTPUT_PATH : ${LIBRARY_OUTPUT_PATH}" )
-MESSAGE( STATUS "** EXECUTABLE_OUTPUT_PATH : ${EXECUTABLE_OUTPUT_PATH}" )
-
-MESSAGE( STATUS "** CMAKE_CURRENT_SOURCE_DIR : ${CMAKE_CURRENT_SOURCE_DIR}" )
-
-# juce
-
-set(JUCE_DIRECTORY
-    ${CMAKE_CURRENT_SOURCE_DIR}/JuceLibraryCode
-)
-
-set(JUCE_MODULE_DIRECTORY
-    ${JUCE_DIRECTORY}/modules
-)
-
-MESSAGE( STATUS "** JUCE_DIRECTORY : ${JUCE_DIRECTORY}" )
 
 # global definitions
 
@@ -88,6 +67,22 @@ set(SOURCE_DIR
 set(LIBRARY_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/Libraries
 )
+
+set(LIBRARY_LINK_DIRS
+    ${LIBRARY_DIRECTORIES}/Libs
+)
+
+# juce
+
+set(JUCE_DIRECTORY
+    ${LIBRARY_DIRECTORIES}/JuceLibraryCode
+)
+
+set(JUCE_MODULE_DIRECTORY
+    ${JUCE_DIRECTORY}/modules
+)
+
+message( STATUS "** JUCE_DIRECTORY : ${JUCE_DIRECTORY}" )
 
 # headers
 
@@ -102,6 +97,12 @@ set(CPP_SOURCES
     ${SOURCE_DIR}/Base/Application.cpp
 )
 
+find_library(PROJECT_JUCE project_juce ${LIBRARY_LINK_DIRS})
+#TODO
+#find_package(project_juce PATHS ${LIBRARY_LINK_DIRS})
+#message( STATUS "** PROJECT_JUCE : ${PROJECT_JUCE}" )
+#link_directories(music_jukebox PRIVATE ${LIBRARY_LINK_DIRS})
+
 # executable
 
 add_executable(music_jukebox ${HEADER_SOURCES} ${CPP_SOURCES})
@@ -112,11 +113,13 @@ set(INTERFACE_DIRECTORY
     ${SOURCE_DIR}/Interfaces
 )
 
+set(LOGGER_INCLUDE_DIR
+    ${SOURCE_DIR}/Helpers/Logging
+)
+
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Base
     ${INTERFACE_DIRECTORY}
-    ${JUCE_DIRECTORY}
-    ${JUCE_MODULE_DIRECTORY}
     #TODO remove these after classloader:
     ${SOURCE_DIR}/Extensions/Core
     ${SOURCE_DIR}/Helpers
@@ -130,18 +133,42 @@ set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/FileSystem
 )
 
+set(JUCE_INCLUDE_DIRS
+    ${JUCE_DIRECTORY}
+    ${JUCE_MODULE_DIRECTORY}
+)
+
 target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
+target_include_directories(music_jukebox SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
 # compiler features
 
-# it is not used because it can not set globally
-#target_compile_features(music_jukebox PUBLIC ${CPP_COMPILER_FEATURES})
+set_property(TARGET music_jukebox PROPERTY CXX_STANDARD 17)
+target_link_libraries(music_jukebox PUBLIC ${PROJECT_JUCE} logger core gui creditManager musicPlayer statistics songBuilder settings fileSystem)
+target_compile_options(music_jukebox PRIVATE
+    -Wno-cast-qual
+)
+
+# testing
+
+enable_testing()
 
 # projects
 
 add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
 add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
-add_subdirectory(${SOURCE_DIR}/Juce ${PROJECT_BINARY_DIR}/Source/Juce)   #Juce
 add_subdirectory(${SOURCE_DIR}/Tests)
 
-target_link_libraries(music_jukebox PUBLIC logger project_juce core gui creditManager musicPlayer statistics songBuilder settings fileSystem)
+# code coverage
+
+if(GENERATE_TEST_COVERAGE)
+    setup_target_for_coverage(NAME code_coverage
+                              EXECUTABLE ctest -Q
+                              DEPENDENCIES core_test
+                                           creditManager_test
+                                           gui_test
+                                           settings_test
+                                           statistics_test
+                                           music_jukebox
+                             )
+endif()

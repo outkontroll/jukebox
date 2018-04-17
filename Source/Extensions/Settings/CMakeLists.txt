@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(settings)
 
@@ -22,8 +22,13 @@ add_library(settings
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(INCLUDE_DIRS
-    ${EXTENSION_INCLUDE_DIRS}
+set(PUBLIC_INCLUDE_DIRS
+    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
 )
 
-target_include_directories(settings PUBLIC ${INCLUDE_DIRS})
+set(IMPL_INCLUDE_DIRS
+    ${EXTENSION_IMPL_INCLUDE_DIRS}
+)
+
+target_include_directories(settings PUBLIC ${PUBLIC_INCLUDE_DIRS})
+target_include_directories(settings PRIVATE ${IMPL_INCLUDE_DIRS})

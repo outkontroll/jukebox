@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(core)
 
@@ -21,10 +21,16 @@ add_library(core
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(INCLUDE_DIRS
-    ${EXTENSION_INCLUDE_DIRS}
+set(PUBLIC_INCLUDE_DIRS
+    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
 )
 
-target_include_directories(core PUBLIC ${INCLUDE_DIRS})
+set(IMPL_INCLUDE_DIRS
+    ${EXTENSION_IMPL_INCLUDE_DIRS}
+)
 
-target_link_libraries(core songBuilder helpers)
+target_include_directories(core PUBLIC ${PUBLIC_INCLUDE_DIRS})
+target_include_directories(core PUBLIC ${IMPL_INCLUDE_DIRS})
+
+target_link_libraries(core PUBLIC signals)
+target_link_libraries(core PRIVATE songBuilder helpers)

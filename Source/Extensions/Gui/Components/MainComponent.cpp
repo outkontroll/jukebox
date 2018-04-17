@@ -23,6 +23,7 @@
 #include "JukeboxTimer.h"
 #include "MultipleAlbumsCanvas.h"
 #include "SingleAlbumCanvas.h"
+#include "SetupPage.h"
 //[/Headers]
 
 #include "MainComponent.h"
@@ -118,8 +119,11 @@ MainComponent::MainComponent ()
 
     //[UserPreSize]
     singleAlbumCanvas->setVisible(false);
+    addAndMakeVisible(listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
 
-    addAndMakeVisible (listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
+    addChildComponent(setupPage = new jukebox::gui::SetupPage);
+    eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, setupPage->musicDirectoryChangedSignal);
+
     //[/UserPreSize]
 
     setSize (1400, 800);
@@ -129,7 +133,6 @@ MainComponent::MainComponent ()
     timerBetweenSongs = new jukebox::gui::JukeboxTimer([this](){
         removeCurrentSongImmediately();
     });
-
 
     setWantsKeyboardFocus(true);
     grabKeyboardFocus();
@@ -204,6 +207,7 @@ void MainComponent::resized()
     //[UserResized] Add your own custom resize handling here..
     //singleAlbumCanvas->setBounds(multipleAlbumsCanvas->getBounds());
     singleAlbumCanvas->setBounds (32, 32, 1064, 712);
+    setupPage->setBounds (32, 32, 1064, 712);
     listBox->setBounds(1128, 284, 200, 150);
     //[/UserResized]
 }
@@ -235,14 +239,19 @@ void MainComponent::showStatusMessage(const String& message)
     lblStatus->setText(message, dontSendNotification);
 }
 
-void MainComponent::loadMultipleAlbums(const std::string& musicDirectory, int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys)
+void MainComponent::loadMultipleAlbums(const std::string& musicDirectory, unsigned int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys)
 {
     multipleAlbumsCanvas->loadAlbums(musicDirectory, firstAlbumIndex, fileSys);
 }
 
-void MainComponent::loadSingleAlbum(const std::string& musicDirectory, int albumIndex, const jukebox::filesystem::IFileSystem& fileSys)
+void MainComponent::loadSingleAlbum(const std::string& musicDirectory, unsigned int albumIndex, const jukebox::filesystem::IFileSystem& fileSys)
 {
     singleAlbumCanvas->loadAlbum(musicDirectory, albumIndex, fileSys);
+}
+
+void MainComponent::setMusicDirectory(const std::string& musicDirectory)
+{
+    setupPage->setMusicDirectory(musicDirectory);
 }
 
 void MainComponent::switchBetweenAlbumViews()
@@ -251,12 +260,19 @@ void MainComponent::switchBetweenAlbumViews()
     singleAlbumCanvas->setVisible(!singleAlbumCanvas->isVisible());
 }
 
-void MainComponent::updateAlbumSelection(int selectedAlbumIndex)
+void MainComponent::switchBetweenUserModeViews()
+{
+    setupPage->setVisible(!setupPage->isVisible());
+    multipleAlbumsCanvas->setVisible(!setupPage->isVisible());
+    singleAlbumCanvas->setVisible(false);
+}
+
+void MainComponent::updateAlbumSelection(unsigned int selectedAlbumIndex)
 {
     multipleAlbumsCanvas->setSelection(selectedAlbumIndex);
 }
 
-void MainComponent::updateSongSelection(int selectedSongIndex)
+void MainComponent::updateSongSelection(unsigned int selectedSongIndex)
 {
     singleAlbumCanvas->setSelection(selectedSongIndex);
 }
@@ -283,6 +299,11 @@ void MainComponent::removeCurrentSong()
     timerBetweenSongs->runOnce(timeBetweenSongs);
 }
 
+void MainComponent::showStatistics(const std::string& statistics)
+{
+    setupPage->showStatistics(statistics);
+}
+
 void MainComponent::removeCurrentSongImmediately()
 {
     txtCurrentSong->setText("");
@@ -293,6 +314,11 @@ void MainComponent::removeCurrentSongImmediately()
         listBox->removeCurrentItem();
         playNextSongSignal(nextItem);
     }
+}
+
+void MainComponent::onMusicDirectoryChanged(const std::string& musicDirectory)
+{
+    musicDirectoryChangedSignal(musicDirectory);
 }
 
 void MainComponent::prepareForExit()

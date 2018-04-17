@@ -3,6 +3,11 @@
 
 using namespace jukebox::settings;
 
+Settings::Settings(std::string musicDirectory_)
+ : musicDirectory(std::move(musicDirectory_))
+{
+}
+
 std::string Settings::getMusicDirectory() const
 {
     return musicDirectory;
