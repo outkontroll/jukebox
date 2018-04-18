@@ -18,7 +18,7 @@ public:
 
 private:
     std::function<void()> functionToCall;
-    bool shouldRunOnce = false;
+    volatile bool shouldRunOnce = false;
 };
 
 }}

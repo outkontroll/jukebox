@@ -63,8 +63,13 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     )
 endif()
 
+set(JUCE_EVENTLOOP_RUNNER
+    ${HELPERCLASSES_DIR}/JuceEventLoopRunner.h
+)
+
 add_subdirectory(TestClasses/CreditManager)
 add_subdirectory(TestClasses/Gui)
 add_subdirectory(TestClasses/Settings)
 add_subdirectory(TestClasses/Statistics)
 add_subdirectory(TestClasses/Core)
+add_subdirectory(TestClasses/Signaling)
