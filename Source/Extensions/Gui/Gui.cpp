@@ -48,6 +48,7 @@ void Gui::connectSignals()
     eventsSlot.connect(this, &Gui::keyPressed, mainComponent->keyPressedSignal);
     eventsSlot.connect(this, &Gui::playNextSong, mainComponent->playNextSongSignal);
     eventsSlot.connect(this, &Gui::musicDirectoryChanged, mainComponent->musicDirectoryChangedSignal);
+    eventsSlot.connect(this, &Gui::timeToPlayASongChanged, mainComponent->timeToPlayASongChangedSignal);
 }
 
 void Gui::keyPressed(const KeyPress& key)
@@ -203,6 +204,7 @@ void Gui::setMusicFolder(const std::string& folder)
 void Gui::setTimeToPlaySong(int millisecs)
 {
     timeToPlaySong = millisecs;
+    mainComponent->setTimeToPlayASong(timeToPlaySong);
 }
 
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
@@ -355,6 +357,12 @@ void Gui::handleDotPressed()
 void Gui::musicDirectoryChanged(const std::string& musicDirectory)
 {
     musicDirectoryChangedSignal(musicDirectory);
+}
+
+void Gui::timeToPlayASongChanged(int millisecs)
+{
+    //TODO move?
+    timeToPlayASongChangedSignal(std::move(millisecs));
 }
 
 void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)

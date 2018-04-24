@@ -45,6 +45,22 @@ SetupPage::SetupPage()
     txtStatistics->setCaretVisible(false);
     txtStatistics->setPopupMenuEnabled(true);
     txtStatistics->setText(String());
+
+    addAndMakeVisible(infoTimeToPlayASong = new Label("time to play a song label", "Seconds to cancel playing a song"));
+    infoTimeToPlayASong->setFont (Font (15.00f, Font::plain));
+    infoTimeToPlayASong->setJustificationType (Justification::centredLeft);
+    infoTimeToPlayASong->setEditable (false, false, false);
+    infoTimeToPlayASong->setColour (TextEditor::textColourId, Colours::black);
+    infoTimeToPlayASong->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible(comboTimeToPlayASong = new ComboBox("time to play a song combo"));
+    comboTimeToPlayASong->addItem("0", 1);
+    comboTimeToPlayASong->addItem("1", 2);
+    comboTimeToPlayASong->addItem("2", 3);
+    comboTimeToPlayASong->addItem("3", 4);
+    comboTimeToPlayASong->addItem("4", 5);
+    comboTimeToPlayASong->addItem("5", 6);
+    comboTimeToPlayASong->addListener(timeToPlayASongListener = new TimeToPlayASongListener(*this));
 }
 
 SetupPage::~SetupPage()
@@ -52,6 +68,12 @@ SetupPage::~SetupPage()
     infoMusicDirectory = nullptr;
     txtMusicDirectory = nullptr;
     buttonMusicDirectory = nullptr;
+    infoStatistics = nullptr;
+    txtStatistics = nullptr;
+    infoTimeToPlayASong = nullptr;
+    comboTimeToPlayASong = nullptr;
+    musicDirectoryListener = nullptr;
+    timeToPlayASongListener = nullptr;
 }
 
 void SetupPage::paint(Graphics& g)
@@ -75,15 +97,22 @@ void SetupPage::parentSizeChanged()
 {
     textPlace = calculateTextPlace(getWidth(), getHeight());
     infoMusicDirectory->setBounds(10, 60, 100, 24);
-    txtMusicDirectory->setBounds(116, 60, 200, 24);
-    buttonMusicDirectory->setBounds(328, 60, 36, 24);
+    txtMusicDirectory->setBounds(116, 60, 450, 24);
+    buttonMusicDirectory->setBounds(578, 60, 36, 24);
     infoStatistics->setBounds(10, 96, 100, 24);
     txtStatistics->setBounds(10, 132, 600, 400);
+    infoTimeToPlayASong->setBounds(10, 568, 200, 24);
+    comboTimeToPlayASong->setBounds(216, 568, 36, 24);
 }
 
 void SetupPage::setMusicDirectory(const std::string& musicDirectory)
 {
     txtMusicDirectory->setText(musicDirectory);
+}
+
+void SetupPage::setTimeToPlayASong(int millisecs)
+{
+    comboTimeToPlayASong->setSelectedId(millisecs / 1000 + 1, dontSendNotification);
 }
 
 void SetupPage::showStatistics(const std::string& statistics)
@@ -120,4 +149,14 @@ void SetupPage::MusicDirectoryListener::buttonClicked(Button*)
 
         ownerPage.musicDirectoryChangedSignal(name.toStdString());
     }
+}
+
+SetupPage::TimeToPlayASongListener::TimeToPlayASongListener(SetupPage& owner) :
+    ownerPage(owner)
+{
+}
+
+void SetupPage::TimeToPlayASongListener::comboBoxChanged(ComboBox* combo)
+{
+    ownerPage.timeToPlayASongChangedSignal((combo->getSelectedId() - 1) * 1000);
 }

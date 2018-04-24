@@ -61,6 +61,7 @@ private:
     void handleUserInputNumbers(char number);
     void handleDotPressed();
     void musicDirectoryChanged(const std::string& musicDirectory);
+    void timeToPlayASongChanged(int millisecs);
     //TODO: these two functions could be merged into one entity with templates
     void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
     void playAlbumWithDelay(unsigned int albumNumber);

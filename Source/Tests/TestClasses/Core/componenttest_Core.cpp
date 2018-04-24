@@ -400,3 +400,20 @@ TEST_F(CoreTest, WhenGuiSendsMusicDirectoryChangedSignal_ThenSettingsIsNotified)
 
     guiMock->musicDirectoryChangedSignal(foo);
 }
+
+// timeToPlayASongChanged
+
+TEST_F(CoreTest, WhenGuiSendsTimeToPlayASongChangedSignal_ThenSettingsIsNotified)
+{
+    EXPECT_CALL(*settingsMock, setTimeToPlaySong(2000));
+    EXPECT_CALL(*guiMock, setTimeToPlaySong(2000));
+
+    guiMock->timeToPlayASongChangedSignal(2000);
+}
+
+TEST_F(CoreTest, GivenOnlyNonNegativeNumbersAccepted_WhenGuiSendsTimeToPlayASongChangedSignal_ThenAnErrorIsDisplayed)
+{
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorNegativeNumber));
+
+    guiMock->timeToPlayASongChangedSignal(-2000);
+}

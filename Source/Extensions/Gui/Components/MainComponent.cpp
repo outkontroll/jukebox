@@ -123,6 +123,7 @@ MainComponent::MainComponent ()
 
     addChildComponent(setupPage = new jukebox::gui::SetupPage);
     eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, setupPage->musicDirectoryChangedSignal);
+    eventsSlot.connect(this, &MainComponent::onTimeToPlayASongChanged, setupPage->timeToPlayASongChangedSignal);
 
     //[/UserPreSize]
 
@@ -254,6 +255,11 @@ void MainComponent::setMusicDirectory(const std::string& musicDirectory)
     setupPage->setMusicDirectory(musicDirectory);
 }
 
+void MainComponent::setTimeToPlayASong(int millisecs)
+{
+    setupPage->setTimeToPlayASong(millisecs);
+}
+
 void MainComponent::switchBetweenAlbumViews()
 {
     multipleAlbumsCanvas->setVisible(!multipleAlbumsCanvas->isVisible());
@@ -319,6 +325,12 @@ void MainComponent::removeCurrentSongImmediately()
 void MainComponent::onMusicDirectoryChanged(const std::string& musicDirectory)
 {
     musicDirectoryChangedSignal(musicDirectory);
+}
+
+void MainComponent::onTimeToPlayASongChanged(int millisecs)
+{
+    //TODO move?
+    timeToPlayASongChangedSignal(std::move(millisecs));
 }
 
 void MainComponent::prepareForExit()

@@ -44,6 +44,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::removePlayedSong, gui->removePlayedSongSignal);
     eventsSlot.connect(this, &Core::playNextSong, gui->playNextSongSignal);
     eventsSlot.connect(this, &Core::musicDirectoryChanged, gui->musicDirectoryChangedSignal);
+    eventsSlot.connect(this, &Core::timeToPlayASongChanged, gui->timeToPlayASongChangedSignal);
     eventsSlot.connect(this, &Core::showStatisticsRequested, gui->requestStatisticsSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
 
@@ -154,6 +155,19 @@ void Core::musicDirectoryChanged(const std::string& newMusicDirectory)
 {
     settings->setMusicDirectory(newMusicDirectory);
     gui->setMusicFolder(newMusicDirectory);
+}
+
+void Core::timeToPlayASongChanged(int millisecs)
+{
+    if(millisecs >= 0)
+    {
+        settings->setTimeToPlaySong(millisecs);
+        gui->setTimeToPlaySong(millisecs);
+    }
+    else
+    {
+        gui->showStatusMessage(ResourceId::ErrorNegativeNumber);
+    }
 }
 
 void Core::showStatisticsRequested()

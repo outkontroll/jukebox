@@ -56,6 +56,8 @@ private:
     void playOrEnqueue(const audio::Song& song);
     
     void musicDirectoryChanged(const std::string& newMusicDirectory);
+    void timeToPlayASongChanged(int millisecs);
+
     void showStatisticsRequested();
     void exitRequested();
 

@@ -50,8 +50,10 @@ public:
     jukebox::signals::Signal<> increaseSoundVolumeSignal;
     jukebox::signals::Signal<> decreaseSoundVolumeSignal;
     jukebox::signals::Signal<> switchMuteStatusSignal;
+
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
-    
+    jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
+
     jukebox::signals::Signal<> requestStatisticsSignal;
 
     jukebox::signals::Signal<> exitRequestedSignal;

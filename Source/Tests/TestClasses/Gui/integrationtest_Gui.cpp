@@ -95,6 +95,16 @@ TEST_F(GuiTest, WhenMainComponentSendsMusicDirectoryChangedSignal_ThenGuiSignali
     mainComponentMock->musicDirectoryChangedSignal(foo);
 }
 
+TEST_F(GuiTest, WhenMainComponentSendsTimeToPlayASongChangedSignal_ThenGuiSignalizeIt)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::fooInt, gui->timeToPlayASongChangedSignal);
+
+    EXPECT_CALL(fooMock, fooInt(3));
+
+    mainComponentMock->timeToPlayASongChangedSignal(3);
+}
+
 TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetweenAlbumViews)
 {
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews()).Times(2);
@@ -221,6 +231,7 @@ TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayASong_WhenMainComp
     JuceEventLoopRunner eventLoopRunner;
 
     const int timeToPlaySong(100);
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(timeToPlaySong);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
     mainComponentMock->keyPressedSignal(keyNumber5);
@@ -243,6 +254,7 @@ TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayASong_WhenMainComp
 
 TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsFifthKeyPressedNumberAndSongIsNotExisting_ThenErrorIsShown)
 {
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(5000);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
     mainComponentMock->keyPressedSignal(keyNumber5);
@@ -260,6 +272,7 @@ TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSe
 
 TEST_F(GuiTest, GivenThereIsNoCurrentUserInput_WhenMainComponentSendsKeyPressedSignalDot_ThenCurrentUserInputNumberIsReset)
 {
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(0);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
 
@@ -268,6 +281,7 @@ TEST_F(GuiTest, GivenThereIsNoCurrentUserInput_WhenMainComponentSendsKeyPressedS
 
 TEST_F(GuiTest, GivenThereIsNotEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedSignalDot_ThenCurrentUserInputNumberIsReset)
 {
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(0);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
     mainComponentMock->keyPressedSignal(keyNumber1);
@@ -282,6 +296,7 @@ TEST_F(GuiTest, GivenThereIsNotEnoughCurrentUserInputToPlayASong_WhenMainCompone
 
 TEST_F(GuiTest, DISABLED_Signaling)
 {
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(100);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
     mainComponentMock->keyPressedSignal(keyNumber5);
@@ -306,6 +321,7 @@ TEST_F(GuiTest, DISABLED_Signaling)
 
 TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASongAndNoDotPressIsGiven_WhenMainComponentSendsKeyPressedSignalDot_Then)
 {
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(0);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
     mainComponentMock->keyPressedSignal(keyNumber5);
@@ -326,6 +342,7 @@ TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASongAndNoDotPr
 
 TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedSignalDotInTimeToCancel_ThenCurrentUserInputNumberIsReset)
 {
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(5000);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
     mainComponentMock->keyPressedSignal(keyNumber5);
@@ -462,6 +479,13 @@ TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbu
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
     gui->setMusicFolder(setMusicDir);
+}
+
+TEST_F(GuiTest, WhenSetTimeToPlaySongIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(2000));
+
+    gui->setTimeToPlaySong(2000);
 }
 
 TEST_F(GuiTest, WhenSetCurrentlyPlayedSongIsCalled_ThenTheSameAndStatusUpdateIsCalledOnMainComponent)

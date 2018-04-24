@@ -1,5 +1,4 @@
 #include "Settings.h"
-#include "Logger.h"
 
 using namespace jukebox::settings;
 

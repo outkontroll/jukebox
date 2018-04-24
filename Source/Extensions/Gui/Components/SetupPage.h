@@ -16,9 +16,11 @@ public:
     void parentSizeChanged() override;
 
     virtual void setMusicDirectory(const std::string& musicDirectory);
+    virtual void setTimeToPlayASong(int millisecs);
     virtual void showStatistics(const std::string& statistics);
 
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
+    jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
 private:
     juce::Rectangle<float> calculateTextPlace(float width, float height) const;
 
@@ -27,6 +29,8 @@ private:
     juce::ScopedPointer<juce::TextButton> buttonMusicDirectory;
     juce::ScopedPointer<juce::Label> infoStatistics;
     juce::ScopedPointer<juce::TextEditor> txtStatistics;
+    juce::ScopedPointer<juce::Label> infoTimeToPlayASong;
+    juce::ScopedPointer<juce::ComboBox> comboTimeToPlayASong;
     juce::Rectangle<float> textPlace = {0, 0, 0, 0};
 
     class MusicDirectoryListener : public juce::Button::Listener
@@ -38,6 +42,16 @@ private:
         SetupPage& ownerPage;
     };
     juce::ScopedPointer<MusicDirectoryListener> musicDirectoryListener;
+
+    class TimeToPlayASongListener : public juce::ComboBox::Listener
+    {
+    public:
+        TimeToPlayASongListener(SetupPage&);
+        void comboBoxChanged(juce::ComboBox*) override;
+    private:
+        SetupPage& ownerPage;
+    };
+    juce::ScopedPointer<TimeToPlayASongListener> timeToPlayASongListener;
 };
 
 }
