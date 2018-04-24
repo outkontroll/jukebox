@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(creditManager_test)
+project(creditManagerFree_test)
 
 # sources
 
@@ -16,14 +16,16 @@ add_executable(${PROJECT_NAME}
 )
 
 set(INCLUDE_DIRS
-    ${SOURCE_DIR}/Extensions/CreditManager
+    ${SOURCE_DIR}/Alternatives/CreditManager
+    ${INTERFACE_DIRECTORY}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
-		      creditManager
+                      #creditManagerFree
+                      DllLoader
 		      helpers
                       #GTest::GTest
                       #GTest::Main
@@ -32,10 +34,10 @@ target_link_libraries(${PROJECT_NAME}
                       pthread
 )
 
-add_test(NAME creditManager_unit_test
+add_test(NAME creditManagerFree_unit_test
          COMMAND ${PROJECT_NAME})
 
-add_custom_command(TARGET ${PROJECT_NAME}
-                   POST_BUILD
-                   COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}
-                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)
+#add_custom_command(TARGET ${PROJECT_NAME}
+#                   POST_BUILD
+#                   COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}
+#                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)

@@ -39,5 +39,5 @@ add_test(signaling_prototype_test ${PROJECT_NAME})
 
 add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./${PROJECT_NAME}
+                   COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}
                    COMMENT "Running stest_Signaling" VERBATIM)

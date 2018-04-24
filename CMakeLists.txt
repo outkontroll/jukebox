@@ -29,6 +29,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
                             -Wno-weak-vtables #multiple
                             -Wno-exit-time-destructors #logger
                             -Wno-reserved-id-macro #maincomponent
+                            -Wno-global-constructors # plugins
         )
     endif()
 endif()
@@ -57,6 +58,12 @@ if("${CMAKE_SIZEOF_VOID_P}" EQUAL 4)
 else()
     set(BUILD_ARCHITECTURE "64bit")
 endif()
+
+# build directories
+
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Libs)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Dlls)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 # global definitions
 
@@ -158,6 +165,7 @@ enable_testing()
 add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
 add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
 add_subdirectory(${SOURCE_DIR}/Tests)
+add_subdirectory(${SOURCE_DIR}/Alternatives)
 
 # code coverage
 

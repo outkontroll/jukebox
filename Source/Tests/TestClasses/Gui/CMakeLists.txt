@@ -47,5 +47,5 @@ add_test(NAME gui_integration_test
 
 add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./${PROJECT_NAME}
+                   COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}
                    COMMENT "Running ${PROJECT_NAME}" VERBATIM)
