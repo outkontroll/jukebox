@@ -395,31 +395,6 @@ TEST_F(GuiTest, GivenThereIsNotEnoughCurrentUserInputToPlayASong_WhenMainCompone
     mainComponentMock->keyPressedSignal(keyDot);
 }
 
-TEST_F(GuiTest, DISABLED_Signaling)
-{
-    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
-    gui->setTimeToPlaySong(100);
-    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
-    mainComponentMock->keyPressedSignal(keyNumber5);
-    mainComponentMock->keyPressedSignal(keyNumber6);
-    mainComponentMock->keyPressedSignal(keyNumber7);
-    mainComponentMock->keyPressedSignal(keyNumber8);
-    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return(songPath));
-
-    /*StrictMock<*/FooMock/*>*/ fooMock;
-    eventsSlot.connect(&fooMock, &FooMock::fooSong, gui->playSongSignal);
-
-    Song song{1, 1, "fakeFileName", "fakeVisibleName"};
-
-    EXPECT_CALL(fooMock, fooSong(song));
-
-    mainComponentMock->keyPressedSignal(keyNumber9);
-
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(2s);
-
-}
-
 TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASongAndNoDotPressIsGiven_WhenMainComponentSendsKeyPressedSignalDot_Then)
 {
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
