@@ -327,7 +327,7 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndSongSelectionIsDifferent_WhenM
     mainComponentMock->keyPressedSignal(keyC);
 }
 
-TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedNumberAndTheSongIsExisting_ThenGuiSendsPlaySongSignal)
+TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedNumberAndSongIsExisting_ThenGuiSendsPlaySongSignal)
 {
     JuceEventLoopRunner eventLoopRunner;
 
@@ -353,7 +353,23 @@ TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayASong_WhenMainComp
     eventLoopRunner.runEventLoop(timeToPlaySong);
 }
 
-TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsFifthKeyPressedNumberAndSongIsNotExisting_ThenErrorIsShown)
+TEST_F(GuiTest, GivenThereIsSongToPlayOrCancel_WhenMainComponentSendsKeyPressedNumber_ThenItIsIgnored)
+{
+    const int timeToPlaySong(100);
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
+    gui->setTimeToPlaySong(timeToPlaySong);
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
+    mainComponentMock->keyPressedSignal(keyNumber5);
+    mainComponentMock->keyPressedSignal(keyNumber6);
+    mainComponentMock->keyPressedSignal(keyNumber7);
+    mainComponentMock->keyPressedSignal(keyNumber8);
+    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return("FakeFileName"));
+    mainComponentMock->keyPressedSignal(keyNumber9);
+
+    mainComponentMock->keyPressedSignal(keyNumber8);
+}
+
+TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedNumberAndSongIsNotExisting_ThenErrorIsShown)
 {
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(5000);
@@ -416,10 +432,13 @@ TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASongAndNoDotPr
     mainComponentMock->keyPressedSignal(keyDot);
 }
 
-TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedSignalDotInTimeToCancel_ThenCurrentUserInputNumberIsReset)
+TEST_F(GuiTest, GivenThereIsEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedSignalDotInTimeToCancel_ThenCurrentUserInputNumberIsReset)
 {
+    JuceEventLoopRunner eventLoopRunner;
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
-    gui->setTimeToPlaySong(5000);
+    const int timeToPlay(200);
+    gui->setTimeToPlaySong(timeToPlay);
+    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return("FakeFileName"));
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
     mainComponentMock->keyPressedSignal(keyNumber5);
     mainComponentMock->keyPressedSignal(keyNumber6);
@@ -427,12 +446,10 @@ TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASong_WhenMainC
     mainComponentMock->keyPressedSignal(keyNumber8);
     mainComponentMock->keyPressedSignal(keyNumber9);
 
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(2s);
-
-    //TODO set expectations
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
 
     mainComponentMock->keyPressedSignal(keyDot);
+    eventLoopRunner.runEventLoop(timeToPlay / 2);
 }
 
 //TODO this test is incomplete because when the timer expires there will be additional (currently untested) calls too
