@@ -31,6 +31,15 @@ namespace {
     //apparently the first parameter can be anything as long as the last one is the correct char and the second is zero
     const juce::KeyPress keyC(0, 0, 'c');
     const juce::KeyPress keyH(0, 0, 'h');
+    const juce::KeyPress keyA(0, 0, 'a');
+    const juce::KeyPress keyS(0, 0, 's');
+    const juce::KeyPress keyM(0, 0, 'm');
+    const juce::KeyPress keyO(0, 0, 'o');
+    const juce::KeyPress keyP(0, 0, 'p');
+    const juce::KeyPress keyL(0, 0, 'l');
+    const juce::KeyPress keyK(0, 0, 'k');
+    const juce::KeyPress keyJ(0, 0, 'j');
+    const juce::KeyPress keyQ(0, 0, 'q');
     const juce::KeyPress keyDot(0, 0, '.');
     const juce::KeyPress keyMinus(0, 0, '-');
     const juce::KeyPress keyPlus(0, 0, '+');
@@ -103,6 +112,98 @@ TEST_F(GuiTest, WhenMainComponentSendsTimeToPlayASongChangedSignal_ThenGuiSignal
     EXPECT_CALL(fooMock, fooInt(3));
 
     mainComponentMock->timeToPlayASongChangedSignal(3);
+}
+
+// keyPress
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalA_ThenGuiSignalizeIncreaseVolume)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->increaseSoundVolumeSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyA);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalS_ThenGuiSignalizeDecreaseVolume)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->decreaseSoundVolumeSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyS);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalM_ThenGuiSignalizeSwitchMute)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->switchMuteStatusSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyM);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalO_ThenGuiSignalizeCoinInserted50)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->coinInserted50Signal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyO);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalP_ThenGuiSignalizeCoinInserted100)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->coinInserted100Signal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyP);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalL_ThenGuiSignalizeCoinInserted200)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->coinInserted200Signal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyL);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalK_ThenGuiSignalizeCreditIncrease)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->creditIncreaseSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyK);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalL_ThenGuiSignalizeCreditDecrease)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->creditDecreaseSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyJ);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalQ_ThenGuiSignalizeShutdown)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->shutDownSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->keyPressedSignal(keyQ);
 }
 
 TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetweenAlbumViews)
