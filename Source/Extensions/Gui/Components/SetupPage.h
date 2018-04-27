@@ -6,7 +6,7 @@
 
 namespace jukebox::gui {
 
-class SetupPage : public juce::Component
+class SetupPage : public juce::Component, public juce::FileBrowserListener
 {
 public:
     SetupPage();
@@ -31,6 +31,10 @@ private:
     juce::ScopedPointer<juce::TextEditor> txtStatistics;
     juce::ScopedPointer<juce::Label> infoTimeToPlayASong;
     juce::ScopedPointer<juce::ComboBox> comboTimeToPlayASong;
+    juce::ScopedPointer<juce::FileTreeComponent> treeMusicDir;
+    juce::TimeSliceThread directoryThread{ "Music File Scanner Thread" };
+    juce::DirectoryContentsList listToShow{nullptr, directoryThread};
+    juce::ImageComponent imagePreview;
     juce::Rectangle<float> textPlace = {0, 0, 0, 0};
 
     class MusicDirectoryListener : public juce::Button::Listener
@@ -52,6 +56,13 @@ private:
         SetupPage& ownerPage;
     };
     juce::ScopedPointer<TimeToPlayASongListener> timeToPlayASongListener;
+
+    void selectionChanged() override;
+    void fileClicked (const juce::File&, const juce::MouseEvent&) override {}
+    void fileDoubleClicked (const juce::File&)              override {}
+    void browserRootChanged (const juce::File&)             override {}
+
+    bool isImageFile(const juce::File&) const;
 };
 
 }

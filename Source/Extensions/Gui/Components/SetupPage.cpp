@@ -61,10 +61,19 @@ SetupPage::SetupPage()
     comboTimeToPlayASong->addItem("4", 5);
     comboTimeToPlayASong->addItem("5", 6);
     comboTimeToPlayASong->addListener(timeToPlayASongListener = new TimeToPlayASongListener(*this));
+
+    directoryThread.startThread (1);
+    addAndMakeVisible(treeMusicDir = new FileTreeComponent(listToShow));
+    treeMusicDir->setColour(TreeView::backgroundColourId, Colours::white);
+    treeMusicDir->addListener(this);
+
+    addAndMakeVisible(imagePreview);
 }
 
 SetupPage::~SetupPage()
 {
+    treeMusicDir->removeListener(this);
+
     infoMusicDirectory = nullptr;
     txtMusicDirectory = nullptr;
     buttonMusicDirectory = nullptr;
@@ -74,6 +83,7 @@ SetupPage::~SetupPage()
     comboTimeToPlayASong = nullptr;
     musicDirectoryListener = nullptr;
     timeToPlayASongListener = nullptr;
+    treeMusicDir = nullptr;
 }
 
 void SetupPage::paint(Graphics& g)
@@ -96,18 +106,21 @@ void SetupPage::paint(Graphics& g)
 void SetupPage::parentSizeChanged()
 {
     textPlace = calculateTextPlace(getWidth(), getHeight());
-    infoMusicDirectory->setBounds(10, 60, 100, 24);
-    txtMusicDirectory->setBounds(116, 60, 450, 24);
-    buttonMusicDirectory->setBounds(578, 60, 36, 24);
-    infoStatistics->setBounds(10, 96, 100, 24);
-    txtStatistics->setBounds(10, 132, 600, 400);
-    infoTimeToPlayASong->setBounds(10, 568, 200, 24);
-    comboTimeToPlayASong->setBounds(216, 568, 36, 24);
+    infoMusicDirectory->setBounds(10, 30, 100, 24);
+    txtMusicDirectory->setBounds(116, 30, 450, 24);
+    buttonMusicDirectory->setBounds(578, 30, 36, 24);
+    infoStatistics->setBounds(10, 66, 100, 24);
+    txtStatistics->setBounds(10, 102, 600, 400);
+    infoTimeToPlayASong->setBounds(10, 538, 200, 24);
+    comboTimeToPlayASong->setBounds(216, 538, 36, 24);
+    treeMusicDir->setBounds(636, 30, 400, 400);
+    imagePreview.setBounds(636, 450, 300, 300);
 }
 
 void SetupPage::setMusicDirectory(const std::string& musicDirectory)
 {
     txtMusicDirectory->setText(musicDirectory);
+    listToShow.setDirectory(juce::File(musicDirectory), true, true);
 }
 
 void SetupPage::setTimeToPlayASong(int millisecs)
@@ -128,6 +141,27 @@ juce::Rectangle<float> SetupPage::calculateTextPlace(float width, float height) 
     const float textWidth = width;
 
     return { xPosition, yPosition, textWidth, textHeight };
+}
+
+void SetupPage::selectionChanged()
+{
+    auto selectedFile = treeMusicDir->getSelectedFile();
+
+    if(isImageFile(selectedFile))
+    {
+        imagePreview.setImage (juce::ImageCache::getFromFile (selectedFile));
+        if(!imagePreview.isVisible())
+            imagePreview.setVisible(true);
+    }
+    else
+    {
+        imagePreview.setVisible(false);
+    }
+}
+
+bool SetupPage::isImageFile(const File& file) const
+{
+    return file.existsAsFile() && file.getFileExtension().containsWholeWord("jpg");
 }
 
 SetupPage::MusicDirectoryListener::MusicDirectoryListener(SetupPage& owner) :
