@@ -61,5 +61,5 @@ target_include_directories(gui PUBLIC ${PUBLIC_INCLUDE_DIRS})
 target_include_directories(gui PRIVATE ${IMPL_INCLUDE_DIRS})
 target_include_directories(gui SYSTEM PUBLIC ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(gui PUBLIC signals std_addons)
-target_link_libraries(gui PRIVATE ${PROJECT_JUCE} helpers)
+target_link_libraries(gui PUBLIC signals)
+target_link_libraries(gui PRIVATE ${PROJECT_JUCE} helpers std_addons)

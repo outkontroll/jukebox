@@ -1,10 +1,11 @@
 #include "FileSystem.h"
-#include "Formaters.h"
-#include "Logger.h"
-#include "JuceHeader.h"
 #include <algorithm>
 #include <utility>
 #include <tuple>
+#include "StdAddons.hpp"
+#include "Formaters.h"
+#include "Logger.h"
+#include "JuceHeader.h"
 
 using namespace jukebox::filesystem;
 using namespace juce;
@@ -41,14 +42,14 @@ std::vector<std::pair<std::string, unsigned int>> FileSystem::getAllSongFilesWit
     std::vector<std::pair<std::string, unsigned int>> paths;
     paths.reserve(static_cast<unsigned int>(files.size()));
 
-    std::transform(files.begin(), files.end(), std::back_inserter(paths), [](const File& file){
+    std_addons::transform(files, std::back_inserter(paths), [](const File& file){
         const auto filePath = file.getFullPathName().toStdString();
         const unsigned int index = [&]() -> unsigned int {
             try
             {
                 return static_cast<unsigned int>(std::stoi(file.getFileNameWithoutExtension().substring(0, 2).toStdString()));
             }
-            catch(std::exception e)
+            catch(std::exception& e)
             {
                 //TODO check return value
                 LOG_ERROR(e.what());
@@ -59,7 +60,7 @@ std::vector<std::pair<std::string, unsigned int>> FileSystem::getAllSongFilesWit
         return std::make_pair(filePath, index);
     });
 
-    std::sort(paths.begin(), paths.end(), [](const auto& lhs, const auto& rhs){
+    std_addons::sort(paths, [](const auto& lhs, const auto& rhs){
         return std::tie(lhs.first, lhs.second) < std::tie(rhs.first, rhs.second);
     });
 
@@ -74,11 +75,11 @@ std::vector<std::string> FileSystem::getAllSongFilesNamesOnly(const std::string&
     std::vector<std::string> musicSongs;
     musicSongs.reserve(static_cast<unsigned int>(files.size()));
 
-    std::transform(files.begin(), files.end(), std::back_inserter(musicSongs), [](const File& file){
+    std_addons::transform(files, std::back_inserter(musicSongs), [](const File& file){
         return file.getFileNameWithoutExtension().toStdString();
     });
 
-    std::sort(musicSongs.begin(), musicSongs.end());
+    std_addons::sort(musicSongs);
 
     return musicSongs;
 }

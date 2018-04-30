@@ -38,10 +38,22 @@ OutputIterator transform_exclusive_scan(Range&& range,
                                     std::forward<T>(init));
 }
 
-template<typename Range1, typename T, typename BinaryOperation>
-T accumulate(Range1&& range, T init, BinaryOperation&& op)
+template<typename Range, typename T, typename BinaryOperation>
+T accumulate(Range&& range, T init, BinaryOperation&& op)
 {
     return std::accumulate(std::begin(range), std::end(range), init, std::forward<BinaryOperation>(op));
+}
+
+template<typename Range>
+void sort(Range&& range)
+{
+    std::sort(std::begin(range), std::end(range));
+}
+
+template<typename Range, typename Compare>
+void sort(Range&& range, Compare&& comp)
+{
+    std::sort(std::begin(range), std::end(range), std::forward<Compare>(comp));
 }
 
 template<typename Range1, typename OutputIterator, typename UnaryOperator>

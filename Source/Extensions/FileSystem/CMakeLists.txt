@@ -34,4 +34,4 @@ target_include_directories(fileSystem PUBLIC ${PUBLIC_INCLUDE_DIRS})
 target_include_directories(fileSystem PRIVATE ${IMPL_INCLUDE_DIRS})
 target_include_directories(fileSystem SYSTEM PUBLIC ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(fileSystem ${PROJECT_JUCE})
+target_link_libraries(fileSystem PRIVATE ${PROJECT_JUCE} std_addons)
