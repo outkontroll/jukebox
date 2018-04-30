@@ -187,6 +187,16 @@ void Gui::showStatistics(const std::string& statistics)
     mainComponent->showStatistics(statistics);
 }
 
+void Gui::loadMultipleAlbums()
+{
+    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex, *fileSys);
+}
+
+void Gui::loadSingleAlbum()
+{
+    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
+}
+
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
@@ -194,8 +204,8 @@ void Gui::setMusicFolder(const std::string& folder)
     visibleAlbumsIndex = defaultAlbumIndex;
     selectedAlbumIndex = defaultAlbumIndex;
     selectedSongIndex = defaultSongIndex;
-    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex, *fileSys);
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
+    loadMultipleAlbums();
+    loadSingleAlbum();
     mainComponent->updateAlbumSelection(selectedAlbumIndex);
     mainComponent->updateSongSelection(selectedSongIndex);
     mainComponent->setMusicDirectory(musicFolder);
@@ -274,7 +284,7 @@ void Gui::stepSelectionMultipleAlbumsMode()
     }
 
     selectedSongIndex = defaultSongIndex;
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
+    loadSingleAlbum();
     mainComponent->updateAlbumSelection(selectedAlbumIndex);
     mainComponent->updateSongSelection(selectedSongIndex);
 }
@@ -310,10 +320,10 @@ void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)
 void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 {
     visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
-    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex, *fileSys);
+    loadMultipleAlbums();
 
     selectedAlbumIndex = visibleAlbumsIndex;
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
+    loadSingleAlbum();
 }
 
 void Gui::handleUserInputNumbers(char number)
@@ -416,13 +426,13 @@ void Gui::playAlbumWithDelay(unsigned int albumNumber)
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
 {
     selectedAlbumIndex = getNextSelectedAlbumIndex(selectedAlbumIndex, increase);
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
+    loadSingleAlbum();
 
     if((increase && selectedAlbumIndex >= visibleAlbumsIndex + albumIndexStep) ||
        (!increase && selectedAlbumIndex < visibleAlbumsIndex))
     {
         visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
-        mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex, *fileSys);
+        loadMultipleAlbums();
     }
 }
 

@@ -4,12 +4,13 @@
 #include "JuceHeader.h"
 #include <string>
 #include <memory>
+#include <array>
 
 namespace jukebox { namespace filesystem {
     class IFileSystem;
 }}
-namespace jukebox::gui {
 
+namespace jukebox::gui {
 
 class SingleAlbumCanvas : public juce::Component
 {
@@ -21,32 +22,20 @@ public:
     void setSelection(unsigned int selectedSongIndex);
 
 private:
-    struct MultipleLinesPosition
-    {
-        int startX;
-        int baselineY;
-        int maximumLineWidth;
-    };
-
     void loadImage(const std::string& musicDirectory, const filesystem::IFileSystem& fileSys);
-    void loadInfoFile(const std::string& musicDirectory, const jukebox::filesystem::IFileSystem& fileSys);
-
-    juce::Rectangle<float> calculateImagePlace(float imageSize, float width, float height) const;
-    juce::Rectangle<float> calculateTextPlace(float imageSize, float width) const;
-    juce::Rectangle<float> calculateArtistTextPlace(float imageSize, float width) const;
-    juce::Rectangle<float> calculateSelectionBounds(const std::vector<juce::String>& lines, MultipleLinesPosition position);
-    MultipleLinesPosition calculateOtherLinesPlace(float imageSize, float width, float height) const;
+    auto loadInfoFile(const std::string& musicDirectory, const jukebox::filesystem::IFileSystem& fileSys, unsigned int albumIndex_) const
+        -> std::tuple<juce::String, juce::String, std::vector<juce::String>>;
 
     juce::Image image;
     juce::String artistName = "";
-    juce::String otherLines = "";
+    juce::String drawableSongNames = "";
     std::vector<juce::String> songNames;
     unsigned int albumIndex = 0;
-    juce::Rectangle<float> textPlace = {0, 0, 0, 0};
+    juce::Rectangle<float> albumTextPlace = {0, 0, 0, 0};
     juce::Rectangle<float> imagePlace = {0, 0, 0, 0};
     juce::Rectangle<float> artistNamePlace = {0, 0, 0, 0};
-    juce::Rectangle<float> selectionBounds = {0, 0, 0, 0};
-    MultipleLinesPosition otherLinesPlace = {0, 0, 0};
+    std::vector<juce::Rectangle<float>> selectionBounds;
+    std::array<int, 3> drawableSongNamesPlace = {0, 0, 0};
     unsigned int currentSelectedLine = 0;
 };
 
