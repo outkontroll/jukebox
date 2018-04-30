@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(signals)
+project(std_addons)
 
 set(HEADER_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Signals.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/StdAddons.hpp
 )
 
 add_library(${PROJECT_NAME} INTERFACE)
-target_sources(signals INTERFACE ${HEADER_SOURCES})
+target_sources(${PROJECT_NAME} INTERFACE ${HEADER_SOURCES})
 
 target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)

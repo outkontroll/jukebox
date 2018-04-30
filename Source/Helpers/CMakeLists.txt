@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 add_subdirectory(Logging)
 add_subdirectory(SongBuilder)
 add_subdirectory(Signaling)
+add_subdirectory(StdAddons)
 
 project(helpers)
 
@@ -22,7 +23,7 @@ set(CPP_SOURCES
 
 # project
 
-add_library(helpers
+add_library(${PROJECT_NAME}
 	    STATIC
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
@@ -31,7 +32,7 @@ set(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/Logging/
 )
 
-target_include_directories(helpers PRIVATE ${INCLUDE_DIRS})
-target_include_directories(helpers SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(helpers logger)
+target_link_libraries(${PROJECT_NAME} logger)

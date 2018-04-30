@@ -5,6 +5,7 @@
 #include "Formaters.h"
 #include "IFileSystem.h"
 #include "SingleAlbumPositionCalculator.h"
+#include "StdAddons.hpp"
 
 using namespace jukebox::gui;
 using namespace jukebox::filesystem;
@@ -113,13 +114,13 @@ void SingleAlbumCanvas::loadImage(const std::string& musicDirectory, const files
 inline auto readMusicFiles(const std::string& musicDirectory, const IFileSystem& fileSys, unsigned int albumIndex)
 {
     auto musicFiles = fileSys.getAllSongFilesNamesOnly(musicDirectory, albumIndex, defaultMusicExtension);
-    String drawableSongNames = std::accumulate(musicFiles.begin(), musicFiles.end(), juce::String(""), [](const juce::String& current, const std::string& line){
+    String drawableSongNames = std_addons::accumulate(musicFiles, juce::String(""), [](const juce::String& current, const std::string& line){
        return current + line + '\n';
     });
 
     vector<String> songNames;
     songNames.reserve(musicFiles.size());
-    std::transform(musicFiles.begin(), musicFiles.end(), std::back_inserter(songNames), [](const std::string& line){
+    std_addons::transform(musicFiles, std::back_inserter(songNames), [](const std::string& line){
        return line;
     });
 
@@ -158,11 +159,11 @@ std::tuple<juce::String, juce::String, std::vector<juce::String>>
             lines.remove(0);
         }
 
-        drawableSongNames_ = std::accumulate(lines.begin(), lines.end(), String(""), [](const String& current, const String& line){
+        drawableSongNames_ = std_addons::accumulate(lines, String(""), [](const String& current, const String& line){
            return current + line + '\n';
         });
 
-        std::transform(lines.begin(), lines.end(), back_inserter(songNames_), [](const String& current){
+        std_addons::transform(lines, back_inserter(songNames_), [](const String& current){
             return current;
         });
     }

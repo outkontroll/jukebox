@@ -1,5 +1,6 @@
 #include "SingleAlbumPositionCalculator.h"
 #include <algorithm>
+#include "StdAddons.hpp"
 
 using namespace jukebox::gui;
 using namespace juce;
@@ -59,7 +60,7 @@ std::vector<Rectangle<float>> SingleAlbumPositionCalculator::calculateSelectionB
     const Font font(bigFontSize);
     std::vector<int> lineCounts(lines.size());
 
-    std::transform(lineCounts.begin(), lineCounts.end(), lines.begin(), lineCounts.begin(), [&](int, const String& line){
+    std_addons::transform(lines, lineCounts.begin(), [&](const String& line){
         return (font.getStringWidth(line) / position[2]) + 1;
     });
 
@@ -74,25 +75,20 @@ std::vector<Rectangle<float>> SingleAlbumPositionCalculator::calculateSelectionB
     std::vector<float> selectionTopPositions;
     selectionTopPositions.reserve(lines.size());
 
-    float currentHeight = glyphArrangement.getGlyph(0).getBounds().getTopLeft().getY();
-    std::transform(lineCounts.begin(), lineCounts.end(), std::back_inserter(selectionTopPositions), [&currentHeight](int lineCount){
-        const float currentTop = currentHeight;
-        currentHeight += lineCount * bigFontSize;
-       return currentTop;
-    });
+    std_addons::transform_exclusive_scan(lineCounts,
+                                         std::back_inserter(selectionTopPositions),
+                                         std::plus<>(),
+                                         [&](int lineCount){ return lineCount * bigFontSize; },
+                                         glyphArrangement.getGlyph(0).getBounds().getTopLeft().getY()
+    );
 
     std::vector<Rectangle<float>> selectionPositions;
     selectionPositions.reserve(lines.size());
 
-    unsigned int currentLineIndex = 0;
-
-    std::transform(selectionTopPositions.begin(), selectionTopPositions.end(), std::back_inserter(selectionPositions), [&](int topOfLine) -> Rectangle<float> {
-        const Point<float> selectionTopLeft = {static_cast<float>(position[0]) - offsetX,
-                                               topOfLine - offsetY};
-        const Point<float> selectionBottomRight = {static_cast<float>(position[0]) + position[2] + offsetX,
-                                                   topOfLine + lineCounts[currentLineIndex++] * bigFontSize + offsetY};
-
-        return {selectionTopLeft, selectionBottomRight};
+    std_addons::transform(selectionTopPositions, lineCounts, std::back_inserter(selectionPositions),
+        [=](float topOfLine, int lineCount) -> Rectangle<float> {
+           return {{static_cast<float>(position[0]) - offsetX, topOfLine - offsetY},
+                   {static_cast<float>(position[0]) + position[2] + offsetX, topOfLine + lineCount * bigFontSize + offsetY}};
     });
 
     return selectionPositions;

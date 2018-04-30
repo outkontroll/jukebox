@@ -4,6 +4,7 @@
 #include "Formaters.h"
 #include "ResourceId.h"
 #include "ResourceString.h"
+#include "StdAddons.hpp"
 
 using namespace jukebox::gui;
 using namespace juce;
@@ -71,7 +72,7 @@ void MultipleAlbumsCanvas::parentSizeChanged()
     albumPositions.reserve(indexes.size());
     albums.reserve(indexes.size());
 
-    std::transform(indexes.begin(), indexes.end(), std::back_inserter(albumPositions), [this](unsigned int visibleAlbumIndex){
+    std_addons::transform(indexes, std::back_inserter(albumPositions), [this](unsigned int visibleAlbumIndex){
         const auto position = getPositionFromIndex(visibleAlbumIndex);
         return AlbumPositionInfo{calculateImagePlace(position, slotWidth, slotHeight),
                                  calculateTextPlace(position, slotWidth, slotHeight)};
@@ -83,7 +84,7 @@ void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, unsigned
 {
     albums.clear();
 
-    std::accumulate(albumPositions.begin(), albumPositions.end(), firstAlbumIndex, [&, this](unsigned int albumIndex, const auto& albumPosition){
+    std_addons::accumulate(albumPositions, firstAlbumIndex, [&, this](unsigned int albumIndex, const auto& albumPosition){
         const auto imagePath = fileSys.getPicturePath(musicDirectoy, albumIndex, ".jpg");
         const auto image = ImageFileFormat::loadFrom(File(imagePath));
 
