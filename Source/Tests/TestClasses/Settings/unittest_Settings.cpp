@@ -12,6 +12,12 @@ protected:
     Settings settings;
 };
 
+TEST(SettingsTest1, baseClassCtorDtor)
+{
+    ISettings* sett = new Settings("fakeMusicDir");
+    delete sett;
+}
+
 TEST_F(SettingsTest, WhenMusicDirectorySet_ThenItIsSet)
 {
     settings.setMusicDirectory("/tmp");

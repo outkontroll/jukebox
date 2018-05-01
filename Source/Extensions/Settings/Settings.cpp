@@ -23,12 +23,12 @@ struct jukebox::settings::PImpl
 };
 
 namespace jukebox::settings {
-    void to_json(json& j, const PImpl& p)
+    inline void to_json(json& j, const PImpl& p)
     {
         j = json{{"musicDirectory", p.musicDirectory}, {"millisecsToPlaySong", p.millisecsToPlaySong}};
     }
 
-    void from_json(const json& j, PImpl& p)
+    inline void from_json(const json& j, PImpl& p)
     {
         p.musicDirectory = j.at("musicDirectory").get<std::string>();
         p.millisecsToPlaySong = j.at("millisecsToPlaySong").get<int>();

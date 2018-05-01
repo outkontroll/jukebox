@@ -22,6 +22,13 @@ protected:
 
 std::ostringstream StatisticsTest::ss;
 
+TEST(StatisticsTest1, baseClassCtorDtor)
+{
+    IStatistics* stat = new Statistics;
+
+    delete stat;
+}
+
 TEST_F(StatisticsTest, empty)
 {
     statistics.showStatistics(ss);

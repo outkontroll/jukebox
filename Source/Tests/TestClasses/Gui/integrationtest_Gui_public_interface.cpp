@@ -38,6 +38,14 @@ protected:
     jukebox::signals::Slot eventsSlot;
 };
 
+TEST(GuiTest1, baseClassCtorDtor)
+{
+    auto mainCompMock = std::make_unique<MainComponentMock>();
+    auto filesysMock = std::make_unique<FileSystemMock>();
+    IGui* gui = new GuiTester(std::move(mainCompMock), std::move(filesysMock));
+    delete gui;
+}
+
 // public interface
 
 TEST_F(GuiTest, WhenRefreshCreditsCalled_ThenSameIsCalledOnMainComponentWithSameParameter)
