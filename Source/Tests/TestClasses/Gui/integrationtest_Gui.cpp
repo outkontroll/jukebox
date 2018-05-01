@@ -18,14 +18,12 @@ using namespace testing;
 
 namespace {
     const char* defaultMusicDir = "";
-    const auto setMusicDir = "fakeMusicDir";
     const auto songPath = "fakeSongPath";
     const juce::String userInputNumber1("00101");
     const juce::String userInputNumber2("00102");
     constexpr int defaultSelectedAlbumIndex = 1;
     constexpr int defaultSelectedSongIndex = 0;
     constexpr int defaultAlbumStep = 8;
-    constexpr unsigned int testCredits = 12;
     const juce::String emptyString = "";
 
     //apparently the first parameter can be anything as long as the last one is the correct char and the second is zero
@@ -186,7 +184,7 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalK_ThenGuiSignalizeCreditIn
     mainComponentMock->keyPressedSignal(keyK);
 }
 
-TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalL_ThenGuiSignalizeCreditDecrease)
+TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalJ_ThenGuiSignalizeCreditDecrease)
 {
     /*StrictMock<*/FooMock/*>*/ fooMock;
     eventsSlot.connect(&fooMock, &FooMock::foo, gui->creditDecreaseSignal);
@@ -545,80 +543,3 @@ TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSends
 //TODO test range edges
 
 //TODO test overflow, underflow
-
-// public interface
-
-TEST_F(GuiTest, WhenRefreshCreditsCalled_ThenSameIsCalledOnMainComponentWithSameParameter)
-{
-    EXPECT_CALL(*mainComponentMock, refreshCredits(testCredits));
-
-    gui->refreshCredits(testCredits);
-}
-
-TEST_F(GuiTest, WhenShowStatusMessageIsCalledWithResourceId_ThenTheSameIsCalledOnMainComponentWithTranslatedString)
-{
-    const juce::String translatedStringPlaying(Resources::getResourceStringFromId(ResourceId::WarningNotPlayingSong));
-    EXPECT_CALL(*mainComponentMock, showStatusMessage(translatedStringPlaying));
-
-    gui->showStatusMessage(ResourceId::WarningNotPlayingSong);
-}
-
-TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbumsAndUpdateSelection)
-{
-    EXPECT_CALL(*mainComponentMock, setMusicDirectory(setMusicDir));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex, _));
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(setMusicDir, defaultSelectedAlbumIndex, _));
-    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex));
-    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
-
-    gui->setMusicFolder(setMusicDir);
-}
-
-TEST_F(GuiTest, WhenSetTimeToPlaySongIsCalled_ThenTheSameIsCalledOnMainComponent)
-{
-    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(2000));
-
-    gui->setTimeToPlaySong(2000);
-}
-
-TEST_F(GuiTest, WhenSetCurrentlyPlayedSongIsCalled_ThenTheSameAndStatusUpdateIsCalledOnMainComponent)
-{
-    Song song{1, 1, "fakeFileName", "fakeVisibleName"};
-
-    EXPECT_CALL(*mainComponentMock, setCurrentlyPlayedSong(song));
-    const juce::String translatedStringPlaying(Resources::getResourceStringFromId(ResourceId::Playing));
-    EXPECT_CALL(*mainComponentMock, showStatusMessage(translatedStringPlaying));
-
-    gui->setCurrentlyPlayedSong(song);
-}
-
-TEST_F(GuiTest, WhenEnqueueIsCalled_ThenTheSameIsCalledOnMainComponent)
-{
-    Song song{1, 1, "fakeFileName", "fakeVisibleName"};
-
-    EXPECT_CALL(*mainComponentMock, enqueue(song));
-
-    gui->enqueue(song);
-}
-
-TEST_F(GuiTest, WhenRemoveCurrentSongIsCalled_ThenTheSameIsCalledOnMainComponent)
-{
-    EXPECT_CALL(*mainComponentMock, removeCurrentSong());
-
-    gui->removeCurrentSong();
-}
-
-TEST_F(GuiTest, WhenShowStatisticsIsCalled_ThenTheSameIsCalledOnMainComponent)
-{
-    std::string statistics("fakeStat");
-    EXPECT_CALL(*mainComponentMock, showStatistics(statistics));
-
-    gui->showStatistics(statistics);
-}
-
-TEST_F(GuiTest, WhenPrepareForExitIsCalled_ThenTheSameIsCalledOnMainComponent)
-{
-    EXPECT_CALL(*mainComponentMock, prepareForExit());
-
-    gui->prepareForExit();
-}
