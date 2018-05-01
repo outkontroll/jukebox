@@ -24,17 +24,11 @@ public:
         using testing::get;
         const auto& arg = get<0>(a_pair);
         const auto& rect = get<1>(a_pair);
-        if (Value(arg.getX(), FloatNear(rect.getX(), precision)) &&
+
+        return (Value(arg.getX(), FloatNear(rect.getX(), precision)) &&
             Value(arg.getY(), FloatNear(rect.getY(), precision)) &&
             Value(arg.getWidth(), FloatNear(rect.getWidth(), precision)) &&
-            Value(arg.getHeight(), FloatNear(rect.getHeight(), precision)))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+            Value(arg.getHeight(), FloatNear(rect.getHeight(), precision)));
     }
 
     void DescribeTo(std::ostream* os) const
