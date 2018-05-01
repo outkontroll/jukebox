@@ -1,5 +1,6 @@
 #include "SingleAlbumPositionCalculator.h"
 #include <algorithm>
+#include <cassert>
 #include "StdAddons.hpp"
 
 using namespace jukebox::gui;
@@ -32,7 +33,7 @@ Rectangle<float> SingleAlbumPositionCalculator::calculateAlbumTextPlace() const
 {
     const float xPosition = (width / 2 - imageSize * offsetXRatio) / 2 + defaultTextOffsetX;
     const float textHeight = bigFontSize;
-    const float textWidth = width;
+    const float textWidth = width / 2;
 
     return { xPosition, defaultTextOffsetY, textWidth, textHeight };
 }
@@ -43,7 +44,7 @@ Rectangle<float> SingleAlbumPositionCalculator::calculateArtistTextPlace() const
     const float textHeight = bigFontSize;
     const float textWidth = width / 2;
 
-    return { xPosition, defaultTextOffsetX, textWidth, textHeight };
+    return { xPosition, defaultTextOffsetY, textWidth, textHeight };
 }
 
 std::array<int, 3> SingleAlbumPositionCalculator::calculateDrawableSongNamesPlace() const
@@ -57,6 +58,7 @@ std::array<int, 3> SingleAlbumPositionCalculator::calculateDrawableSongNamesPlac
 
 std::vector<Rectangle<float>> SingleAlbumPositionCalculator::calculateSelectionBounds(const std::vector<String>& lines, std::array<int, 3> position) const
 {
+    assert(position[2] != 0);
     const Font font(bigFontSize);
     std::vector<int> lineCounts(lines.size());
 
