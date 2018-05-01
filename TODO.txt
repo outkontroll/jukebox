@@ -21,7 +21,7 @@ cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER
 - gui: layout manager
 + gui: set current place changeable (step +-12)
 - gui: expand queue visible size
-- input: add new functionality
++ input: add new functionality
 + input: add numeric-button handling
 - input: add previous functionality
 - statistics: improve statistics handling
@@ -30,7 +30,7 @@ cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER
   + add stat list
   + add thrown-in statistics
 - settings: improve settings handling
-  - add new file IO - xml
+  + add new file IO - json
   - add new gui state
   - add advertise settings
   - add music and advertise place and options
