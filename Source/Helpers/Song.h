@@ -6,20 +6,20 @@
 
 namespace jukebox { namespace audio {
 
-class Album
+struct Album
 {
-public:
-    explicit Album(unsigned int albumNumber_)
-    : albumNumber(albumNumber_)
+    inline bool operator<(const Album& other) const
     {
+        return albumNumber < other.albumNumber;
     }
 
-    inline unsigned int getAlbumNumber() const
+    inline bool operator==(const Album& other) const
     {
-        return albumNumber;
+        return albumNumber == other.albumNumber;
     }
-private:
+
     const unsigned int albumNumber;
+    const std::string visibleName;
 };
 
 struct Song

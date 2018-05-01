@@ -7,7 +7,7 @@ namespace jukebox {
     enum class ResourceId;
 namespace audio {
     struct Song;
-    class Album;
+    struct Album;
 }
 namespace filesystem {
     class IFileSystem;
@@ -43,7 +43,7 @@ public:
     jukebox::signals::Signal<> creditDecreaseSignal;
 
     jukebox::signals::Signal<const audio::Song&> playSongSignal;
-    jukebox::signals::Signal<const std::vector<audio::Song>&> playAlbumSignal;
+    jukebox::signals::Signal<const audio::Album&, const std::vector<audio::Song>&> playAlbumSignal;
     jukebox::signals::Signal<> removePlayedSongSignal;
     jukebox::signals::Signal<const audio::Song&> playNextSongSignal;
 

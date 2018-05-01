@@ -405,13 +405,13 @@ TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainCo
                                                                  {songPath, 2}};
     ON_CALL(*fileSystemMock, getAllSongFilesWithFullPaths(_, 567, _)).WillByDefault(Return(fakeAlbumsAndIndices));
 
-    Song song{567, 89, "FakeFileName", "fakeVisibleName"};
     /*StrictMock<*/FooMock/*>*/ fooMock;
     eventsSlot.connect(&fooMock, &FooMock::fooAlbum, gui->playAlbumSignal);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
+    Album album{567, "567"};
     std::vector<Song> songs{{567, 1, songPath, "56701"},
                             {567, 2, songPath, "56702"}};
-    EXPECT_CALL(fooMock, fooAlbum(songs));
+    EXPECT_CALL(fooMock, fooAlbum(album, songs));
 
     mainComponentMock->keyPressedSignal(keyNumber0);
     eventLoopRunner.runEventLoop(timeToPlaySong);

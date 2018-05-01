@@ -401,11 +401,12 @@ void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)
 
 void Gui::playAlbumWithDelay(unsigned int albumNumber)
 {
+    const auto album = SongBuilder::buildAlbum(albumNumber);
     const auto songs = SongBuilder::buildSongsInAlbum(albumNumber, musicFolder, *fileSys);
     if(!songs.empty())
     {
-        secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, songs](){
-            playAlbumSignal(songs);
+        secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, album, songs](){
+            playAlbumSignal(album, songs);
             userInputSongNumber = "";
             mainComponent->setCurrentUserInputNumber(userInputSongNumber);
 

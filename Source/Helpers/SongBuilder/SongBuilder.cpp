@@ -11,6 +11,13 @@ namespace {
     const auto DefaultExtensionPattern = "*.mp3";
 }
 
+Album SongBuilder::buildAlbum(unsigned int albumNumber)
+{
+    return { albumNumber,
+             createVisibleName(albumNumber)
+             };
+}
+
 Song SongBuilder::buildSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory, const IFileSystem& filesys)
 {
     return { albumNumber,
@@ -40,4 +47,9 @@ std::vector<Song> SongBuilder::buildSongsInAlbum(unsigned int albumNumber, const
 std::string SongBuilder::createVisibleName(unsigned int albumNumber, unsigned int songNumber)
 {
     return {FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)};
+}
+
+std::string SongBuilder::createVisibleName(unsigned int albumNumber)
+{
+    return FillWithLeadingZeros(albumNumber, 3);
 }

@@ -39,13 +39,13 @@ TEST_F(StatisticsTest, playOneSong)
     EXPECT_EQ(expected, ss.str());
 }
 //TODO test other thing
-TEST_F(StatisticsTest, DISABLED_playOneAlbum)
+TEST_F(StatisticsTest, playOneAlbum)
 {
-    statistics.albumPlayed(Album(9));
+    statistics.albumPlayed(Album{9, "fakeVisibleName"});
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 0\n00900: 1\n");
+    std::string expected("Inserted: 0\nfakeVisibleName: 1\n");
     EXPECT_EQ(expected, ss.str());
 }
 
@@ -80,22 +80,22 @@ TEST_F(StatisticsTest, coinInsert200)
 }
 
 //TODO this must be reenabled right after filesystem introduce is done
-TEST_F(StatisticsTest, DISABLED_multiplePlays)
+TEST_F(StatisticsTest, multiplePlays)
 {
     statistics.coinInserted50();
     statistics.songPlayed(Song{12, 3, "fakeFileName", "fakeVisibleName"});
     statistics.coinInserted200();
-    statistics.albumPlayed(Album(9));
+    statistics.albumPlayed(Album{9, "fakeAlbumName1"});
     statistics.coinInserted50();
     statistics.coinInserted50();
     statistics.coinInserted100();
-    statistics.albumPlayed(Album(8));
-    statistics.albumPlayed(Album(9));
+    statistics.albumPlayed(Album{8, "fakeAlbumName2"});
+    statistics.albumPlayed(Album{9, "fakeAlbumName1"});
     statistics.songPlayed(Song{12, 3, "fakeFileName", "fakeVisibleName"});
     statistics.songPlayed(Song{12, 3, "fakeFileName", "fakeVisibleName"});
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 450\n00800: 1\n00900: 2\nfakeVisibleName: 3\n");
+    std::string expected("Inserted: 450\nfakeAlbumName2: 1\nfakeAlbumName1: 2\nfakeVisibleName: 3\n");
     EXPECT_EQ(expected, ss.str());
 }

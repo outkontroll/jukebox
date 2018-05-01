@@ -13,11 +13,9 @@ void Statistics::songPlayed(const Song& song)
     ++playedSongs[song];
 }
 
-void Statistics::albumPlayed(const Album& /*album*/)
+void Statistics::albumPlayed(const Album& album)
 {
-    //TODO add playedAlbums
-    //auto song = SongBuilder::buildSong(album.getAlbumNumber(), 0, "albumTesting");
-    //++playedSongs[song];
+    ++playedAlbums[album];
 }
 
 void Statistics::coinInserted50()
@@ -38,6 +36,14 @@ void Statistics::coinInserted200()
 void Statistics::showStatistics(std::ostream& os)
 {
     os << "Inserted: " << insertedCoins << std::endl;
+
+    for(const auto& album : playedAlbums)
+    {
+        os << album.first.visibleName
+           << ": "
+           << album.second
+           << std::endl;
+    }
 
     for(const auto& playedSong : playedSongs)
     {

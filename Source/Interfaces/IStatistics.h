@@ -5,7 +5,7 @@
 
 namespace jukebox { namespace audio {
     struct Song;
-    class Album;
+    struct Album;
 }}
 
 namespace jukebox { namespace statistics {

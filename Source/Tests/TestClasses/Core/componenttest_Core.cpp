@@ -156,31 +156,34 @@ TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsPlaying_WhenGuiSendsSongTo
 }
 
 // playAlbum
-//TODO
 
 TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlaying_WhenGuiSendsSingleSongToPlayAlbum_ThenPlaysMusicAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     Song song{1, 1, "fakeFileName", "fakeVisibleName"};
+    Album album{song.albumNumber, "fakeAlbumName"};
 
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillOnce(Return(true));
     EXPECT_CALL(*musicPlayerMock, isPlaying()).WillOnce(Return(false));
     EXPECT_CALL(*creditManagerMock, startPlayAlbum());
     EXPECT_CALL(*musicPlayerMock, playSong(song.fileName));
+    EXPECT_CALL(*statisticsMock, albumPlayed(album));
     EXPECT_CALL(*statisticsMock, songPlayed(song));
     EXPECT_CALL(*creditManagerMock, getCredits()).WillOnce(Return(13));
     EXPECT_CALL(*guiMock, refreshCredits(13));
     EXPECT_CALL(*guiMock, setCurrentlyPlayedSong(song));
 
-    guiMock->playAlbumSignal({song});
+    guiMock->playAlbumSignal(album, {song});
 }
 
 TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlayingAndThrowsException_WhenGuiSendsSingleSongToPlayAlbum_ThenPlaysMusicAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     Song song{1, 1, "fakeFileName", "fakeVisibleName"};
+    Album album{song.albumNumber, "fakeAlbumName"};
 
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).Times(2).WillRepeatedly(Return(true));
     EXPECT_CALL(*musicPlayerMock, isPlaying()).Times(2).WillRepeatedly(Return(false));
     EXPECT_CALL(*creditManagerMock, startPlayAlbum()).Times(2);
+    EXPECT_CALL(*statisticsMock, albumPlayed(album)).Times(2);
     EXPECT_CALL(*statisticsMock, songPlayed(song)).Times(2);
     EXPECT_CALL(*creditManagerMock, getCredits()).Times(2).WillRepeatedly(Return(13));
     EXPECT_CALL(*guiMock, refreshCredits(13)).Times(2);
@@ -189,23 +192,25 @@ TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlayingAndThrowsExcepti
             .WillOnce(Throw(FileNotFoundException()))
             .WillOnce(Throw(FormatReaderException()));
 
-    guiMock->playAlbumSignal({song});
-    guiMock->playAlbumSignal({song});
+    guiMock->playAlbumSignal(album, {song});
+    guiMock->playAlbumSignal(album, {song});
 }
 
 TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsPlaying_WhenGuiSendsSingleSongToPlayAlbum_ThenEnqueInGuiAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
 {
     Song song{1, 1, "fakeFileName", "fakeVisibleName"};
+    Album album{song.albumNumber, "fakeAlbumName"};
 
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillOnce(Return(true));
     EXPECT_CALL(*musicPlayerMock, isPlaying()).WillOnce(Return(true));
     EXPECT_CALL(*creditManagerMock, startPlayAlbum());
+    EXPECT_CALL(*statisticsMock, albumPlayed(album));
     EXPECT_CALL(*statisticsMock, songPlayed(song));
     EXPECT_CALL(*creditManagerMock, getCredits()).WillOnce(Return(13));
     EXPECT_CALL(*guiMock, refreshCredits(13));
     EXPECT_CALL(*guiMock, enqueue(song));
 
-    guiMock->playAlbumSignal({song});
+    guiMock->playAlbumSignal(album, {song});
 }
 
 TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlaying_WhenGuiSendsMultipleSongToPlayAlbum_ThenPlaysFirstMusicEnqueOthersInGuiAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
@@ -213,12 +218,14 @@ TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlaying_WhenGuiSendsMul
     Song song1{1, 1, "fakeFileName", "fakeVisibleName"};
     Song song2{1, 2, "fakeFileName", "fakeVisibleName"};
     Song song3{1, 3, "fakeFileName", "fakeVisibleName"};
+    Album album{song1.albumNumber, "fakeAlbumName"};
 
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillOnce(Return(true));
     EXPECT_CALL(*creditManagerMock, startPlayAlbum());
     EXPECT_CALL(*creditManagerMock, getCredits()).WillOnce(Return(13));
     EXPECT_CALL(*guiMock, refreshCredits(13));
     EXPECT_CALL(*musicPlayerMock, isPlaying()).WillOnce(Return(false)).WillRepeatedly(Return(true));
+    EXPECT_CALL(*statisticsMock, albumPlayed(album));
     EXPECT_CALL(*statisticsMock, songPlayed(song1));
     EXPECT_CALL(*guiMock, setCurrentlyPlayedSong(song1));
     EXPECT_CALL(*musicPlayerMock, playSong(song1.fileName));
@@ -227,7 +234,7 @@ TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsNotPlaying_WhenGuiSendsMul
     EXPECT_CALL(*statisticsMock, songPlayed(song3));
     EXPECT_CALL(*guiMock, enqueue(song3));
 
-    guiMock->playAlbumSignal({song1, song2, song3});
+    guiMock->playAlbumSignal(album, {song1, song2, song3});
 }
 
 TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsPlaying_WhenGuiSendsMultipleSongToPlayAlbum_ThenEnqueAllMusicInGuiAndCreditManagerDecreaseCreditsAndGuiAndStatisticsRefreshed)
@@ -235,11 +242,13 @@ TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsPlaying_WhenGuiSendsMultip
     Song song1{1, 1, "fakeFileName", "fakeVisibleName"};
     Song song2{1, 2, "fakeFileName", "fakeVisibleName"};
     Song song3{1, 3, "fakeFileName", "fakeVisibleName"};
+    Album album{song1.albumNumber, "fakeAlbumName"};
 
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillOnce(Return(true));
     EXPECT_CALL(*creditManagerMock, startPlayAlbum());
     EXPECT_CALL(*creditManagerMock, getCredits()).WillOnce(Return(13));
     EXPECT_CALL(*guiMock, refreshCredits(13));
+    EXPECT_CALL(*statisticsMock, albumPlayed(album));
     EXPECT_CALL(*musicPlayerMock, isPlaying()).WillRepeatedly(Return(true));
     EXPECT_CALL(*statisticsMock, songPlayed(song1));
     EXPECT_CALL(*guiMock, enqueue(song1));
@@ -248,26 +257,43 @@ TEST_F(CoreTest, GivenHasEnoughCreditsAndMusicPlayerIsPlaying_WhenGuiSendsMultip
     EXPECT_CALL(*statisticsMock, songPlayed(song3));
     EXPECT_CALL(*guiMock, enqueue(song3));
 
-    guiMock->playAlbumSignal({song1, song2, song3});
-}
-
-TEST_F(CoreTest, GivenHasEnoughCredits_WhenGuiSendsEmptyVectorOfSongsToPlayAlbum_ThenGuiGetsNotification)
-{
-    EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillOnce(Return(true));
-    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorDuringAlbumPlaying));
-
-    guiMock->playAlbumSignal({});
+    guiMock->playAlbumSignal(album, {song1, song2, song3});
 }
 
 TEST_F(CoreTest, GivenHasNotEnoughCredits_WhenGuiSendsAlbumToPlay_ThenGuiGetsNotification)
 {
+    Album album{1, "fakeAlbumName"};
+    Song song{1, 2, "fake1", "fake2"};
+
     EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillOnce(Return(false));
     EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorFewCreditsAlbum));
 
-    guiMock->playAlbumSignal({});
+    guiMock->playAlbumSignal(album, {song});
+}
+
+TEST_F(CoreTest, GivenHasEnoughCredits_WhenGuiSendsZeroAlbumNumToPlayAlbum_ThenGuiGetsNotification)
+{
+    Album album{0, "fakeAlbumName"};
+    Song song{1, 2, "fake1", "fake2"};
+
+    EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillOnce(Return(true));
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorDuringAlbumPlaying));
+
+    guiMock->playAlbumSignal(album, {song});
+}
+
+TEST_F(CoreTest, GivenHasEnoughCredits_WhenGuiSendsEmptyVectorOfSongsToPlayAlbum_ThenGuiGetsNotification)
+{
+    Album album{1, "fakeAlbumName"};
+
+    EXPECT_CALL(*creditManagerMock, hasEnoughCreditsToPlayAlbum()).WillOnce(Return(true));
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorDuringAlbumPlaying));
+
+    guiMock->playAlbumSignal(album, {});
 }
 
 // playNextSong
+
 TEST_F(CoreTest, GivenMusicPlayerIsNotPlaying_WhenGuiSendsPlayNextSong_ThenMusicPlayerStartsPlayingAndGuiGetsRefreshed)
 {
     Song song{1, 1, "fakeFileName", "fakeVisibleName"};

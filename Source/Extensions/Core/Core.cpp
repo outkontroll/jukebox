@@ -90,11 +90,17 @@ void Core::playSong(const Song& song)
     playOrEnqueue(song);
 }
 
-void Core::playAlbum(const std::vector<Song>& songs)
+void Core::playAlbum(const Album& album, const std::vector<Song>& songs)
 {
     if(!creditManager->hasEnoughCreditsToPlayAlbum())
     {
         gui->showStatusMessage(ResourceId::ErrorFewCreditsAlbum);
+        return;
+    }
+
+    if(album.albumNumber == 0)
+    {
+        gui->showStatusMessage(ResourceId::ErrorDuringAlbumPlaying);
         return;
     }
 
@@ -106,6 +112,8 @@ void Core::playAlbum(const std::vector<Song>& songs)
 
     creditManager->startPlayAlbum();
     gui->refreshCredits(creditManager->getCredits());
+
+    statistics->albumPlayed(album);
 
     for(const auto& song : songs)
     {

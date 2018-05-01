@@ -15,7 +15,7 @@ namespace creditmanager {
 namespace audio {
     class IMusicPlayer;
     struct Song;
-    class Album;
+    struct Album;
 }
 namespace statistics {
     class IStatistics;
@@ -49,7 +49,7 @@ private:
     void creditDecrease();
     
     void playSong(const audio::Song& song);
-    void playAlbum(const std::vector<audio::Song>& songs);
+    void playAlbum(const audio::Album& album, const std::vector<audio::Song>& songs);
     void removePlayedSong();
     void finishedPlaying();
     void playNextSong(const audio::Song& song);

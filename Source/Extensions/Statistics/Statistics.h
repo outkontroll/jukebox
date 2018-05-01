@@ -21,6 +21,7 @@ public:
     
 private:
     std::map<audio::Song, unsigned int> playedSongs;
+    std::map<audio::Album, unsigned int> playedAlbums;
     int insertedCoins = 0;
 };
 
