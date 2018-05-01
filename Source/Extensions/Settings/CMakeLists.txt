@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(settings)
 
+find_package(nlohmann_json)
+
 # headers
 
 set(HEADER_SOURCES
@@ -17,7 +19,7 @@ set(CPP_SOURCES
 
 # project
 
-add_library(settings
+add_library(${PROJECT_NAME}
 	    STATIC
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
@@ -30,5 +32,9 @@ set(IMPL_INCLUDE_DIRS
     ${EXTENSION_IMPL_INCLUDE_DIRS}
 )
 
-target_include_directories(settings PUBLIC ${PUBLIC_INCLUDE_DIRS})
-target_include_directories(settings PRIVATE ${IMPL_INCLUDE_DIRS})
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PUBLIC_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${IMPL_INCLUDE_DIRS})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

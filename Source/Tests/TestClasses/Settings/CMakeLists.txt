@@ -35,5 +35,5 @@ add_test(NAME settings_unit_test
 
 add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./${PROJECT_NAME}
+                   COMMAND ${PROJECT_NAME}
                    COMMENT "Running ${PROJECT_NAME}" VERBATIM)

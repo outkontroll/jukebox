@@ -3,14 +3,17 @@
 
 #include "ISettings.h"
 #include <string>
+#include <memory>
 
 namespace jukebox { namespace settings {
+
+struct PImpl;
 
 class Settings : public ISettings
 {
 public:
     Settings(std::string musicDirectory_);
-    ~Settings() override = default;
+    ~Settings() override;
 
     std::string getMusicDirectory() const override;
     void setMusicDirectory(std::string musicDirectory) override;
@@ -18,8 +21,10 @@ public:
     void setTimeToPlaySong(int millisecsToPlaySong) override;
 
 private:
-    std::string musicDirectory = "";
-    int millisecsToPlaySong = 5000;
+    void serialize();
+    void deserialize();
+
+    std::unique_ptr<PImpl> data;
 };
 
 }}

@@ -20,11 +20,6 @@ TEST_F(SettingsTest, WhenMusicDirectorySet_ThenItIsSet)
     EXPECT_EQ(expected, settings.getMusicDirectory());
 }
 
-TEST_F(SettingsTest, WhenTimeToPlaySongGet_ThenDefaultReturned)
-{
-    EXPECT_EQ(5000, settings.getTimeToPlaySong());
-}
-
 TEST_F(SettingsTest, WhenTimeToPlaySet_ThenItIsSet)
 {
     settings.setTimeToPlaySong(4000);

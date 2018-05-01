@@ -38,7 +38,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
         set(GENERATE_TEST_COVERAGE ON CACHE BOOL "Generate test coverage information" FORCE)
         include(CodeCoverage)
         APPEND_COVERAGE_COMPILER_FLAGS()
-        set(COVERAGE_EXCLUDES '.git/*' 'CMakeModules/*' 'Libraries/*' '*/7/*')
+        set(COVERAGE_EXCLUDES '.git/*' 'CMakeModules/*' 'Libraries/*' '*/7/*' 'nlohmann/*')
 elseif(TEST_COVERAGE)
     message(WARNING "Code coverage for ${CMAKE_CXX_COMPILER_ID} is not supported!")
 endif()
