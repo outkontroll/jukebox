@@ -17,18 +17,11 @@ set(CPP_SOURCES
 
 # project
 
-add_library(creditManager
+add_library(${PROJECT_NAME}
 	    STATIC
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(PUBLIC_INCLUDE_DIRS
-    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
-)
+target_include_directories(${PROJECT_NAME} PUBLIC ${INTERFACE_DIRECTORY})
 
-set(IMPL_INCLUDE_DIRS
-    ${EXTENSION_IMPL_INCLUDE_DIRS}
-)
-
-target_include_directories(creditManager PUBLIC ${PUBLIC_INCLUDE_DIRS})
-target_include_directories(creditManager PRIVATE ${IMPL_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE logger)

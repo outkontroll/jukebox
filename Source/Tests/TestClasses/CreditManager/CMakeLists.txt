@@ -23,13 +23,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
-		      creditManager
-		      helpers
-                      #GTest::GTest
-                      #GTest::Main
-                      ${GTest}
-                      ${GTestMain}
-                      pthread
+    creditManager
+    logger
+    #GTest::GTest
+    #GTest::Main
+    ${GTest}
+    ${GTestMain}
+    pthread
 )
 
 add_test(NAME creditManager_unit_test
@@ -37,5 +37,5 @@ add_test(NAME creditManager_unit_test
 
 add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./${PROJECT_NAME}
+                   COMMAND ${PROJECT_NAME}
                    COMMENT "Running ${PROJECT_NAME}" VERBATIM)

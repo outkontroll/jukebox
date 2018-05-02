@@ -7,25 +7,22 @@ project(logger)
 set(HEADER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/LogDefines.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../Times.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Times.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/ScopeGuard.hpp
 )
 
 # sources
 
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../Times.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Times.cpp
 )
 
 # project
 
-add_library(logger
+add_library(${PROJECT_NAME}
 	    STATIC
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/../
-)
-
-target_include_directories(logger PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

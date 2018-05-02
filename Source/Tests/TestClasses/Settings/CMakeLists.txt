@@ -23,11 +23,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
-		      settings
-		      helpers
-                      ${GTest}
-                      ${GTestMain}
-		      pthread
+    settings
+    logger
+    ${GTest}
+    ${GTestMain}
+    pthread
 )
 
 add_test(NAME settings_unit_test

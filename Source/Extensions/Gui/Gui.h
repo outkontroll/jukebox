@@ -1,13 +1,13 @@
 #ifndef GUI_H_INCLUDED
 #define GUI_H_INCLUDED
 
-#include "JuceHeader.h"
 #include "IGui.h"
 #include <memory>
 #include <string>
 
 namespace juce {
     class MainComponent;
+    class KeyPress;
 }
 
 namespace jukebox { namespace filesystem {

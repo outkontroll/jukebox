@@ -21,16 +21,7 @@ add_library(core
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(PUBLIC_INCLUDE_DIRS
-    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
-)
-
-set(IMPL_INCLUDE_DIRS
-    ${EXTENSION_IMPL_INCLUDE_DIRS}
-)
-
-target_include_directories(core PUBLIC ${PUBLIC_INCLUDE_DIRS})
-target_include_directories(core PUBLIC ${IMPL_INCLUDE_DIRS})
+target_include_directories(core PUBLIC ${INTERFACE_DIRECTORY})
 
 target_link_libraries(core PUBLIC signals)
-target_link_libraries(core PRIVATE songBuilder helpers)
+target_link_libraries(core PRIVATE songBuilder logger exceptions)

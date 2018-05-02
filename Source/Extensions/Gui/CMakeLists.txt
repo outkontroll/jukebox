@@ -39,14 +39,10 @@ set(CPP_SOURCES
 
 # project
 
-add_library(gui
+add_library(${PROJECT_NAME}
     STATIC
     ${HEADER_SOURCES}
     ${CPP_SOURCES}
-)
-
-set(PUBLIC_INCLUDE_DIRS
-    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
 )
 
 set(IMPL_INCLUDE_DIRS
@@ -54,12 +50,11 @@ set(IMPL_INCLUDE_DIRS
     ${SOURCE_DIR}/Base
     ${RESOURCES_DIR}
     ${COMPONENTS_DIR}
-    ${EXTENSION_IMPL_INCLUDE_DIRS}
 )
 
-target_include_directories(gui PUBLIC ${PUBLIC_INCLUDE_DIRS})
-target_include_directories(gui PRIVATE ${IMPL_INCLUDE_DIRS})
-target_include_directories(gui SYSTEM PUBLIC ${JUCE_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INTERFACE_DIRECTORY})
+target_include_directories(${PROJECT_NAME} PRIVATE ${IMPL_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(gui PUBLIC signals)
-target_link_libraries(gui PRIVATE ${PROJECT_JUCE} helpers std_addons)
+target_link_libraries(${PROJECT_NAME} PUBLIC signals)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_JUCE} logger songBuilder std_addons)

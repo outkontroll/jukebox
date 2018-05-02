@@ -22,16 +22,7 @@ add_library(fileSystem
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(PUBLIC_INCLUDE_DIRS
-    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
-)
+target_include_directories(fileSystem PUBLIC ${INTERFACE_DIRECTORY})
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
-set(IMPL_INCLUDE_DIRS
-    ${EXTENSION_IMPL_INCLUDE_DIRS}
-)
-
-target_include_directories(fileSystem PUBLIC ${PUBLIC_INCLUDE_DIRS})
-target_include_directories(fileSystem PRIVATE ${IMPL_INCLUDE_DIRS})
-target_include_directories(fileSystem SYSTEM PUBLIC ${JUCE_INCLUDE_DIRS})
-
-target_link_libraries(fileSystem PRIVATE ${PROJECT_JUCE} std_addons)
+target_link_libraries(fileSystem PRIVATE ${PROJECT_JUCE} logger formaters std_addons)

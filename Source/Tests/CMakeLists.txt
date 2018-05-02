@@ -35,7 +35,6 @@ set(TESTING_INCLUDE_DIRS
 #    ${GTEST_INCLUDE_DIRS}
     ${GTestInclude}
     ${GMockInclude}
-    ${LOGGER_INCLUDE_DIR}
 )
 
 set(MOCK_HEADERS

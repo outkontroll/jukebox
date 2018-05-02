@@ -16,16 +16,21 @@ set(CPP_SOURCES
 
 # project
 
-add_library(songBuilder
+add_library(${PROJECT_NAME}
 	    STATIC
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(INCLUDE_DIRS
+set(PUBLIC_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
+)
+
+set(PRIVATE_INCLUDE_DIRS
     ${INTERFACE_DIRECTORY}
 )
 
-target_include_directories(songBuilder PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${PUBLIC_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PRIVATE_INCLUDE_DIRS})
 
-target_link_libraries(songBuilder ${PROJECT_JUCE} helpers)
+target_link_libraries(${PROJECT_NAME} PRIVATE formaters)

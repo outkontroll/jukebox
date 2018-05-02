@@ -7,8 +7,6 @@ project(musicPlayer)
 set(HEADER_SOURCES
     ${INTERFACE_DIRECTORY}/IMusicPlayer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/MusicPlayer.h
-    ${SOURCE_DIR}/Helpers/Song.h
-    ${SOURCE_DIR}/Helpers/Exceptions/MusicPlayerExceptions.h
 )
 
 # sources
@@ -24,16 +22,8 @@ add_library(musicPlayer
 	    ${HEADER_SOURCES}
 	    ${CPP_SOURCES})
 
-set(PUBLIC_INCLUDE_DIRS
-    ${EXTENSION_PUBLIC_INCLUDE_DIRS}
-)
+target_include_directories(${PROJECT_NAME} PUBLIC ${INTERFACE_DIRECTORY})
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
-set(IMPL_INCLUDE_DIRS
-    ${EXTENSION_IMPL_INCLUDE_DIRS}
-)
-
-target_include_directories(musicPlayer PUBLIC ${PUBLIC_INCLUDE_DIRS})
-target_include_directories(musicPlayer PRIVATE ${IMPL_INCLUDE_DIRS})
-target_include_directories(musicPlayer SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
-
-target_link_libraries(musicPlayer PUBLIC signals)
+target_link_libraries(${PROJECT_NAME} PUBLIC signals song)
+target_link_libraries(${PROJECT_NAME} PRIVATE logger exceptions)

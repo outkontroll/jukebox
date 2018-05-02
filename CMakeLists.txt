@@ -113,24 +113,15 @@ set(INTERFACE_DIRECTORY
     ${SOURCE_DIR}/Interfaces
 )
 
-set(LOGGER_INCLUDE_DIR
-    ${SOURCE_DIR}/Helpers/Logging
-)
-
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Base
-    ${INTERFACE_DIRECTORY}
-    #TODO remove these after classloader:
     ${SOURCE_DIR}/Extensions/Core
-    ${SOURCE_DIR}/Helpers
-    ${SOURCE_DIR}/Helpers/Signaling
-    ${SOURCE_DIR}/Helpers/Logging
-    ${SOURCE_DIR}/Extensions/Gui
     ${SOURCE_DIR}/Extensions/CreditManager
-    ${SOURCE_DIR}/Extensions/MusicPlayer
-    ${SOURCE_DIR}/Extensions/Statistics
-    ${SOURCE_DIR}/Extensions/Settings
     ${SOURCE_DIR}/Extensions/FileSystem
+    ${SOURCE_DIR}/Extensions/Gui
+    ${SOURCE_DIR}/Extensions/MusicPlayer
+    ${SOURCE_DIR}/Extensions/Settings
+    ${SOURCE_DIR}/Extensions/Statistics
 )
 
 set(JUCE_INCLUDE_DIRS
@@ -138,14 +129,27 @@ set(JUCE_INCLUDE_DIRS
     ${JUCE_MODULE_DIRECTORY}
 )
 
-target_include_directories(music_jukebox PRIVATE ${INCLUDE_DIRS})
-target_include_directories(music_jukebox SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
 # compiler features
 
-set_property(TARGET music_jukebox PROPERTY CXX_STANDARD 17)
-target_link_libraries(music_jukebox PUBLIC ${PROJECT_JUCE} logger core gui creditManager musicPlayer statistics songBuilder settings fileSystem)
-target_compile_options(music_jukebox PRIVATE
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    ${PROJECT_JUCE}
+    logger
+    core
+    gui
+    creditManager
+    musicPlayer
+    statistics
+    settings
+    fileSystem
+    signals
+)
+
+target_compile_options(${PROJECT_NAME} PRIVATE
     -Wno-cast-qual
 )
 
@@ -155,8 +159,8 @@ enable_testing()
 
 # projects
 
-add_subdirectory(${SOURCE_DIR}/Extensions ${PROJECT_BINARY_DIR}/Source/Extensions)
-add_subdirectory(${SOURCE_DIR}/Helpers ${PROJECT_BINARY_DIR}/Source/Helpers)
+add_subdirectory(${SOURCE_DIR}/Extensions)
+add_subdirectory(${SOURCE_DIR}/Helpers)
 add_subdirectory(${SOURCE_DIR}/Tests)
 
 # code coverage

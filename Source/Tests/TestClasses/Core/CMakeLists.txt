@@ -24,14 +24,16 @@ set(INCLUDE_DIRS
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME}
-		      core
-		      helpers
-                      ${GTest}
-                      ${GTestMain}
-                      ${GMock}
-                      ${GMockMain}
-                      pthread
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    core
+    logger
+    song
+    exceptions
+    ${GTest}
+    ${GTestMain}
+    ${GMock}
+    ${GMockMain}
+    pthread
 )
 
 add_test(NAME core_component_test
@@ -39,5 +41,5 @@ add_test(NAME core_component_test
 
 add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./${PROJECT_NAME}
+                   COMMAND ${PROJECT_NAME}
                    COMMENT "Running ${PROJECT_NAME}" VERBATIM)

@@ -1,9 +1,9 @@
 #ifndef SONGBUILDER_H
 #define SONGBUILDER_H
 
-#include "Song.h"
 #include <string>
 #include <vector>
+#include "Song.h"
 
 namespace jukebox { namespace filesystem {
     class IFileSystem;

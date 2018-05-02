@@ -23,11 +23,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
-		      statistics
-		      helpers
-                      ${GTest}
-                      ${GTestMain}
-                      pthread
+    statistics
+    song
+    logger
+    ${GTest}
+    ${GTestMain}
+    pthread
 )
 
 add_test(NAME statistics_unit_test
@@ -35,5 +36,5 @@ add_test(NAME statistics_unit_test
 
 add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./${PROJECT_NAME}
+                   COMMAND ${PROJECT_NAME}
                    COMMENT "Running ${PROJECT_NAME}" VERBATIM)

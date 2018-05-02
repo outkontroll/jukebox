@@ -4,35 +4,6 @@ add_subdirectory(Logging)
 add_subdirectory(SongBuilder)
 add_subdirectory(Signaling)
 add_subdirectory(StdAddons)
-
-project(helpers)
-
-# headers
-
-set(HEADER_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Formaters.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/ScopeGuard.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Exceptions/JukeboxException.h
-)
-
-# sources
-
-set(CPP_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Formaters.cpp
-)
-
-# project
-
-add_library(${PROJECT_NAME}
-	    STATIC
-	    ${HEADER_SOURCES}
-	    ${CPP_SOURCES})
-
-set(INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/Logging/
-)
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
-
-target_link_libraries(${PROJECT_NAME} logger)
+add_subdirectory(Formaters)
+add_subdirectory(Exceptions)
+add_subdirectory(Song)

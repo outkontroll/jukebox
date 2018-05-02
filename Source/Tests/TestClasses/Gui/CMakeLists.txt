@@ -37,15 +37,15 @@ set(INCLUDE_DIRS
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
 
 target_include_directories(${PROJECT_NAME}2 PUBLIC ${INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME}2 SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME}2 SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
     gui
     songBuilder
-    helpers
+    logger
     #GTest::GTest
     #GTest::Main
     ${GTest}
@@ -57,6 +57,7 @@ target_link_libraries(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}2
     gui
+    logger
     ${GTest}
     ${GTestMain}
     ${GMock}
@@ -80,10 +81,10 @@ add_test(NAME gui_unit_test
 
 add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
-                   COMMAND ./${PROJECT_NAME}
+                   COMMAND ${PROJECT_NAME}
                    COMMENT "Running ${PROJECT_NAME}" VERBATIM)
 
 add_custom_command(TARGET ${PROJECT_NAME}2
                    POST_BUILD
-                   COMMAND ./${PROJECT_NAME}2
+                   COMMAND ${PROJECT_NAME}2
                    COMMENT "Running ${PROJECT_NAME}2" VERBATIM)
