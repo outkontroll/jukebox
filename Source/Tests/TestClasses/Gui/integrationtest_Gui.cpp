@@ -1,6 +1,3 @@
-#include "gtest/gtest.h"
-#include "MainComponentMock.h"
-#include "FileSystemMock.h"
 #include "GuiTester.h"
 #include "Song.h"
 #include "FreeFunctions.h"
@@ -55,26 +52,6 @@ namespace {
     const juce::KeyPress keyEsc(juce::KeyPress::escapeKey);
     const juce::KeyPress keyBackspace(juce::KeyPress::backspaceKey);
 }
-
-class GuiTest : public ::testing::Test
-{    
-protected:
-    void SetUp() override
-    {
-        auto mainCompMock = std::make_unique<StrictMock<MainComponentMock>>();
-        mainComponentMock = mainCompMock.get();
-        auto filesysMock = std::make_unique<NiceMock<FileSystemMock>>();
-        fileSystemMock = filesysMock.get();
-        gui = std::make_unique<GuiTester>(std::move(mainCompMock), std::move(filesysMock));
-        gui->setFileSystem(fileSystemMock);
-    }
-
-    std::unique_ptr<GuiTester> gui;
-    StrictMock<MainComponentMock>* mainComponentMock;
-    NiceMock<FileSystemMock>* fileSystemMock;
-
-    jukebox::signals::Slot eventsSlot;
-};
 
 // signal subscriptions
 
