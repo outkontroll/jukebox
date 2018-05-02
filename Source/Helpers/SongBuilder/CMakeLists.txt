@@ -23,7 +23,6 @@ add_library(${PROJECT_NAME}
 
 set(PUBLIC_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
 set(PRIVATE_INCLUDE_DIRS
@@ -33,4 +32,5 @@ set(PRIVATE_INCLUDE_DIRS
 target_include_directories(${PROJECT_NAME} PUBLIC ${PUBLIC_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PRIVATE_INCLUDE_DIRS})
 
+target_link_libraries(${PROJECT_NAME} PUBLIC song)
 target_link_libraries(${PROJECT_NAME} PRIVATE formaters)
