@@ -79,9 +79,9 @@ std::vector<Rectangle<float>> SingleAlbumPositionCalculator::calculateSelectionB
 
     std_addons::transform_exclusive_scan(lineCounts,
                                          std::back_inserter(selectionTopPositions),
+                                         glyphArrangement.getGlyph(0).getBounds().getTopLeft().getY(),
                                          std::plus<>(),
-                                         [&](int lineCount){ return lineCount * bigFontSize; },
-                                         glyphArrangement.getGlyph(0).getBounds().getTopLeft().getY()
+                                         [&](int lineCount){ return lineCount * bigFontSize; }
     );
 
     std::vector<Rectangle<float>> selectionPositions;

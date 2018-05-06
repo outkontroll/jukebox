@@ -7,13 +7,13 @@
 
 namespace std_addons {
 
-template<class InputIterator1, class InputIterator2, class OutputIterator, class BinaryOperator, class UnaryOperator, class T>
+template<class InputIterator1, class InputIterator2, class OutputIterator, class T, class BinaryOperator, class UnaryOperator>
 OutputIterator transform_exclusive_scan(InputIterator1 first,
                                         InputIterator2 last,
                                         OutputIterator result,
+                                        T init,
                                         BinaryOperator outerOp,
-                                        UnaryOperator innerOp,
-                                        T init)
+                                        UnaryOperator innerOp)
 {
     for (; first != last; ++first, ++result)
     {
@@ -23,19 +23,19 @@ OutputIterator transform_exclusive_scan(InputIterator1 first,
     return result;
 }
 
-template<typename Range, class OutputIterator, class BinaryOperator, class UnaryOperator, class T>
+template<typename Range, class OutputIterator, class T, class BinaryOperator, class UnaryOperator>
 OutputIterator transform_exclusive_scan(Range&& range,
                                         OutputIterator&& result,
+                                        T&& init,
                                         BinaryOperator&& outerOp,
-                                        UnaryOperator&& innerOp,
-                                        T&& init)
+                                        UnaryOperator&& innerOp)
 {
     return transform_exclusive_scan(std::begin(range),
                                     std::end(range),
                                     std::forward<OutputIterator>(result),
+                                    std::forward<T>(init),
                                     std::forward<BinaryOperator>(outerOp),
-                                    std::forward<UnaryOperator>(innerOp),
-                                    std::forward<T>(init));
+                                    std::forward<UnaryOperator>(innerOp));
 }
 
 template<typename Range, typename T, typename BinaryOperation>
