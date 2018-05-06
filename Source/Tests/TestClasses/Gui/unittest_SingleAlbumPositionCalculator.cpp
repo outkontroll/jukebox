@@ -34,7 +34,11 @@ TEST(SingleAlbumPositionCalculatorTest, artistTextPlace)
     ASSERT_THAT(calc.calculateArtistTextPlace(), RectangleFloatEquals(expected));
 }
 
+#ifdef NDEBUG
+TEST(SingleAlbumPositionCalculatorDeathTest, DISABLED_calculateSelectionBounds_assertIfMaxLineWidthIsZero)
+#else
 TEST(SingleAlbumPositionCalculatorDeathTest, calculateSelectionBounds_assertIfMaxLineWidthIsZero)
+#endif
 {
     SingleAlbumPositionCalculator calc(100, 100, 10);
 
