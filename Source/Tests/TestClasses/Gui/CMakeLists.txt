@@ -16,6 +16,7 @@ set(CPP_SOURCES
 set(CPP_SOURCES_UT
     ${TESTING_MAIN}
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_SingleAlbumPositionCalculator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/unittest_ResourceString.cpp
 )
 
 # project
