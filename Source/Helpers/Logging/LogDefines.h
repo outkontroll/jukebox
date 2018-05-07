@@ -63,14 +63,14 @@ inline std::string GetTrimmedString(const std::string& what, unsigned int maxLen
         return what;
     }
     
-    return what.substr(what.length() - maxLength - 1);
+    return what.substr(what.length() - maxLength);
 }
 
 #define LOG_DETAILED(logger, logType, logText)  {                                                       \
                                                     std::stringstream ss;                               \
                                                     ss << logType << "\t";                              \
                                                     ss << jukebox::CurrentDateTime() << "\t";           \
-                                                    ss << std::setw(41);                                \
+                                                    ss << std::setw(40);                                \
                                                     ss << jukebox::log::GetTrimmedString(__FILE__, 40); \
                                                     ss << ": line #" << __LINE__ << "\t";               \
                                                     ss << METHOD_NAME << ": " << logText;               \

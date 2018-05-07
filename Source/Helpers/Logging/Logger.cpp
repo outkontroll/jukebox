@@ -1,6 +1,5 @@
 #include "Logger.h"
-//TOOD: this is dummy implementation, remove it when logging is done into a file
-#include <iostream>
+#include <fstream>
 
 using namespace jukebox::log;
 
@@ -23,6 +22,11 @@ jukebox::ScopeGuard<bool> Logger::disableLog()
 void Logger::log(const std::string& logText)
 {
     if(enabled)
-        //TODO: log into a .log file
-        std::cout << logText << std::endl;
+    {
+        std::ofstream f(logFileName.c_str(), std::ios::app);
+        if(f)
+        {
+            f << logText << std::endl;
+        }
+    }
 }
