@@ -12,7 +12,7 @@ set(HEADER_SOURCES
     ${INTERFACE_DIRECTORY}/ResourceId.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.h
     ${RESOURCES_DIR}/ResourceString.h
-    ${SOURCE_DIR}/Base/MainWindow.h
+    ${COMPONENTS_DIR}/MainWindow.h
     ${COMPONENTS_DIR}/MainComponent.h
     ${COMPONENTS_DIR}/ListBox.hpp
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.h
@@ -27,7 +27,7 @@ set(HEADER_SOURCES
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Gui.cpp
     ${RESOURCES_DIR}/ResourceString.cpp
-    ${SOURCE_DIR}/Base/MainWindow.cpp
+    ${COMPONENTS_DIR}/MainWindow.cpp
     ${COMPONENTS_DIR}/MainComponent.cpp
     ${COMPONENTS_DIR}/ListBoxImplementation.hpp
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.cpp
