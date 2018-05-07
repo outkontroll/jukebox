@@ -27,6 +27,7 @@ target_link_libraries(${PROJECT_NAME}
     statistics
     song
     logger
+    datetime
     ${GTest}
     ${GTestMain}
     pthread

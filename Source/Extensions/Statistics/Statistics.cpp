@@ -3,6 +3,7 @@
 #include <fstream>
 #include "JukeboxTimer.h"
 #include "Song.h"
+#include "Times.h"
 
 using namespace jukebox::statistics;
 using namespace jukebox::audio;
@@ -49,7 +50,7 @@ void Statistics::setSaveTimeout(int millisecs)
         std::ofstream f(fileName, std::ios::app);
         if(f)
         {
-            f << insertedCoinsToday << std::endl;
+            f << jukebox::CurrentDateTime() << ": " << insertedCoinsToday << std::endl;
         }
 
         insertedCoinsToday = 0;

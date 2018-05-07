@@ -7,7 +7,6 @@ project(logger)
 set(HEADER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/LogDefines.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Times.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ScopeGuard.hpp
 )
 
@@ -15,7 +14,6 @@ set(HEADER_SOURCES
 
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Times.cpp
 )
 
 # project
@@ -26,3 +24,4 @@ add_library(${PROJECT_NAME}
 	    ${CPP_SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(${PROJECT_NAME} PUBLIC datetime)
