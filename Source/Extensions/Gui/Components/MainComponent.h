@@ -67,6 +67,7 @@ public:
     jukebox::signals::Signal<const jukebox::audio::Song&> playNextSongSignal;
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
+    jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
 
     //the virtuals are here only to enable easier testing and mocking
     //TODO should reconsider the class because of this
@@ -77,6 +78,7 @@ public:
     virtual void loadSingleAlbum(const std::string& musicDirectory, unsigned int albumIndex, const jukebox::filesystem::IFileSystem& fileSys);
     virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void setTimeToPlayASong(int millisecs);
+    virtual void setTimeToSaveInsertedCoins(int millisecs);
     virtual void switchBetweenAlbumViews();
     virtual void switchBetweenUserModeViews();
     virtual void updateAlbumSelection(unsigned int selectedAlbumIndex);
@@ -105,6 +107,7 @@ private:
     void removeCurrentSongImmediately();
     void onMusicDirectoryChanged(const std::string& musicDirectory);
     void onTimeToPlayASongChanged(int);
+    void onTimeToSaveInsertedCoinsChanged(int);
 
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;
     ScopedPointer<jukebox::JukeboxTimer> timerBetweenSongs;

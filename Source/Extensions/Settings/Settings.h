@@ -19,6 +19,8 @@ public:
     void setMusicDirectory(std::string musicDirectory) override;
     int getTimeToPlaySong() const override;
     void setTimeToPlaySong(int millisecsToPlaySong) override;
+    int getTimeToSaveInsertedCoins() const override;
+    void setTimeToSaveInsertedCoins(int millisecs) override;
 
 private:
     void serialize();

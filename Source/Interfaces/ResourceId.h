@@ -13,6 +13,7 @@ enum class ResourceId
     WarningNotPlayingSong,
     ErrorImageNotFound,
     ErrorNegativeNumber,
+    ErrorWrongNumber,
     Playing,
     DefaultArtistName
 };

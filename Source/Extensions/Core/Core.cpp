@@ -45,6 +45,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::playNextSong, gui->playNextSongSignal);
     eventsSlot.connect(this, &Core::musicDirectoryChanged, gui->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &Core::timeToPlayASongChanged, gui->timeToPlayASongChangedSignal);
+    eventsSlot.connect(this, &Core::timeToSaveInsertedCoinsChanged, gui->timeToSaveInsertedCoinsChangedSignal);
     eventsSlot.connect(this, &Core::showStatisticsRequested, gui->requestStatisticsSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
 
@@ -52,6 +53,8 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     gui->setFileSystem(fileSys.get());
     gui->setMusicFolder(settings->getMusicDirectory());
     gui->setTimeToPlaySong(settings->getTimeToPlaySong());
+    gui->setTimeToSaveInsertedCoins(settings->getTimeToSaveInsertedCoins());
+    statistics->setSaveTimeout(settings->getTimeToSaveInsertedCoins());
 }
 
 void Core::coinInserted50()
@@ -175,6 +178,20 @@ void Core::timeToPlayASongChanged(int millisecs)
     else
     {
         gui->showStatusMessage(ResourceId::ErrorNegativeNumber);
+    }
+}
+
+void Core::timeToSaveInsertedCoinsChanged(int millisecs)
+{
+    if(millisecs >= 3600)
+    {
+        settings->setTimeToSaveInsertedCoins(millisecs);
+        statistics->setSaveTimeout(millisecs);
+        gui->setTimeToSaveInsertedCoins(millisecs);
+    }
+    else
+    {
+        gui->showStatusMessage(ResourceId::ErrorWrongNumber);
     }
 }
 

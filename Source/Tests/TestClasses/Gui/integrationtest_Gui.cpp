@@ -89,6 +89,16 @@ TEST_F(GuiTest, WhenMainComponentSendsTimeToPlayASongChangedSignal_ThenGuiSignal
     mainComponentMock->timeToPlayASongChangedSignal(3);
 }
 
+TEST_F(GuiTest, WhenMainComponentSendsTimeToSaveInsertedCoinsChangedSignal_ThenGuiSignalizeIt)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::fooInt, gui->timeToSaveInsertedCoinsChangedSignal);
+
+    EXPECT_CALL(fooMock, fooInt(3));
+
+    mainComponentMock->timeToSaveInsertedCoinsChangedSignal(3);
+}
+
 // keyPress
 
 TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalA_ThenGuiSignalizeIncreaseVolume)

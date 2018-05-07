@@ -260,6 +260,11 @@ void MainComponent::setTimeToPlayASong(int millisecs)
     setupPage->setTimeToPlayASong(millisecs);
 }
 
+void MainComponent::setTimeToSaveInsertedCoins(int millisecs)
+{
+    setupPage->setTimeToSaveInsertedCoins(millisecs);
+}
+
 void MainComponent::switchBetweenAlbumViews()
 {
     multipleAlbumsCanvas->setVisible(!multipleAlbumsCanvas->isVisible());
@@ -331,6 +336,11 @@ void MainComponent::onTimeToPlayASongChanged(int millisecs)
 {
     //TODO move?
     timeToPlayASongChangedSignal(std::move(millisecs));
+}
+
+void MainComponent::onTimeToSaveInsertedCoinsChanged(int millisecs)
+{
+    timeToSaveInsertedCoinsChangedSignal(std::move(millisecs));
 }
 
 void MainComponent::prepareForExit()

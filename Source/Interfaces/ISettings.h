@@ -14,6 +14,8 @@ public:
     virtual void setMusicDirectory(std::string musicDirectory) = 0;
     virtual int getTimeToPlaySong() const = 0;
     virtual void setTimeToPlaySong(int millisecs) = 0;
+    virtual int getTimeToSaveInsertedCoins() const = 0;
+    virtual void setTimeToSaveInsertedCoins(int millisecs) = 0;
 };
 
 }}

@@ -37,10 +37,13 @@ struct CoreTest : public Test
 
         EXPECT_CALL(*settingsMock, getMusicDirectory()).WillOnce(Return("FakeMusicDirectory"));
         EXPECT_CALL(*settingsMock, getTimeToPlaySong()).WillOnce(Return(5000));
+        EXPECT_CALL(*settingsMock, getTimeToSaveInsertedCoins()).Times(2).WillRepeatedly(Return(24 * 3600 * 1000));
         //TODO check order of the calls as it matters
         EXPECT_CALL(*guiMock, setFileSystem(fileSystemMock));
         EXPECT_CALL(*guiMock, setMusicFolder("FakeMusicDirectory"));
         EXPECT_CALL(*guiMock, setTimeToPlaySong(5000));
+        EXPECT_CALL(*guiMock, setTimeToSaveInsertedCoins(24 * 3600 * 1000));
+        EXPECT_CALL(*statisticsMock, setSaveTimeout(24 * 3600 * 1000));
 
         core = make_unique<Core>(move(gui),
                                  move(creditManager),
@@ -442,4 +445,23 @@ TEST_F(CoreTest, GivenOnlyNonNegativeNumbersAccepted_WhenGuiSendsTimeToPlayASong
     EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorNegativeNumber));
 
     guiMock->timeToPlayASongChangedSignal(-2000);
+}
+
+// timeToSaveInsertedCoinsChanged
+
+TEST_F(CoreTest, WhenGuiSendsTimeToSaveInsertedCoinsChangedSignal_ThenSettingsIsNotified)
+{
+    EXPECT_CALL(*settingsMock, setTimeToSaveInsertedCoins(12000));
+    EXPECT_CALL(*guiMock, setTimeToSaveInsertedCoins(12000));
+    EXPECT_CALL(*statisticsMock, setSaveTimeout(12000));
+
+    guiMock->timeToSaveInsertedCoinsChangedSignal(12000);
+}
+
+TEST_F(CoreTest, GivenOnlyGreaterOrEqual3600Accepted_WhenGuiSendsTimeToSaveInsertedCoinsChangedSignal_ThenAnErrorIsDisplayed)
+{
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorWrongNumber)).Times(2);
+
+    guiMock->timeToSaveInsertedCoinsChangedSignal(-2000);
+    guiMock->timeToSaveInsertedCoinsChangedSignal(3599);
 }

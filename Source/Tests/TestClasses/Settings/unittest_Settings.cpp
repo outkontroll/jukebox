@@ -33,6 +33,13 @@ TEST_F(SettingsTest, WhenTimeToPlaySet_ThenItIsSet)
     EXPECT_EQ(4000, settings.getTimeToPlaySong());
 }
 
+TEST_F(SettingsTest, WhenTimeToSaveInsertedCoinsSet_ThenItIsSet)
+{
+    settings.setTimeToSaveInsertedCoins(12000);
+
+    EXPECT_EQ(12000, settings.getTimeToSaveInsertedCoins());
+}
+
 TEST_F(SettingsTest, setMusicDir)
 {
     std::string newMusicDir("fakeMusicDir");

@@ -57,6 +57,7 @@ private:
     
     void musicDirectoryChanged(const std::string& newMusicDirectory);
     void timeToPlayASongChanged(int millisecs);
+    void timeToSaveInsertedCoinsChanged(int millisecs);
 
     void showStatisticsRequested();
     void exitRequested();

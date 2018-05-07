@@ -33,6 +33,7 @@ public:
     void setFileSystem(jukebox::filesystem::IFileSystem* filesys) override;
     void setMusicFolder(const std::string& folder) override;
     void setTimeToPlaySong(int millisecs) override;
+    void setTimeToSaveInsertedCoins(int millisecs) override;
     
     void setCurrentlyPlayedSong(const audio::Song& song) override;
     void enqueue(const audio::Song& song) override;
@@ -62,6 +63,7 @@ private:
     void handleDotPressed();
     void musicDirectoryChanged(const std::string& musicDirectory);
     void timeToPlayASongChanged(int millisecs);
+    void timeToSaveInsertedCoinsChanged(int millisecs);
     //TODO: these two functions could be merged into one entity with templates
     void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
     void playAlbumWithDelay(unsigned int albumNumber);

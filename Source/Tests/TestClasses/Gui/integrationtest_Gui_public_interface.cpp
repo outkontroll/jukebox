@@ -58,6 +58,13 @@ TEST_F(GuiTest, WhenSetTimeToPlaySongIsCalled_ThenTheSameIsCalledOnMainComponent
     gui->setTimeToPlaySong(2000);
 }
 
+TEST_F(GuiTest, WhenSetTimeToSaveInsertedCoinsIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    EXPECT_CALL(*mainComponentMock, setTimeToSaveInsertedCoins(12000));
+
+    gui->setTimeToSaveInsertedCoins(12000);
+}
+
 TEST_F(GuiTest, WhenSetCurrentlyPlayedSongIsCalled_ThenTheSameAndStatusUpdateIsCalledOnMainComponent)
 {
     Song song{1, 1, "fakeFileName", "fakeVisibleName"};

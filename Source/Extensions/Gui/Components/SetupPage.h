@@ -17,10 +17,12 @@ public:
 
     virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void setTimeToPlayASong(int millisecs);
+    virtual void setTimeToSaveInsertedCoins(int millisecs);
     virtual void showStatistics(const std::string& statistics);
 
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
+    jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
 private:
     juce::Rectangle<float> calculateTextPlace(float width, float height) const;
 
@@ -31,6 +33,9 @@ private:
     juce::ScopedPointer<juce::TextEditor> txtStatistics;
     juce::ScopedPointer<juce::Label> infoTimeToPlayASong;
     juce::ScopedPointer<juce::ComboBox> comboTimeToPlayASong;
+    juce::ScopedPointer<juce::Label> infoTimeToSaveInsertedCoins;
+    juce::ScopedPointer<juce::ComboBox> comboTimeToSaveInsertedCoins;
+
     juce::ScopedPointer<juce::FileTreeComponent> treeMusicDir;
     juce::TimeSliceThread directoryThread{ "Music File Scanner Thread" };
     juce::DirectoryContentsList listToShow{nullptr, directoryThread};
@@ -56,6 +61,16 @@ private:
         SetupPage& ownerPage;
     };
     juce::ScopedPointer<TimeToPlayASongListener> timeToPlayASongListener;
+
+    class TimeToSaveInsertedCoinsListener : public juce::ComboBox::Listener
+    {
+    public:
+        TimeToSaveInsertedCoinsListener(SetupPage&);
+        void comboBoxChanged(juce::ComboBox*) override;
+    private:
+        SetupPage& ownerPage;
+    };
+    juce::ScopedPointer<TimeToSaveInsertedCoinsListener> timeToSaveInsertedCoinsListener;
 
     void selectionChanged() override;
     void fileClicked (const juce::File&, const juce::MouseEvent&) override {}
