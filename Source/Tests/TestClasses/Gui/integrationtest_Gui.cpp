@@ -454,27 +454,6 @@ TEST_F(GuiTest, GivenThereIsNotEnoughCurrentUserInputToPlayASong_WhenMainCompone
     mainComponentMock->keyPressedSignal(keyDot);
 }
 
-TEST_F(GuiTest, DISABLED_GivenThereIsEnoughCurrentUserInputToPlayASongAndNoDotPressIsGiven_WhenMainComponentSendsKeyPressedSignalDot_Then)
-{
-    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
-    gui->setTimeToPlaySong(0);
-    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
-    mainComponentMock->keyPressedSignal(keyNumber5);
-    mainComponentMock->keyPressedSignal(keyNumber6);
-    mainComponentMock->keyPressedSignal(keyNumber7);
-    mainComponentMock->keyPressedSignal(keyNumber8);
-    mainComponentMock->keyPressedSignal(keyNumber9);
-
-    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString)).Times(0);
-
-    //TODO sign up for signal
-
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(2s);
-
-    mainComponentMock->keyPressedSignal(keyDot);
-}
-
 TEST_F(GuiTest, GivenThereIsEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedSignalDotInTimeToCancel_ThenCurrentUserInputNumberIsReset)
 {
     JuceEventLoopRunner eventLoopRunner;
