@@ -21,6 +21,8 @@ public:
     virtual void coinInserted50() = 0;
     virtual void coinInserted100() = 0;
     virtual void coinInserted200() = 0;
+
+    virtual void setSaveTimeout(int millisecs) = 0;
     
     virtual void showStatistics(std::ostream& os) = 0;
 };

@@ -131,7 +131,7 @@ MainComponent::MainComponent ()
 
 
     //[Constructor] You can add your own custom stuff here..
-    timerBetweenSongs = new jukebox::gui::JukeboxTimer([this](){
+    timerBetweenSongs = new jukebox::JukeboxTimer([this](){
         removeCurrentSongImmediately();
     });
 

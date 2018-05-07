@@ -18,7 +18,6 @@ set(HEADER_SOURCES
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.h
     ${COMPONENTS_DIR}/SingleAlbumCanvas.h
     ${COMPONENTS_DIR}/SingleAlbumPositionCalculator.h
-    ${COMPONENTS_DIR}/JukeboxTimer.h
     ${COMPONENTS_DIR}/SetupPage.h
 )
 
@@ -33,7 +32,6 @@ set(CPP_SOURCES
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.cpp
     ${COMPONENTS_DIR}/SingleAlbumCanvas.cpp
     ${COMPONENTS_DIR}/SingleAlbumPositionCalculator.cpp
-    ${COMPONENTS_DIR}/JukeboxTimer.cpp
     ${COMPONENTS_DIR}/SetupPage.cpp
 )
 
@@ -57,4 +55,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${IMPL_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC signals)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_JUCE} logger formaters songBuilder std_addons)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_JUCE} logger formaters songBuilder std_addons jukeboxtimer)

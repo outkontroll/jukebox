@@ -10,15 +10,15 @@ namespace juce {
     class KeyPress;
 }
 
-namespace jukebox { namespace filesystem {
+namespace jukebox {
+    class JukeboxTimer;
+namespace filesystem {
     class IFileSystem;
 }}
 
 class MainWindow;
 
 namespace jukebox { namespace gui {
-
-class JukeboxTimer;
 
 class Gui : public IGui
 {
@@ -77,7 +77,7 @@ private:
     std::unique_ptr<juce::MainComponent> mainComponent;
     std::unique_ptr<MainWindow> mainWindow;
 
-    std::unique_ptr<JukeboxTimer> secondsToPlayTimer;
+    std::unique_ptr<jukebox::JukeboxTimer> secondsToPlayTimer;
     
     std::string musicFolder = "";
     std::string userInputSongNumber = "";

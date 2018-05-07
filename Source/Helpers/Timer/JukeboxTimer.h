@@ -4,7 +4,7 @@
 #include "JuceHeader.h"
 #include <functional>
 
-namespace jukebox { namespace gui {
+namespace jukebox {
 
 class JukeboxTimer : public juce::Timer
 {
@@ -21,6 +21,6 @@ private:
     volatile bool shouldRunOnce = false;
 };
 
-}}
+}
 
 #endif // JUKEBOXTIMER_H

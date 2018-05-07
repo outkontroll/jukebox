@@ -1,6 +1,6 @@
 #include "JukeboxTimer.h"
 
-using namespace jukebox::gui;
+using namespace jukebox;
 
 JukeboxTimer::JukeboxTimer(std::function<void()> func)
     : functionToCall(std::move(func))

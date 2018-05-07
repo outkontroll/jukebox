@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-using namespace jukebox::gui;
+using namespace jukebox;
 
 namespace {
     constexpr int timerMillisecs = 100;

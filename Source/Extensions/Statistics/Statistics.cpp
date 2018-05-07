@@ -1,12 +1,19 @@
 #include "Statistics.h"
-#include "Song.h"
 #include <ostream>
-//TODO
-#include "SongBuilder.h"
-using namespace jukebox::songbuilder;
+#include <fstream>
+#include "JukeboxTimer.h"
+#include "Song.h"
 
 using namespace jukebox::statistics;
 using namespace jukebox::audio;
+
+namespace {
+    const auto fileName = "insertedCoins.txt";
+}
+
+Statistics::~Statistics() = default;
+
+Statistics::Statistics() = default;
 
 void Statistics::songPlayed(const Song& song)
 {
@@ -20,22 +27,41 @@ void Statistics::albumPlayed(const Album& album)
 
 void Statistics::coinInserted50()
 {
-    insertedCoins += 50;
+    insertedCoinsAllTime += 50;
+    insertedCoinsToday += 50;
 }
 
 void Statistics::coinInserted100()
 {
-    insertedCoins += 100;
+    insertedCoinsAllTime += 100;
+    insertedCoinsToday += 100;
 }
 
 void Statistics::coinInserted200()
 {
-    insertedCoins += 200;
+    insertedCoinsAllTime += 200;
+    insertedCoinsToday += 200;
+}
+
+void Statistics::setSaveTimeout(int millisecs)
+{
+    saveTimer = std::make_unique<JukeboxTimer>([this](){
+        std::ofstream f(fileName, std::ios::app);
+        if(f)
+        {
+            f << insertedCoinsToday << std::endl;
+        }
+
+        insertedCoinsToday = 0;
+    });
+
+    saveTimer->startTimer(millisecs);
 }
 
 void Statistics::showStatistics(std::ostream& os)
 {
-    os << "Inserted: " << insertedCoins << std::endl;
+    os << "Inserted: " << insertedCoinsAllTime << std::endl;
+    os << "Inserted since last save: " << insertedCoinsToday << std::endl;
 
     for(const auto& album : playedAlbums)
     {

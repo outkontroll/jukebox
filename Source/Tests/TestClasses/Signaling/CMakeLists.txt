@@ -22,12 +22,13 @@ set(INCLUDE_DIRS
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
     gui
     logger
     song
+    jukeboxtimer
     ${GTest}
     ${GTestMain}
     ${GMock}

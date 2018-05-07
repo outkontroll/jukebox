@@ -28,8 +28,8 @@
 #include <deque>
 
 namespace jukebox {
-namespace gui {
     class JukeboxTimer;
+namespace gui {
     class MultipleAlbumsCanvas;
     class SingleAlbumCanvas;
     class SetupPage;
@@ -107,7 +107,7 @@ private:
     void onTimeToPlayASongChanged(int);
 
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;
-    ScopedPointer<jukebox::gui::JukeboxTimer> timerBetweenSongs;
+    ScopedPointer<jukebox::JukeboxTimer> timerBetweenSongs;
     bool focusInitialised;
     jukebox::signals::Slot eventsSlot;
     //[/UserVariables]

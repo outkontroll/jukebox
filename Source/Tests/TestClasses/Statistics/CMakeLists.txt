@@ -17,10 +17,11 @@ add_executable(${PROJECT_NAME}
 
 set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/Statistics
+    ${HELPERCLASSES_DIR}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
     statistics

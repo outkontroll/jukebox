@@ -1,7 +1,9 @@
 #include "gtest/gtest.h"
+#include <sstream>
+#include <fstream>
 #include "Statistics.h"
 #include "Song.h"
-#include <sstream>
+#include "JuceEventLoopRunner.h"
 
 using namespace jukebox::statistics;
 using namespace jukebox::audio;
@@ -33,7 +35,7 @@ TEST_F(StatisticsTest, empty)
 {
     statistics.showStatistics(ss);
     
-    EXPECT_EQ("Inserted: 0\n", ss.str());
+    EXPECT_EQ("Inserted: 0\nInserted since last save: 0\n", ss.str());
 }
 
 TEST_F(StatisticsTest, playOneSong)
@@ -42,7 +44,7 @@ TEST_F(StatisticsTest, playOneSong)
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 0\nfakeVisibleName: 1\n");
+    std::string expected("Inserted: 0\nInserted since last save: 0\nfakeVisibleName: 1\n");
     EXPECT_EQ(expected, ss.str());
 }
 //TODO test other thing
@@ -52,7 +54,7 @@ TEST_F(StatisticsTest, playOneAlbum)
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 0\nfakeVisibleName: 1\n");
+    std::string expected("Inserted: 0\nInserted since last save: 0\nfakeVisibleName: 1\n");
     EXPECT_EQ(expected, ss.str());
 }
 
@@ -62,7 +64,7 @@ TEST_F(StatisticsTest, coinInsert50)
 
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 50\n");
+    std::string expected("Inserted: 50\nInserted since last save: 50\n");
     EXPECT_EQ(expected, ss.str());
 }
 
@@ -72,7 +74,7 @@ TEST_F(StatisticsTest, coinInsert100)
 
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 100\n");
+    std::string expected("Inserted: 100\nInserted since last save: 100\n");
     EXPECT_EQ(expected, ss.str());
 }
 
@@ -82,7 +84,7 @@ TEST_F(StatisticsTest, coinInsert200)
 
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 200\n");
+    std::string expected("Inserted: 200\nInserted since last save: 200\n");
     EXPECT_EQ(expected, ss.str());
 }
 
@@ -103,6 +105,34 @@ TEST_F(StatisticsTest, multiplePlays)
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 450\nfakeAlbumName2: 1\nfakeAlbumName1: 2\nfakeVisibleName: 3\n");
+    std::string expected("Inserted: 450\nInserted since last save: 450\nfakeAlbumName2: 1\nfakeAlbumName1: 2\nfakeVisibleName: 3\n");
+    EXPECT_EQ(expected, ss.str());
+}
+
+TEST_F(StatisticsTest, insertedCoinsTodayClear)
+{
+    JuceEventLoopRunner eventLoopRunner;
+    const int timeToSave(100);
+    statistics.coinInserted50();
+
+    statistics.setSaveTimeout(timeToSave);
+
+    eventLoopRunner.runEventLoop(timeToSave);
+
+    statistics.showStatistics(ss);
+    std::string expected("Inserted: 50\nInserted since last save: 0\n");
+    EXPECT_EQ(expected, ss.str());
+
+    ss.str("");
+    statistics.coinInserted50();
+    statistics.showStatistics(ss);
+    expected = "Inserted: 100\nInserted since last save: 50\n";
+    EXPECT_EQ(expected, ss.str());
+
+    eventLoopRunner.runEventLoop(timeToSave);
+
+    ss.str("");
+    statistics.showStatistics(ss);
+    expected = "Inserted: 100\nInserted since last save: 0\n";
     EXPECT_EQ(expected, ss.str());
 }
