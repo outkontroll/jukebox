@@ -33,12 +33,12 @@ public:
 
     void DescribeTo(std::ostream* os) const
     {
-        *os << "are a pair where the elements are considered equals";
+        *os << "are a pair where the elements are considered equals if difference is lower than " << precision;
     }
 
     void DescribeNegationTo(std::ostream* os) const
     {
-        *os << "are a pair where the elements are not considered equals";
+        *os << "are a pair where the elements are not considered equals if difference is bigger than " << precision;
     }
 
 private:

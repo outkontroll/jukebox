@@ -83,3 +83,23 @@ TEST(SingleAlbumPositionCalculatorTest, drawableSonNamesPlace)
     ASSERT_EQ(45, result2);
     ASSERT_EQ(50, result3);
 }
+
+TEST(MacherTest, describeTo)
+{
+    RectangleFloatNearMatcher matcher(123456);
+
+    std::ostringstream os;
+    matcher.DescribeTo(&os);
+
+    ASSERT_NE(std::string::npos, os.str().find("123456"));
+}
+
+TEST(MacherTest, describeNegationTo)
+{
+    RectangleFloatNearMatcher matcher(123456);
+
+    std::ostringstream os;
+    matcher.DescribeNegationTo(&os);
+
+    ASSERT_NE(std::string::npos, os.str().find("123456"));
+}
