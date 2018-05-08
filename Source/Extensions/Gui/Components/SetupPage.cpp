@@ -8,6 +8,9 @@ namespace {
     const char* setupPageName = "Setup";
 }
 
+int getSelectedIndexFromSaveInsertedCoinHours(int SaveInsertedCoinHours);
+int getSaveInsertedCoinHoursFromSelected(int selectedIndex);
+
 SetupPage::SetupPage()
 {
     addAndMakeVisible(infoMusicDirectory = new Label("music directory info label", "Music directory:"));

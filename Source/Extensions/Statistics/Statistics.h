@@ -16,7 +16,7 @@ class Statistics : public IStatistics
 {
 public:
     Statistics();
-    ~Statistics();
+    ~Statistics() override;
 
     void songPlayed(const audio::Song&) override;
     void albumPlayed(const audio::Album&) override;

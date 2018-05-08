@@ -3,19 +3,19 @@
 MainComponentPositionCalculator::MainComponentPositionCalculator(int width_, int height_) :
     width(width_),
     height(height_),
-    canvasLeft(width * 0.016),
-    canvasTop(height / 43.75),
-    canvasWidth(width * 0.76),
-    canvasHeight(height * 0.89),
+    canvasLeft(static_cast<int>(width * 0.016)),
+    canvasTop(static_cast<int>(height / 43.75)),
+    canvasWidth(static_cast<int>(width * 0.76)),
+    canvasHeight(static_cast<int>(height * 0.89)),
     offsetWidth(canvasLeft),
     offsetHeight(canvasTop),
-    fontHeightBig(height * 0.04),
-    fontHeightSmall(height * 0.0225),
-    fontWidthBig(width * 0.014),
+    fontHeightBig(static_cast<int>(height * 0.04)),
+    fontHeightSmall(static_cast<int>(height * 0.0225)),
+    fontWidthBig(static_cast<int>(width * 0.014)),
     sidePanelLeft(canvasLeft + canvasWidth + offsetWidth),
     sidePanelTop(offsetHeight),
     sidePanelWidth(width - sidePanelLeft - offsetWidth),
-    statusTop(height * 0.92)
+    statusTop(static_cast<int>(height * 0.92))
 {
 }
 

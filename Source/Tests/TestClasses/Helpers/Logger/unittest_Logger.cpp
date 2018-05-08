@@ -6,8 +6,10 @@ using namespace jukebox;
 using namespace jukebox::log;
 
 namespace {
-    const auto testFileName = "loggerTest.txt";
+    //const auto testFileName = "loggerTest.txt";
 }
+
+void testFunctionName1();
 
 void testFunctionName1()
 {
@@ -15,12 +17,16 @@ void testFunctionName1()
 }
 
 namespace foo{
+    void testFunctionName2();
+
     void testFunctionName2()
     {
         LOG_INFO("");
     }
 
     namespace baz{
+        void testFunctionName3();
+
         void testFunctionName3()
         {
             LOG_INFO("");
