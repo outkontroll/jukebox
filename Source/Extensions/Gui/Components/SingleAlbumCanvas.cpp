@@ -26,16 +26,10 @@ namespace {
 
 void SingleAlbumCanvas::paint(Graphics& g)
 {
-    //TODO just for testing purposes
-    g.setColour(Colours::aqua);
-    g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
-    //END TODO
-
     g.setColour(Colours::black);
+    g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
 
-    auto currentFont = g.getCurrentFont();
-    currentFont.setHeight(bigFontSize);
-    g.setFont(currentFont);
+    g.setFont(bigFontSize);
 
     // album's number
     g.drawText(jukebox::FillWithLeadingZeros(albumIndex, 3), albumTextPlace, Justification::centredLeft);

@@ -107,16 +107,10 @@ SetupPage::~SetupPage()
 
 void SetupPage::paint(Graphics& g)
 {
-    //TODO just for testing purposes
-    g.setColour(Colours::aliceblue);
-    g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
-    //END TODO
-
     g.setColour(Colours::black);
+    g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
 
-    auto currentFont = g.getCurrentFont();
-    currentFont.setHeight(bigFontSize);
-    g.setFont(currentFont);
+    g.setFont(bigFontSize);
 
     // album's number
     g.drawText(setupPageName, textPlace, Justification::centredLeft);

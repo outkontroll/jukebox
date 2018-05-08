@@ -21,14 +21,10 @@ namespace {
 
 void MultipleAlbumsCanvas::paint(Graphics& g)
 {
-    //TODO just for testing purposes
+    g.setColour(Colours::black);
     g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
 
-    g.setColour(Colours::black);
-
-    auto currentFont = g.getCurrentFont();
-    currentFont.setHeight(bigFontSize);
-    g.setFont(currentFont);
+    g.setFont(bigFontSize);
 
     for(const auto& album : albums)
     {
