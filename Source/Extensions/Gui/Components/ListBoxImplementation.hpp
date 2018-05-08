@@ -26,7 +26,7 @@ void ListBox<Container, Item>::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::lightblue);
     g.setFont (14.0f);
-    g.drawText ("SongsListBox", getLocalBounds(),
+    g.drawText ("", getLocalBounds(),
                 juce::Justification::centred, true);   // draw some placeholder text
 }
 

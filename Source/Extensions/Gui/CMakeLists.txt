@@ -19,6 +19,7 @@ set(HEADER_SOURCES
     ${COMPONENTS_DIR}/SingleAlbumCanvas.h
     ${COMPONENTS_DIR}/SingleAlbumPositionCalculator.h
     ${COMPONENTS_DIR}/SetupPage.h
+    ${COMPONENTS_DIR}/MainComponentPositionCalculator.h
 )
 
 # sources
@@ -33,6 +34,7 @@ set(CPP_SOURCES
     ${COMPONENTS_DIR}/SingleAlbumCanvas.cpp
     ${COMPONENTS_DIR}/SingleAlbumPositionCalculator.cpp
     ${COMPONENTS_DIR}/SetupPage.cpp
+    ${COMPONENTS_DIR}/MainComponentPositionCalculator.cpp
 )
 
 # project

@@ -31,6 +31,8 @@ Gui::Gui(const std::string& applicationName)
     : mainComponent(std::make_unique<MainComponent>()),
       mainWindow(std::make_unique<MainWindow>(applicationName, mainComponent.get()))
 {
+    mainWindow->setFullScreen(true);
+
     connectSignals();
 }
 

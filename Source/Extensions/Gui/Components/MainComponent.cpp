@@ -24,6 +24,7 @@
 #include "MultipleAlbumsCanvas.h"
 #include "SingleAlbumCanvas.h"
 #include "SetupPage.h"
+#include "MainComponentPositionCalculator.h"
 //[/Headers]
 
 #include "MainComponent.h"
@@ -45,7 +46,7 @@ MainComponent::MainComponent ()
 
     addAndMakeVisible (infoCredit = new Label ("credits info label",
                                                TRANS("Credits:")));
-    infoCredit->setFont (Font (15.00f, Font::plain));
+    infoCredit->setFont (Font (18.00f, Font::plain));
     infoCredit->setJustificationType (Justification::centredLeft);
     infoCredit->setEditable (false, false, false);
     infoCredit->setColour (TextEditor::textColourId, Colours::black);
@@ -53,7 +54,7 @@ MainComponent::MainComponent ()
 
     addAndMakeVisible (lblCredits = new Label ("credits label",
                                                TRANS("0")));
-    lblCredits->setFont (Font (18.00f, Font::plain));
+    lblCredits->setFont (Font (32.00f, Font::plain));
     lblCredits->setJustificationType (Justification::centredLeft);
     lblCredits->setEditable (false, false, false);
     lblCredits->setColour (TextEditor::textColourId, Colours::black);
@@ -61,7 +62,7 @@ MainComponent::MainComponent ()
 
     addAndMakeVisible (lblStatus = new Label ("Status label",
                                               TRANS("Ready")));
-    lblStatus->setFont (Font (15.00f, Font::plain));
+    lblStatus->setFont (Font (18.00f, Font::plain));
     lblStatus->setJustificationType (Justification::centredLeft);
     lblStatus->setEditable (false, false, false);
     lblStatus->setColour (TextEditor::textColourId, Colours::black);
@@ -69,7 +70,7 @@ MainComponent::MainComponent ()
 
     addAndMakeVisible (infoPlayQueue = new Label ("playlist queue info label",
                                                   TRANS("Songs in the queue")));
-    infoPlayQueue->setFont (Font (15.00f, Font::plain));
+    infoPlayQueue->setFont (Font (18.00f, Font::plain));
     infoPlayQueue->setJustificationType (Justification::centredLeft);
     infoPlayQueue->setEditable (false, false, false);
     infoPlayQueue->setColour (TextEditor::textColourId, Colours::black);
@@ -77,14 +78,14 @@ MainComponent::MainComponent ()
 
     addAndMakeVisible (infoCurrentSong = new Label ("current song info label",
                                                     TRANS("Currently playing:")));
-    infoCurrentSong->setFont (Font (15.00f, Font::plain));
+    infoCurrentSong->setFont (Font (18.00f, Font::plain));
     infoCurrentSong->setJustificationType (Justification::centredLeft);
     infoCurrentSong->setEditable (false, false, false);
     infoCurrentSong->setColour (TextEditor::textColourId, Colours::black);
     infoCurrentSong->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (txtCurrentSong = new TextEditor ("current song text"));
-    txtCurrentSong->setMultiLine (false);
+    txtCurrentSong->setMultiLine (true);
     txtCurrentSong->setReturnKeyStartsNewLine (false);
     txtCurrentSong->setReadOnly (true);
     txtCurrentSong->setScrollbarsShown (false);
@@ -119,7 +120,7 @@ MainComponent::MainComponent ()
 
     //[UserPreSize]
     singleAlbumCanvas->setVisible(false);
-    addAndMakeVisible(listBox = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
+    addAndMakeVisible(listBoxPlayQueue = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
 
     addChildComponent(setupPage = new jukebox::gui::SetupPage);
     eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, setupPage->musicDirectoryChangedSignal);
@@ -127,7 +128,7 @@ MainComponent::MainComponent ()
 
     //[/UserPreSize]
 
-    setSize (1400, 800);
+    //setSize (1400, 800);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -146,20 +147,20 @@ MainComponent::~MainComponent()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    infoCredit = nullptr;
-    lblCredits = nullptr;
-    lblStatus = nullptr;
-    infoPlayQueue = nullptr;
-    infoCurrentSong = nullptr;
-    txtCurrentSong = nullptr;
-    multipleAlbumsCanvas = nullptr;
-    singleAlbumCanvas = nullptr;
     lblAlbumNumber = nullptr;
     lblSongNumber = nullptr;
+    infoCredit = nullptr;
+    lblCredits = nullptr;
+    infoCurrentSong = nullptr;
+    txtCurrentSong = nullptr;
+    infoPlayQueue = nullptr;
+    multipleAlbumsCanvas = nullptr;
+    singleAlbumCanvas = nullptr;
+    lblStatus = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
-    listBox = nullptr;
+    listBoxPlayQueue = nullptr;
     timerBetweenSongs = nullptr;
     //[/Destructor]
 }
@@ -195,21 +196,47 @@ void MainComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    infoCredit->setBounds (1128, 88, 56, 24);
-    lblCredits->setBounds (1192, 88, 32, 24);
-    lblStatus->setBounds (32, 760, 300, 24);
-    infoPlayQueue->setBounds (1128, 240, 150, 24);
-    infoCurrentSong->setBounds (1128, 128, 150, 24);
-    txtCurrentSong->setBounds (1128, 168, 200, 24);
-    multipleAlbumsCanvas->setBounds (32, 32, 1064, 712);
-    singleAlbumCanvas->setBounds (888, 504, 302, 208);
-    lblAlbumNumber->setBounds (1128, 32, 57, 40);
-    lblSongNumber->setBounds (1192, 32, 42, 40);
+
     //[UserResized] Add your own custom resize handling here..
-    //singleAlbumCanvas->setBounds(multipleAlbumsCanvas->getBounds());
-    singleAlbumCanvas->setBounds (32, 32, 1064, 712);
-    setupPage->setBounds (32, 32, 1064, 712);
-    listBox->setBounds(1128, 284, 200, 150);
+
+//    infoCredit->setBounds (1128, 88, 56, 24);
+//    lblCredits->setBounds (1192, 88, 32, 24);
+//    lblStatus->setBounds (32, 760, 300, 24);
+//    infoPlayQueue->setBounds (1128, 240, 150, 24);
+//    infoCurrentSong->setBounds (1128, 128, 150, 24);
+//    txtCurrentSong->setBounds (1128, 168, 200, 24);
+//    multipleAlbumsCanvas->setBounds (32, 32, 1064, 712);
+//    lblAlbumNumber->setBounds (1128, 32, 57, 40);
+//    lblSongNumber->setBounds (1192, 32, 42, 40);
+//    singleAlbumCanvas->setBounds (32, 32, 1064, 712);
+//    setupPage->setBounds (32, 32, 1064, 712);
+//    listBox->setBounds(1128, 284, 200, 150);
+    MainComponentPositionCalculator calc{getWidth(), getHeight()};
+    const Font bigFont(calc.getFontHeigthBig(), Font::plain);
+    const Font smallFont(calc.getFontHeigthSmall(), Font::plain);
+    const auto canvasBounds = calc.getCanvasBounds();
+
+    lblAlbumNumber->setBounds (calc.getLblAlbumNumberBounds());
+    lblAlbumNumber->setFont(bigFont);
+    lblSongNumber->setBounds (calc.getLblSongNumberBounds());
+    lblSongNumber->setFont(bigFont);
+    infoCredit->setBounds (calc.getInfoCreditBounds());
+    infoCredit->setFont(smallFont);
+    lblCredits->setBounds (calc.getLblCreditsBounds());
+    lblCredits->setFont(bigFont);
+    infoCurrentSong->setBounds (calc.getInfoCurrentSongBounds());
+    infoCurrentSong->setFont(smallFont);
+    txtCurrentSong->setBounds (calc.getTxtCurrentSongBounds());
+    txtCurrentSong->setFont(smallFont);
+    infoPlayQueue->setBounds (calc.getInfoPlayQueueBounds());
+    infoPlayQueue->setFont(smallFont);
+    listBoxPlayQueue->setBounds(calc.getPlayQueueBounds());
+    lblStatus->setBounds (calc.getLblStatusBounds());
+    lblStatus->setFont(smallFont);
+
+    multipleAlbumsCanvas->setBounds (canvasBounds);
+    singleAlbumCanvas->setBounds (canvasBounds);
+    setupPage->setBounds (canvasBounds);
     //[/UserResized]
 }
 
@@ -301,7 +328,7 @@ void MainComponent::setCurrentlyPlayedSong(const jukebox::audio::Song& song)
 
 void MainComponent::enqueue(const jukebox::audio::Song& song)
 {
-    listBox->insertItem(song);
+    listBoxPlayQueue->insertItem(song);
 }
 
 void MainComponent::removeCurrentSong()
@@ -319,10 +346,10 @@ void MainComponent::removeCurrentSongImmediately()
 {
     txtCurrentSong->setText("");
 
-    if(listBox->hasNextItem())
+    if(listBoxPlayQueue->hasNextItem())
     {
-        const auto nextItem = listBox->getNextItem();
-        listBox->removeCurrentItem();
+        const auto nextItem = listBoxPlayQueue->getNextItem();
+        listBoxPlayQueue->removeCurrentItem();
         playNextSongSignal(nextItem);
     }
 }
@@ -345,7 +372,7 @@ void MainComponent::onTimeToSaveInsertedCoinsChanged(int millisecs)
 
 void MainComponent::prepareForExit()
 {
-    listBox->clear();
+    listBoxPlayQueue->clear();
 }
 
 //[/MiscUserCode]

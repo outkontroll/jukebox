@@ -109,7 +109,7 @@ private:
     void onTimeToPlayASongChanged(int);
     void onTimeToSaveInsertedCoinsChanged(int);
 
-    ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBox;
+    ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBoxPlayQueue;
     ScopedPointer<jukebox::JukeboxTimer> timerBetweenSongs;
     bool focusInitialised;
     jukebox::signals::Slot eventsSlot;
