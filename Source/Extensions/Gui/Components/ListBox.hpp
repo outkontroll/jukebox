@@ -58,6 +58,8 @@ public:
     Item getNextItem() const override;
     void clear() noexcept override;
 
+    void setRowHeight(int height);
+
 private:
     juce::ListBox sourceListBox;
     ListBoxContents<Container, Item> sourceModel;

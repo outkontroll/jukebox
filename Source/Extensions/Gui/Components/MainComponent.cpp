@@ -231,6 +231,7 @@ void MainComponent::resized()
     infoPlayQueue->setBounds (calc.getInfoPlayQueueBounds());
     infoPlayQueue->setFont(smallFont);
     listBoxPlayQueue->setBounds(calc.getPlayQueueBounds());
+    listBoxPlayQueue->setRowHeight(calc.getFontHeigthSmall());
     lblStatus->setBounds (calc.getLblStatusBounds());
     lblStatus->setFont(smallFont);
 

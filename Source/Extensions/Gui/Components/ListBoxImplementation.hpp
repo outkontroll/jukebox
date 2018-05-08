@@ -11,7 +11,6 @@ ListBox<Container, Item>::ListBox()
 : sourceListBox ("listBox", nullptr)
 {
     sourceListBox.setModel (&sourceModel);
-    sourceListBox.setMultipleSelectionEnabled (true);
 
     addAndMakeVisible (sourceListBox);
 }
@@ -22,12 +21,6 @@ void ListBox<Container, Item>::paint (juce::Graphics& g)
     g.fillAll (juce::Colours::white);   // clear the background
 
     g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (juce::Colours::lightblue);
-    g.setFont (14.0f);
-    g.drawText ("", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
 }
 
 template<template<class, class> class Container, class Item>
@@ -69,11 +62,15 @@ void ListBox<Container, Item>::clear() noexcept
 }
 
 template<template<class, class> class Container, class Item>
+void ListBox<Container, Item>::setRowHeight(int height)
+{
+    sourceListBox.setRowHeight(height);
+}
+
+template<template<class, class> class Container, class Item>
 void ListBox<Container, Item>::resized()
 {
-    juce::Rectangle<int> r (getLocalBounds().reduced (8));
-
-    sourceListBox.setBounds (r.withSize (190, 140));
+    sourceListBox.setBounds(getLocalBounds());
 }
 
 template<template<class, class> class Container, class Item>
@@ -88,8 +85,6 @@ void ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Gr
 {
     if(rowNumber < 0 || static_cast<unsigned>(rowNumber) >= items.size())
     {
-        //TODO check if a warning is needed
-        //LOG_WARNING("row #" << rowNumber << " was out of range, count of elements: " << items.size() << ", capacity: " << items.capacity());
         return;
     }
     
@@ -99,10 +94,9 @@ void ListBoxContents<Container, Item>::paintListBoxItem (int rowNumber, juce::Gr
     }
     
     g.setColour (juce::Colours::black);
-    g.setFont (height * 0.7f);
+    g.setFont (height * 0.9f);
 
-    g.drawText (items[static_cast<unsigned>(rowNumber)].visibleName, 5, 0, width, height,
-                juce::Justification::centredLeft, true);
+    g.drawText (items[static_cast<unsigned>(rowNumber)].visibleName, 5, 0, width, height, juce::Justification::centredLeft, true);
 }
 
 template<template<class, class> class Container, class Item>
