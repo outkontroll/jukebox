@@ -34,11 +34,9 @@ namespace gui {
     class SingleAlbumCanvas;
     class SetupPage;
 }
-namespace filesystem {
-    class IFileSystem;
-}
 namespace audio {
     struct Song;
+    struct AlbumInfo;
 }}
 
 namespace juce {
@@ -74,8 +72,8 @@ public:
 
     virtual void refreshCredits(unsigned int credits);
     virtual void showStatusMessage(const String& message);
-    virtual void loadMultipleAlbums(const std::string& musicDirectory, unsigned int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys);
-    virtual void loadSingleAlbum(const std::string& musicDirectory, unsigned int albumIndex, const jukebox::filesystem::IFileSystem& fileSys);
+    virtual void loadMultipleAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int firstAlbumIndex);
+    virtual void loadSingleAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int albumIndex);
     virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void setTimeToPlayASong(int millisecs);
     virtual void setTimeToSaveInsertedCoins(int millisecs);

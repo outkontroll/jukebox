@@ -17,6 +17,7 @@ set(CPP_SOURCES_UT
     ${TESTING_MAIN}
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_SingleAlbumPositionCalculator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_ResourceString.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/unittest_AlbumStepCalculator.cpp
 )
 
 # project
@@ -59,6 +60,7 @@ target_link_libraries(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}2
     gui
     logger
+    song
     ${GTest}
     ${GTestMain}
     ${GMock}

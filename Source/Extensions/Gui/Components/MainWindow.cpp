@@ -7,6 +7,5 @@ MainWindow::MainWindow(const String& name, Component* guiComponent)
 {
     setContentNonOwned(guiComponent, true);
     
-    centreWithSize(getWidth(), getHeight());
     setVisible(true);
 }

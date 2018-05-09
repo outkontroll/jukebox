@@ -5,6 +5,7 @@
 #include "ResourceId.h"
 #include "ResourceString.h"
 #include "StdAddons.hpp"
+#include "Song.h"
 
 using namespace jukebox::gui;
 using namespace juce;
@@ -26,7 +27,7 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
 
     g.setFont(bigFontSize);
 
-    for(const auto& album : albums)
+    for(const auto& album : visibleAlbums)
     {
         const auto& image = album.image;
 
@@ -66,38 +67,39 @@ void MultipleAlbumsCanvas::parentSizeChanged()
     std::iota(indexes.begin(), indexes.end(), 0);
 
     albumPositions.reserve(indexes.size());
-    albums.reserve(indexes.size());
+    visibleAlbums.reserve(indexes.size());
 
     std_addons::transform(indexes, std::back_inserter(albumPositions), [this](unsigned int visibleAlbumIndex){
         const auto position = getPositionFromIndex(visibleAlbumIndex);
         return AlbumPositionInfo{calculateImagePlace(position, slotWidth, slotHeight),
                                  calculateTextPlace(position, slotWidth, slotHeight)};
     });
-
 }
 
-void MultipleAlbumsCanvas::loadAlbums(const std::string& musicDirectoy, unsigned int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys)
+void MultipleAlbumsCanvas::loadAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int firstAlbumIndex)
 {
-    albums.clear();
+    visibleAlbums.clear();
 
-    std_addons::accumulate(albumPositions, firstAlbumIndex, [&, this](unsigned int albumIndex, const auto& albumPosition){
-        const auto imagePath = fileSys.getPicturePath(musicDirectoy, albumIndex, ".jpg");
-        const auto image = ImageFileFormat::loadFrom(File(imagePath));
+    if(albums.empty())
+        return;
 
-        albums.push_back({image, albumPosition, albumIndex});
-
-        return ++albumIndex;
+    unsigned int albumIndex = firstAlbumIndex;
+    const auto start = albums.begin() + (firstAlbumIndex - 1);
+    const auto stop = (std::distance(start, albums.end()) < columns * rows) ? albums.end() : start + columns * rows;
+    std::transform(start, stop, albumPositions.begin(), std::back_inserter(visibleAlbums), [&](const jukebox::audio::AlbumInfo& album, const AlbumPositionInfo& albumPosition) -> VisibleAlbum {
+        const auto image = ImageFileFormat::loadFrom(File(album.imagePath));
+        return {image, albumPosition, albumIndex++};
     });
 }
 
 void MultipleAlbumsCanvas::setSelection(unsigned int selectedIndex)
 {
     selectedAlbumIndex = selectedIndex;
-    if(!albums.empty())
+    if(!visibleAlbums.empty())
     {
-        const auto selectedPosition = selectedAlbumIndex - albums.begin()->albumNumber;
-        selectionTextPlace = calculateSelectionPlace(albums[selectedPosition].position.textPlace);
-        selectionImagePlace = calculateSelectionPlace(albums[selectedPosition].position.imagePlace);
+        const auto selectedPosition = selectedAlbumIndex - visibleAlbums.begin()->albumNumber;
+        selectionTextPlace = calculateSelectionPlace(visibleAlbums[selectedPosition].position.textPlace);
+        selectionImagePlace = calculateSelectionPlace(visibleAlbums[selectedPosition].position.imagePlace);
     }
 
     repaint();

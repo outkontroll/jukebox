@@ -71,9 +71,6 @@ private:
     void loadMultipleAlbums();
     void loadSingleAlbum();
 
-    unsigned int getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const;
-    unsigned int getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const;
-
     jukebox::signals::Slot eventsSlot;
     
     std::unique_ptr<juce::MainComponent> mainComponent;
@@ -83,11 +80,10 @@ private:
     
     std::string musicFolder = "";
     std::string userInputSongNumber = "";
-    unsigned int visibleAlbumsIndex = 1;
-    unsigned int selectedAlbumIndex = 1;
+    unsigned int visibleAlbumsId = 1;
+    unsigned int selectedAlbumId = 1;
     unsigned int albumIndexStep = 8;
     unsigned int selectedSongIndex = 0;
-    unsigned int visibleSongsIndex = 20; //TODO
     int timeToPlaySong = 0;
     bool isInUserMode = true;
     bool isInMultipleAlbumsMode = true;

@@ -13,6 +13,7 @@ namespace {
     constexpr unsigned int testCredits = 12;
     constexpr int defaultSelectedAlbumIndex = 1;
     constexpr int defaultSelectedSongIndex = 0;
+    const std::vector<AlbumInfo> fakeAlbums16(16, {{{}, {}, {}}, "", "", "", 1});
 }
 
 TEST(GuiTest1, baseClassCtorDtor)
@@ -42,9 +43,11 @@ TEST_F(GuiTest, WhenShowStatusMessageIsCalledWithResourceId_ThenTheSameIsCalledO
 
 TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbumsAndUpdateSelection)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, setMusicDirectory(setMusicDir));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(setMusicDir, defaultSelectedAlbumIndex, _));
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(setMusicDir, defaultSelectedAlbumIndex, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, defaultSelectedAlbumIndex));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, defaultSelectedAlbumIndex));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 

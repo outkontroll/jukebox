@@ -1,13 +1,11 @@
 #include "Application.h"
 #include "Core.h"
-//TODO: remove these includes as soon as classload is introduced
 #include "Gui.h"
 #include "CreditManager.h"
 #include "MusicPlayer.h"
 #include "Statistics.h"
 #include "Settings.h"
 #include "FileSystem.h"
-//ENDTODO
 #include "Logger.h"
 
 using namespace jukebox;

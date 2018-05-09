@@ -6,22 +6,17 @@
 #include "IFileSystem.h"
 #include "SingleAlbumPositionCalculator.h"
 #include "StdAddons.hpp"
+#include "Song.h"
 
 using namespace jukebox::gui;
 using namespace jukebox::filesystem;
+using namespace jukebox::audio;
 using namespace juce;
 using namespace std;
 
 namespace {
     const float bigFontSize = 24.0f;
-    //const float defaultTextOffsetX = 10.0f;
-    //const float defaultTextOffsetY = 10.0f;
-    //const float offsetXRatio = 0.963f;
     const float selectionThickness = 4.0f;
-    //const float offsetX = 4.0f;
-    //const float offsetY = 3.0f;
-    const char* defaultImageExtension = ".jpg";
-    const char* defaultMusicExtension = "*.mp3";
 }
 
 void SingleAlbumCanvas::paint(Graphics& g)
@@ -32,7 +27,7 @@ void SingleAlbumCanvas::paint(Graphics& g)
     g.setFont(bigFontSize);
 
     // album's number
-    g.drawText(jukebox::FillWithLeadingZeros(albumIndex, 3), albumTextPlace, Justification::centredLeft);
+    g.drawText(jukebox::FillWithLeadingZeros(albumIndex + 1, 3), albumTextPlace, Justification::centredLeft);
 
     // album's image, if we can find one
     if(image.isValid())
@@ -76,96 +71,32 @@ void SingleAlbumCanvas::parentSizeChanged()
     drawableSongNamesPlace = positions.calculateDrawableSongNamesPlace();
 }
 
-void SingleAlbumCanvas::loadAlbum(const std::string& musicDirectory, unsigned int selectedAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys)
+void SingleAlbumCanvas::loadAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int selectedAlbumIndex)
 {
-    albumIndex = selectedAlbumIndex;
+    artistName = "";
+    image = Image{};
+    selectionBounds.clear();
+    drawableSongNames = "";
+
+    if(albums.empty())
+        return;
+
+    albumIndex = selectedAlbumIndex - 1;
     currentSelectedLine = 0;
-    loadImage(musicDirectory, fileSys);
-    std::tie(artistName, drawableSongNames, songNames) = loadInfoFile(musicDirectory, fileSys, albumIndex);
 
-    if(!songNames.empty())
-        selectionBounds = SingleAlbumPositionCalculator(getWidth(), getHeight(), static_cast<float>(getWidth() / 2)).calculateSelectionBounds(songNames, drawableSongNamesPlace);
+    const auto& album = albums[albumIndex];
+    artistName = album.artist;
+    drawableSongNames = std_addons::accumulate(album.songs, juce::String(""), [](const juce::String& lines, const Song& song){
+       return lines + song.visibleName + "\n";
+    });
+    image = ImageFileFormat::loadFrom(File(album.imagePath));
 
-    repaint();
+    selectionBounds = SingleAlbumPositionCalculator(getWidth(), getHeight(), static_cast<float>(getWidth() / 2)).calculateSelectionBounds(album.songs, drawableSongNamesPlace);
 }
 
 void SingleAlbumCanvas::setSelection(unsigned int selectedSongIndex)
 {
     currentSelectedLine = selectedSongIndex;
 
-    if(!songNames.empty())
-        selectionBounds = SingleAlbumPositionCalculator(getWidth(), getHeight(), static_cast<float>(getWidth() / 2)).calculateSelectionBounds(songNames, drawableSongNamesPlace);
-
     repaint();
-}
-
-void SingleAlbumCanvas::loadImage(const std::string& musicDirectory, const filesystem::IFileSystem& fileSys)
-{
-    auto imagePath = fileSys.getPicturePath(musicDirectory, albumIndex, defaultImageExtension);
-    image = ImageFileFormat::loadFrom(File(imagePath));
-}
-
-inline auto readMusicFiles(const std::string& musicDirectory, const IFileSystem& fileSys, unsigned int albumIndex)
-{
-    auto musicFiles = fileSys.getAllSongFilesNamesOnly(musicDirectory, albumIndex, defaultMusicExtension);
-    String drawableSongNames = std_addons::accumulate(musicFiles, juce::String(""), [](const juce::String& current, const std::string& line){
-       return current + line + '\n';
-    });
-
-    vector<String> songNames;
-    songNames.reserve(musicFiles.size());
-    std_addons::transform(musicFiles, std::back_inserter(songNames), [](const std::string& line){
-       return line;
-    });
-
-    return std::make_tuple(drawableSongNames, songNames);
-}
-
-auto SingleAlbumCanvas::loadInfoFile(const std::string& musicDirectory, const filesystem::IFileSystem& fileSys, unsigned int albumIndex_) const ->
-std::tuple<juce::String, juce::String, std::vector<juce::String>>
-{
-    juce::String artistName_ = Resources::getResourceStringFromId(ResourceId::DefaultArtistName);
-
-    auto infoFilePath = fileSys.getInfoFilePath(musicDirectory, albumIndex_);
-    File infoFile(infoFilePath);
-
-    if(!infoFile.existsAsFile())
-    {
-        const auto [drawableSongNames_, songNames_] = readMusicFiles(musicDirectory, fileSys, albumIndex_);
-        return std::make_tuple(artistName_, drawableSongNames_, songNames_);
-    }
-
-    juce::String drawableSongNames_ = "";
-    std::vector<juce::String> songNames_;
-
-    StringArray lines;
-    infoFile.readLines(lines);
-
-    std::remove_if(lines.begin(), lines.end(), [](const String& current){
-       return current.isEmpty();
-    });
-
-    if(lines.size() > 0)
-    {
-        if(lines[0].isNotEmpty())
-        {
-            artistName_ = lines[0];
-            lines.remove(0);
-        }
-
-        drawableSongNames_ = std_addons::accumulate(lines, String(""), [](const String& current, const String& line){
-           return current + line + '\n';
-        });
-
-        std_addons::transform(lines, back_inserter(songNames_), [](const String& current){
-            return current;
-        });
-    }
-
-    if(drawableSongNames_.isEmpty())
-    {
-        tie(drawableSongNames_, songNames_) = readMusicFiles(musicDirectory, fileSys, albumIndex_);
-    }
-
-    return std::make_tuple(artistName_, drawableSongNames_, songNames_);
 }

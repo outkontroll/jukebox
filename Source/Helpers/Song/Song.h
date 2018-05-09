@@ -3,6 +3,7 @@
 
 #include <tuple>
 #include <string>
+#include <vector>
 
 namespace jukebox { namespace audio {
 
@@ -38,6 +39,15 @@ struct Song
     const unsigned int songNumber;
     const std::string fileName;
     const std::string visibleName;
+};
+
+struct AlbumInfo
+{
+    const std::vector<Song> songs;
+    const std::string title;
+    const std::string artist;
+    const std::string imagePath;
+    const unsigned int id;
 };
 
 }}

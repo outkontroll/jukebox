@@ -50,11 +50,13 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
 
     eventsSlot.connect(this, &Core::finishedPlaying, musicPlayer->finishedPlayingSignal);
+    fileSys->loadAlbums(settings->getMusicDirectory());
     gui->setFileSystem(fileSys.get());
     gui->setMusicFolder(settings->getMusicDirectory());
     gui->setTimeToPlaySong(settings->getTimeToPlaySong());
     gui->setTimeToSaveInsertedCoins(settings->getTimeToSaveInsertedCoins());
     statistics->setSaveTimeout(settings->getTimeToSaveInsertedCoins());
+
 }
 
 void Core::coinInserted50()
@@ -164,6 +166,7 @@ void Core::exitRequested()
 
 void Core::musicDirectoryChanged(const std::string& newMusicDirectory)
 {
+    fileSys->loadAlbums(newMusicDirectory);
     settings->setMusicDirectory(newMusicDirectory);
     gui->setMusicFolder(newMusicDirectory);
 }

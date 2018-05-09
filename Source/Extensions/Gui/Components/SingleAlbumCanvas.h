@@ -6,8 +6,8 @@
 #include <memory>
 #include <array>
 
-namespace jukebox { namespace filesystem {
-    class IFileSystem;
+namespace jukebox { namespace audio {
+    struct AlbumInfo;
 }}
 
 namespace jukebox::gui {
@@ -18,14 +18,10 @@ public:
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;
 
-    void loadAlbum(const std::string& musicDirectory, unsigned int selectedAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys);
+    void loadAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int selectedAlbumIndex);
     void setSelection(unsigned int selectedSongIndex);
 
 private:
-    void loadImage(const std::string& musicDirectory, const filesystem::IFileSystem& fileSys);
-    auto loadInfoFile(const std::string& musicDirectory, const jukebox::filesystem::IFileSystem& fileSys, unsigned int albumIndex_) const
-        -> std::tuple<juce::String, juce::String, std::vector<juce::String>>;
-
     juce::Image image;
     juce::String artistName = "";
     juce::String drawableSongNames = "";

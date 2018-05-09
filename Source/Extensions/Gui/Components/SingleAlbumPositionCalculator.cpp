@@ -2,8 +2,10 @@
 #include <algorithm>
 #include <cassert>
 #include "StdAddons.hpp"
+#include "Song.h"
 
 using namespace jukebox::gui;
+using namespace jukebox::audio;
 using namespace juce;
 
 namespace {
@@ -56,14 +58,14 @@ std::array<int, 3> SingleAlbumPositionCalculator::calculateDrawableSongNamesPlac
     return { startX, baseLineY, maximumLineWidth };
 }
 
-std::vector<Rectangle<float>> SingleAlbumPositionCalculator::calculateSelectionBounds(const std::vector<String>& lines, std::array<int, 3> position) const
+std::vector<juce::Rectangle<float> > SingleAlbumPositionCalculator::calculateSelectionBounds(const std::vector<jukebox::audio::Song>& songs, std::array<int, 3> position) const
 {
     assert(position[2] != 0);
     const Font font(bigFontSize);
-    std::vector<int> lineCounts(lines.size());
+    std::vector<int> lineCounts(songs.size());
 
-    std_addons::transform(lines, lineCounts.begin(), [&](const String& line){
-        return (font.getStringWidth(line) / position[2]) + 1;
+    std_addons::transform(songs, lineCounts.begin(), [&](const Song& song){
+        return (font.getStringWidth(song.visibleName) / position[2]) + 1;
     });
 
     GlyphArrangement glyphArrangement;
@@ -75,7 +77,7 @@ std::vector<Rectangle<float>> SingleAlbumPositionCalculator::calculateSelectionB
                                        Justification::left);
 
     std::vector<float> selectionTopPositions;
-    selectionTopPositions.reserve(lines.size());
+    selectionTopPositions.reserve(songs.size());
 
     std_addons::transform_exclusive_scan(lineCounts,
                                          std::back_inserter(selectionTopPositions),
@@ -85,7 +87,7 @@ std::vector<Rectangle<float>> SingleAlbumPositionCalculator::calculateSelectionB
     );
 
     std::vector<Rectangle<float>> selectionPositions;
-    selectionPositions.reserve(lines.size());
+    selectionPositions.reserve(songs.size());
 
     std_addons::transform(selectionTopPositions, lineCounts, std::back_inserter(selectionPositions),
         [=](float topOfLine, int lineCount) -> Rectangle<float> {

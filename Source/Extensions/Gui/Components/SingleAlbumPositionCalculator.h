@@ -5,6 +5,10 @@
 #include <array>
 #include "JuceHeader.h"
 
+namespace jukebox { namespace audio {
+    struct Song;
+}}
+
 namespace jukebox::gui {
 
 class SingleAlbumPositionCalculator
@@ -16,7 +20,7 @@ public:
     juce::Rectangle<float> calculateAlbumTextPlace() const;
     juce::Rectangle<float> calculateArtistTextPlace() const;
     std::array<int, 3> calculateDrawableSongNamesPlace() const;
-    std::vector<juce::Rectangle<float>> calculateSelectionBounds(const std::vector<juce::String>& lines, std::array<int, 3> position) const;
+    std::vector<juce::Rectangle<float>> calculateSelectionBounds(const std::vector<jukebox::audio::Song>& songs, std::array<int, 3> position) const;
 
 private:
     const float width;

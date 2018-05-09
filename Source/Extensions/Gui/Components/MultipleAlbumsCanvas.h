@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 
-namespace jukebox { namespace filesystem {
-    class IFileSystem;
+namespace jukebox { namespace audio {
+    struct AlbumInfo;
 }}
 
 namespace jukebox { namespace gui {
@@ -17,7 +17,7 @@ public:
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;
 
-    void loadAlbums(const std::string& musicDirectoy, unsigned int firstAlbumIndex, const jukebox::filesystem::IFileSystem& fileSys);
+    void loadAlbums(const std::vector<jukebox::audio::AlbumInfo>& visibleAlbums, unsigned int firstAlbumIndex);
     void setSelection(unsigned int selectedAlbumIndex);
 
 private:
@@ -46,7 +46,7 @@ private:
     };
 
     std::vector<AlbumPositionInfo> albumPositions;
-    std::vector<VisibleAlbum> albums;
+    std::vector<VisibleAlbum> visibleAlbums;
     juce::Rectangle<float> selectionImagePlace;
     juce::Rectangle<float> selectionTextPlace;
     unsigned int columns = 4;

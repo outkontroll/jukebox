@@ -25,4 +25,4 @@ add_library(fileSystem
 target_include_directories(fileSystem PUBLIC ${INTERFACE_DIRECTORY})
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(fileSystem PRIVATE ${PROJECT_JUCE} logger formaters std_addons)
+target_link_libraries(fileSystem PRIVATE ${PROJECT_JUCE} logger formaters std_addons song)

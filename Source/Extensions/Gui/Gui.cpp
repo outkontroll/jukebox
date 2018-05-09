@@ -1,4 +1,6 @@
 #include "Gui.h"
+#include <algorithm>
+#include <numeric>
 #include "MainWindow.h"
 #include "MainComponent.h"
 #include "SongBuilder.h"
@@ -7,10 +9,8 @@
 #include "ResourceId.h"
 #include "ResourceString.h"
 #include "JukeboxTimer.h"
-#include <algorithm>
-#include <numeric>
-//TODO remove this as this is just for testing purposes
-#include <array>
+#include "IFileSystem.h"
+#include "AlbumStepCalculator.h"
 
 using namespace jukebox;
 using namespace jukebox::gui;
@@ -22,9 +22,6 @@ using namespace juce;
 namespace {
     constexpr unsigned int defaultAlbumIndex = 1;
     constexpr unsigned int defaultSongIndex = 0;
-
-    //TODO remove this as this is just for testing purposes
-    const std::array<unsigned, 3> filesToPlay = {{ 1, 16, 4 }};
 }
 
 Gui::Gui(const std::string& applicationName)
@@ -148,20 +145,6 @@ void Gui::keyPressed(const KeyPress& key)
     {
         handleDotPressed();
     }
-    //TODO these two are here just for testing!
-    else if(textCharacter == 'x')
-    {
-        static unsigned int fileToPlay = 0;
-        ++fileToPlay;
-        fileToPlay = fileToPlay % 3;
-        //TODO
-        playSongSignal(SongBuilder::buildSong(7, filesToPlay[fileToPlay], musicFolder, *fileSys));
-    }
-    else if(textCharacter == 'v')
-    {
-        //TODO
-        //playAlbumSignal(Album(12));
-    }    
 }
 
 void Gui::playNextSong(const Song& song)
@@ -192,24 +175,25 @@ void Gui::showStatistics(const std::string& statistics)
 
 void Gui::loadMultipleAlbums()
 {
-    mainComponent->loadMultipleAlbums(musicFolder, visibleAlbumsIndex, *fileSys);
+    mainComponent->loadMultipleAlbums(fileSys->getAlbums(), visibleAlbumsId);
 }
 
 void Gui::loadSingleAlbum()
 {
-    mainComponent->loadSingleAlbum(musicFolder, selectedAlbumIndex, *fileSys);
+    mainComponent->loadSingleAlbum(fileSys->getAlbums(), selectedAlbumId);
 }
 
 void Gui::setMusicFolder(const std::string& folder)
 {
     musicFolder = folder;
+
     //these two is needed if we set another folder during runtime
-    visibleAlbumsIndex = defaultAlbumIndex;
-    selectedAlbumIndex = defaultAlbumIndex;
+    visibleAlbumsId = defaultAlbumIndex;
+    selectedAlbumId = defaultAlbumIndex;
     selectedSongIndex = defaultSongIndex;
     loadMultipleAlbums();
     loadSingleAlbum();
-    mainComponent->updateAlbumSelection(selectedAlbumIndex);
+    mainComponent->updateAlbumSelection(selectedAlbumId);
     mainComponent->updateSongSelection(selectedSongIndex);
     mainComponent->setMusicDirectory(musicFolder);
 }
@@ -285,25 +269,21 @@ void Gui::stepSelection()
 
 void Gui::stepSelectionMultipleAlbumsMode()
 {
-    ++selectedAlbumIndex;
-    if(selectedAlbumIndex >= visibleAlbumsIndex + albumIndexStep)
-    {
-        selectedAlbumIndex = visibleAlbumsIndex;
-    }
-
+    selectedAlbumId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextSelectedAlbumIdOnSamePage(visibleAlbumsId, selectedAlbumId));
     selectedSongIndex = defaultSongIndex;
+
     loadSingleAlbum();
-    mainComponent->updateAlbumSelection(selectedAlbumIndex);
+
+    mainComponent->updateAlbumSelection(selectedAlbumId);
     mainComponent->updateSongSelection(selectedSongIndex);
 }
 
 void Gui::stepSelectionSingleAlbumMode()
 {
-    ++selectedSongIndex;
+    if(fileSys->getAlbums().empty())
+        return;
 
-    //TODO: handle proper overflow
-    if(selectedSongIndex > visibleSongsIndex)
-        selectedSongIndex = 0;
+    selectedSongIndex = static_cast<unsigned int>(SongStepCalculator().getNextSelectedSongIndex(fileSys->getAlbums()[selectedAlbumId - 1].songs.size(), selectedSongIndex));
 
     mainComponent->updateSongSelection(selectedSongIndex);
 }
@@ -320,17 +300,17 @@ void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)
     else
         handleAlbumSwitchInSingleAlbumMode(increase);
 
-    mainComponent->updateAlbumSelection(selectedAlbumIndex);
+    mainComponent->updateAlbumSelection(selectedAlbumId);
     selectedSongIndex = defaultSongIndex;
     mainComponent->updateSongSelection(selectedSongIndex);
 }
 
 void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 {
-    visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
+    visibleAlbumsId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextVisibleAlbumsId(visibleAlbumsId, increase));
     loadMultipleAlbums();
 
-    selectedAlbumIndex = visibleAlbumsIndex;
+    selectedAlbumId = visibleAlbumsId;
     loadSingleAlbum();
 }
 
@@ -367,8 +347,8 @@ void Gui::handleDotPressed()
     }
     else if(!secondsToPlayTimer && !isInMultipleAlbumsMode)
     {
-        mainComponent->setCurrentUserInputNumber(SongBuilder::createVisibleName(selectedAlbumIndex, selectedSongIndex + 1));
-        playSongWithDelay(selectedAlbumIndex, selectedSongIndex + 1);
+        mainComponent->setCurrentUserInputNumber(SongBuilder::createVisibleName(selectedAlbumId, selectedSongIndex + 1));
+        playSongWithDelay(selectedAlbumId, selectedSongIndex + 1);
     }
 }
 
@@ -439,37 +419,13 @@ void Gui::playAlbumWithDelay(unsigned int albumNumber)
 
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
 {
-    selectedAlbumIndex = getNextSelectedAlbumIndex(selectedAlbumIndex, increase);
+    selectedAlbumId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextSelectedAlbumId(selectedAlbumId, increase));
     loadSingleAlbum();
 
-    if((increase && selectedAlbumIndex >= visibleAlbumsIndex + albumIndexStep) ||
-       (!increase && selectedAlbumIndex < visibleAlbumsIndex))
+    if((increase && visibleAlbumsId + albumIndexStep >= fileSys->getAlbums().size()) ||
+       (!increase && visibleAlbumsId - albumIndexStep <= 0))
     {
-        visibleAlbumsIndex = getNextVisibleAlbumsIndex(visibleAlbumsIndex, increase);
+        visibleAlbumsId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextVisibleAlbumsId(visibleAlbumsId, increase));
         loadMultipleAlbums();
     }
-}
-
-unsigned int Gui::getNextVisibleAlbumsIndex(unsigned int currentVisibleAlbumsIndex, bool increase) const
-{
-    if(increase)
-        currentVisibleAlbumsIndex += albumIndexStep;
-    else
-        currentVisibleAlbumsIndex -= albumIndexStep;
-
-    //TODO check underflow
-
-    return currentVisibleAlbumsIndex;
-}
-
-unsigned int Gui::getNextSelectedAlbumIndex(unsigned int currentSelectedAlbumIndex, bool increase) const
-{
-    if(increase)
-        ++currentSelectedAlbumIndex;
-    else
-        --currentSelectedAlbumIndex;
-
-    //TODO check underflow
-
-    return currentSelectedAlbumIndex;
 }

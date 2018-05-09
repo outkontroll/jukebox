@@ -35,10 +35,11 @@ struct CoreTest : public Test
         auto settings = make_unique<StrictMock<SettingsMock>>();
         settingsMock = settings.get();
 
-        EXPECT_CALL(*settingsMock, getMusicDirectory()).WillOnce(Return("FakeMusicDirectory"));
+        EXPECT_CALL(*settingsMock, getMusicDirectory()).Times(2).WillRepeatedly(Return("FakeMusicDirectory"));
         EXPECT_CALL(*settingsMock, getTimeToPlaySong()).WillOnce(Return(5000));
         EXPECT_CALL(*settingsMock, getTimeToSaveInsertedCoins()).Times(2).WillRepeatedly(Return(24 * 3600 * 1000));
         //TODO check order of the calls as it matters
+        EXPECT_CALL(*fileSystemMock, loadAlbums(std::string_view("FakeMusicDirectory")));
         EXPECT_CALL(*guiMock, setFileSystem(fileSystemMock));
         EXPECT_CALL(*guiMock, setMusicFolder("FakeMusicDirectory"));
         EXPECT_CALL(*guiMock, setTimeToPlaySong(5000));
@@ -426,6 +427,7 @@ TEST_F(CoreTest, WhenGuiSendsMusicDirectoryChangedSignal_ThenSettingsIsNotified)
     std::string foo("fakeMusicDirectory");
     EXPECT_CALL(*settingsMock, setMusicDirectory(foo));
     EXPECT_CALL(*guiMock, setMusicFolder(foo));
+    EXPECT_CALL(*fileSystemMock, loadAlbums(std::string_view(foo)));
 
     guiMock->musicDirectoryChangedSignal(foo);
 }

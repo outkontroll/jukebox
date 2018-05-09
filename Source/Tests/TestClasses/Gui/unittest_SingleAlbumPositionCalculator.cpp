@@ -2,6 +2,7 @@
 #include "gmock/gmock.h"
 #include "SingleAlbumPositionCalculator.h"
 #include "RectangleMatcher.h"
+#include "Song.h"
 
 using namespace testing;
 using namespace jukebox::gui;
@@ -55,7 +56,7 @@ TEST(SingleAlbumPositionCalculatorTest, calculateSelectionBounds_empty)
 TEST(SingleAlbumPositionCalculatorTest, calculateSelectionBounds_multipleSelections)
 {
     SingleAlbumPositionCalculator calc(100, 100, 10);
-    const auto result = calc.calculateSelectionBounds({"abcd123", "A", "Qwerty12345"}, {100, 100, 50});
+    const auto result = calc.calculateSelectionBounds({{0, 0, "", "abcd123"}, {0, 0, "", "A"}, {0, 0, "", "Qwerty12345"}}, {100, 100, 50});
 
     const decltype(result) expected{{96, 77.552f, 58, 54},
                                     {96, 125.552f, 58, 30},
@@ -67,7 +68,7 @@ TEST(SingleAlbumPositionCalculatorTest, calculateSelectionBounds_veryLongLine)
 {
     SingleAlbumPositionCalculator calc(1000, 1000, 100);
 
-    const auto result = calc.calculateSelectionBounds({"abcdefghijklmnopqrtst uvwxyz1234567890"}, {100, 100, 50});
+    const auto result = calc.calculateSelectionBounds({{0, 0, "", "abcdefghijklmnopqrtst uvwxyz1234567890"}}, {100, 100, 50});
     const std::vector<Rectangle<float>> expected{{96, 77.552f, 58, 222}};
 
     ASSERT_THAT(result, testing::Pointwise(RectangleFloatNear(1e-03f), expected));

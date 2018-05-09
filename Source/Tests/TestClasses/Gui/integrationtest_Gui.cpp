@@ -14,7 +14,7 @@ using namespace jukebox::audio;
 using namespace testing;
 
 namespace {
-    const char* defaultMusicDir = "";
+    //const char* defaultMusicDir = "";
     const auto songPath = "fakeSongPath";
     const juce::String userInputNumber1("00101");
     const juce::String userInputNumber2("00102");
@@ -22,6 +22,8 @@ namespace {
     constexpr int defaultSelectedSongIndex = 0;
     constexpr int defaultAlbumStep = 8;
     const juce::String emptyString = "";
+    const std::vector<AlbumInfo> singleElementAlbum{{}};
+    const std::vector<AlbumInfo> fakeAlbums16(16, {{{}, {}, {}}, "", "", "", 1});
 
     //apparently the first parameter can be anything as long as the last one is the correct char and the second is zero
     const juce::KeyPress keyC(0, 0, 'c');
@@ -274,9 +276,11 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalBackspace_ThenGuiSignalsRe
 
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateAlbumAndSongSelection)
 {
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1, _));
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, defaultSelectedAlbumIndex + 1));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 1));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 2, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, defaultSelectedAlbumIndex + 2));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 2));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex)).Times(2);
 
@@ -286,6 +290,8 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressed
 
 TEST_F(GuiTest, GivenGuiIsInSingleAlbumsState_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsUpdateSongSelection)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
 
@@ -298,6 +304,8 @@ TEST_F(GuiTest, GivenGuiIsInSingleAlbumsState_WhenMainComponentSendsKeyPressedSi
 
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndSongSelectionIsDifferent_WhenMainComponentSendsKeyPressedSignalC_ThenGuiCallsLoadSimpleAlbumAndUpdateAlbumAndSongSelection)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex + 1));
@@ -305,7 +313,7 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndSongSelectionIsDifferent_WhenM
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
 
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, defaultSelectedAlbumIndex + 1, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, defaultSelectedAlbumIndex + 1));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(defaultSelectedAlbumIndex + 1));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
@@ -499,6 +507,8 @@ TEST_F(GuiTest, GivenGuiIsInSingleAlbumsStateAndThereIsNoSongSelectedToPlay_When
 //TODO this test is incomplete because when the timer expires there will be additional (currently untested) calls too
 TEST_F(GuiTest, GivenGuiIsInSingleAlbumsStateAndThereIsNoSongSelectedToPlayAndTheCurrentSongIsNotTheFirstOne_WhenMainComponentSendsKeyPressedSignalDot_ThenTheCurrentSelectedSongWillBePlayed)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex + 1));
@@ -512,9 +522,11 @@ TEST_F(GuiTest, GivenGuiIsInSingleAlbumsStateAndThereIsNoSongSelectedToPlayAndTh
 
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndNotOnEndOfRange_WhenMainComponentSendsKeyPressedSignalMinus_ThenGuiLoadsTheNextSetOfAlbums)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     const int expectedIndex = defaultSelectedAlbumIndex + defaultAlbumStep;
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(defaultMusicDir, expectedIndex, _));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex, _));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
@@ -523,33 +535,67 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndNotOnEndOfRange_WhenMainCompon
 
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndNotAtTheEndOfRange_WhenMainComponentSendsKeyPressedSignalPlus_ThenGuiLoadsThePreviousSetOfAlbums)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     //this block is needed as setup because we are at the begin so underflow would occur
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, _, _));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _, _));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(_));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(_));
     mainComponentMock->keyPressedSignal(keyMinus);
 
     const int expectedIndex = defaultSelectedAlbumIndex;
-    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(defaultMusicDir, expectedIndex, _));
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex, _));
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
     mainComponentMock->keyPressedSignal(keyPlus);
 }
 
-//TODO test range edges
+TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndOnEndOfRange_WhenMainComponentSendsKeyPressedSignalPlus_ThenGuiLoadsTheLastSetOfAlbums)
+{
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
 
-//TODO test overflow, underflow
+    const int expectedIndex = defaultSelectedAlbumIndex + defaultAlbumStep;
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
+
+    mainComponentMock->keyPressedSignal(keyPlus);
+}
+
+TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndAtTheEndOfRange_WhenMainComponentSendsKeyPressedSignalMinus_ThenGuiLoadsTheFirstSetOfAlbums)
+{
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
+    //this block is needed as setup because we have to be at the end so overflow will occur
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(_));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(_));
+    mainComponentMock->keyPressedSignal(keyMinus);
+
+    const int expectedIndex = defaultSelectedAlbumIndex;
+    EXPECT_CALL(*mainComponentMock, loadMultipleAlbums(_, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
+    EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
+
+    mainComponentMock->keyPressedSignal(keyMinus);
+}
+//TODO test range edges (odd number of albums...)
 
 TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSendsKeyPressedSignalMinus_ThenGuiLoadsTheNextAlbum)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
 
     const int expectedIndex = defaultSelectedAlbumIndex + 1;
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
@@ -558,16 +604,18 @@ TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSends
 
 TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSendsKeyPressedSignalPlus_ThenGuiLoadsThePreviousAlbum)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
     //this block is needed as setup because we are at the begin so underflow would occur
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, _));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(_));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(_));
     mainComponentMock->keyPressedSignal(keyMinus);
 
     const int expectedIndex = defaultSelectedAlbumIndex;
-    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(defaultMusicDir, expectedIndex, _));
+    EXPECT_CALL(*mainComponentMock, loadSingleAlbum(_, expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateAlbumSelection(expectedIndex));
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex));
 
