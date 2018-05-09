@@ -10,8 +10,6 @@ class FileSystem : public IFileSystem
 public:
     ~FileSystem() override = default;
 
-    std::string getPicturePath(const std::string& musicDirectory, unsigned int albumIndex, const std::string& pictureExtensions) const override;
-    std::string getInfoFilePath(const std::string& musicDirectory, unsigned int albumIndex) const override;
     std::string getSongFilePath(const std::string& musicDirectory, unsigned int albumIndex, unsigned int songIndex, const std::string& extensionPattern) const override;
     std::vector<std::pair<std::string, unsigned int>> getAllSongFilesWithFullPaths(const std::string& musicDicertory, unsigned int albumIndex, const std::string& extensionPattern) const override;
 

@@ -29,17 +29,6 @@ ReturnType getFilePathInAlbum(const std::string& musicDirectory, const String& a
 template<typename ReturnType, bool ReturnAllElements>
 ReturnType getAllFileInAlbum(const std::string& musicDirectory, const String& albumDir, const std::string& wildCardPattern);
 
-std::string FileSystem::getPicturePath(const std::string& musicDirectory, unsigned int albumIndex, const std::string& pictureExtensions) const
-{
-    std::string wildCardPattern("*" + pictureExtensions);
-    return getFilePathInAlbum<std::string, false>(musicDirectory, FillWithLeadingZeros(albumIndex, 3), wildCardPattern);
-}
-
-std::string FileSystem::getInfoFilePath(const std::string& musicDirectory, unsigned int albumIndex) const
-{
-    return getFilePathInAlbum<std::string, false>(musicDirectory, FillWithLeadingZeros(albumIndex, 3), "*.txt");
-}
-
 std::string FileSystem::getSongFilePath(const std::string& musicDirectory, unsigned int albumIndex, unsigned int songIndex, const std::string& extensionPattern) const
 {
     //TODO iterate through all the patterns and include the song number in front of the asterisk
