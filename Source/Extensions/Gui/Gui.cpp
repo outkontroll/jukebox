@@ -430,15 +430,13 @@ void Gui::playAlbumWithDelay(unsigned int albumNumber)
 
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
 {
-    selectedAlbumId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextSelectedAlbumId(selectedAlbumId, increase));
+    const AlbumStepCalculator calc{fileSys->getAlbums().size(), albumIndexStep};
+    selectedAlbumId = static_cast<unsigned int>(calc.getNextSelectedAlbumId(selectedAlbumId, increase));
     loadSingleAlbum();
 
-    if((increase && visibleAlbumsId + albumIndexStep >= fileSys->getAlbums().size()) || // overflow cases
-       (!increase && visibleAlbumsId - albumIndexStep <= 0) ||
-       (increase && selectedAlbumId >= visibleAlbumsId + albumIndexStep) || // edge cases
-       (!increase && selectedAlbumId < visibleAlbumsId))
+    if(calc.shouldStepVisibleAlbums(visibleAlbumsId, selectedAlbumId, increase))
     {
-        visibleAlbumsId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextVisibleAlbumsId(visibleAlbumsId, increase));
+        visibleAlbumsId = static_cast<unsigned int>(calc.getNextVisibleAlbumsId(visibleAlbumsId, increase));
         loadMultipleAlbums();
     }
 }

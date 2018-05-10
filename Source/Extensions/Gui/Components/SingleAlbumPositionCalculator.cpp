@@ -65,7 +65,7 @@ std::vector<juce::Rectangle<float> > SingleAlbumPositionCalculator::calculateSel
     std::vector<int> lineCounts(songs.size());
 
     std_addons::transform(songs, lineCounts.begin(), [&](const Song& song){
-        return (font.getStringWidth(song.visibleName) / position[2]) + 1;
+        return (font.getStringWidth(song.visibleName.substr(3)) / position[2]) + 1;
     });
 
     GlyphArrangement glyphArrangement;

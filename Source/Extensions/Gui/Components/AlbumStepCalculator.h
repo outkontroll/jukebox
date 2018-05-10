@@ -11,6 +11,7 @@ struct AlbumStepCalculator
     unsigned long getNextVisibleAlbumsId(unsigned long currentVisibleAlbumsId, bool increase) const;
     unsigned long getNextSelectedAlbumId(unsigned long currentSelectedAlbumId, bool increase) const;
     unsigned long getNextSelectedAlbumIdOnSamePage(unsigned long visibleAlbumId, unsigned long currentSelectedAlbumId) const;
+    bool shouldStepVisibleAlbums(unsigned long visibleAlbumsId, unsigned long selectedAlbumId, bool increase) const;
 };
 
 struct SongStepCalculator

@@ -113,6 +113,41 @@ TEST(AlbumStepCalculator, GivenEmptyPage_getNextSelectedAlbumIndexOnSamePage)
 
     ASSERT_EQ(0, calc.getNextSelectedAlbumIdOnSamePage(0, 0));
 }
+
+// shouldStepVisibleAlbums
+
+TEST(SongStepCalculator, simpleSelectionStep)
+{
+    AlbumStepCalculator calc{10, 8};
+
+    ASSERT_FALSE(calc.shouldStepVisibleAlbums(1, 2, true));
+    ASSERT_FALSE(calc.shouldStepVisibleAlbums(1, 1, false));
+    ASSERT_FALSE(calc.shouldStepVisibleAlbums(9, 10, true));
+}
+
+TEST(SongStepCalculator, pageTurnSelectionStep)
+{
+    AlbumStepCalculator calc{10, 8};
+
+    ASSERT_TRUE(calc.shouldStepVisibleAlbums(1, 9, true));
+    ASSERT_TRUE(calc.shouldStepVisibleAlbums(9, 1, false));
+}
+
+TEST(SongStepCalculator, overflowSelectionStep)
+{
+    AlbumStepCalculator calc{25, 8};
+
+    ASSERT_TRUE(calc.shouldStepVisibleAlbums(25, 1, true));
+}
+
+TEST(SongStepCalculator, underflowSelectionStep)
+{
+    AlbumStepCalculator calc{25, 8};
+
+    ASSERT_TRUE(calc.shouldStepVisibleAlbums(1, 25, false));
+}
+
+// SongStepCalculator
 // getNextSelectedSongIndex
 
 TEST(SongStepCalculator, GivenMultipleSongs_getNextSelectedSongIndex)

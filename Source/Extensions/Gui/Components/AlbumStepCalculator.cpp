@@ -63,6 +63,14 @@ unsigned long AlbumStepCalculator::getNextSelectedAlbumIdOnSamePage(unsigned lon
     return currentSelectedAlbumId;
 }
 
+bool AlbumStepCalculator::shouldStepVisibleAlbums(unsigned long visibleAlbumsId, unsigned long selectedAlbumId, bool increase) const
+{
+    return (increase && ((selectedAlbumId == visibleAlbumsId + albumIndexStep) ||
+                        (selectedAlbumId == 1 && visibleAlbumsId + albumIndexStep > albumSize))) ||
+           (!increase && ((selectedAlbumId < visibleAlbumsId) ||
+                        (selectedAlbumId == albumSize && visibleAlbumsId == 1)));
+}
+
 unsigned long SongStepCalculator::getNextSelectedSongIndex(unsigned long songCount, unsigned long selectedSongIndex) const
 {
     ++selectedSongIndex;

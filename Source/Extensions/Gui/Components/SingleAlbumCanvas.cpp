@@ -87,7 +87,7 @@ void SingleAlbumCanvas::loadAlbum(const std::vector<jukebox::audio::AlbumInfo>& 
     const auto& album = albums[albumIndex];
     artistName = album.artist;
     drawableSongNames = std_addons::accumulate(album.songs, juce::String(""), [](const juce::String& lines, const Song& song){
-       return lines + song.visibleName + "\n";
+       return lines + song.visibleName.substr(3) + "\n";
     });
     image = ImageFileFormat::loadFrom(File(album.imagePath));
 
