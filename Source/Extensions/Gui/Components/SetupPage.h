@@ -5,8 +5,10 @@
 #include "Signals.hpp"
 
 namespace jukebox::gui {
+class TimeToPlayASongListener;
+class TimeToSaveInsertedCoinsListener;
 
-class SetupPage : public juce::Component, public juce::FileBrowserListener
+class SetupPage : public juce::Component
 {
 public:
     SetupPage();
@@ -15,20 +17,14 @@ public:
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;
 
-    virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void setTimeToPlayASong(int millisecs);
     virtual void setTimeToSaveInsertedCoins(int millisecs);
     virtual void showStatistics(const std::string& statistics);
 
-    jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
     jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
-private:
-    juce::Rectangle<float> calculateTextPlace(float width, float height) const;
 
-    juce::ScopedPointer<juce::Label> infoMusicDirectory;
-    juce::ScopedPointer<juce::TextEditor> txtMusicDirectory;
-    juce::ScopedPointer<juce::TextButton> buttonMusicDirectory;
+private:
     juce::ScopedPointer<juce::Label> infoStatistics;
     juce::ScopedPointer<juce::TextEditor> txtStatistics;
     juce::ScopedPointer<juce::Label> infoTimeToPlayASong;
@@ -36,48 +32,13 @@ private:
     juce::ScopedPointer<juce::Label> infoTimeToSaveInsertedCoins;
     juce::ScopedPointer<juce::ComboBox> comboTimeToSaveInsertedCoins;
 
-    juce::ScopedPointer<juce::FileTreeComponent> treeMusicDir;
-    juce::TimeSliceThread directoryThread{ "Music File Scanner Thread" };
-    juce::DirectoryContentsList listToShow{nullptr, directoryThread};
-    juce::ImageComponent imagePreview;
     juce::Rectangle<float> textPlace = {0, 0, 0, 0};
 
-    class MusicDirectoryListener : public juce::Button::Listener
-    {
-    public:
-        MusicDirectoryListener(SetupPage& owner);
-        void buttonClicked(juce::Button*) override;
-    private:
-        SetupPage& ownerPage;
-    };
-    juce::ScopedPointer<MusicDirectoryListener> musicDirectoryListener;
-
-    class TimeToPlayASongListener : public juce::ComboBox::Listener
-    {
-    public:
-        TimeToPlayASongListener(SetupPage&);
-        void comboBoxChanged(juce::ComboBox*) override;
-    private:
-        SetupPage& ownerPage;
-    };
     juce::ScopedPointer<TimeToPlayASongListener> timeToPlayASongListener;
-
-    class TimeToSaveInsertedCoinsListener : public juce::ComboBox::Listener
-    {
-    public:
-        TimeToSaveInsertedCoinsListener(SetupPage&);
-        void comboBoxChanged(juce::ComboBox*) override;
-    private:
-        SetupPage& ownerPage;
-    };
     juce::ScopedPointer<TimeToSaveInsertedCoinsListener> timeToSaveInsertedCoinsListener;
 
-    void selectionChanged() override;
-    void fileClicked (const juce::File&, const juce::MouseEvent&) override {}
-    void fileDoubleClicked (const juce::File&)              override {}
-    void browserRootChanged (const juce::File&)             override {}
-
-    bool isImageFile(const juce::File&) const;
+    friend class TimeToPlayASongListener;
+    friend class TimeToSaveInsertedCoinsListener;
 };
 
 }

@@ -1,9 +1,9 @@
-#include "SetupPagePositionCalculator.h"
+#include "MusicSetupCanvasPositionCalculator.h"
 
 using namespace jukebox::gui;
 using namespace juce;
 
-juce::Rectangle<float> SetupPagePositionCalculator::calculateTextPlace(float width, float height, float fontSize) const
+juce::Rectangle<float> MusicSetupCanvasPositionCalculator::calculateTextPlace(float width, float height, float fontSize) const
 {
     const float xPosition = width / 2;
     const float yPosition = height / 3;

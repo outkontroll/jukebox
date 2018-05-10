@@ -201,9 +201,10 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetwee
     mainComponentMock->keyPressedSignal(keyH);
 }
 
-TEST_F(GuiTest, GivenGuiIsInSetupState_WhenMainComponentSendsKeyPressedSignalH_ThenGuiDoesNotSwitch)
+TEST_F(GuiTest, GivenGuiIsInSetupState_WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallSwitchBetweenAdministratorViews)
 {
-    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
+    EXPECT_CALL(*mainComponentMock, switchBetweenAdministratorViews());
     mainComponentMock->keyPressedSignal(keyEsc);
 
     mainComponentMock->keyPressedSignal(keyH);
@@ -224,7 +225,7 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressed
     /*StrictMock<*/FooMock/*>*/ fooMock;
     eventsSlot.connect(&fooMock, &FooMock::foo, gui->requestStatisticsSignal);
 
-    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     EXPECT_CALL(fooMock, foo());
 
     mainComponentMock->keyPressedSignal(keyEsc);
@@ -237,7 +238,7 @@ TEST_F(GuiTest, GivenGuiIsInSingleAlbumState_WhenMainComponentSendsKeyPressedSig
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
 
-    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     EXPECT_CALL(fooMock, foo());
 
     mainComponentMock->keyPressedSignal(keyEsc);
@@ -245,10 +246,10 @@ TEST_F(GuiTest, GivenGuiIsInSingleAlbumState_WhenMainComponentSendsKeyPressedSig
 
 TEST_F(GuiTest, GivenGuiWasInMultipleAlbumsStateAndIsInSetupState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchBackToMultipleAlbumsState)
 {
-    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     mainComponentMock->keyPressedSignal(keyEsc);
 
-    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     mainComponentMock->keyPressedSignal(keyEsc);
 }
 
@@ -256,10 +257,10 @@ TEST_F(GuiTest, GivenGuiWasInSingleAlbumStateAndIsInSetupState_WhenMainComponent
 {
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
-    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     mainComponentMock->keyPressedSignal(keyEsc);
 
-    EXPECT_CALL(*mainComponentMock, switchBetweenUserModeViews());
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyEsc);
 }

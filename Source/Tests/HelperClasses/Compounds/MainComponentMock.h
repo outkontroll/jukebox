@@ -18,8 +18,9 @@ struct MainComponentMock : public juce::MainComponent
     MOCK_METHOD1(setMusicDirectory, void(const std::string&));
     MOCK_METHOD1(setTimeToPlayASong, void(int));
     MOCK_METHOD1(setTimeToSaveInsertedCoins, void(int));
+    MOCK_METHOD0(switchBetweenUserModes, void());
     MOCK_METHOD0(switchBetweenAlbumViews, void());
-    MOCK_METHOD0(switchBetweenUserModeViews, void());
+    MOCK_METHOD0(switchBetweenAdministratorViews, void());
     MOCK_METHOD1(updateAlbumSelection, void(unsigned int));
     MOCK_METHOD1(updateSongSelection, void(unsigned int));
     MOCK_METHOD1(setCurrentUserInputNumber, void(const juce::String&));

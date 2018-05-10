@@ -33,6 +33,7 @@ namespace gui {
     class MultipleAlbumsCanvas;
     class SingleAlbumCanvas;
     class SetupPage;
+    class MusicSetupCanvas;
 }
 namespace audio {
     struct Song;
@@ -77,8 +78,9 @@ public:
     virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void setTimeToPlayASong(int millisecs);
     virtual void setTimeToSaveInsertedCoins(int millisecs);
+    virtual void switchBetweenUserModes();
     virtual void switchBetweenAlbumViews();
-    virtual void switchBetweenUserModeViews();
+    virtual void switchBetweenAdministratorViews();
     virtual void updateAlbumSelection(unsigned int selectedAlbumIndex);
     virtual void updateSongSelection(unsigned int selectedSongIndex);
     virtual void setCurrentUserInputNumber(const String& userInput);
@@ -123,6 +125,7 @@ private:
     ScopedPointer<jukebox::gui::MultipleAlbumsCanvas> multipleAlbumsCanvas;
     ScopedPointer<jukebox::gui::SingleAlbumCanvas> singleAlbumCanvas;
     ScopedPointer<jukebox::gui::SetupPage> setupPage;
+    ScopedPointer<jukebox::gui::MusicSetupCanvas> musicSetupCanvas;
     ScopedPointer<Label> lblAlbumNumber;
     ScopedPointer<Label> lblSongNumber;
 

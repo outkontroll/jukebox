@@ -18,6 +18,7 @@ set(CPP_SOURCES_UT
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_SingleAlbumPositionCalculator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_ResourceString.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_AlbumStepCalculator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/unittest_MusicSetupCanvasPositionCalculator.cpp
 )
 
 # project

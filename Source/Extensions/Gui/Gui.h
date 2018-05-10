@@ -50,7 +50,7 @@ private:
     void keyPressed(const juce::KeyPress& key);
 
     void playNextSong(const audio::Song& song);
-    void switchBetweenAlbumModes();
+    void switchBetweenViews();
     void switchBetweenUserModes();
     void stepSelection();
     void stepSelectionMultipleAlbumsMode();
@@ -87,6 +87,7 @@ private:
     int timeToPlaySong = 0;
     bool isInUserMode = true;
     bool isInMultipleAlbumsMode = true;
+    bool isInMusicSetupMode = true;
     jukebox::filesystem::IFileSystem* fileSys = nullptr;
 };
 

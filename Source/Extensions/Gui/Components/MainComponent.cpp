@@ -24,6 +24,7 @@
 #include "MultipleAlbumsCanvas.h"
 #include "SingleAlbumCanvas.h"
 #include "SetupPage.h"
+#include "MusicSetupCanvas.h"
 #include "MainComponentPositionCalculator.h"
 //[/Headers]
 
@@ -123,7 +124,8 @@ MainComponent::MainComponent ()
     addAndMakeVisible(listBoxPlayQueue = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
 
     addChildComponent(setupPage = new jukebox::gui::SetupPage);
-    eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, setupPage->musicDirectoryChangedSignal);
+    addChildComponent(musicSetupCanvas = new jukebox::gui::MusicSetupCanvas);
+    eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, musicSetupCanvas->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &MainComponent::onTimeToPlayASongChanged, setupPage->timeToPlayASongChangedSignal);
 
     //[/UserPreSize]
@@ -156,6 +158,8 @@ MainComponent::~MainComponent()
     infoPlayQueue = nullptr;
     multipleAlbumsCanvas = nullptr;
     singleAlbumCanvas = nullptr;
+    setupPage = nullptr;
+    musicSetupCanvas = nullptr;
     lblStatus = nullptr;
 
 
@@ -238,6 +242,7 @@ void MainComponent::resized()
     multipleAlbumsCanvas->setBounds (canvasBounds);
     singleAlbumCanvas->setBounds (canvasBounds);
     setupPage->setBounds (canvasBounds);
+    musicSetupCanvas->setBounds(canvasBounds);
     //[/UserResized]
 }
 
@@ -280,7 +285,7 @@ void MainComponent::loadSingleAlbum(const std::vector<jukebox::audio::AlbumInfo>
 
 void MainComponent::setMusicDirectory(const std::string& musicDirectory)
 {
-    setupPage->setMusicDirectory(musicDirectory);
+    musicSetupCanvas->setMusicDirectory(musicDirectory);
 }
 
 void MainComponent::setTimeToPlayASong(int millisecs)
@@ -293,17 +298,24 @@ void MainComponent::setTimeToSaveInsertedCoins(int millisecs)
     setupPage->setTimeToSaveInsertedCoins(millisecs);
 }
 
+void MainComponent::switchBetweenUserModes()
+{
+    musicSetupCanvas->setVisible(!musicSetupCanvas->isVisible() && !setupPage->isVisible());
+    multipleAlbumsCanvas->setVisible(!musicSetupCanvas->isVisible());
+    singleAlbumCanvas->setVisible(false);
+    setupPage->setVisible(false);
+}
+
 void MainComponent::switchBetweenAlbumViews()
 {
     multipleAlbumsCanvas->setVisible(!multipleAlbumsCanvas->isVisible());
     singleAlbumCanvas->setVisible(!singleAlbumCanvas->isVisible());
 }
 
-void MainComponent::switchBetweenUserModeViews()
+void MainComponent::switchBetweenAdministratorViews()
 {
-    setupPage->setVisible(!setupPage->isVisible());
-    multipleAlbumsCanvas->setVisible(!setupPage->isVisible());
-    singleAlbumCanvas->setVisible(false);
+    musicSetupCanvas->setVisible(!musicSetupCanvas->isVisible());
+    setupPage->setVisible(!musicSetupCanvas->isVisible());
 }
 
 void MainComponent::updateAlbumSelection(unsigned int selectedAlbumIndex)

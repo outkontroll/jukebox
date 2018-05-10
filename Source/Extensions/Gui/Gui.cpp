@@ -135,7 +135,7 @@ void Gui::keyPressed(const KeyPress& key)
     }
     else if(textCharacter == 'h')
     {
-        switchBetweenAlbumModes();
+        switchBetweenViews();
     }
     else if(textCharacter == 'c')
     {
@@ -230,23 +230,32 @@ void Gui::prepareForExit()
     mainComponent->prepareForExit();
 }
 
-void Gui::switchBetweenAlbumModes()
+void Gui::switchBetweenViews()
 {
-    if(!isInUserMode)
-        return;
-
-    isInMultipleAlbumsMode = !isInMultipleAlbumsMode;
-    mainComponent->switchBetweenAlbumViews();
+    if(isInUserMode)
+    {
+        isInMultipleAlbumsMode = !isInMultipleAlbumsMode;
+        mainComponent->switchBetweenAlbumViews();
+    }
+    else
+    {
+        isInMusicSetupMode = !isInMusicSetupMode;
+        mainComponent->switchBetweenAdministratorViews();
+    }
 }
 
 void Gui::switchBetweenUserModes()
 {
     isInUserMode = !isInUserMode;
-    mainComponent->switchBetweenUserModeViews();
+    mainComponent->switchBetweenUserModes();
 
     if(isInUserMode && !isInMultipleAlbumsMode)
     {
         mainComponent->switchBetweenAlbumViews();
+    }
+    else if(!isInUserMode && !isInMusicSetupMode)
+    {
+        mainComponent->switchBetweenAdministratorViews();
     }
 
     if(!isInUserMode)

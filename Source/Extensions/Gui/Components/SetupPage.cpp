@@ -1,4 +1,25 @@
 #include "SetupPage.h"
+#include "SetupPagePositionCalculator.h"
+
+namespace jukebox::gui {
+class TimeToPlayASongListener : public juce::ComboBox::Listener
+{
+public:
+    TimeToPlayASongListener(SetupPage&);
+    void comboBoxChanged(juce::ComboBox*) override;
+private:
+    SetupPage& ownerPage;
+};
+
+class TimeToSaveInsertedCoinsListener : public juce::ComboBox::Listener
+{
+public:
+    TimeToSaveInsertedCoinsListener(SetupPage&);
+    void comboBoxChanged(juce::ComboBox*) override;
+private:
+    SetupPage& ownerPage;
+};
+}
 
 using namespace jukebox::gui;
 using namespace juce;
@@ -13,26 +34,6 @@ int getSaveInsertedCoinHoursFromSelected(int selectedIndex);
 
 SetupPage::SetupPage()
 {
-    addAndMakeVisible(infoMusicDirectory = new Label("music directory info label", "Music directory:"));
-    infoMusicDirectory->setFont (Font (15.00f, Font::plain));
-    infoMusicDirectory->setJustificationType (Justification::centredLeft);
-    infoMusicDirectory->setEditable (false, false, false);
-    infoMusicDirectory->setColour (TextEditor::textColourId, Colours::black);
-    infoMusicDirectory->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    addAndMakeVisible(txtMusicDirectory = new TextEditor("music directory text"));
-    txtMusicDirectory->setMultiLine(false);
-    txtMusicDirectory->setReturnKeyStartsNewLine(false);
-    txtMusicDirectory->setReadOnly(true);
-    txtMusicDirectory->setScrollbarsShown(false);
-    txtMusicDirectory->setCaretVisible(false);
-    txtMusicDirectory->setPopupMenuEnabled(true);
-    txtMusicDirectory->setText(String());
-
-    addAndMakeVisible(buttonMusicDirectory = new TextButton("music directory button"));
-    buttonMusicDirectory->setButtonText("...");
-    buttonMusicDirectory->addListener(musicDirectoryListener = new MusicDirectoryListener(*this));
-
     addAndMakeVisible(infoStatistics = new Label("statistics info label", "Statistics:"));
     infoStatistics->setFont (Font (15.00f, Font::plain));
     infoStatistics->setJustificationType (Justification::centredLeft);
@@ -78,31 +79,17 @@ SetupPage::SetupPage()
     comboTimeToSaveInsertedCoins->addItem("12", 3);
     comboTimeToSaveInsertedCoins->addItem("24", 4);
     comboTimeToSaveInsertedCoins->addListener(timeToSaveInsertedCoinsListener = new TimeToSaveInsertedCoinsListener(*this));
-
-    directoryThread.startThread (1);
-    addAndMakeVisible(treeMusicDir = new FileTreeComponent(listToShow));
-    treeMusicDir->setColour(TreeView::backgroundColourId, Colours::white);
-    treeMusicDir->addListener(this);
-
-    addAndMakeVisible(imagePreview);
 }
 
 SetupPage::~SetupPage()
 {
-    treeMusicDir->removeListener(this);
-
-    infoMusicDirectory = nullptr;
-    txtMusicDirectory = nullptr;
-    buttonMusicDirectory = nullptr;
     infoStatistics = nullptr;
     txtStatistics = nullptr;
     infoTimeToPlayASong = nullptr;
     comboTimeToPlayASong = nullptr;
     infoTimeToSaveInsertedCoins = nullptr;
     comboTimeToSaveInsertedCoins = nullptr;
-    musicDirectoryListener = nullptr;
     timeToPlayASongListener = nullptr;
-    treeMusicDir = nullptr;
 }
 
 void SetupPage::paint(Graphics& g)
@@ -118,24 +105,13 @@ void SetupPage::paint(Graphics& g)
 
 void SetupPage::parentSizeChanged()
 {
-    textPlace = calculateTextPlace(getWidth(), getHeight());
-    infoMusicDirectory->setBounds(10, 30, 100, 24);
-    txtMusicDirectory->setBounds(116, 30, 450, 24);
-    buttonMusicDirectory->setBounds(578, 30, 36, 24);
+    textPlace = SetupPagePositionCalculator{}.calculateTextPlace(getWidth(), getHeight(), bigFontSize);
     infoStatistics->setBounds(10, 66, 100, 24);
     txtStatistics->setBounds(10, 102, 600, 400);
     infoTimeToPlayASong->setBounds(10, 538, 250, 24);
     comboTimeToPlayASong->setBounds(276, 538, 40, 24);
     infoTimeToSaveInsertedCoins->setBounds(10, 574, 250, 24);
     comboTimeToSaveInsertedCoins->setBounds(266, 574, 50, 24);
-    treeMusicDir->setBounds(636, 30, 400, 400);
-    imagePreview.setBounds(636, 450, 300, 300);
-}
-
-void SetupPage::setMusicDirectory(const std::string& musicDirectory)
-{
-    txtMusicDirectory->setText(musicDirectory);
-    listToShow.setDirectory(juce::File(musicDirectory), true, true);
 }
 
 void SetupPage::setTimeToPlayASong(int millisecs)
@@ -166,69 +142,17 @@ void SetupPage::showStatistics(const std::string& statistics)
     txtStatistics->setText(statistics);
 }
 
-juce::Rectangle<float> SetupPage::calculateTextPlace(float width, float height) const
-{
-    const float xPosition = width / 2;
-    const float yPosition = height / 3;
-    const float textHeight = bigFontSize;
-    const float textWidth = width;
-
-    return { xPosition, yPosition, textWidth, textHeight };
-}
-
-void SetupPage::selectionChanged()
-{
-    auto selectedFile = treeMusicDir->getSelectedFile();
-
-    if(isImageFile(selectedFile))
-    {
-        imagePreview.setImage (juce::ImageCache::getFromFile (selectedFile));
-        if(!imagePreview.isVisible())
-            imagePreview.setVisible(true);
-    }
-    else
-    {
-        imagePreview.setVisible(false);
-    }
-}
-
-bool SetupPage::isImageFile(const File& file) const
-{
-    return file.existsAsFile() && file.getFileExtension().containsWholeWord("jpg");
-}
-
-SetupPage::MusicDirectoryListener::MusicDirectoryListener(SetupPage& owner) :
+TimeToPlayASongListener::TimeToPlayASongListener(SetupPage& owner) :
     ownerPage(owner)
 {
 }
 
-void SetupPage::MusicDirectoryListener::buttonClicked(Button*)
-{
-    auto fc = FileChooser("Choose a music directory...",
-                          File(ownerPage.txtMusicDirectory->getText()),
-                          "*",
-                          true);
-    if(fc.showDialog(FileBrowserComponent::openMode | FileBrowserComponent::canSelectDirectories, nullptr))
-    {
-        auto result = fc.getResult();
-        auto name = result.isDirectory() ? result.getFullPathName()
-                                         : result.getParentDirectory().getFullPathName();
-
-        ownerPage.musicDirectoryChangedSignal(name.toStdString());
-    }
-}
-
-SetupPage::TimeToPlayASongListener::TimeToPlayASongListener(SetupPage& owner) :
-    ownerPage(owner)
-{
-}
-
-void SetupPage::TimeToPlayASongListener::comboBoxChanged(ComboBox* combo)
+void TimeToPlayASongListener::comboBoxChanged(ComboBox* combo)
 {
     ownerPage.timeToPlayASongChangedSignal((combo->getSelectedId() - 1) * 1000);
 }
 
-SetupPage::TimeToSaveInsertedCoinsListener::TimeToSaveInsertedCoinsListener(SetupPage& owner) :
+TimeToSaveInsertedCoinsListener::TimeToSaveInsertedCoinsListener(SetupPage& owner) :
     ownerPage(owner)
 {
 }
@@ -246,7 +170,7 @@ int getSaveInsertedCoinHoursFromSelected(int selectedIndex)
     return 24;
 }
 
-void SetupPage::TimeToSaveInsertedCoinsListener::comboBoxChanged(ComboBox* combo)
+void TimeToSaveInsertedCoinsListener::comboBoxChanged(ComboBox* combo)
 {
     ownerPage.timeToSaveInsertedCoinsChangedSignal(getSaveInsertedCoinHoursFromSelected(combo->getSelectedId()) * 3600 * 1000);
 }
