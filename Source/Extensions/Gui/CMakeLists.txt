@@ -4,6 +4,7 @@ project(gui)
 
 set(COMPONENTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Components)
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
+set(POSITIONCALCULATORS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/PositionCalculators)
 
 # headers
 
@@ -17,10 +18,12 @@ set(HEADER_SOURCES
     ${COMPONENTS_DIR}/ListBox.hpp
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.h
     ${COMPONENTS_DIR}/SingleAlbumCanvas.h
-    ${COMPONENTS_DIR}/SingleAlbumPositionCalculator.h
     ${COMPONENTS_DIR}/SetupPage.h
-    ${COMPONENTS_DIR}/MainComponentPositionCalculator.h
-    ${COMPONENTS_DIR}/AlbumStepCalculator.h
+    ${POSITIONCALCULATORS_DIR}/MainComponentPositionCalculator.h
+    ${POSITIONCALCULATORS_DIR}/MultipleAlbumsCanvasPositionCalculator.h
+    ${POSITIONCALCULATORS_DIR}/SingleAlbumPositionCalculator.h
+    ${POSITIONCALCULATORS_DIR}/SetupPagePositionCalculator.h
+    ${POSITIONCALCULATORS_DIR}/AlbumStepCalculator.h
 )
 
 # sources
@@ -33,10 +36,12 @@ set(CPP_SOURCES
     ${COMPONENTS_DIR}/ListBoxImplementation.hpp
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.cpp
     ${COMPONENTS_DIR}/SingleAlbumCanvas.cpp
-    ${COMPONENTS_DIR}/SingleAlbumPositionCalculator.cpp
     ${COMPONENTS_DIR}/SetupPage.cpp
-    ${COMPONENTS_DIR}/MainComponentPositionCalculator.cpp
-    ${COMPONENTS_DIR}/AlbumStepCalculator.cpp
+    ${POSITIONCALCULATORS_DIR}/MainComponentPositionCalculator.cpp
+    ${POSITIONCALCULATORS_DIR}/MultipleAlbumsCanvasPositionCalculator.cpp
+    ${POSITIONCALCULATORS_DIR}/SingleAlbumPositionCalculator.cpp
+    ${POSITIONCALCULATORS_DIR}/SetupPagePositionCalculator.cpp
+    ${POSITIONCALCULATORS_DIR}/AlbumStepCalculator.cpp
 )
 
 # project
@@ -52,6 +57,7 @@ set(IMPL_INCLUDE_DIRS
     ${SOURCE_DIR}/Base
     ${RESOURCES_DIR}
     ${COMPONENTS_DIR}
+    ${POSITIONCALCULATORS_DIR}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INTERFACE_DIRECTORY})

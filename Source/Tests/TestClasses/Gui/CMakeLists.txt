@@ -34,6 +34,7 @@ set(INCLUDE_DIRS
     ${SOURCE_DIR}/Extensions/Gui
     ${SOURCE_DIR}/Extensions/Gui/Components
     ${SOURCE_DIR}/Extensions/Gui/Resources
+    ${SOURCE_DIR}/Extensions/Gui/PositionCalculators
     ${HELPERCLASSES_DIR}
     ${HELPERCLASSES_DIR}/Compounds
 )
