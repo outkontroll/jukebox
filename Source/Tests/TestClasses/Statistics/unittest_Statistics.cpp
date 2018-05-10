@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Statistics.h"
 #include "Song.h"
+#include "SongBuilder.h"
 #include "JuceEventLoopRunner.h"
 
 using namespace jukebox::statistics;
@@ -47,11 +48,13 @@ TEST_F(StatisticsTest, empty)
 
 TEST_F(StatisticsTest, playOneSong)
 {
-    statistics.songPlayed(song1);
+    const juce::File userHome("~");
+    const auto song = jukebox::songbuilder::SongBuilder::buildSong(1, 1, userHome, "01 - fakeVisibleName2");
+    statistics.songPlayed(song);
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 0\nInserted since last save: 0\nfakeVisibleName2: 1\n");
+    std::string expected("Inserted: 0\nInserted since last save: 0\n00101 - fakeVisibleName2: 1\n");
     EXPECT_EQ(expected, ss.str());
 }
 //TODO test other thing
