@@ -14,8 +14,6 @@ using namespace jukebox::audio;
 using namespace testing;
 
 namespace {
-    //const char* defaultMusicDir = "";
-    const auto songPath = "fakeSongPath";
     const juce::String userInputNumber1("00101");
     const juce::String userInputNumber2("00102");
     constexpr int defaultSelectedAlbumIndex = 1;

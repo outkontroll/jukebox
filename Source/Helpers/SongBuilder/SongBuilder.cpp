@@ -8,10 +8,6 @@ using namespace jukebox::songbuilder;
 using namespace jukebox::audio;
 using namespace jukebox::filesystem;
 
-namespace {
-    const auto DefaultExtensionPattern = "*.mp3";
-}
-
 Album SongBuilder::buildAlbum(unsigned int albumNumber)
 {
     return { albumNumber,

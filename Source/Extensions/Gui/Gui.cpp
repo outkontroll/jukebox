@@ -433,8 +433,10 @@ void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
     selectedAlbumId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextSelectedAlbumId(selectedAlbumId, increase));
     loadSingleAlbum();
 
-    if((increase && visibleAlbumsId + albumIndexStep >= fileSys->getAlbums().size()) ||
-       (!increase && visibleAlbumsId - albumIndexStep <= 0))
+    if((increase && visibleAlbumsId + albumIndexStep >= fileSys->getAlbums().size()) || // overflow cases
+       (!increase && visibleAlbumsId - albumIndexStep <= 0) ||
+       (increase && selectedAlbumId >= visibleAlbumsId + albumIndexStep) || // edge cases
+       (!increase && selectedAlbumId < visibleAlbumsId))
     {
         visibleAlbumsId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextVisibleAlbumsId(visibleAlbumsId, increase));
         loadMultipleAlbums();
