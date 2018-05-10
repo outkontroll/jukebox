@@ -69,4 +69,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${IMPL_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC signals)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_JUCE} logger formaters fileSystem songBuilder std_addons jukeboxtimer)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_JUCE} logger formaters fileSystem songBuilder std_addons jukeboxtimer password)

@@ -39,6 +39,7 @@ set(JUCE_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/juce_audio_processors.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/juce_audio_utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/juce_core.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include_juce_cryptography.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/juce_data_structures.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/juce_events.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/juce_graphics.cpp

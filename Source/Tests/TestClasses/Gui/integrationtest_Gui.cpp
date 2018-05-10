@@ -4,6 +4,7 @@
 #include "ResourceId.h"
 #include "ResourceString.h"
 #include "JuceEventLoopRunner.h"
+#include "Password.h"
 
 #include <chrono>
 #include <thread>
@@ -218,6 +219,35 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalF4_ThenGuiSignalsExitReque
     EXPECT_CALL(fooMock, foo());
 
     mainComponentMock->keyPressedSignal(keyF4);
+}
+
+TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsGoodPassword_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchesUserMode)
+{
+    Password password("fakePassword");
+    gui->setPassword(password);
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion(password)).WillOnce(Return(true));
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
+    mainComponentMock->keyPressedSignal(keyEsc);
+}
+
+TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsWrongPassword_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiStaysInSameUserModeAndShowsError)
+{
+    Password password("fakePassword");
+    gui->setPassword(password);
+
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion(password)).WillOnce(Return(false));
+    const juce::String errorWrongPassword(Resources::getResourceStringFromId(ResourceId::ErrorWrongPassword));
+    EXPECT_CALL(*mainComponentMock, showStatusMessage(errorWrongPassword));
+    mainComponentMock->keyPressedSignal(keyEsc);
+}
+
+TEST_F(GuiTest, GivenPasswordIsSetThenTurnedOff_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchesUserMode)
+{
+    Password password("fakePassword");
+    gui->setPassword(password);
+    gui->turnOffPassword();
+    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
+    mainComponentMock->keyPressedSignal(keyEsc);
 }
 
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiCallsSwitchBetweenUserModeViewsAndSignalsUpdateStatistics)

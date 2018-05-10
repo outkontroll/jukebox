@@ -1,3 +1,5 @@
+#include <memory>
+#include <sstream>
 #include "gtest/gtest.h"
 #include "Core.h"
 #include "Logger.h"
@@ -9,8 +11,7 @@
 #include "SettingsMock.h"
 #include "FreeFunctions.h"
 #include "MusicPlayerExceptions.h"
-#include <memory>
-#include <sstream>
+#include "Password.h"
 
 using namespace jukebox;
 using namespace jukebox::core;

@@ -11,6 +11,7 @@
 #include "JukeboxTimer.h"
 #include "IFileSystem.h"
 #include "AlbumStepCalculator.h"
+#include "Password.h"
 
 using namespace jukebox;
 using namespace jukebox::gui;
@@ -185,17 +186,16 @@ void Gui::loadSingleAlbum()
 
 void Gui::setMusicFolder(const std::string& folder)
 {
-    musicFolder = folder;
-
-    //these two is needed if we set another folder during runtime
     visibleAlbumsId = defaultAlbumIndex;
     selectedAlbumId = defaultAlbumIndex;
     selectedSongIndex = defaultSongIndex;
+
     loadMultipleAlbums();
     loadSingleAlbum();
+
     mainComponent->updateAlbumSelection(selectedAlbumId);
     mainComponent->updateSongSelection(selectedSongIndex);
-    mainComponent->setMusicDirectory(musicFolder);
+    mainComponent->setMusicDirectory(folder);
 }
 
 void Gui::setTimeToPlaySong(int millisecs)
@@ -207,6 +207,16 @@ void Gui::setTimeToPlaySong(int millisecs)
 void Gui::setTimeToSaveInsertedCoins(int millisecs)
 {
     mainComponent->setTimeToSaveInsertedCoins(millisecs);
+}
+
+void Gui::setPassword(const Password& password_)
+{
+    password = &password_;
+}
+
+void Gui::turnOffPassword()
+{
+    password = nullptr;
 }
 
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
@@ -246,6 +256,18 @@ void Gui::switchBetweenViews()
 
 void Gui::switchBetweenUserModes()
 {
+    if(isInUserMode)
+    {
+        //const Password password("abcdefghijklmnopqrstuvwxyz");
+
+        if(password != nullptr &&
+           !mainComponent->showPasswordQuestion(*password))
+        {
+            showStatusMessage(ResourceId::ErrorWrongPassword);
+            return;
+        }
+    }
+
     isInUserMode = !isInUserMode;
     mainComponent->switchBetweenUserModes();
 

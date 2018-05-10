@@ -29,6 +29,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     logger
     song
     exceptions
+    password
     ${GTest}
     ${GTestMain}
     ${GMock}

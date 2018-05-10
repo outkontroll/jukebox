@@ -26,6 +26,7 @@
 #include "SetupPage.h"
 #include "MusicSetupCanvas.h"
 #include "MainComponentPositionCalculator.h"
+#include "Password.h"
 //[/Headers]
 
 #include "MainComponent.h"
@@ -37,6 +38,7 @@ namespace {
 }
 
 using namespace juce;
+using namespace jukebox;
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -386,6 +388,12 @@ void MainComponent::onTimeToSaveInsertedCoinsChanged(int millisecs)
 void MainComponent::prepareForExit()
 {
     listBoxPlayQueue->clear();
+}
+
+bool MainComponent::showPasswordQuestion(const Password& password)
+{
+    String text("abcdefghijklmnopqrstuvwxyz");
+    return password.isMatching(text);
 }
 
 //[/MiscUserCode]

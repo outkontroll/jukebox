@@ -3,6 +3,7 @@
 
 #include "MainComponent.h"
 #include "gmock/gmock.h"
+#include "Password.h"
 
 struct MainComponentMock : public juce::MainComponent
 {
@@ -29,6 +30,7 @@ struct MainComponentMock : public juce::MainComponent
     MOCK_METHOD0(removeCurrentSong, void());
     MOCK_METHOD1(showStatistics, void(const std::string&));
     MOCK_METHOD0(prepareForExit, void());
+    MOCK_METHOD1(showPasswordQuestion, bool(const jukebox::Password&));
 };
 
 #endif // MAINCOMPONENTMOCK_H

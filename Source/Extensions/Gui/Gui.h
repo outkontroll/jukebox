@@ -34,6 +34,8 @@ public:
     void setMusicFolder(const std::string& folder) override;
     void setTimeToPlaySong(int millisecs) override;
     void setTimeToSaveInsertedCoins(int millisecs) override;
+    void setPassword(const Password& password) override;
+    void turnOffPassword() override;
     
     void setCurrentlyPlayedSong(const audio::Song& song) override;
     void enqueue(const audio::Song& song) override;
@@ -64,7 +66,7 @@ private:
     void musicDirectoryChanged(const std::string& musicDirectory);
     void timeToPlayASongChanged(int millisecs);
     void timeToSaveInsertedCoinsChanged(int millisecs);
-    //TODO: these two functions could be merged into one entity with templates
+
     void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
     void playAlbumWithDelay(unsigned int albumNumber);
 
@@ -78,7 +80,6 @@ private:
 
     std::unique_ptr<jukebox::JukeboxTimer> secondsToPlayTimer;
     
-    std::string musicFolder = "";
     std::string userInputSongNumber = "";
     unsigned int visibleAlbumsId = 1;
     unsigned int selectedAlbumId = 1;
@@ -89,6 +90,7 @@ private:
     bool isInMultipleAlbumsMode = true;
     bool isInMusicSetupMode = true;
     jukebox::filesystem::IFileSystem* fileSys = nullptr;
+    const jukebox::Password* password = nullptr;
 };
 
 }}

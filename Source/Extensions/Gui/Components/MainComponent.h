@@ -28,6 +28,7 @@
 #include <deque>
 
 namespace jukebox {
+    class Password;
     class JukeboxTimer;
 namespace gui {
     class MultipleAlbumsCanvas;
@@ -89,6 +90,8 @@ public:
     virtual void removeCurrentSong();
     virtual void showStatistics(const std::string& statistics);
     virtual void prepareForExit();
+
+    virtual bool showPasswordQuestion(const jukebox::Password& passwordToMatch);
     //[/UserMethods]
 
     void paint (Graphics& g) override;
