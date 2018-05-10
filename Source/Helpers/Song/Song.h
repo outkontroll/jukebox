@@ -27,12 +27,12 @@ struct Song
 {
     inline bool operator<(const Song& other) const
     {
-        return std::tie(albumNumber, songNumber, fileName) < std::tie(other.albumNumber, other.songNumber, fileName);
+        return std::tie(albumNumber, songNumber, fileName) < std::tie(other.albumNumber, other.songNumber, other.fileName);
     }
 
     inline bool operator==(const Song& other) const
     {
-        return std::tie(albumNumber, songNumber, fileName) == std::tie(other.albumNumber, other.songNumber, fileName);
+        return std::tie(albumNumber, songNumber, fileName) == std::tie(other.albumNumber, other.songNumber, other.fileName);
     }
 
     const unsigned int albumNumber;
