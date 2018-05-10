@@ -24,7 +24,7 @@ Song SongBuilder::buildSong(unsigned int albumNumber, unsigned int songNumber, c
     return { albumNumber,
              songNumber,
              file.getFullPathName().toStdString(),
-             name.empty() ? file.getFileNameWithoutExtension().toStdString() : std::string(name)
+             createVisibleName(albumNumber, songNumber) + (name.empty() ? file.getFileNameWithoutExtension().toStdString() : std::string(name)).substr(2)
     };
 }
 
