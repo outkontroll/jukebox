@@ -324,6 +324,7 @@ void Gui::handleUserInputNumbers(char number)
 
     if(userInputSongNumber.length() == 5)
     {
+        // the -1's are needed because number is 1 based and indices are 0 based
         unsigned int albumNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(0, 3)));
         unsigned int songNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(3)));
         if(songNumber != 0)
@@ -370,51 +371,61 @@ void Gui::timeToSaveInsertedCoinsChanged(int millisecs)
 
 void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)
 {
-    const auto song = SongBuilder::buildSong(albumNumber, songNumber, musicFolder, *fileSys);
-    if(!song.fileName.empty())
-    {
-        secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
-            playSongSignal(song);
-            userInputSongNumber = "";
-            mainComponent->setCurrentUserInputNumber(userInputSongNumber);
-
-            secondsToPlayTimer.reset();
-        });
-
-        secondsToPlayTimer->startTimer(timeToPlaySong);
-    }
-    else
+    const unsigned int albumIndex = albumNumber - 1;
+    const unsigned int songIndex = songNumber - 1;
+    const auto& albums = fileSys->getAlbums();
+    if(albumIndex >= albums.size() ||
+       songIndex >= albums[albumIndex].songs.size())
     {
         showStatusMessage(ResourceId::ErrorSongNotExists);
 
         userInputSongNumber = "";
         mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+        return;
     }
+
+    const auto& song = albums[albumIndex].songs[songIndex];
+
+    secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
+        playSongSignal(song);
+        userInputSongNumber = "";
+        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+        secondsToPlayTimer.reset();
+    });
+
+    secondsToPlayTimer->startTimer(timeToPlaySong);
+
 }
 
 void Gui::playAlbumWithDelay(unsigned int albumNumber)
 {
-    const auto album = SongBuilder::buildAlbum(albumNumber);
-    const auto songs = SongBuilder::buildSongsInAlbum(albumNumber, musicFolder, *fileSys);
-    if(!songs.empty())
-    {
-        secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, album, songs](){
-            playAlbumSignal(album, songs);
-            userInputSongNumber = "";
-            mainComponent->setCurrentUserInputNumber(userInputSongNumber);
-
-            secondsToPlayTimer.reset();
-        });
-
-        secondsToPlayTimer->startTimer(timeToPlaySong);
-    }
-    else
+    const unsigned int albumIndex = albumNumber - 1;
+    const auto& albums = fileSys->getAlbums();
+    if(albumIndex >= albums.size() ||
+       albums[albumIndex].songs.empty())
     {
         showStatusMessage(ResourceId::ErrorDuringAlbumPlaying);
 
         userInputSongNumber = "";
         mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+        return;
     }
+
+    const auto album = SongBuilder::buildAlbum(albumIndex + 1);
+    const auto& songs = albums[albumIndex].songs;
+
+    secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, album, songs](){
+        playAlbumSignal(album, songs);
+        userInputSongNumber = "";
+        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+        secondsToPlayTimer.reset();
+    });
+
+    secondsToPlayTimer->startTimer(timeToPlaySong);
 }
 
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)

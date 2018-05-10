@@ -17,12 +17,9 @@ set(CPP_SOURCES
 
 # project
 
-add_library(fileSystem
-	    STATIC
-	    ${HEADER_SOURCES}
-	    ${CPP_SOURCES})
+add_library(${PROJECT_NAME} ${HEADER_SOURCES} ${CPP_SOURCES})
 
-target_include_directories(fileSystem PUBLIC ${INTERFACE_DIRECTORY})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INTERFACE_DIRECTORY})
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(fileSystem PRIVATE ${PROJECT_JUCE} logger formaters std_addons song)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_JUCE} logger songBuilder std_addons)

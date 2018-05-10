@@ -44,7 +44,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS}
 target_include_directories(${PROJECT_NAME}2 PUBLIC ${INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME}2 SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PRIVATE
     gui
     songBuilder
     logger
@@ -57,7 +57,7 @@ target_link_libraries(${PROJECT_NAME}
     pthread
 )
 
-target_link_libraries(${PROJECT_NAME}2
+target_link_libraries(${PROJECT_NAME}2 PRIVATE
     gui
     logger
     song

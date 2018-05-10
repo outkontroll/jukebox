@@ -24,7 +24,7 @@ set(INCLUDE_DIRS
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PRIVATE
     gui
     logger
     song

@@ -23,7 +23,11 @@ namespace {
     constexpr int defaultAlbumStep = 8;
     const juce::String emptyString = "";
     const std::vector<AlbumInfo> singleElementAlbum{{}};
-    const std::vector<AlbumInfo> fakeAlbums16(16, {{{}, {}, {}}, "", "", "", 1});
+    const Song song1{1, 1, "FakeFileName", "fakeVisibleName"};
+    const Song song2{1, 2, "FakeFileName", "fakeVisibleName"};
+    const Song song3{1, 3, "FakeFileName", "fakeVisibleName"};
+    const std::vector<AlbumInfo> fakeAlbums16(16, {{song1, song2, song3}, "", "", "", 1});
+    const std::vector<AlbumInfo> fakeAlbumsEmptySongs(1, {{}, "", "", "", 1});
 
     //apparently the first parameter can be anything as long as the last one is the correct char and the second is zero
     const juce::KeyPress keyC(0, 0, 'c');
@@ -62,11 +66,9 @@ TEST_F(GuiTest, WhenMainComponentSendsPlayNextSongSignal_ThenGuiSignalizeIt)
     /*StrictMock<*/FooMock/*>*/ fooMock;
     eventsSlot.connect(&fooMock, &FooMock::fooSong, gui->playNextSongSignal);
 
-    Song song{1, 1, "fakeFileName", "fakeVisibleName"};
+    EXPECT_CALL(fooMock, fooSong(song1));
 
-    EXPECT_CALL(fooMock, fooSong(song));
-
-    mainComponentMock->playNextSongSignal(song);
+    mainComponentMock->playNextSongSignal(song1);
 }
 
 TEST_F(GuiTest, WhenMainComponentSendsMusicDirectoryChangedSignal_ThenGuiSignalizeIt)
@@ -322,49 +324,52 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsStateAndSongSelectionIsDifferent_WhenM
 
 TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedNumberAndSongIsExisting_ThenGuiSendsPlaySongSignal)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     JuceEventLoopRunner eventLoopRunner;
 
     const int timeToPlaySong(100);
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(timeToPlaySong);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
-    mainComponentMock->keyPressedSignal(keyNumber5);
-    mainComponentMock->keyPressedSignal(keyNumber6);
-    mainComponentMock->keyPressedSignal(keyNumber7);
-    mainComponentMock->keyPressedSignal(keyNumber8);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber1);
+    mainComponentMock->keyPressedSignal(keyNumber0);
 
-    juce::String songName("56789");
+    juce::String songName("00101");
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(songName));
-    ON_CALL(*fileSystemMock, getSongFilePath(_, 567, 89, _)).WillByDefault(Return("FakeFileName"));
 
-    Song song{567, 89, "FakeFileName", "fakeVisibleName"};
     /*StrictMock<*/FooMock/*>*/ fooMock;
     eventsSlot.connect(&fooMock, &FooMock::fooSong, gui->playSongSignal);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
-    EXPECT_CALL(fooMock, fooSong(song));
+    EXPECT_CALL(fooMock, fooSong(song1));
 
-    mainComponentMock->keyPressedSignal(keyNumber9);
+    mainComponentMock->keyPressedSignal(keyNumber1);
     eventLoopRunner.runEventLoop(timeToPlaySong);
 }
 
 TEST_F(GuiTest, GivenThereIsSongToPlayOrCancel_WhenMainComponentSendsKeyPressedNumber_ThenItIsIgnored)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     const int timeToPlaySong(100);
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(timeToPlaySong);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
-    mainComponentMock->keyPressedSignal(keyNumber5);
-    mainComponentMock->keyPressedSignal(keyNumber6);
-    mainComponentMock->keyPressedSignal(keyNumber7);
-    mainComponentMock->keyPressedSignal(keyNumber8);
-    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return("FakeFileName"));
-    mainComponentMock->keyPressedSignal(keyNumber9);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber1);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber1);
 
     mainComponentMock->keyPressedSignal(keyNumber8);
 }
 
 TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedNumberAndSongIsNotExisting_ThenErrorIsShown)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(5000);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
@@ -383,29 +388,26 @@ TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSe
 
 TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainComponentSendsKeyPressedNumber0AndAlbumIsExisting_ThenGuiSendsPlaySongSignal)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
     JuceEventLoopRunner eventLoopRunner;
 
     const int timeToPlaySong(100);
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(timeToPlaySong);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
-    mainComponentMock->keyPressedSignal(keyNumber5);
-    mainComponentMock->keyPressedSignal(keyNumber6);
-    mainComponentMock->keyPressedSignal(keyNumber7);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber1);
     mainComponentMock->keyPressedSignal(keyNumber0);
 
-    juce::String albumName("56700");
+    juce::String albumName("00100");
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(albumName));
-    std::vector<std::pair<std::string, unsigned int>> fakeAlbumsAndIndices{{songPath, 1},
-                                                                 {songPath, 2}};
-    ON_CALL(*fileSystemMock, getAllSongFilesWithFullPaths(_, 567, _)).WillByDefault(Return(fakeAlbumsAndIndices));
 
     /*StrictMock<*/FooMock/*>*/ fooMock;
     eventsSlot.connect(&fooMock, &FooMock::fooAlbum, gui->playAlbumSignal);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
-    Album album{567, "567"};
-    std::vector<Song> songs{{567, 1, songPath, "56701"},
-                            {567, 2, songPath, "56702"}};
+    Album album{1, "001"};
+    std::vector<Song> songs{song1, song2, song3};
     EXPECT_CALL(fooMock, fooAlbum(album, songs));
 
     mainComponentMock->keyPressedSignal(keyNumber0);
@@ -414,30 +416,52 @@ TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainCo
 
 TEST_F(GuiTest, GivenThereIsAlbumToPlayOrCancel_WhenMainComponentSendsKeyPressedNumber_ThenItIsIgnored)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     const int timeToPlaySong(100);
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(timeToPlaySong);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
-    mainComponentMock->keyPressedSignal(keyNumber5);
-    mainComponentMock->keyPressedSignal(keyNumber6);
-    mainComponentMock->keyPressedSignal(keyNumber7);
     mainComponentMock->keyPressedSignal(keyNumber0);
-    std::vector<std::pair<std::string, unsigned int>> fakeAlbums{{songPath, 1},
-                                                                 {songPath, 2}};
-    ON_CALL(*fileSystemMock, getAllSongFilesWithFullPaths(_, _, _)).WillByDefault(Return(fakeAlbums));
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber1);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+
     mainComponentMock->keyPressedSignal(keyNumber0);
 
     mainComponentMock->keyPressedSignal(keyNumber8);
 }
 
-TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainComponentSendsKeyPressedNumber0AndAlbumIsNotExistingOrEmpty_ThenErrorIsShown)
+TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainComponentSendsKeyPressedNumber0AndAlbumIsNotExisting_ThenErrorIsShown)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     gui->setTimeToPlaySong(5000);
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
     mainComponentMock->keyPressedSignal(keyNumber5);
     mainComponentMock->keyPressedSignal(keyNumber6);
     mainComponentMock->keyPressedSignal(keyNumber7);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_));
+    const juce::String errorDuringAlbumPlaying(Resources::getResourceStringFromId(ResourceId::ErrorDuringAlbumPlaying));
+    EXPECT_CALL(*mainComponentMock, showStatusMessage(errorDuringAlbumPlaying));
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
+
+    mainComponentMock->keyPressedSignal(keyNumber0);
+}
+
+TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainComponentSendsKeyPressedNumber0AndAlbumIsEmpty_ThenErrorIsShown)
+{
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbumsEmptySongs));
+
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
+    gui->setTimeToPlaySong(5000);
+    EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(4);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber1);
     mainComponentMock->keyPressedSignal(keyNumber0);
 
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_));
@@ -474,17 +498,18 @@ TEST_F(GuiTest, GivenThereIsNotEnoughCurrentUserInputToPlayASong_WhenMainCompone
 
 TEST_F(GuiTest, GivenThereIsEnoughCurrentUserInputToPlayASong_WhenMainComponentSendsKeyPressedSignalDotInTimeToCancel_ThenCurrentUserInputNumberIsReset)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     JuceEventLoopRunner eventLoopRunner;
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(_));
     const int timeToPlay(200);
     gui->setTimeToPlaySong(timeToPlay);
-    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return("FakeFileName"));
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_)).Times(5);
-    mainComponentMock->keyPressedSignal(keyNumber5);
-    mainComponentMock->keyPressedSignal(keyNumber6);
-    mainComponentMock->keyPressedSignal(keyNumber7);
-    mainComponentMock->keyPressedSignal(keyNumber8);
-    mainComponentMock->keyPressedSignal(keyNumber9);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber1);
+    mainComponentMock->keyPressedSignal(keyNumber0);
+    mainComponentMock->keyPressedSignal(keyNumber1);
 
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
 
@@ -495,10 +520,11 @@ TEST_F(GuiTest, GivenThereIsEnoughCurrentUserInputToPlayASong_WhenMainComponentS
 //TODO this test is incomplete because when the timer expires there will be additional (currently untested) calls too
 TEST_F(GuiTest, GivenGuiIsInSingleAlbumsStateAndThereIsNoSongSelectedToPlay_WhenMainComponentSendsKeyPressedSignalDot_ThenTheFirstSongWillBePlayed)
 {
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
+
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
 
-    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return(songPath));
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(userInputNumber1));
 
     mainComponentMock->keyPressedSignal(keyDot);
@@ -514,7 +540,6 @@ TEST_F(GuiTest, GivenGuiIsInSingleAlbumsStateAndThereIsNoSongSelectedToPlayAndTh
     EXPECT_CALL(*mainComponentMock, updateSongSelection(defaultSelectedSongIndex + 1));
     mainComponentMock->keyPressedSignal(keyC);
 
-    ON_CALL(*fileSystemMock, getSongFilePath(_, _, _, _)).WillByDefault(Return(songPath));
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(userInputNumber2));
 
     mainComponentMock->keyPressedSignal(keyDot);

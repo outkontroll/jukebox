@@ -2,8 +2,13 @@
 #define SONGBUILDER_H
 
 #include <string>
+#include <string_view>
 #include <vector>
 #include "Song.h"
+
+namespace juce {
+    class File;
+}
 
 namespace jukebox { namespace filesystem {
     class IFileSystem;
@@ -16,8 +21,7 @@ struct SongBuilder
 {
 public:
     static audio::Album buildAlbum(unsigned int albumNumber);
-    static audio::Song buildSong(unsigned int albumNumber, unsigned int songNumber, const std::string& musicDirectory, const jukebox::filesystem::IFileSystem& filesys);
-    static std::vector<audio::Song> buildSongsInAlbum(unsigned int albumNumber, const std::string& musicDirectory, const jukebox::filesystem::IFileSystem& filesys);
+    static audio::Song buildSong(unsigned int albumNumber, unsigned int songNumber, const juce::File& file, std::string_view name);
     static std::string createVisibleName(unsigned int albumNumber, unsigned int songNumber);
     static std::string createVisibleName(unsigned int albumNumber);
 };

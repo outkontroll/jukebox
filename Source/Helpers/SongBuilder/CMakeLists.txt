@@ -31,6 +31,7 @@ set(PRIVATE_INCLUDE_DIRS
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PUBLIC_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PRIVATE_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JUCE_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC song)
-target_link_libraries(${PROJECT_NAME} PRIVATE formaters)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_JUCE} formaters)
