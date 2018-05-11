@@ -1,8 +1,15 @@
+#include <string>
+#include <fstream>
 #include "gtest/gtest.h"
 #include "Settings.h"
-#include <string>
+#include "Password.h"
 
 using namespace jukebox::settings;
+using namespace jukebox;
+
+namespace {
+    const char* jsonFileName = "settings.json";
+}
 
 class SettingsTest : public ::testing::Test
 {    
@@ -18,26 +25,85 @@ TEST(SettingsTest1, baseClassCtorDtor)
     delete sett;
 }
 
+inline void truncateJSONfile()
+{
+    std::ofstream ofs;
+    ofs.open(jsonFileName, std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
+}
+
+TEST(SettingsTest1, emptyJSONfile)
+{
+    truncateJSONfile();
+    Settings settings("fakeMusicDir");
+
+    ASSERT_EQ("fakeMusicDir", settings.getMusicDirectory());
+    ASSERT_FALSE(settings.isPasswordSet());
+}
+
+inline void createJunkJSONfile()
+{
+    std::ofstream o(jsonFileName);
+    if(o)
+    {
+        nlohmann::json j;
+        j["musicDirectory"] = "junk";
+        o << j.dump(4) << std::endl;
+    }
+}
+
+TEST(SettingsTest1, wrongJSONfileFormat)
+{
+    createJunkJSONfile();
+    Settings settings("fakeMusicDir");
+
+    ASSERT_NE("junk", settings.getMusicDirectory());
+}
+
+inline void createWrongPasswordedJSONfile()
+{
+    std::ofstream o(jsonFileName);
+    if(o)
+    {
+        nlohmann::json j = R"({
+                           "millisecsToPlaySong": 4000,
+                           "millisecsToSaveInsertedCoins": 12000,
+                           "musicDirectory": "fakeMusicDir",
+                           "password": {}
+                       })"_json;
+        o << j.dump(4) << std::endl;
+    }
+}
+
+TEST(SettingsTest1, wrongPasswordFormatInJSONfile)
+{
+    createWrongPasswordedJSONfile();
+    Settings settings("fakeMusicDir");
+
+    Password empty{};
+    ASSERT_EQ(empty, settings.getPassword());
+}
+
 TEST_F(SettingsTest, WhenMusicDirectorySet_ThenItIsSet)
 {
     settings.setMusicDirectory("/tmp");
 
     std::string expected("/tmp");
-    EXPECT_EQ(expected, settings.getMusicDirectory());
+    ASSERT_EQ(expected, settings.getMusicDirectory());
 }
 
 TEST_F(SettingsTest, WhenTimeToPlaySet_ThenItIsSet)
 {
     settings.setTimeToPlaySong(4000);
 
-    EXPECT_EQ(4000, settings.getTimeToPlaySong());
+    ASSERT_EQ(4000, settings.getTimeToPlaySong());
 }
 
 TEST_F(SettingsTest, WhenTimeToSaveInsertedCoinsSet_ThenItIsSet)
 {
     settings.setTimeToSaveInsertedCoins(12000);
 
-    EXPECT_EQ(12000, settings.getTimeToSaveInsertedCoins());
+    ASSERT_EQ(12000, settings.getTimeToSaveInsertedCoins());
 }
 
 TEST_F(SettingsTest, setMusicDir)
@@ -46,5 +112,27 @@ TEST_F(SettingsTest, setMusicDir)
 
     settings.setMusicDirectory(newMusicDir);
 
-    EXPECT_EQ(newMusicDir, settings.getMusicDirectory());
+    ASSERT_EQ(newMusicDir, settings.getMusicDirectory());
+}
+
+TEST_F(SettingsTest, setPassword)
+{
+    Password password("abcdefg");
+
+    settings.setPassword(password);
+
+    ASSERT_TRUE(settings.isPasswordSet());
+    ASSERT_EQ(password, settings.getPassword());
+}
+
+TEST_F(SettingsTest, turnOffPassword)
+{
+    Password password("abcdefg");
+    Password empty{};
+    settings.setPassword(password);
+
+    settings.turnOffPassword();
+
+    ASSERT_FALSE(settings.isPasswordSet());
+    ASSERT_EQ(empty, settings.getPassword());
 }

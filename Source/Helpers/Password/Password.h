@@ -9,15 +9,17 @@ namespace jukebox {
 class Password
 {
 public:
+    Password() = default;
+
     Password(const juce::String& plain);
 
     bool isMatching(const juce::String& plain) const;
 
-    void to_json(nlohmann::json& j, const Password& pw);
-    void from_json(const nlohmann::json& j, Password& pw);
-
     bool operator==(const Password& other) const;
+
 private:
+    friend void to_json(nlohmann::json& j, const Password& pw);
+    friend void from_json(const nlohmann::json& j, Password& pw);
     juce::String password = "";
     juce::String salt = "";
 

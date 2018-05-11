@@ -3,6 +3,10 @@
 
 #include <string>
 
+namespace jukebox {
+    class Password;
+}
+
 namespace jukebox { namespace settings {
 
 class ISettings
@@ -16,6 +20,10 @@ public:
     virtual void setTimeToPlaySong(int millisecs) = 0;
     virtual int getTimeToSaveInsertedCoins() const = 0;
     virtual void setTimeToSaveInsertedCoins(int millisecs) = 0;
+    virtual bool isPasswordSet() const = 0;
+    virtual void turnOffPassword() = 0;
+    virtual Password getPassword() const = 0;
+    virtual void setPassword(const Password& password) = 0;
 };
 
 }}

@@ -1,6 +1,7 @@
 #include "Password.h"
 #include <tuple>
 #include "nlohmann/json.hpp"
+#include "Logger.h"
 
 using namespace nlohmann;
 using namespace juce;
@@ -12,12 +13,12 @@ namespace nlohmann {
     {
         static void to_json(json& j, const juce::String& s)
         {
-            j = s;
+            j = s.toStdString();
         }
 
         static void from_json(const json& j, juce::String& s)
         {
-            s = j.get<juce::String>();
+            s = j.get<std::string>();
         }
     };
 }
@@ -29,18 +30,30 @@ Password::Password(const String& plain)
 
 bool Password::isMatching(const juce::String& plain) const
 {
-    return password.compare(juce::SHA256((plain + salt).toUTF8()).toHexString()) == 0;
+    return !password.isEmpty() && password.compare(juce::SHA256((plain + salt).toUTF8()).toHexString()) == 0;
 }
 
-void Password::to_json(json& j, const Password& pw)
+namespace jukebox {
+
+void to_json(json& j, const Password& pw)
 {
     j = json{{"password", pw.password}, {"salt", pw.salt}};
 }
 
-void Password::from_json(const json& j, Password& pw)
+void from_json(const json& j, Password& pw)
 {
-    pw.password = j.at("password").get<juce::String>();
-    pw.salt = j.at("salt").get<juce::String>();
+    if(j.find("password") == j.end() || j.find("salt") == j.end())
+    {
+        LOG_ERROR("invalid password in json file");
+        return;
+    }
+
+    const auto password_ = j.at("password").get<std::string>();
+    const auto salt_ = j.at("salt").get<std::string>();
+    pw.password = password_;
+    pw.salt = salt_;
+}
+
 }
 
 bool Password::operator==(const Password& other) const

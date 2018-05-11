@@ -22,3 +22,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${JUCE_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${PROJECT_JUCE} nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE logger)
