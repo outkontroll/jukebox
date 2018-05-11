@@ -29,6 +29,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     logger
     song
     jukeboxtimer
+    password
     ${GTest}
     ${GTestMain}
     ${GMock}

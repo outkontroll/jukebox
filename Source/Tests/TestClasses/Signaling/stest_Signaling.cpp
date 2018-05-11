@@ -1,13 +1,12 @@
-#include "gtest/gtest.h"
 #include <string>
-
+#include <chrono>
+#include <thread>
+#include "gtest/gtest.h"
 #include "JukeboxTimer.h"
 #include "JuceEventLoopRunner.h"
 #include "FreeFunctions.h"
-#include <chrono>
-#include <thread>
-
-#include <iostream>
+#include "Song.h"
+#include "Password.h"
 
 using namespace jukebox;
 

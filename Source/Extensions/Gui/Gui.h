@@ -66,6 +66,8 @@ private:
     void musicDirectoryChanged(const std::string& musicDirectory);
     void timeToPlayASongChanged(int millisecs);
     void timeToSaveInsertedCoinsChanged(int millisecs);
+    void passwordChanged(const jukebox::Password& password);
+    void passwordTurnedOff();
 
     void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
     void playAlbumWithDelay(unsigned int albumNumber);

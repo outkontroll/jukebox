@@ -68,6 +68,8 @@ public:
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
     jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
+    jukebox::signals::Signal<const jukebox::Password&> passwordChangedSignal;
+    jukebox::signals::Signal<> passwordTurnedOffSignal;
 
     //the virtuals are here only to enable easier testing and mocking
     //TODO should reconsider the class because of this

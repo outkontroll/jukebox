@@ -102,6 +102,27 @@ TEST_F(GuiTest, WhenMainComponentSendsTimeToSaveInsertedCoinsChangedSignal_ThenG
     mainComponentMock->timeToSaveInsertedCoinsChangedSignal(3);
 }
 
+TEST_F(GuiTest, WhenMainComponentSendsPasswordChangedSignal_ThenGuiSignalizeIt)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::fooPassword, gui->passwordChangedSignal);
+
+    Password password{"fakePassword"};
+    EXPECT_CALL(fooMock, fooPassword(password));
+
+    mainComponentMock->passwordChangedSignal(password);
+}
+
+TEST_F(GuiTest, WhenMainComponentSendsTurnOffPasswordSignal_ThenGuiSignalizeIt)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->passwordTurnedOffSignal);
+
+    EXPECT_CALL(fooMock, foo());
+
+    mainComponentMock->passwordTurnedOffSignal();
+}
+
 // keyPress
 
 TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalA_ThenGuiSignalizeIncreaseVolume)
@@ -675,7 +696,5 @@ TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSends
 
     mainComponentMock->keyPressedSignal(keyPlus);
 }
-
-//TODO test range edges
 
 //TODO test overflow, underflow
