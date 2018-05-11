@@ -20,6 +20,7 @@ public:
     virtual void setMusicDirectory(const std::string& musicDirectory);
 
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
+    jukebox::signals::Signal<> lostFocusSignal;
 
 private:
     void selectionChanged() override;

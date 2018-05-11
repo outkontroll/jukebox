@@ -258,8 +258,6 @@ void Gui::switchBetweenUserModes()
 {
     if(isInUserMode)
     {
-        //const Password password("abcdefghijklmnopqrstuvwxyz");
-
         if(password != nullptr &&
            !mainComponent->showPasswordQuestion(*password))
         {

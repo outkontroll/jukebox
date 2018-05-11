@@ -111,6 +111,7 @@ private:
     void onMusicDirectoryChanged(const std::string& musicDirectory);
     void onTimeToPlayASongChanged(int);
     void onTimeToSaveInsertedCoinsChanged(int);
+    void grabFocus();
 
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBoxPlayQueue;
     ScopedPointer<jukebox::JukeboxTimer> timerBetweenSongs;

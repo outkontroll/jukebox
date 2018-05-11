@@ -18,6 +18,7 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include <functional>
 #include "Logger.h"
 #include "Song.h"
 #include "JukeboxTimer.h"
@@ -129,6 +130,7 @@ MainComponent::MainComponent ()
     addChildComponent(musicSetupCanvas = new jukebox::gui::MusicSetupCanvas);
     eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, musicSetupCanvas->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &MainComponent::onTimeToPlayASongChanged, setupPage->timeToPlayASongChangedSignal);
+    eventsSlot.connect(this, &MainComponent::grabFocus, musicSetupCanvas->lostFocusSignal);
 
     //[/UserPreSize]
 
@@ -141,8 +143,7 @@ MainComponent::MainComponent ()
     });
 
     setWantsKeyboardFocus(true);
-    grabKeyboardFocus();
-    focusInitialised = hasKeyboardFocus(true);
+    grabFocus();
     //[/Constructor]
 }
 
@@ -188,8 +189,7 @@ void MainComponent::paint (Graphics& g)
 
     if(!hasKeyboardFocus(true))
     {
-        grabKeyboardFocus();
-        focusInitialised = hasKeyboardFocus(true);
+        grabFocus();
 
         LOG_INFO("focus set");
     }
@@ -385,6 +385,12 @@ void MainComponent::onTimeToSaveInsertedCoinsChanged(int millisecs)
     timeToSaveInsertedCoinsChangedSignal(std::move(millisecs));
 }
 
+void MainComponent::grabFocus()
+{
+    grabKeyboardFocus();
+    focusInitialised = hasKeyboardFocus(true);
+}
+
 void MainComponent::prepareForExit()
 {
     listBoxPlayQueue->clear();
@@ -392,8 +398,26 @@ void MainComponent::prepareForExit()
 
 bool MainComponent::showPasswordQuestion(const Password& password)
 {
-    String text("abcdefghijklmnopqrstuvwxyz");
-    return password.isMatching(text);
+    bool needFocus = true;
+    std::unique_ptr<bool, std::function<void(bool*)>> p(&needFocus, [this](bool*){
+        grabFocus();
+    });
+
+    AlertWindow passwordDialog("Password check",
+                               "To access Administrator mode please enter the password",
+                               AlertWindow::WarningIcon);
+
+    passwordDialog.addTextEditor ("text", "", "Password:", true);
+    passwordDialog.addButton ("OK",     1, KeyPress (KeyPress::returnKey, 0, 0));
+    passwordDialog.addButton ("Cancel", 0, KeyPress (KeyPress::escapeKey, 0, 0));
+
+    if (passwordDialog.runModalLoop() != 0) // is they picked 'ok'
+    {
+        auto text = passwordDialog.getTextEditorContents("text");
+        return password.isMatching(text);
+    }
+
+    return false;
 }
 
 //[/MiscUserCode]

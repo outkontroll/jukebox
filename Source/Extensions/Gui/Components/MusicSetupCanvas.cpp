@@ -37,6 +37,7 @@ MusicSetupCanvas::MusicSetupCanvas()
     txtMusicDirectory->setCaretVisible(false);
     txtMusicDirectory->setPopupMenuEnabled(true);
     txtMusicDirectory->setText(String());
+    txtMusicDirectory->setEscapeAndReturnKeysConsumed(false);
 
     addAndMakeVisible(buttonMusicDirectory = new TextButton("music directory button"));
     buttonMusicDirectory->setButtonText("...");
@@ -63,6 +64,9 @@ MusicSetupCanvas::~MusicSetupCanvas()
 
 void MusicSetupCanvas::paint(Graphics& g)
 {
+    setWantsKeyboardFocus(true);
+    grabKeyboardFocus();
+
     g.setColour(Colours::black);
     g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
 
@@ -128,4 +132,6 @@ void MusicDirectoryListener::buttonClicked(Button*)
 
         ownerPage.musicDirectoryChangedSignal(name.toStdString());
     }
+
+    ownerPage.lostFocusSignal();
 }
