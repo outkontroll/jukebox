@@ -147,9 +147,9 @@ void Settings::turnOffPassword()
     serialize();
 }
 
-jukebox::Password Settings::getPassword() const
+const jukebox::Password* Settings::getPassword() const
 {
-    return data->password.value_or(Password{});
+    return data->password.has_value() ? &data->password.value() : nullptr;
 }
 
 void Settings::setPassword(const jukebox::Password& password)

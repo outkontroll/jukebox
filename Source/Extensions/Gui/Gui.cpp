@@ -211,9 +211,9 @@ void Gui::setTimeToSaveInsertedCoins(int millisecs)
     mainComponent->setTimeToSaveInsertedCoins(millisecs);
 }
 
-void Gui::setPassword(const Password& password_)
+void Gui::setPassword(const Password* password_)
 {
-    password = &password_;
+    password = password_;
 }
 
 void Gui::turnOffPassword()
@@ -401,8 +401,6 @@ void Gui::timeToSaveInsertedCoinsChanged(int millisecs)
 
 void Gui::passwordChanged(const Password& password_)
 {
-    //TODO
-    //password = password_;
     passwordChangedSignal(password_);
 }
 

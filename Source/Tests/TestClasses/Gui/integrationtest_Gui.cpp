@@ -245,7 +245,7 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalF4_ThenGuiSignalsExitReque
 TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsGoodPassword_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchesUserMode)
 {
     Password password("fakePassword");
-    gui->setPassword(password);
+    gui->setPassword(&password);
     EXPECT_CALL(*mainComponentMock, showPasswordQuestion(password)).WillOnce(Return(true));
     EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     mainComponentMock->keyPressedSignal(keyEsc);
@@ -254,7 +254,7 @@ TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsGoodPassword_WhenMainComp
 TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsWrongPassword_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiStaysInSameUserModeAndShowsError)
 {
     Password password("fakePassword");
-    gui->setPassword(password);
+    gui->setPassword(&password);
 
     EXPECT_CALL(*mainComponentMock, showPasswordQuestion(password)).WillOnce(Return(false));
     const juce::String errorWrongPassword(Resources::getResourceStringFromId(ResourceId::ErrorWrongPassword));
@@ -265,7 +265,7 @@ TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsWrongPassword_WhenMainCom
 TEST_F(GuiTest, GivenPasswordIsSetThenTurnedOff_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchesUserMode)
 {
     Password password("fakePassword");
-    gui->setPassword(password);
+    gui->setPassword(&password);
     gui->turnOffPassword();
     EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     mainComponentMock->keyPressedSignal(keyEsc);

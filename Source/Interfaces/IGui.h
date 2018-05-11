@@ -30,7 +30,7 @@ public:
     virtual void setMusicFolder(const std::string& folder) = 0;
     virtual void setTimeToPlaySong(int millisecs) = 0;
     virtual void setTimeToSaveInsertedCoins(int millisecs) = 0;
-    virtual void setPassword(const Password& password) = 0;
+    virtual void setPassword(const Password* password) = 0;
     virtual void turnOffPassword() = 0;
 
     virtual void setCurrentlyPlayedSong(const audio::Song&) = 0;

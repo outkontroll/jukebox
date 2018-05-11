@@ -23,7 +23,7 @@ public:
     void setTimeToSaveInsertedCoins(int millisecs) override;
     bool isPasswordSet() const override;
     void turnOffPassword() override;
-    Password getPassword() const override;
+    const Password* getPassword() const override;
     void setPassword(const Password& password) override;
 
 private:

@@ -34,7 +34,7 @@ public:
     void setMusicFolder(const std::string& folder) override;
     void setTimeToPlaySong(int millisecs) override;
     void setTimeToSaveInsertedCoins(int millisecs) override;
-    void setPassword(const Password& password) override;
+    void setPassword(const Password* password) override;
     void turnOffPassword() override;
     
     void setCurrentlyPlayedSong(const audio::Song& song) override;

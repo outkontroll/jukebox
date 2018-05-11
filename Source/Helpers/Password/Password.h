@@ -14,6 +14,7 @@ public:
     Password(const juce::String& plain);
 
     bool isMatching(const juce::String& plain) const;
+    bool isValid() const;
 
     bool operator==(const Password& other) const;
 

@@ -69,7 +69,10 @@ inline void createWrongPasswordedJSONfile()
                            "millisecsToPlaySong": 4000,
                            "millisecsToSaveInsertedCoins": 12000,
                            "musicDirectory": "fakeMusicDir",
-                           "password": {}
+                           "password": {
+                               "password" : null,
+                               "salt" : null
+                           }
                        })"_json;
         o << j.dump(4) << std::endl;
     }
@@ -80,8 +83,58 @@ TEST(SettingsTest1, wrongPasswordFormatInJSONfile)
     createWrongPasswordedJSONfile();
     Settings settings("fakeMusicDir");
 
-    Password empty{};
-    ASSERT_EQ(empty, settings.getPassword());
+    ASSERT_EQ(nullptr, settings.getPassword());
+}
+
+inline void createEmptyPasswordedJSONfile()
+{
+    std::ofstream o(jsonFileName);
+    if(o)
+    {
+        nlohmann::json j = R"({
+                           "millisecsToPlaySong": 4000,
+                           "millisecsToSaveInsertedCoins": 12000,
+                           "musicDirectory": "fakeMusicDir",
+                           "password": {
+                               "password" : null
+                           }
+                       })"_json;
+        o << j.dump(4) << std::endl;
+    }
+}
+
+TEST(SettingsTest1, emptyPasswordFormatInJSONfile)
+{
+    createEmptyPasswordedJSONfile();
+    Settings settings("fakeMusicDir");
+
+    ASSERT_FALSE(settings.getPassword()->isValid());
+}
+
+inline void createCorrectPasswordedJSONfile()
+{
+    std::ofstream o(jsonFileName);
+    if(o)
+    {
+        nlohmann::json j = R"({
+                           "millisecsToPlaySong": 4000,
+                           "millisecsToSaveInsertedCoins": 12000,
+                           "musicDirectory": "fakeMusicDir",
+                           "password": {
+                               "password" : "fakePassword",
+                               "salt" : "fakeSalt"
+                           }
+                       })"_json;
+        o << j.dump(4) << std::endl;
+    }
+}
+
+TEST(SettingsTest1, correctPasswordFormatInJSONfile)
+{
+    createCorrectPasswordedJSONfile();
+    Settings settings("fakeMusicDir");
+
+    ASSERT_FALSE(settings.getPassword()->isMatching("fakePassword"));
 }
 
 TEST_F(SettingsTest, WhenMusicDirectorySet_ThenItIsSet)
@@ -122,17 +175,16 @@ TEST_F(SettingsTest, setPassword)
     settings.setPassword(password);
 
     ASSERT_TRUE(settings.isPasswordSet());
-    ASSERT_EQ(password, settings.getPassword());
+    ASSERT_EQ(password, *settings.getPassword());
 }
 
 TEST_F(SettingsTest, turnOffPassword)
 {
     Password password("abcdefg");
-    Password empty{};
     settings.setPassword(password);
 
     settings.turnOffPassword();
 
     ASSERT_FALSE(settings.isPasswordSet());
-    ASSERT_EQ(empty, settings.getPassword());
+    ASSERT_EQ(nullptr, settings.getPassword());
 }

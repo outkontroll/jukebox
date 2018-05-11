@@ -42,14 +42,14 @@ struct CoreTest : public Test
         EXPECT_CALL(*settingsMock, getTimeToPlaySong()).WillOnce(Return(5000));
         EXPECT_CALL(*settingsMock, getTimeToSaveInsertedCoins()).Times(2).WillRepeatedly(Return(24 * 3600 * 1000));
         EXPECT_CALL(*settingsMock, isPasswordSet()).WillOnce(Return(true));
-        EXPECT_CALL(*settingsMock, getPassword()).WillOnce(Return(fakePassword));
+        EXPECT_CALL(*settingsMock, getPassword()).WillOnce(Return(&fakePassword));
         //TODO check order of the calls as it matters
         EXPECT_CALL(*fileSystemMock, loadAlbums(std::string_view("FakeMusicDirectory")));
         EXPECT_CALL(*guiMock, setFileSystem(fileSystemMock));
         EXPECT_CALL(*guiMock, setMusicFolder("FakeMusicDirectory"));
         EXPECT_CALL(*guiMock, setTimeToPlaySong(5000));
         EXPECT_CALL(*guiMock, setTimeToSaveInsertedCoins(24 * 3600 * 1000));
-        EXPECT_CALL(*guiMock, setPassword(fakePassword));
+        EXPECT_CALL(*guiMock, setPassword(&fakePassword));
         EXPECT_CALL(*statisticsMock, setSaveTimeout(24 * 3600 * 1000));
 
         core = make_unique<Core>(move(gui),
@@ -480,6 +480,8 @@ TEST_F(CoreTest, WhenGuiSendsPasswordChangedSignal_ThenItIsSavedInSettings)
 {
     Password fakePassword{"fakePassword"};
     EXPECT_CALL(*settingsMock, setPassword(fakePassword));
+    EXPECT_CALL(*settingsMock, getPassword()).WillOnce(Return(&fakePassword));
+    EXPECT_CALL(*guiMock, setPassword(&fakePassword));
 
     guiMock->passwordChangedSignal(fakePassword);
 }
@@ -489,6 +491,7 @@ TEST_F(CoreTest, WhenGuiSendsPasswordChangedSignal_ThenItIsSavedInSettings)
 TEST_F(CoreTest, WhenGuiSendsPasswordTurnedOffSignal_ThenItIsSavedInSettings)
 {
     EXPECT_CALL(*settingsMock, turnOffPassword());
+    EXPECT_CALL(*guiMock, turnOffPassword());
 
     guiMock->passwordTurnedOffSignal();
 }

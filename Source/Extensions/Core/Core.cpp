@@ -204,11 +204,13 @@ void Core::timeToSaveInsertedCoinsChanged(int millisecs)
 void Core::passwordChanged(const Password& password)
 {
     settings->setPassword(password);
+    gui->setPassword(settings->getPassword());
 }
 
 void Core::passwordTurnedOff()
 {
     settings->turnOffPassword();
+    gui->turnOffPassword();
 }
 
 void Core::showStatisticsRequested()

@@ -33,6 +33,11 @@ bool Password::isMatching(const juce::String& plain) const
     return !password.isEmpty() && password.compare(juce::SHA256((plain + salt).toUTF8()).toHexString()) == 0;
 }
 
+bool Password::isValid() const
+{
+    return !password.isEmpty() && !salt.isEmpty();
+}
+
 namespace jukebox {
 
 void to_json(json& j, const Password& pw)

@@ -22,7 +22,7 @@ public:
     virtual void setTimeToSaveInsertedCoins(int millisecs) = 0;
     virtual bool isPasswordSet() const = 0;
     virtual void turnOffPassword() = 0;
-    virtual Password getPassword() const = 0;
+    virtual const Password* getPassword() const = 0;
     virtual void setPassword(const Password& password) = 0;
 };
 
