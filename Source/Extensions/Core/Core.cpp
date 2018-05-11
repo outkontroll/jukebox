@@ -46,6 +46,8 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::musicDirectoryChanged, gui->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &Core::timeToPlayASongChanged, gui->timeToPlayASongChangedSignal);
     eventsSlot.connect(this, &Core::timeToSaveInsertedCoinsChanged, gui->timeToSaveInsertedCoinsChangedSignal);
+    eventsSlot.connect(this, &Core::passwordChanged, gui->passwordChangedSignal);
+    eventsSlot.connect(this, &Core::passwordTurnedOff, gui->passwordTurnedOffSignal);
     eventsSlot.connect(this, &Core::showStatisticsRequested, gui->requestStatisticsSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
 
@@ -197,6 +199,16 @@ void Core::timeToSaveInsertedCoinsChanged(int millisecs)
     {
         gui->showStatusMessage(ResourceId::ErrorWrongNumber);
     }
+}
+
+void Core::passwordChanged(const Password& password)
+{
+    settings->setPassword(password);
+}
+
+void Core::passwordTurnedOff()
+{
+    settings->turnOffPassword();
 }
 
 void Core::showStatisticsRequested()

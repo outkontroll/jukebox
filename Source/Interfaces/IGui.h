@@ -58,7 +58,7 @@ public:
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
     jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
-    jukebox::signals::Signal<Password> passwordChangedSignal;
+    jukebox::signals::Signal<const Password&> passwordChangedSignal;
     jukebox::signals::Signal<> passwordTurnedOffSignal;
 
     jukebox::signals::Signal<> requestStatisticsSignal;

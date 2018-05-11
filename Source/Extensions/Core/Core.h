@@ -5,7 +5,7 @@
 #include "Signals.hpp"
 
 namespace jukebox {
-
+    class Password;
 namespace gui {
     class IGui;
 }
@@ -58,6 +58,8 @@ private:
     void musicDirectoryChanged(const std::string& newMusicDirectory);
     void timeToPlayASongChanged(int millisecs);
     void timeToSaveInsertedCoinsChanged(int millisecs);
+    void passwordChanged(const jukebox::Password& password);
+    void passwordTurnedOff();
 
     void showStatisticsRequested();
     void exitRequested();

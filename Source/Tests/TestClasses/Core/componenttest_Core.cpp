@@ -473,3 +473,22 @@ TEST_F(CoreTest, GivenOnlyGreaterOrEqual3600Accepted_WhenGuiSendsTimeToSaveInser
     guiMock->timeToSaveInsertedCoinsChangedSignal(-2000);
     guiMock->timeToSaveInsertedCoinsChangedSignal(3599);
 }
+
+// passwordChanged
+
+TEST_F(CoreTest, WhenGuiSendsPasswordChangedSignal_ThenItIsSavedInSettings)
+{
+    Password fakePassword{"fakePassword"};
+    EXPECT_CALL(*settingsMock, setPassword(fakePassword));
+
+    guiMock->passwordChangedSignal(fakePassword);
+}
+
+// passwordTurnedOff
+
+TEST_F(CoreTest, WhenGuiSendsPasswordTurnedOffSignal_ThenItIsSavedInSettings)
+{
+    EXPECT_CALL(*settingsMock, turnOffPassword());
+
+    guiMock->passwordTurnedOffSignal();
+}
