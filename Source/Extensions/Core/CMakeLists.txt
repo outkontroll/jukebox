@@ -21,4 +21,4 @@ add_library(${PROJECT_NAME} ${HEADER_SOURCES} ${CPP_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${INTERFACE_DIRECTORY})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC signals)
-target_link_libraries(${PROJECT_NAME} PRIVATE songBuilder logger exceptions)
+target_link_libraries(${PROJECT_NAME} PRIVATE songBuilder logger exceptions password)

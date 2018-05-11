@@ -10,7 +10,7 @@
 #include "SongBuilder.h"
 #include "Song.h"
 #include "ResourceId.h"
-#include <iostream>
+#include "Password.h"
 
 using namespace jukebox;
 using namespace jukebox::core;
@@ -55,8 +55,9 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     gui->setMusicFolder(settings->getMusicDirectory());
     gui->setTimeToPlaySong(settings->getTimeToPlaySong());
     gui->setTimeToSaveInsertedCoins(settings->getTimeToSaveInsertedCoins());
+    if(settings->isPasswordSet())
+        gui->setPassword(settings->getPassword());
     statistics->setSaveTimeout(settings->getTimeToSaveInsertedCoins());
-
 }
 
 void Core::coinInserted50()
