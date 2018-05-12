@@ -441,7 +441,12 @@ bool MainComponent::showPasswordQuestion()
     if (passwordDialog.runModalLoop() != 0) // is they picked 'ok'
     {
         auto text = passwordDialog.getTextEditorContents("text");
-        return password->isMatching(text);
+        if(password->isMatching(text))
+            return true;
+
+        AlertWindow::showMessageBox(AlertWindow::WarningIcon,
+                                    "Wrong password",
+                                    "Wrong password was given!");
     }
 
     return false;

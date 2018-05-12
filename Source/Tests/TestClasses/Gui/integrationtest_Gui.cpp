@@ -253,8 +253,6 @@ TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsGoodPassword_WhenMainComp
 TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsWrongPassword_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiStaysInSameUserModeAndShowsError)
 {
     EXPECT_CALL(*mainComponentMock, showPasswordQuestion()).WillOnce(Return(false));
-    const juce::String errorWrongPassword(Resources::getResourceStringFromId(ResourceId::ErrorWrongPassword));
-    EXPECT_CALL(*mainComponentMock, showStatusMessage(errorWrongPassword));
     mainComponentMock->keyPressedSignal(keyEsc);
 }
 

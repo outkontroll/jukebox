@@ -139,7 +139,7 @@ bool MusicSetupCanvas::isImageFile(const File& file) const
 
 void MusicSetupCanvas::importMusicDirectory()
 {
-    auto fc = FileChooser("Choose a music directory...",
+    auto fc = FileChooser("Choose a music directory to import...",
                           File::getSpecialLocation(File::userMusicDirectory),
                           "*",
                           true);

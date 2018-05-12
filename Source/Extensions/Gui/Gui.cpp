@@ -262,7 +262,6 @@ void Gui::switchBetweenUserModes()
     {
         if(!mainComponent->showPasswordQuestion())
         {
-            showStatusMessage(ResourceId::ErrorWrongPassword);
             return;
         }
     }
