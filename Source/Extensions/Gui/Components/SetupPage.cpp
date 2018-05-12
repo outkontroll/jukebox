@@ -65,11 +65,11 @@ SetupPage::SetupPage()
     buttonChangePassword->setButtonText("Change password");
     buttonChangePassword->addListener(this);
 
-    addAndMakeVisible(toggleNoPassword = new ToggleButton("toggle no password"));
+    addAndMakeVisible(toggleNoPassword = new ToggleButton("No password"));
     toggleNoPassword->setRadioGroupId(12);
     toggleNoPassword->addListener(this);
 
-    addAndMakeVisible(togglePassword = new ToggleButton("toggle password"));
+    addAndMakeVisible(togglePassword = new ToggleButton("Password set"));
     togglePassword->setRadioGroupId(12);
     togglePassword->addListener(this);
 }

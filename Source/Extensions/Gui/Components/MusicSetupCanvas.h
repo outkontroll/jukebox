@@ -8,7 +8,9 @@ namespace jukebox::gui {
 
 class MusicDirectoryListener;
 
-class MusicSetupCanvas : public juce::Component, public juce::FileBrowserListener
+class MusicSetupCanvas : public juce::Component,
+                         public juce::Button::Listener,
+                         public juce::FileBrowserListener
 {
 public:
     MusicSetupCanvas();
@@ -23,10 +25,14 @@ public:
     jukebox::signals::Signal<> lostFocusSignal;
 
 private:
+    void buttonClicked(juce::Button*) override;
+
     void selectionChanged() override;
     void fileClicked (const juce::File&, const juce::MouseEvent&) override {}
     void fileDoubleClicked (const juce::File&) override {}
     void browserRootChanged (const juce::File&) override {}
+
+    void selectMusicDirectory();
     bool isImageFile(const juce::File&) const;
 
     juce::ScopedPointer<juce::Label> infoMusicDirectory;
@@ -38,10 +44,6 @@ private:
     juce::DirectoryContentsList listToShow{nullptr, directoryThread};
     juce::ImageComponent imagePreview;
     juce::Rectangle<float> textPlace = {0, 0, 0, 0};
-
-    juce::ScopedPointer<MusicDirectoryListener> musicDirectoryListener;
-
-    friend class MusicDirectoryListener;
 };
 
 }

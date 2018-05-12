@@ -1,17 +1,6 @@
 #include "MusicSetupCanvas.h"
 #include "MusicSetupCanvasPositionCalculator.h"
 
-namespace jukebox { namespace gui {
-class MusicDirectoryListener : public juce::Button::Listener
-{
-public:
-    MusicDirectoryListener(MusicSetupCanvas& owner);
-    void buttonClicked(juce::Button*) override;
-private:
-    MusicSetupCanvas& ownerPage;
-};
-}}
-
 using namespace jukebox::gui;
 using namespace juce;
 
@@ -41,7 +30,7 @@ MusicSetupCanvas::MusicSetupCanvas()
 
     addAndMakeVisible(buttonMusicDirectory = new TextButton("music directory button"));
     buttonMusicDirectory->setButtonText("...");
-    buttonMusicDirectory->addListener(musicDirectoryListener = new MusicDirectoryListener(*this));
+    buttonMusicDirectory->addListener(this);
 
     directoryThread.startThread (1);
     addAndMakeVisible(treeMusicDir = new FileTreeComponent(listToShow));
@@ -58,7 +47,6 @@ MusicSetupCanvas::~MusicSetupCanvas()
     infoMusicDirectory = nullptr;
     txtMusicDirectory = nullptr;
     buttonMusicDirectory = nullptr;
-    musicDirectoryListener = nullptr;
     treeMusicDir = nullptr;
 }
 
@@ -92,6 +80,12 @@ void MusicSetupCanvas::setMusicDirectory(const std::string& musicDirectory)
     listToShow.setDirectory(juce::File(musicDirectory), true, true);
 }
 
+void MusicSetupCanvas::buttonClicked(Button* button)
+{
+    if(button == buttonMusicDirectory)
+        selectMusicDirectory();
+}
+
 void MusicSetupCanvas::selectionChanged()
 {
     auto selectedFile = treeMusicDir->getSelectedFile();
@@ -108,20 +102,10 @@ void MusicSetupCanvas::selectionChanged()
     }
 }
 
-bool MusicSetupCanvas::isImageFile(const File& file) const
-{
-    return file.existsAsFile() && file.getFileExtension().containsWholeWord("jpg");
-}
-
-MusicDirectoryListener::MusicDirectoryListener(MusicSetupCanvas& owner) :
-    ownerPage(owner)
-{
-}
-
-void MusicDirectoryListener::buttonClicked(Button*)
+void MusicSetupCanvas::selectMusicDirectory()
 {
     auto fc = FileChooser("Choose a music directory...",
-                          File(ownerPage.txtMusicDirectory->getText()),
+                          File(txtMusicDirectory->getText()),
                           "*",
                           true);
     if(fc.showDialog(FileBrowserComponent::openMode | FileBrowserComponent::canSelectDirectories, nullptr))
@@ -130,8 +114,13 @@ void MusicDirectoryListener::buttonClicked(Button*)
         auto name = result.isDirectory() ? result.getFullPathName()
                                          : result.getParentDirectory().getFullPathName();
 
-        ownerPage.musicDirectoryChangedSignal(name.toStdString());
+        musicDirectoryChangedSignal(name.toStdString());
     }
 
-    ownerPage.lostFocusSignal();
+    lostFocusSignal();
+}
+
+bool MusicSetupCanvas::isImageFile(const File& file) const
+{
+    return file.existsAsFile() && file.getFileExtension().containsWholeWord("jpg");
 }
