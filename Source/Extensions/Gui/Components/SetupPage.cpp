@@ -186,10 +186,10 @@ void SetupPage::showChangePasswordDialog()
                                AlertWindow::QuestionIcon);
 
     if(password != nullptr)
-        passwordDialog.addTextEditor ("oldPassword", "", "Password:", true);
+        passwordDialog.addTextEditor ("oldPassword", "", "Old password:", true);
 
-    passwordDialog.addTextEditor ("newPassword", "", "Password:", true);
-    passwordDialog.addTextEditor ("secondPassword", "", "Password:", true);
+    passwordDialog.addTextEditor ("newPassword", "", "New password:", true);
+    passwordDialog.addTextEditor ("secondPassword", "", "New password again:", true);
     passwordDialog.addButton ("OK",     1, KeyPress (KeyPress::returnKey, 0, 0));
     passwordDialog.addButton ("Cancel", 0, KeyPress (KeyPress::escapeKey, 0, 0));
 
@@ -207,7 +207,9 @@ void SetupPage::showChangePasswordDialog()
             auto text = passwordDialog.getTextEditorContents("oldPassword");
             if(!password->isMatching(text))
             {
-                showWrongPasswordDialog();
+                AlertWindow::showMessageBox(AlertWindow::WarningIcon,
+                                            "Wrong password",
+                                            "Wrong password was given!");
                 continue;
             }
         }
@@ -215,9 +217,19 @@ void SetupPage::showChangePasswordDialog()
         auto newPassword = passwordDialog.getTextEditorContents("newPassword");
         auto secondPassword = passwordDialog.getTextEditorContents("secondPassword");
 
+        if(newPassword.isEmpty())
+        {
+            AlertWindow::showMessageBox(AlertWindow::WarningIcon,
+                                        "Empty password",
+                                        "Empty password is not allowed!");
+            continue;
+        }
+
         if(newPassword.compare(secondPassword) != 0)
         {
-            showDifferentPasswordsDialog();
+            AlertWindow::showMessageBox(AlertWindow::WarningIcon,
+                                        "Mismatching passwords",
+                                        "The two password are not matching!");
             continue;
         }
 
@@ -226,18 +238,4 @@ void SetupPage::showChangePasswordDialog()
 
         canQuit = true;
     }
-}
-
-void SetupPage::showWrongPasswordDialog()
-{
-    AlertWindow::showMessageBox(AlertWindow::WarningIcon,
-                                "Wrong password",
-                                "Wrong password was given!");
-}
-
-void SetupPage::showDifferentPasswordsDialog()
-{
-    AlertWindow::showMessageBox(AlertWindow::WarningIcon,
-                                "Mismatching passwords",
-                                "The two password are not matching!");
 }

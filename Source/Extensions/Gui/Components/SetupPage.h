@@ -36,8 +36,6 @@ public:
 
 private:
     void showChangePasswordDialog();
-    void showWrongPasswordDialog();
-    void showDifferentPasswordsDialog();
 
     juce::ScopedPointer<juce::Label> infoStatistics;
     juce::ScopedPointer<juce::TextEditor> txtStatistics;
