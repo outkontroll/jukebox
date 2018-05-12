@@ -64,6 +64,14 @@ SetupPage::SetupPage()
     addAndMakeVisible(buttonChangePassword = new TextButton("change password button"));
     buttonChangePassword->setButtonText("Change password");
     buttonChangePassword->addListener(this);
+
+    addAndMakeVisible(toggleNoPassword = new ToggleButton("toggle no password"));
+    toggleNoPassword->setRadioGroupId(12);
+    toggleNoPassword->addListener(this);
+
+    addAndMakeVisible(togglePassword = new ToggleButton("toggle password"));
+    togglePassword->setRadioGroupId(12);
+    togglePassword->addListener(this);
 }
 
 SetupPage::~SetupPage()
@@ -71,6 +79,8 @@ SetupPage::~SetupPage()
     comboTimeToPlayASong->removeListener(this);
     comboTimeToSaveInsertedCoins->removeListener(this);
     buttonChangePassword->removeListener(this);
+    toggleNoPassword->removeListener(this);
+    togglePassword->removeListener(this);
 
     infoStatistics = nullptr;
     txtStatistics = nullptr;
@@ -78,6 +88,9 @@ SetupPage::~SetupPage()
     comboTimeToPlayASong = nullptr;
     infoTimeToSaveInsertedCoins = nullptr;
     comboTimeToSaveInsertedCoins = nullptr;
+    buttonChangePassword = nullptr;
+    toggleNoPassword = nullptr;
+    togglePassword = nullptr;
 }
 
 void SetupPage::paint(Graphics& g)
@@ -97,12 +110,14 @@ void SetupPage::parentSizeChanged()
 
     textPlace = calc.calculateTextPlace();
     infoStatistics->setBounds(10, 66, 100, 24);
-    txtStatistics->setBounds(10, 102, 600, 400);
+    txtStatistics->setBounds(calc.calculateStatisticsBounds());
     infoTimeToPlayASong->setBounds(10, 538, 250, 24);
     comboTimeToPlayASong->setBounds(276, 538, 40, 24);
     infoTimeToSaveInsertedCoins->setBounds(10, 574, 250, 24);
     comboTimeToSaveInsertedCoins->setBounds(266, 574, 50, 24);
     buttonChangePassword->setBounds(calc.calculateChangePasswordBounds());
+    toggleNoPassword->setBounds(calc.calculateNoPasswordToggleBounds());
+    togglePassword->setBounds(calc.calculatePasswordToggleBounds());
 }
 
 void SetupPage::buttonClicked(Button* button)
@@ -110,6 +125,16 @@ void SetupPage::buttonClicked(Button* button)
     if(button == buttonChangePassword)
     {
         showChangePasswordDialog();
+    }
+    else if(button == toggleNoPassword)
+    {
+        if(toggleNoPassword->getToggleState())
+            handleNoPasswordToggle();
+    }
+    else if(button == togglePassword)
+    {
+        if(togglePassword->getToggleState())
+            handlePasswordToggle();
     }
 }
 
@@ -168,11 +193,15 @@ void SetupPage::showStatistics(const std::string& statistics)
 
 void SetupPage::setPassword(const jukebox::Password* password_)
 {
+    togglePassword->setToggleState(true, dontSendNotification);
+    buttonChangePassword->setEnabled(true);
     password = password_;
 }
 
 void SetupPage::turnOffPassword()
 {
+    toggleNoPassword->setToggleState(true, dontSendNotification);
+    buttonChangePassword->setEnabled(false);
     password = nullptr;
 }
 
@@ -237,5 +266,52 @@ void SetupPage::showChangePasswordDialog()
         passwordChangedSignal(pw);
 
         canQuit = true;
+    }
+}
+
+void SetupPage::handleNoPasswordToggle()
+{
+    if(password == nullptr)
+        return;
+
+    AlertWindow passwordDialog("Password check",
+                               "To turn off password please enter the old password",
+                               AlertWindow::WarningIcon);
+
+    passwordDialog.addTextEditor ("text", "", "Password:", true);
+    passwordDialog.addButton ("OK",     1, KeyPress (KeyPress::returnKey, 0, 0));
+    passwordDialog.addButton ("Cancel", 0, KeyPress (KeyPress::escapeKey, 0, 0));
+
+    if (passwordDialog.runModalLoop() != 0)
+    {
+        auto text = passwordDialog.getTextEditorContents("text");
+        if(!password->isMatching(text))
+        {
+            AlertWindow::showMessageBox(AlertWindow::WarningIcon,
+                                        "Wrong password",
+                                        "Wrong password was given!");
+
+            togglePassword->setToggleState(true, dontSendNotification);
+            return;
+        }
+
+        passwordTurnedOffSignal();
+    }
+}
+
+void SetupPage::handlePasswordToggle()
+{
+    if(password != nullptr)
+        return;
+
+    showChangePasswordDialog();
+
+    if(password == nullptr)
+    {
+        toggleNoPassword->setToggleState(true, dontSendNotification);
+    }
+    else
+    {
+        buttonChangePassword->setEnabled(true);
     }
 }

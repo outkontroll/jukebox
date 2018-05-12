@@ -1,5 +1,6 @@
 #include <memory>
 #include <sstream>
+#include <cstdio>
 #include "gtest/gtest.h"
 #include "Core.h"
 #include "Logger.h"
@@ -21,7 +22,7 @@ using namespace std;
 
 struct CoreTest : public Test
 {    
-    void SetUp() override
+    void callableSetup(bool isPasswordSet)
     {
         auto filesys = make_unique<StrictMock<FileSystemMock>>();
         fileSystemMock = filesys.get();
@@ -41,15 +42,19 @@ struct CoreTest : public Test
         EXPECT_CALL(*settingsMock, getMusicDirectory()).Times(2).WillRepeatedly(Return("FakeMusicDirectory"));
         EXPECT_CALL(*settingsMock, getTimeToPlaySong()).WillOnce(Return(5000));
         EXPECT_CALL(*settingsMock, getTimeToSaveInsertedCoins()).Times(2).WillRepeatedly(Return(24 * 3600 * 1000));
-        EXPECT_CALL(*settingsMock, isPasswordSet()).WillOnce(Return(true));
-        EXPECT_CALL(*settingsMock, getPassword()).WillOnce(Return(&fakePassword));
+        EXPECT_CALL(*settingsMock, isPasswordSet()).WillOnce(Return(isPasswordSet));
+        if(isPasswordSet)
+            EXPECT_CALL(*settingsMock, getPassword()).WillOnce(Return(&fakePassword));
         //TODO check order of the calls as it matters
         EXPECT_CALL(*fileSystemMock, loadAlbums(std::string_view("FakeMusicDirectory")));
         EXPECT_CALL(*guiMock, setFileSystem(fileSystemMock));
         EXPECT_CALL(*guiMock, setMusicFolder("FakeMusicDirectory"));
         EXPECT_CALL(*guiMock, setTimeToPlaySong(5000));
         EXPECT_CALL(*guiMock, setTimeToSaveInsertedCoins(24 * 3600 * 1000));
-        EXPECT_CALL(*guiMock, setPassword(&fakePassword));
+        if(isPasswordSet)
+            EXPECT_CALL(*guiMock, setPassword(&fakePassword));
+        else
+            EXPECT_CALL(*guiMock, turnOffPassword());
         EXPECT_CALL(*statisticsMock, setSaveTimeout(24 * 3600 * 1000));
 
         core = make_unique<Core>(move(gui),
@@ -58,6 +63,11 @@ struct CoreTest : public Test
                                  move(statistics),
                                  move(settings),
                                  move(filesys));
+    }
+
+    void SetUp() override
+    {
+        callableSetup(true);
     }
 protected:
     unique_ptr<Core> core;
@@ -71,6 +81,15 @@ protected:
 
     jukebox::signals::Slot eventsSlot;
 };
+
+// no password
+
+TEST_F(CoreTest, WhenSettingsReadsNoPasswordIsSet_ThenGuiTurnsOffPassword)
+{
+    std::remove("settings.json");
+
+    callableSetup(false);
+}
 
 // insertCoin
 

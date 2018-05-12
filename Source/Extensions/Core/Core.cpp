@@ -57,9 +57,11 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     gui->setMusicFolder(settings->getMusicDirectory());
     gui->setTimeToPlaySong(settings->getTimeToPlaySong());
     gui->setTimeToSaveInsertedCoins(settings->getTimeToSaveInsertedCoins());
+    statistics->setSaveTimeout(settings->getTimeToSaveInsertedCoins());
     if(settings->isPasswordSet())
         gui->setPassword(settings->getPassword());
-    statistics->setSaveTimeout(settings->getTimeToSaveInsertedCoins());
+    else
+        gui->turnOffPassword();
 }
 
 void Core::coinInserted50()

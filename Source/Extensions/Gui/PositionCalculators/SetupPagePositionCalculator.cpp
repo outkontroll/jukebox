@@ -3,6 +3,18 @@
 using namespace jukebox::gui;
 using namespace juce;
 
+SetupPagePositionCalculator::SetupPagePositionCalculator(int width_, int height_, float fontSize_) :
+    width(width_),
+    height(height_),
+    fontSize(fontSize_),
+    offsetX(static_cast<int>(width * 0.016f)),
+    offsetY(static_cast<int>(height / 43.75f)),
+    statisticsWidth(width / 3 * 2),
+    statisticsHeight(height / 5 * 3),
+    rightWidth(width - statisticsWidth - offsetX * 3)
+{
+}
+
 juce::Rectangle<float> SetupPagePositionCalculator::calculateTextPlace() const
 {
     const float xPosition = width / 2;
@@ -13,16 +25,44 @@ juce::Rectangle<float> SetupPagePositionCalculator::calculateTextPlace() const
     return { xPosition, yPosition, textWidth, textHeight };
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateChangePasswordBounds() const
+juce::Rectangle<int> SetupPagePositionCalculator::calculateStatisticsBounds() const
 {
-    const int offsetX(static_cast<int>(width * 0.016f));
-    const int canvasTop(static_cast<int>(height / 43.75f));
+    const int xPosition = offsetX;
+    const int yPosition = offsetY * 3 + static_cast<int>(fontSize) * 2;
 
-    const int xPosition = static_cast<int>(width / 2) + offsetX;
-    const int yPosition = canvasTop;
+    return {xPosition, yPosition, statisticsWidth, statisticsHeight};
+}
 
-    const int buttonWidth = static_cast<int>(fontSize) * 20;
+juce::Rectangle<int> SetupPagePositionCalculator::calculateNoPasswordToggleBounds() const
+{
+    const int xPosition = statisticsWidth + offsetX * 2;
+    const int yPosition = statisticsHeight + offsetY * 1 - static_cast<int>(fontSize);
+
+    const int buttonWidth = rightWidth;
     const int buttonHeight = static_cast<int>(fontSize);
 
     return {xPosition, yPosition, buttonWidth, buttonHeight};
 }
+
+juce::Rectangle<int> SetupPagePositionCalculator::calculatePasswordToggleBounds() const
+{
+    const int xPosition = statisticsWidth + offsetX * 2;
+    const int yPosition = statisticsHeight + offsetY * 2;
+
+    const int buttonWidth = rightWidth;
+    const int buttonHeight = static_cast<int>(fontSize);
+
+    return {xPosition, yPosition, buttonWidth, buttonHeight};
+}
+
+juce::Rectangle<int> SetupPagePositionCalculator::calculateChangePasswordBounds() const
+{
+    const int xPosition = statisticsWidth + offsetX * 2;
+    const int yPosition = statisticsHeight + offsetY * 3 + static_cast<int>(fontSize);
+
+    const int buttonWidth = rightWidth;
+    const int buttonHeight = static_cast<int>(fontSize);
+
+    return {xPosition, yPosition, buttonWidth, buttonHeight};
+}
+

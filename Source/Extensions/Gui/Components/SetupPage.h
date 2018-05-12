@@ -36,6 +36,8 @@ public:
 
 private:
     void showChangePasswordDialog();
+    void handleNoPasswordToggle();
+    void handlePasswordToggle();
 
     juce::ScopedPointer<juce::Label> infoStatistics;
     juce::ScopedPointer<juce::TextEditor> txtStatistics;
@@ -44,6 +46,8 @@ private:
     juce::ScopedPointer<juce::Label> infoTimeToSaveInsertedCoins;
     juce::ScopedPointer<juce::ComboBox> comboTimeToSaveInsertedCoins;
     juce::ScopedPointer<juce::TextButton> buttonChangePassword;
+    juce::ScopedPointer<juce::ToggleButton> toggleNoPassword;
+    juce::ScopedPointer<juce::ToggleButton> togglePassword;
 
     juce::Rectangle<float> textPlace = {0, 0, 0, 0};
 
