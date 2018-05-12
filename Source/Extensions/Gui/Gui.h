@@ -92,7 +92,6 @@ private:
     bool isInMultipleAlbumsMode = true;
     bool isInMusicSetupMode = true;
     jukebox::filesystem::IFileSystem* fileSys = nullptr;
-    const jukebox::Password* password = nullptr;
 };
 
 }}

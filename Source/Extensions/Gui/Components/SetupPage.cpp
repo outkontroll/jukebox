@@ -171,6 +171,11 @@ void SetupPage::setPassword(const jukebox::Password* password_)
     password = password_;
 }
 
+void SetupPage::turnOffPassword()
+{
+    password = nullptr;
+}
+
 void SetupPage::showChangePasswordDialog()
 {
     juce::String title = password != nullptr ? "Change password" : "New password";
@@ -225,9 +230,9 @@ void SetupPage::showChangePasswordDialog()
 
 void SetupPage::showWrongPasswordDialog()
 {
-    AlertWindow::showMessageBoxAsync(AlertWindow::WarningIcon,
-                                     "Wrong password",
-                                     "Wrong password was given!");
+    AlertWindow::showMessageBox(AlertWindow::WarningIcon,
+                                "Wrong password",
+                                "Wrong password was given!");
 }
 
 void SetupPage::showDifferentPasswordsDialog()

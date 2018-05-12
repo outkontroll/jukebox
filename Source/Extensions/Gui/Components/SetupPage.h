@@ -27,10 +27,12 @@ public:
     virtual void setTimeToSaveInsertedCoins(int millisecs);
     virtual void showStatistics(const std::string& statistics);
     virtual void setPassword(const jukebox::Password* password);
+    virtual void turnOffPassword();
 
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
     jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
     jukebox::signals::Signal<const jukebox::Password&> passwordChangedSignal;
+    jukebox::signals::Signal<> passwordTurnedOffSignal;
 
 private:
     void showChangePasswordDialog();

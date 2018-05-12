@@ -68,6 +68,21 @@ TEST_F(GuiTest, WhenSetTimeToSaveInsertedCoinsIsCalled_ThenTheSameIsCalledOnMain
     gui->setTimeToSaveInsertedCoins(12000);
 }
 
+TEST_F(GuiTest, WhenSetPasswordIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    Password password("fakePassword");
+    EXPECT_CALL(*mainComponentMock, setPassword(&password));
+
+    gui->setPassword(&password);
+}
+
+TEST_F(GuiTest, WhenTurnOffPasswordIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    EXPECT_CALL(*mainComponentMock, turnOffPassword());
+
+    gui->turnOffPassword();
+}
+
 TEST_F(GuiTest, WhenSetCurrentlyPlayedSongIsCalled_ThenTheSameAndStatusUpdateIsCalledOnMainComponent)
 {
     Song song{1, 1, "fakeFileName", "fakeVisibleName"};

@@ -130,6 +130,9 @@ MainComponent::MainComponent ()
     addChildComponent(musicSetupCanvas = new jukebox::gui::MusicSetupCanvas);
     eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, musicSetupCanvas->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &MainComponent::onTimeToPlayASongChanged, setupPage->timeToPlayASongChangedSignal);
+    eventsSlot.connect(this, &MainComponent::onTimeToSaveInsertedCoinsChanged, setupPage->timeToSaveInsertedCoinsChangedSignal);
+    eventsSlot.connect(this, &MainComponent::onPasswordChanged, setupPage->passwordChangedSignal);
+    eventsSlot.connect(this, &MainComponent::onPasswordTurnedOff, setupPage->passwordTurnedOffSignal);
     eventsSlot.connect(this, &MainComponent::grabFocus, musicSetupCanvas->lostFocusSignal);
 
     //[/UserPreSize]
@@ -300,6 +303,18 @@ void MainComponent::setTimeToSaveInsertedCoins(int millisecs)
     setupPage->setTimeToSaveInsertedCoins(millisecs);
 }
 
+void MainComponent::setPassword(const Password* password_)
+{
+    password = password_;
+    setupPage->setPassword(password);
+}
+
+void MainComponent::turnOffPassword()
+{
+    password = nullptr;
+    setupPage->turnOffPassword();
+}
+
 void MainComponent::switchBetweenUserModes()
 {
     musicSetupCanvas->setVisible(!musicSetupCanvas->isVisible() && !setupPage->isVisible());
@@ -376,13 +391,22 @@ void MainComponent::onMusicDirectoryChanged(const std::string& musicDirectory)
 
 void MainComponent::onTimeToPlayASongChanged(int millisecs)
 {
-    //TODO move?
     timeToPlayASongChangedSignal(std::move(millisecs));
 }
 
 void MainComponent::onTimeToSaveInsertedCoinsChanged(int millisecs)
 {
     timeToSaveInsertedCoinsChangedSignal(std::move(millisecs));
+}
+
+void MainComponent::onPasswordChanged(const Password& password_)
+{
+    passwordChangedSignal(password_);
+}
+
+void MainComponent::onPasswordTurnedOff()
+{
+    passwordTurnedOffSignal();
 }
 
 void MainComponent::grabFocus()
@@ -396,8 +420,11 @@ void MainComponent::prepareForExit()
     listBoxPlayQueue->clear();
 }
 
-bool MainComponent::showPasswordQuestion(const Password& password)
+bool MainComponent::showPasswordQuestion()
 {
+    if(password == nullptr)
+        return true;
+
     bool needFocus = true;
     std::unique_ptr<bool, std::function<void(bool*)>> p(&needFocus, [this](bool*){
         grabFocus();
@@ -414,7 +441,7 @@ bool MainComponent::showPasswordQuestion(const Password& password)
     if (passwordDialog.runModalLoop() != 0) // is they picked 'ok'
     {
         auto text = passwordDialog.getTextEditorContents("text");
-        return password.isMatching(text);
+        return password->isMatching(text);
     }
 
     return false;

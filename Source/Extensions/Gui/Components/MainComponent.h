@@ -81,6 +81,8 @@ public:
     virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void setTimeToPlayASong(int millisecs);
     virtual void setTimeToSaveInsertedCoins(int millisecs);
+    virtual void setPassword(const jukebox::Password* password);
+    virtual void turnOffPassword();
     virtual void switchBetweenUserModes();
     virtual void switchBetweenAlbumViews();
     virtual void switchBetweenAdministratorViews();
@@ -93,7 +95,7 @@ public:
     virtual void showStatistics(const std::string& statistics);
     virtual void prepareForExit();
 
-    virtual bool showPasswordQuestion(const jukebox::Password& passwordToMatch);
+    virtual bool showPasswordQuestion();
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -113,11 +115,14 @@ private:
     void onMusicDirectoryChanged(const std::string& musicDirectory);
     void onTimeToPlayASongChanged(int);
     void onTimeToSaveInsertedCoinsChanged(int);
+    void onPasswordChanged(const jukebox::Password& password);
+    void onPasswordTurnedOff();
     void grabFocus();
 
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBoxPlayQueue;
     ScopedPointer<jukebox::JukeboxTimer> timerBetweenSongs;
     bool focusInitialised;
+    const jukebox::Password* password = nullptr;
     jukebox::signals::Slot eventsSlot;
     //[/UserVariables]
 

@@ -211,14 +211,14 @@ void Gui::setTimeToSaveInsertedCoins(int millisecs)
     mainComponent->setTimeToSaveInsertedCoins(millisecs);
 }
 
-void Gui::setPassword(const Password* password_)
+void Gui::setPassword(const Password* password)
 {
-    password = password_;
+    mainComponent->setPassword(password);
 }
 
 void Gui::turnOffPassword()
 {
-    password = nullptr;
+    mainComponent->turnOffPassword();
 }
 
 void Gui::setCurrentlyPlayedSong(const audio::Song& song)
@@ -260,8 +260,7 @@ void Gui::switchBetweenUserModes()
 {
     if(isInUserMode)
     {
-        if(password != nullptr &&
-           !mainComponent->showPasswordQuestion(*password))
+        if(!mainComponent->showPasswordQuestion())
         {
             showStatusMessage(ResourceId::ErrorWrongPassword);
             return;

@@ -225,6 +225,7 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallsSwitchBetwee
 
 TEST_F(GuiTest, GivenGuiIsInSetupState_WhenMainComponentSendsKeyPressedSignalH_ThenGuiCallSwitchBetweenAdministratorViews)
 {
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion()).WillOnce(Return(true));
     EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     EXPECT_CALL(*mainComponentMock, switchBetweenAdministratorViews());
     mainComponentMock->keyPressedSignal(keyEsc);
@@ -244,35 +245,22 @@ TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalF4_ThenGuiSignalsExitReque
 
 TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsGoodPassword_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchesUserMode)
 {
-    Password password("fakePassword");
-    gui->setPassword(&password);
-    EXPECT_CALL(*mainComponentMock, showPasswordQuestion(password)).WillOnce(Return(true));
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion()).WillOnce(Return(true));
     EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     mainComponentMock->keyPressedSignal(keyEsc);
 }
 
 TEST_F(GuiTest, GivenPasswordIsSetAndMainComponentTellsWrongPassword_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiStaysInSameUserModeAndShowsError)
 {
-    Password password("fakePassword");
-    gui->setPassword(&password);
-
-    EXPECT_CALL(*mainComponentMock, showPasswordQuestion(password)).WillOnce(Return(false));
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion()).WillOnce(Return(false));
     const juce::String errorWrongPassword(Resources::getResourceStringFromId(ResourceId::ErrorWrongPassword));
     EXPECT_CALL(*mainComponentMock, showStatusMessage(errorWrongPassword));
     mainComponentMock->keyPressedSignal(keyEsc);
 }
 
-TEST_F(GuiTest, GivenPasswordIsSetThenTurnedOff_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchesUserMode)
-{
-    Password password("fakePassword");
-    gui->setPassword(&password);
-    gui->turnOffPassword();
-    EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
-    mainComponentMock->keyPressedSignal(keyEsc);
-}
-
 TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiCallsSwitchBetweenUserModeViewsAndSignalsUpdateStatistics)
 {
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion()).WillOnce(Return(true));
     /*StrictMock<*/FooMock/*>*/ fooMock;
     eventsSlot.connect(&fooMock, &FooMock::foo, gui->requestStatisticsSignal);
 
@@ -284,6 +272,7 @@ TEST_F(GuiTest, GivenGuiIsInMultipleAlbumsState_WhenMainComponentSendsKeyPressed
 
 TEST_F(GuiTest, GivenGuiIsInSingleAlbumState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiCallsSwitchBetweenUserModeViewsAndSignalsUpdateStatistics)
 {
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion()).WillOnce(Return(true));
     /*StrictMock<*/FooMock/*>*/ fooMock;
     eventsSlot.connect(&fooMock, &FooMock::foo, gui->requestStatisticsSignal);
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
@@ -297,6 +286,7 @@ TEST_F(GuiTest, GivenGuiIsInSingleAlbumState_WhenMainComponentSendsKeyPressedSig
 
 TEST_F(GuiTest, GivenGuiWasInMultipleAlbumsStateAndIsInSetupState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchBackToMultipleAlbumsState)
 {
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion()).WillOnce(Return(true));
     EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
     mainComponentMock->keyPressedSignal(keyEsc);
 
@@ -306,6 +296,7 @@ TEST_F(GuiTest, GivenGuiWasInMultipleAlbumsStateAndIsInSetupState_WhenMainCompon
 
 TEST_F(GuiTest, GivenGuiWasInSingleAlbumStateAndIsInSetupState_WhenMainComponentSendsKeyPressedSignalEsc_ThenGuiSwitchBackToSingleAlbumState)
 {
+    EXPECT_CALL(*mainComponentMock, showPasswordQuestion()).WillOnce(Return(true));
     EXPECT_CALL(*mainComponentMock, switchBetweenAlbumViews());
     mainComponentMock->keyPressedSignal(keyH);
     EXPECT_CALL(*mainComponentMock, switchBetweenUserModes());
