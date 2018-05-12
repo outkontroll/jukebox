@@ -1,6 +1,7 @@
 #include "MusicSetupCanvas.h"
 #include "MusicSetupCanvasPositionCalculator.h"
 #include "Song.h"
+#include "StdAddons.hpp"
 
 using namespace jukebox::gui;
 using namespace jukebox::audio;
@@ -46,17 +47,79 @@ MusicSetupCanvas::MusicSetupCanvas()
 
     addAndMakeVisible(imagePreview);
     imagePreview.setImagePlacement(RectanglePlacement(RectanglePlacement::stretchToFit));
+
+    addChildComponent(infoArtist = new Label("artist label", "Artist"));
+    infoArtist->setFont (Font (smallFontSize, Font::plain));
+    infoArtist->setJustificationType (Justification::centredLeft);
+    infoArtist->setEditable (false, false, false);
+    infoArtist->setColour (TextEditor::textColourId, Colours::black);
+    infoArtist->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addChildComponent(txtArtist = new TextEditor("artist text"));
+    txtArtist->setFont(Font(smallFontSize, Font::plain));
+    txtArtist->setMultiLine(false);
+    txtArtist->setReturnKeyStartsNewLine(false);
+    txtArtist->setReadOnly(true);
+    txtArtist->setScrollbarsShown(false);
+    txtArtist->setCaretVisible(false);
+    txtArtist->setPopupMenuEnabled(true);
+    txtArtist->setText(String());
+    txtArtist->setEscapeAndReturnKeysConsumed(false);
+
+    addChildComponent(infoTitle = new Label("title label", "Title"));
+    infoTitle->setFont (Font (smallFontSize, Font::plain));
+    infoTitle->setJustificationType (Justification::centredLeft);
+    infoTitle->setEditable (false, false, false);
+    infoTitle->setColour (TextEditor::textColourId, Colours::black);
+    infoTitle->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addChildComponent(txtTitle = new TextEditor("title text"));
+    txtTitle->setFont(Font(smallFontSize, Font::plain));
+    txtTitle->setMultiLine(false);
+    txtTitle->setReturnKeyStartsNewLine(false);
+    txtTitle->setReadOnly(true);
+    txtTitle->setScrollbarsShown(false);
+    txtTitle->setCaretVisible(false);
+    txtTitle->setPopupMenuEnabled(true);
+    txtTitle->setText(String());
+    txtTitle->setEscapeAndReturnKeysConsumed(false);
+
+    addChildComponent(infoSongNames = new Label("song names label", "Song names"));
+    infoSongNames->setFont (Font (smallFontSize, Font::plain));
+    infoSongNames->setJustificationType (Justification::centredLeft);
+    infoSongNames->setEditable (false, false, false);
+    infoSongNames->setColour (TextEditor::textColourId, Colours::black);
+    infoSongNames->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addChildComponent(txtSongNames = new TextEditor("song names text"));
+    txtSongNames->setFont(Font(smallFontSize, Font::plain));
+    txtSongNames->setMultiLine(true);
+    txtSongNames->setReturnKeyStartsNewLine(false);
+    txtSongNames->setReadOnly(true);
+    txtSongNames->setScrollbarsShown(true);
+    txtSongNames->setCaretVisible(false);
+    txtSongNames->setPopupMenuEnabled(true);
+    txtSongNames->setText(String());
+    txtSongNames->setEscapeAndReturnKeysConsumed(false);
 }
 
 MusicSetupCanvas::~MusicSetupCanvas()
 {
     treeMusicDir->removeListener(this);
+    buttonImport->removeListener(this);
+    buttonMusicDirectory->removeListener(this);
 
     infoMusicDirectory = nullptr;
     txtMusicDirectory = nullptr;
     buttonMusicDirectory = nullptr;
     buttonImport = nullptr;
     treeMusicDir = nullptr;
+    infoArtist = nullptr;
+    txtArtist = nullptr;
+    infoTitle = nullptr;
+    txtTitle = nullptr;
+    infoSongNames = nullptr;
+    txtSongNames = nullptr;
 }
 
 void MusicSetupCanvas::paint(Graphics& g)
@@ -80,6 +143,12 @@ void MusicSetupCanvas::parentSizeChanged()
     treeMusicDir->setBounds(calc.calculateTreeMusicDirectoryBounds());
     buttonImport->setBounds(calc.calculateButtonImportBounds());
     imagePreview.setBounds(calc.calculateImagePreviewBounds());
+    infoArtist->setBounds(calc.calculateInfoArtistBounds());
+    txtArtist->setBounds(calc.calculateTextArtistBounds());
+    infoTitle->setBounds(calc.calculateInfoTitleBounds());
+    txtTitle->setBounds(calc.calculateTextTitleBounds());
+    infoSongNames->setBounds(calc.calculateInfoSongsBounds());
+    txtSongNames->setBounds(calc.calculateTextSongsBounds());
 }
 
 void MusicSetupCanvas::setMusicDirectory(const std::string& musicDirectory)
@@ -126,22 +195,12 @@ void MusicSetupCanvas::selectionChanged()
 
     const AlbumInfo& albumInfo = albums->at(albumId - 1);
 
-    if(!albumInfo.imagePath.empty())
+    if(parentDir.isDirectory() &&
+       parentDir != currentVisibleDirectory)
     {
-        if(parentDir.isDirectory() &&
-           parentDir != currentVisibleDirectory)
-        {
-            currentVisibleDirectory = parentDir;
-            imagePreview.setImage (juce::ImageCache::getFromFile (juce::File(albumInfo.imagePath)));
-            if(!imagePreview.isVisible())
-                imagePreview.setVisible(true);
-        }
-    }
-    else
-    {
-        if(parentDir.isDirectory() &&
-           parentDir != currentVisibleDirectory)
-            imagePreview.setVisible(false);
+        currentVisibleDirectory = parentDir;
+        loadImage(albumInfo);
+        loadTextFile(albumInfo);
     }
 }
 
@@ -163,11 +222,6 @@ void MusicSetupCanvas::selectMusicDirectory()
     lostFocusSignal();
 }
 
-bool MusicSetupCanvas::isImageFile(const File& file) const
-{
-    return file.existsAsFile() && file.getFileExtension().containsWholeWord("jpg");
-}
-
 void MusicSetupCanvas::importMusicDirectory()
 {
     auto fc = FileChooser("Choose a music directory to import...",
@@ -182,4 +236,50 @@ void MusicSetupCanvas::importMusicDirectory()
 
         name.toStdString();
     }
+}
+
+void MusicSetupCanvas::loadImage(const AlbumInfo& albumInfo)
+{
+    if(!albumInfo.imagePath.empty())
+    {
+
+        imagePreview.setImage (ImageCache::getFromFile(File(albumInfo.imagePath)));
+        if(!imagePreview.isVisible())
+            imagePreview.setVisible(true);
+    }
+    else
+    {
+        imagePreview.setVisible(false);
+    }
+}
+
+void MusicSetupCanvas::loadTextFile(const audio::AlbumInfo& albumInfo)
+{
+    if(!albumInfo.textFilePath.empty())
+    {
+        txtArtist->setText(albumInfo.artist);
+        txtTitle->setText(albumInfo.title);
+
+        const juce::String songNames = std_addons::accumulate(albumInfo.songs, String{""}, [](const String& text, const Song& song){
+           return text + song.visibleName + "\n";
+        });
+        txtSongNames->setText(songNames);
+
+        infoArtist->setVisible(true);
+        txtArtist->setVisible(true);
+        infoTitle->setVisible(true);
+        txtTitle->setVisible(true);
+        infoSongNames->setVisible(true);
+        txtSongNames->setVisible(true);
+    }
+    else
+    {
+        infoArtist->setVisible(false);
+        txtArtist->setVisible(false);
+        infoTitle->setVisible(false);
+        txtTitle->setVisible(false);
+        infoSongNames->setVisible(false);
+        txtSongNames->setVisible(false);
+    }
+
 }

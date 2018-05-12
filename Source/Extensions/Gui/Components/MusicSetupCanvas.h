@@ -38,13 +38,20 @@ private:
     void browserRootChanged (const juce::File&) override {}
 
     void selectMusicDirectory();
-    bool isImageFile(const juce::File&) const;
     void importMusicDirectory();
+    void loadImage(const audio::AlbumInfo& albumInfo);
+    void loadTextFile(const audio::AlbumInfo& albumInfo);
 
     juce::ScopedPointer<juce::Label> infoMusicDirectory;
     juce::ScopedPointer<juce::TextEditor> txtMusicDirectory;
     juce::ScopedPointer<juce::TextButton> buttonMusicDirectory;
     juce::ScopedPointer<juce::TextButton> buttonImport;
+    juce::ScopedPointer<juce::Label> infoArtist;
+    juce::ScopedPointer<juce::TextEditor> txtArtist;
+    juce::ScopedPointer<juce::Label> infoTitle;
+    juce::ScopedPointer<juce::TextEditor> txtTitle;
+    juce::ScopedPointer<juce::Label> infoSongNames;
+    juce::ScopedPointer<juce::TextEditor> txtSongNames;
 
     juce::ScopedPointer<juce::FileTreeComponent> treeMusicDir;
     juce::TimeSliceThread directoryThread{ "Music File Scanner Thread" };
