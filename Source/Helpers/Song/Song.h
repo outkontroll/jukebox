@@ -45,13 +45,14 @@ struct AlbumInfo
 {
     inline bool operator==(const AlbumInfo& other) const
     {
-        return id == other.id && title == other.title && artist == other.artist && imagePath == other.imagePath && songs == other.songs;
+        return id == other.id && title == other.title && artist == other.artist && imagePath == other.imagePath && textFilePath == other.textFilePath && songs == other.songs;
     }
 
     const std::vector<Song> songs;
     const std::string title;
     const std::string artist;
     const std::string imagePath;
+    const std::string textFilePath;
     const unsigned int id;
 };
 

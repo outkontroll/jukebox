@@ -25,8 +25,8 @@ namespace {
     const Song song1{1, 1, "FakeFileName", "fakeVisibleName"};
     const Song song2{1, 2, "FakeFileName", "fakeVisibleName"};
     const Song song3{1, 3, "FakeFileName", "fakeVisibleName"};
-    const std::vector<AlbumInfo> fakeAlbums16(16, {{song1, song2, song3}, "", "", "", 1});
-    const std::vector<AlbumInfo> fakeAlbumsEmptySongs(1, {{}, "", "", "", 1});
+    const std::vector<AlbumInfo> fakeAlbums16(16, {{song1, song2, song3}, "", "", "", "", 1});
+    const std::vector<AlbumInfo> fakeAlbumsEmptySongs(1, {{}, "", "", "", "", 1});
 
     //apparently the first parameter can be anything as long as the last one is the correct char and the second is zero
     const juce::KeyPress keyC(0, 0, 'c');

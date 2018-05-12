@@ -20,7 +20,7 @@ public:
     const std::vector<jukebox::audio::AlbumInfo>& getAlbums() const override;
 private:
     jukebox::audio::AlbumInfo loadAlbum(const juce::File& albumDirectory);
-    std::tuple<std::vector<std::string>, std::string> readInfoFile(const juce::File& albumDirectory);
+    std::tuple<std::vector<std::string>, std::string, std::string> readInfoFile(const juce::File& albumDirectory);
 
     std::vector<jukebox::audio::AlbumInfo> albums;
 };

@@ -13,7 +13,7 @@ namespace {
     constexpr unsigned int testCredits = 12;
     constexpr int defaultSelectedAlbumIndex = 1;
     constexpr int defaultSelectedSongIndex = 0;
-    const std::vector<AlbumInfo> fakeAlbums16(16, {{{}, {}, {}}, "", "", "", 1});
+    const std::vector<AlbumInfo> fakeAlbums16(16, {{{}, {}, {}}, "", "", "", "", 1});
 }
 
 TEST(GuiTest1, baseClassCtorDtor)

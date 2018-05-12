@@ -64,7 +64,7 @@ AlbumInfo FileSystem::loadAlbum(const File& albumDirectory)
 
     const unsigned int albumIndex = static_cast<unsigned int>(std::atoi(albumDirectory.getFileName().toStdString().c_str()));
 
-    const auto [songNames, artistName] = readInfoFile(albumDirectory);
+    const auto [songNames, artistName, txtFilePath] = readInfoFile(albumDirectory);
 
     std::vector<jukebox::audio::Song> songs;
     songs.reserve(99);
@@ -95,10 +95,10 @@ AlbumInfo FileSystem::loadAlbum(const File& albumDirectory)
         imagePath = songFiles.begin()->getFullPathName().toStdString();
     }
 
-    return {songs, "", artistName, imagePath, albumIndex};
+    return {songs, "", artistName, imagePath, txtFilePath, albumIndex};
 }
 
-auto FileSystem::readInfoFile(const juce::File& albumDirectory) -> std::tuple<std::vector<std::string>, std::string>
+auto FileSystem::readInfoFile(const juce::File& albumDirectory) -> std::tuple<std::vector<std::string>, std::string, std::string>
 {
     std::vector<std::string> songNames;
     std::string artistName = "";
@@ -107,9 +107,10 @@ auto FileSystem::readInfoFile(const juce::File& albumDirectory) -> std::tuple<st
     if(albumDirectory.findChildFiles(results, File::TypesOfFileToFind::findFiles, false, infoFilePattern) <= 0)
     {
         LOG_WARNING("Could not find any file with pattern \"" << infoFilePattern << "\" in the album " << albumDirectory.getFullPathName());
-        return std::tie(songNames, artistName);
+        return std::tie(songNames, artistName, "");
     }
 
+    const std::string txtFileName = results[0].getFullPathName().toStdString();
     StringArray lines;
     results[0].readLines(lines);
 
@@ -130,5 +131,5 @@ auto FileSystem::readInfoFile(const juce::File& albumDirectory) -> std::tuple<st
         });
     }
 
-    return std::tie(songNames, artistName);
+    return std::tie(songNames, artistName, txtFileName);
 }
