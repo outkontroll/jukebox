@@ -453,10 +453,19 @@ void Gui::playAlbumWithDelay(unsigned int albumNumber)
 {
     const unsigned int albumIndex = albumNumber - 1;
     const auto& albums = fileSys->getAlbums();
-    if(albumIndex >= albums.size() ||
-       albums[albumIndex].songs.empty())
+    if(albumIndex >= albums.size())
     {
-        showStatusMessage(ResourceId::ErrorDuringAlbumPlaying);
+        showStatusMessage(ResourceId::ErrorAlbumNotExists);
+
+        userInputSongNumber = "";
+        mainComponent->setCurrentUserInputNumber(userInputSongNumber);
+
+        return;
+    }
+
+    if(albums[albumIndex].songs.empty())
+    {
+        showStatusMessage(ResourceId::ErrorAlbumEmpty);
 
         userInputSongNumber = "";
         mainComponent->setCurrentUserInputNumber(userInputSongNumber);

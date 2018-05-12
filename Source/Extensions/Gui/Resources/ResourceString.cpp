@@ -11,6 +11,8 @@ namespace {
     const char* ErrorDuringSongPlaying = "An unexpected error occured during playing song: ";
     const char* ErrorDuringAlbumPlaying = "An unexpected error occured during playing album: ";
     const char* ErrorSongNotExists = "The given song is not existing!";
+    const char* ErrorAlbumNotExists = "The given album is not existing!";
+    const char* ErrorAlbumEmpty = "The given album does not contain any song!";
     const char* WarningNotPlayingSong = "Music already stopped!";
     const char* ErrorImageNotFound = "Image not available";
     const char* ErrorNegativeNumber = "Negative values are not accepted!";
@@ -30,6 +32,8 @@ std::string Resources::getResourceStringFromId(jukebox::ResourceId resourceId)
     case ResourceId::ErrorDuringSongPlaying: return ErrorDuringSongPlaying;
     case ResourceId::ErrorDuringAlbumPlaying: return ErrorDuringAlbumPlaying;
     case ResourceId::ErrorSongNotExists: return ErrorSongNotExists;
+    case ResourceId::ErrorAlbumNotExists: return ErrorAlbumNotExists;
+    case ResourceId::ErrorAlbumEmpty: return ErrorAlbumEmpty;
     case ResourceId::WarningNotPlayingSong: return WarningNotPlayingSong;
     case ResourceId::ErrorImageNotFound: return ErrorImageNotFound;
     case ResourceId::ErrorNegativeNumber: return ErrorNegativeNumber;

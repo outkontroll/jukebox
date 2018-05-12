@@ -495,7 +495,7 @@ TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainComponent
     mainComponentMock->keyPressedSignal(keyNumber0);
 
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_));
-    const juce::String errorDuringAlbumPlaying(Resources::getResourceStringFromId(ResourceId::ErrorDuringAlbumPlaying));
+    const juce::String errorDuringAlbumPlaying(Resources::getResourceStringFromId(ResourceId::ErrorAlbumNotExists));
     EXPECT_CALL(*mainComponentMock, showStatusMessage(errorDuringAlbumPlaying));
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
 
@@ -515,7 +515,7 @@ TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainComponent
     mainComponentMock->keyPressedSignal(keyNumber0);
 
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(_));
-    const juce::String errorDuringAlbumPlaying(Resources::getResourceStringFromId(ResourceId::ErrorDuringAlbumPlaying));
+    const juce::String errorDuringAlbumPlaying(Resources::getResourceStringFromId(ResourceId::ErrorAlbumEmpty));
     EXPECT_CALL(*mainComponentMock, showStatusMessage(errorDuringAlbumPlaying));
     EXPECT_CALL(*mainComponentMock, setCurrentUserInputNumber(emptyString));
 

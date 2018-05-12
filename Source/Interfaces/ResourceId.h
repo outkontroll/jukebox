@@ -10,6 +10,8 @@ enum class ResourceId
     ErrorDuringSongPlaying,
     ErrorDuringAlbumPlaying,
     ErrorSongNotExists,
+    ErrorAlbumNotExists,
+    ErrorAlbumEmpty,
     WarningNotPlayingSong,
     ErrorImageNotFound,
     ErrorNegativeNumber,

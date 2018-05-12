@@ -14,6 +14,8 @@ namespace {
     const char* ErrorDuringSongPlaying = "An unexpected error occured during playing song: ";
     const char* ErrorDuringAlbumPlaying = "An unexpected error occured during playing album: ";
     const char* ErrorSongNotExists = "The given song is not existing!";
+    const char* ErrorAlbumNotExists = "The given album is not existing!";
+    const char* ErrorAlbumEmpty = "The given album does not contain any song!";
     const char* WarningNotPlayingSong = "Music already stopped!";
     const char* ErrorImageNotFound = "Image not available";
     const char* ErrorNegativeNumber = "Negative values are not accepted!";
@@ -31,6 +33,8 @@ TEST(ResourceStringTest, strings)
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorDuringSongPlaying), StrEq(ErrorDuringSongPlaying));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorFewCreditsSong), StrEq(ErrorFewCreditsSong));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorSongNotExists), StrEq(ErrorSongNotExists));
+    ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorAlbumNotExists), StrEq(ErrorAlbumNotExists));
+    ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorAlbumEmpty), StrEq(ErrorAlbumEmpty));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::WarningNotPlayingSong), StrEq(WarningNotPlayingSong));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorImageNotFound), StrEq(ErrorImageNotFound));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorNegativeNumber), StrEq(ErrorNegativeNumber));
