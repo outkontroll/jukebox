@@ -29,6 +29,7 @@ public:
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(ResourceId messageId) override;
     void showStatistics(const std::string& statistics) override;
+    void refreshAlbums() override;
 
     void setFileSystem(jukebox::filesystem::IFileSystem* filesys) override;
     void setMusicFolder(const std::string& folder) override;
@@ -68,6 +69,7 @@ private:
     void timeToSaveInsertedCoinsChanged(int millisecs);
     void passwordChanged(const jukebox::Password& password);
     void passwordTurnedOff();
+    void albumImportRequested(const std::string& albumToImport);
 
     void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
     void playAlbumWithDelay(unsigned int albumNumber);

@@ -19,6 +19,7 @@ namespace {
     const char* ErrorNegativeNumber = "Negative values are not accepted!";
     const char* ErrorWrongNumber = "Wrong number!";
     const char* ErrorWrongPassword = "Wrong password!";
+    const char* ErrorDuringAlbumImport = "Could not import the directory!";
     const char* Playing = "Playing";
     const char* DefaultArtistName = "Selection Album";
 }
@@ -35,6 +36,7 @@ TEST(ResourceStringTest, strings)
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorNegativeNumber), StrEq(ErrorNegativeNumber));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorWrongNumber), StrEq(ErrorWrongNumber));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorWrongPassword), StrEq(ErrorWrongPassword));
+    ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::ErrorDuringAlbumImport), StrEq(ErrorDuringAlbumImport));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::Playing), StrEq(Playing));
     ASSERT_THAT(Resources::getResourceStringFromId(ResourceId::DefaultArtistName), StrEq(DefaultArtistName));
     ASSERT_THAT(Resources::getResourceStringFromId(static_cast<ResourceId>(20)), StrEq(UnknownError));

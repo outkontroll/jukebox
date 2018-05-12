@@ -70,7 +70,7 @@ public:
     jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
     jukebox::signals::Signal<const jukebox::Password&> passwordChangedSignal;
     jukebox::signals::Signal<> passwordTurnedOffSignal;
-
+    jukebox::signals::Signal<const std::string&> requestToImportAlbumSignal;
     //the virtuals are here only to enable easier testing and mocking
     //TODO should reconsider the class because of this
 
@@ -118,6 +118,7 @@ private:
     void onTimeToSaveInsertedCoinsChanged(int);
     void onPasswordChanged(const jukebox::Password& password);
     void onPasswordTurnedOff();
+    void onRequestToImportAlbumSignal(const std::string& albumToImport);
     void grabFocus();
 
     ScopedPointer<jukebox::gui::ListBox<std::deque, jukebox::audio::Song>> listBoxPlayQueue;

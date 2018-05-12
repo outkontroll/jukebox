@@ -27,6 +27,7 @@ public:
     virtual void setAlbumsForMusicSetup(const std::vector<jukebox::audio::AlbumInfo>& albums);
 
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
+    jukebox::signals::Signal<const std::string&> requestToImportAlbumSignal;
     jukebox::signals::Signal<> lostFocusSignal;
 
 private:

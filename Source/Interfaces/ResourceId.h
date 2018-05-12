@@ -15,6 +15,7 @@ enum class ResourceId
     ErrorNegativeNumber,
     ErrorWrongNumber,
     ErrorWrongPassword,
+    ErrorDuringAlbumImport,
     Playing,
     DefaultArtistName
 };

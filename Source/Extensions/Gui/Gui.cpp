@@ -52,6 +52,7 @@ void Gui::connectSignals()
     eventsSlot.connect(this, &Gui::timeToSaveInsertedCoinsChanged, mainComponent->timeToSaveInsertedCoinsChangedSignal);
     eventsSlot.connect(this, &Gui::passwordChanged, mainComponent->passwordChangedSignal);
     eventsSlot.connect(this, &Gui::passwordTurnedOff, mainComponent->passwordTurnedOffSignal);
+    eventsSlot.connect(this, &Gui::albumImportRequested, mainComponent->requestToImportAlbumSignal);
 }
 
 void Gui::keyPressed(const KeyPress& key)
@@ -175,6 +176,11 @@ void Gui::setFileSystem(filesystem::IFileSystem* filesys)
 void Gui::showStatistics(const std::string& statistics)
 {
     mainComponent->showStatistics(statistics);
+}
+
+void Gui::refreshAlbums()
+{
+    mainComponent->setAlbumsForMusicSetup(fileSys->getAlbums());
 }
 
 void Gui::loadMultipleAlbums()
@@ -406,6 +412,11 @@ void Gui::passwordChanged(const Password& password_)
 void Gui::passwordTurnedOff()
 {
     passwordTurnedOffSignal();
+}
+
+void Gui::albumImportRequested(const std::string& albumToImport)
+{
+    requestToImportAlbumSignal(albumToImport);
 }
 
 void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)

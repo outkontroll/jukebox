@@ -514,3 +514,27 @@ TEST_F(CoreTest, WhenGuiSendsPasswordTurnedOffSignal_ThenItIsSavedInSettings)
 
     guiMock->passwordTurnedOffSignal();
 }
+
+// albumImportRequested
+
+TEST_F(CoreTest, GivenFilesystemIsAbleToImport_WhenGuiSendsRequestToImportAlbumSignal_ThenFilesystemIsImportItAndGuiGetsNotified)
+{
+    std::string fakeAlbum("fakeAlbum");
+    std::string fakeMusicDir("fakeMusicDir");
+    EXPECT_CALL(*settingsMock, getMusicDirectory()).WillOnce(Return(fakeMusicDir));
+    EXPECT_CALL(*fileSystemMock, importAlbum(std::string_view(fakeMusicDir), std::string_view(fakeAlbum))).WillOnce(Return(true));
+    EXPECT_CALL(*guiMock, refreshAlbums());
+
+    guiMock->requestToImportAlbumSignal(fakeAlbum);
+}
+
+TEST_F(CoreTest, GivenFilesystemIsNotAbleToImport_WhenGuiSendsRequestToImportAlbumSignal_ThenFilesystemIsTryToImportItAndGuiGetsErrorNotification)
+{
+    std::string fakeAlbum("fakeAlbum");
+    std::string fakeMusicDir("fakeMusicDir");
+    EXPECT_CALL(*settingsMock, getMusicDirectory()).WillOnce(Return(fakeMusicDir));
+    EXPECT_CALL(*fileSystemMock, importAlbum(std::string_view(fakeMusicDir), std::string_view(fakeAlbum))).WillOnce(Return(false));
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorDuringAlbumImport));
+
+    guiMock->requestToImportAlbumSignal(fakeAlbum);
+}

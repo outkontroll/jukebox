@@ -134,7 +134,7 @@ MainComponent::MainComponent ()
     eventsSlot.connect(this, &MainComponent::onPasswordChanged, setupPage->passwordChangedSignal);
     eventsSlot.connect(this, &MainComponent::onPasswordTurnedOff, setupPage->passwordTurnedOffSignal);
     eventsSlot.connect(this, &MainComponent::grabFocus, musicSetupCanvas->lostFocusSignal);
-
+    eventsSlot.connect(this, &MainComponent::onRequestToImportAlbumSignal, musicSetupCanvas->requestToImportAlbumSignal);
     //[/UserPreSize]
 
     //setSize (1400, 800);
@@ -412,6 +412,11 @@ void MainComponent::onPasswordChanged(const Password& password_)
 void MainComponent::onPasswordTurnedOff()
 {
     passwordTurnedOffSignal();
+}
+
+void MainComponent::onRequestToImportAlbumSignal(const std::string& albumToImport)
+{
+    requestToImportAlbumSignal(albumToImport);
 }
 
 void MainComponent::grabFocus()

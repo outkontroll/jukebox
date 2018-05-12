@@ -48,6 +48,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::timeToSaveInsertedCoinsChanged, gui->timeToSaveInsertedCoinsChangedSignal);
     eventsSlot.connect(this, &Core::passwordChanged, gui->passwordChangedSignal);
     eventsSlot.connect(this, &Core::passwordTurnedOff, gui->passwordTurnedOffSignal);
+    eventsSlot.connect(this, &Core::albumImportRequested, gui->requestToImportAlbumSignal);
     eventsSlot.connect(this, &Core::showStatisticsRequested, gui->requestStatisticsSignal);
     eventsSlot.connect(this, &Core::exitRequested, gui->exitRequestedSignal);
 
@@ -215,6 +216,18 @@ void Core::passwordTurnedOff()
     gui->turnOffPassword();
 }
 
+void Core::albumImportRequested(const std::string& albumToImport)
+{
+    if(!fileSys->importAlbum(settings->getMusicDirectory(), std::string_view(albumToImport)))
+    {
+        gui->showStatusMessage(ResourceId::ErrorDuringAlbumImport);
+    }
+    else
+    {
+        gui->refreshAlbums();
+    }
+}
+
 void Core::showStatisticsRequested()
 {
     std::stringstream ss;
@@ -238,7 +251,7 @@ void Core::playNextSong(const Song& song)
     }
     catch(MusicPlayerException&)
     {
-        gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying/*, song.toString()*/);
+        gui->showStatusMessage(ResourceId::ErrorDuringSongPlaying);
         gui->removeCurrentSong();
     }
 }

@@ -160,6 +160,8 @@ void MusicSetupCanvas::setMusicDirectory(const std::string& musicDirectory)
 void MusicSetupCanvas::setAlbumsForMusicSetup(const std::vector<jukebox::audio::AlbumInfo>& albums_)
 {
     albums = &albums_;
+    listToShow.refresh();
+    treeMusicDir->refresh();
 }
 
 void MusicSetupCanvas::buttonClicked(Button* button)
@@ -234,7 +236,7 @@ void MusicSetupCanvas::importMusicDirectory()
         auto name = result.isDirectory() ? result.getFullPathName()
                                          : result.getParentDirectory().getFullPathName();
 
-        name.toStdString();
+        requestToImportAlbumSignal(name.toStdString());
     }
 }
 

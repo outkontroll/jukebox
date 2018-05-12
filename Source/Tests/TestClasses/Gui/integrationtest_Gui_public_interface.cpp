@@ -54,6 +54,15 @@ TEST_F(GuiTest, WhenSetMusicFolderIsCalled_ThenGuiCallsLoadSingleAndMultipleAlbu
     gui->setMusicFolder(setMusicDir);
 }
 
+TEST_F(GuiTest, WhenRefreshAlbumsIsCalled_ThenGuiCallsSetAlbumsForMusicSetup)
+{
+    ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(ReturnRef(fakeAlbums16));
+
+    EXPECT_CALL(*mainComponentMock, setAlbumsForMusicSetup(fakeAlbums16));
+
+    gui->refreshAlbums();
+}
+
 TEST_F(GuiTest, WhenSetTimeToPlaySongIsCalled_ThenTheSameIsCalledOnMainComponent)
 {
     EXPECT_CALL(*mainComponentMock, setTimeToPlayASong(2000));

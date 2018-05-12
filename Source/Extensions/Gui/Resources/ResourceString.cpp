@@ -16,6 +16,7 @@ namespace {
     const char* ErrorNegativeNumber = "Negative values are not accepted!";
     const char* ErrorWrongNumber = "Wrong number!";
     const char* ErrorWrongPassword = "Wrong password!";
+    const char* ErrorDuringAlbumImport = "Could not import the directory!";
     const char* Playing = "Playing";
     const char* DefaultArtistName = "Selection Album";
 }
@@ -34,6 +35,7 @@ std::string Resources::getResourceStringFromId(jukebox::ResourceId resourceId)
     case ResourceId::ErrorNegativeNumber: return ErrorNegativeNumber;
     case ResourceId::ErrorWrongNumber: return ErrorWrongNumber;
     case ResourceId::ErrorWrongPassword: return ErrorWrongPassword;
+    case ResourceId::ErrorDuringAlbumImport : return ErrorDuringAlbumImport;
     case ResourceId::Playing: return Playing;
     case ResourceId::DefaultArtistName: return DefaultArtistName;
     }

@@ -123,6 +123,17 @@ TEST_F(GuiTest, WhenMainComponentSendsTurnOffPasswordSignal_ThenGuiSignalizeIt)
     mainComponentMock->passwordTurnedOffSignal();
 }
 
+TEST_F(GuiTest, WhenMainComponentSendsRequestAlbumImportSignal_ThenGuiSignalizeIt)
+{
+    std::string fakeAlbumToImport("fakeAlbum");
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::fooString, gui->requestToImportAlbumSignal);
+
+    EXPECT_CALL(fooMock, fooString(fakeAlbumToImport));
+
+    mainComponentMock->requestToImportAlbumSignal(fakeAlbumToImport);
+}
+
 // keyPress
 
 TEST_F(GuiTest, WhenMainComponentSendsKeyPressedSignalA_ThenGuiSignalizeIncreaseVolume)

@@ -17,6 +17,7 @@ public:
     virtual ~IFileSystem() = default;
 
     virtual void loadAlbums(std::string_view musicDirectory) = 0;
+    virtual bool importAlbum(std::string_view musicDirectory, std::string_view albumToImport) = 0;
     virtual const std::vector<jukebox::audio::AlbumInfo>& getAlbums() const = 0;
 };
 

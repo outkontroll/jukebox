@@ -60,6 +60,7 @@ private:
     void timeToSaveInsertedCoinsChanged(int millisecs);
     void passwordChanged(const jukebox::Password& password);
     void passwordTurnedOff();
+    void albumImportRequested(const std::string& albumToImport);
 
     void showStatisticsRequested();
     void exitRequested();
