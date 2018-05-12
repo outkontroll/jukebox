@@ -293,6 +293,11 @@ void MainComponent::setMusicDirectory(const std::string& musicDirectory)
     musicSetupCanvas->setMusicDirectory(musicDirectory);
 }
 
+void MainComponent::setAlbumsForMusicSetup(const std::vector<audio::AlbumInfo>& albums)
+{
+    musicSetupCanvas->setAlbumsForMusicSetup(albums);
+}
+
 void MainComponent::setTimeToPlayASong(int millisecs)
 {
     setupPage->setTimeToPlayASong(millisecs);

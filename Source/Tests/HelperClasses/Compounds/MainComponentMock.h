@@ -17,6 +17,7 @@ struct MainComponentMock : public juce::MainComponent
     MOCK_METHOD2(loadMultipleAlbums, void(const std::vector<jukebox::audio::AlbumInfo>&, unsigned int));
     MOCK_METHOD2(loadSingleAlbum, void(const std::vector<jukebox::audio::AlbumInfo>&, unsigned int));
     MOCK_METHOD1(setMusicDirectory, void(const std::string&));
+    MOCK_METHOD1(setAlbumsForMusicSetup, void(const std::vector<jukebox::audio::AlbumInfo>&));
     MOCK_METHOD1(setTimeToPlayASong, void(int));
     MOCK_METHOD1(setTimeToSaveInsertedCoins, void(int));
     MOCK_METHOD1(setPassword, void(const jukebox::Password*));

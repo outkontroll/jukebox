@@ -4,6 +4,10 @@
 #include "JuceHeader.h"
 #include "Signals.hpp"
 
+namespace jukebox::audio {
+    struct AlbumInfo;
+}
+
 namespace jukebox::gui {
 
 class MusicDirectoryListener;
@@ -20,6 +24,7 @@ public:
     void parentSizeChanged() override;
 
     virtual void setMusicDirectory(const std::string& musicDirectory);
+    virtual void setAlbumsForMusicSetup(const std::vector<jukebox::audio::AlbumInfo>& albums);
 
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
     jukebox::signals::Signal<> lostFocusSignal;
@@ -46,6 +51,7 @@ private:
     juce::DirectoryContentsList listToShow{nullptr, directoryThread};
     juce::ImageComponent imagePreview;
     juce::File currentVisibleDirectory;
+    const std::vector<jukebox::audio::AlbumInfo>* albums = nullptr;
 };
 
 }

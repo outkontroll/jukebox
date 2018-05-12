@@ -79,6 +79,7 @@ public:
     virtual void loadMultipleAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int firstAlbumIndex);
     virtual void loadSingleAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int albumIndex);
     virtual void setMusicDirectory(const std::string& musicDirectory);
+    virtual void setAlbumsForMusicSetup(const std::vector<jukebox::audio::AlbumInfo>& albums);
     virtual void setTimeToPlayASong(int millisecs);
     virtual void setTimeToSaveInsertedCoins(int millisecs);
     virtual void setPassword(const jukebox::Password* password);

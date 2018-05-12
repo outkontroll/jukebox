@@ -1,10 +1,11 @@
 #ifndef GUITESTER_H
 #define GUITESTER_H
 
+#include "gtest/gtest.h"
 #include "Gui.h"
 #include "MainComponentMock.h"
 #include "FileSystemMock.h"
-#include "gtest/gtest.h"
+#include "Song.h"
 
 struct GuiTester : public jukebox::gui::Gui
 {
@@ -28,6 +29,9 @@ protected:
         auto filesysMock = std::make_unique<testing::NiceMock<FileSystemMock>>();
         fileSystemMock = filesysMock.get();
         gui = std::make_unique<GuiTester>(std::move(mainCompMock), std::move(filesysMock));
+        std::vector<jukebox::audio::AlbumInfo> vec{};
+        ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(vec));
+        EXPECT_CALL(*mainComponentMock, setAlbumsForMusicSetup(vec));
         gui->setFileSystem(fileSystemMock);
     }
 

@@ -1,7 +1,9 @@
 #include "MusicSetupCanvas.h"
 #include "MusicSetupCanvasPositionCalculator.h"
+#include "Song.h"
 
 using namespace jukebox::gui;
+using namespace jukebox::audio;
 using namespace juce;
 
 namespace {
@@ -86,6 +88,11 @@ void MusicSetupCanvas::setMusicDirectory(const std::string& musicDirectory)
     listToShow.setDirectory(juce::File(musicDirectory), true, true);
 }
 
+void MusicSetupCanvas::setAlbumsForMusicSetup(const std::vector<jukebox::audio::AlbumInfo>& albums_)
+{
+    albums = &albums_;
+}
+
 void MusicSetupCanvas::buttonClicked(Button* button)
 {
     if(button == buttonMusicDirectory)
@@ -96,15 +103,39 @@ void MusicSetupCanvas::buttonClicked(Button* button)
 
 void MusicSetupCanvas::selectionChanged()
 {
+    if(albums == nullptr)
+        return;
+
     auto selectedFile = treeMusicDir->getSelectedFile();
     const auto parentDir = selectedFile.isDirectory() ? selectedFile : selectedFile.getParentDirectory();
 
-    if(isImageFile(selectedFile))
+    const auto albumId = [&]() -> unsigned int {
+        try
+        {
+            return static_cast<unsigned int>(std::stoi(parentDir.getFileName().toStdString()));
+        }
+        catch(std::exception&)
+        {
+            return 0;
+        }
+    }();
+
+    if(albumId == 0 ||
+       albumId > albums->size())
+        return;
+
+    const AlbumInfo& albumInfo = albums->at(albumId - 1);
+
+    if(!albumInfo.imagePath.empty())
     {
-        currentVisibleDirectory = parentDir;
-        imagePreview.setImage (juce::ImageCache::getFromFile (selectedFile));
-        if(!imagePreview.isVisible())
-            imagePreview.setVisible(true);
+        if(parentDir.isDirectory() &&
+           parentDir != currentVisibleDirectory)
+        {
+            currentVisibleDirectory = parentDir;
+            imagePreview.setImage (juce::ImageCache::getFromFile (juce::File(albumInfo.imagePath)));
+            if(!imagePreview.isVisible())
+                imagePreview.setVisible(true);
+        }
     }
     else
     {

@@ -169,6 +169,7 @@ void Gui::setFileSystem(filesystem::IFileSystem* filesys)
 {
     assert(filesys != nullptr);
     fileSys = filesys;
+    mainComponent->setAlbumsForMusicSetup(fileSys->getAlbums());
 }
 
 void Gui::showStatistics(const std::string& statistics)
