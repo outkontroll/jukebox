@@ -34,16 +34,18 @@ private:
 
     void selectMusicDirectory();
     bool isImageFile(const juce::File&) const;
+    void importMusicDirectory();
 
     juce::ScopedPointer<juce::Label> infoMusicDirectory;
     juce::ScopedPointer<juce::TextEditor> txtMusicDirectory;
     juce::ScopedPointer<juce::TextButton> buttonMusicDirectory;
+    juce::ScopedPointer<juce::TextButton> buttonImport;
 
     juce::ScopedPointer<juce::FileTreeComponent> treeMusicDir;
     juce::TimeSliceThread directoryThread{ "Music File Scanner Thread" };
     juce::DirectoryContentsList listToShow{nullptr, directoryThread};
     juce::ImageComponent imagePreview;
-    juce::Rectangle<float> textPlace = {0, 0, 0, 0};
+    juce::File currentVisibleDirectory;
 };
 
 }
