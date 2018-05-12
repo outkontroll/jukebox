@@ -7,6 +7,7 @@ SetupPagePositionCalculator::SetupPagePositionCalculator(int width_, int height_
     width(width_),
     height(height_),
     fontSize(fontSize_),
+    fontSizeInt(static_cast<int>(fontSize_)),
     offsetX(static_cast<int>(width * 0.016f)),
     offsetY(static_cast<int>(height / 43.75f)),
     statisticsWidth(width / 3 * 2),
@@ -25,21 +26,66 @@ juce::Rectangle<float> SetupPagePositionCalculator::calculateTextPlace() const
     return { xPosition, yPosition, textWidth, textHeight };
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateStatisticsBounds() const
+juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoStatisticsBounds() const
 {
     const int xPosition = offsetX;
-    const int yPosition = offsetY * 3 + static_cast<int>(fontSize) * 2;
+    const int yPosition = offsetY * 2 + fontSizeInt * 1;
+    const int infoWidth = width / 4;
+
+    return {xPosition, yPosition, infoWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPagePositionCalculator::calculateTextStatisticsBounds() const
+{
+    const int xPosition = offsetX;
+    const int yPosition = offsetY * 3 + fontSizeInt * 2;
 
     return {xPosition, yPosition, statisticsWidth, statisticsHeight};
+}
+
+juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToPlayASong() const
+{
+    const int xPosition = offsetX;
+    const int yPosition = offsetY * 4 + fontSizeInt * 2 + statisticsHeight;
+    const int infoWidth = width / 3;
+
+    return {xPosition, yPosition, infoWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToPlayASong() const
+{
+    const int comboWidth = fontSizeInt * 10 / 6;
+    const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
+    const int yPosition = offsetY * 4 + fontSizeInt * 2 + statisticsHeight;
+
+    return {xPosition, yPosition, comboWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToSaveInsertedCoins() const
+{
+    const int xPosition = offsetX;
+    const int yPosition = offsetY * 5 + fontSizeInt * 3 + statisticsHeight;
+    const int infoWidth = width / 3;
+
+    return {xPosition, yPosition, infoWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToSaveInsertedCoins() const
+{
+    const int comboWidth = fontSizeInt * 100 / 48;
+    const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
+    const int yPosition = offsetY * 5 + fontSizeInt * 3 + statisticsHeight;
+
+    return {xPosition, yPosition, comboWidth, fontSizeInt};
 }
 
 juce::Rectangle<int> SetupPagePositionCalculator::calculateNoPasswordToggleBounds() const
 {
     const int xPosition = statisticsWidth + offsetX * 2;
-    const int yPosition = statisticsHeight + offsetY * 1 - static_cast<int>(fontSize);
+    const int yPosition = statisticsHeight + offsetY * 1 - fontSizeInt;
 
     const int buttonWidth = rightWidth;
-    const int buttonHeight = static_cast<int>(fontSize);
+    const int buttonHeight = fontSizeInt;
 
     return {xPosition, yPosition, buttonWidth, buttonHeight};
 }
@@ -50,7 +96,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculatePasswordToggleBounds(
     const int yPosition = statisticsHeight + offsetY * 2;
 
     const int buttonWidth = rightWidth;
-    const int buttonHeight = static_cast<int>(fontSize);
+    const int buttonHeight = fontSizeInt;
 
     return {xPosition, yPosition, buttonWidth, buttonHeight};
 }
@@ -58,11 +104,10 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculatePasswordToggleBounds(
 juce::Rectangle<int> SetupPagePositionCalculator::calculateChangePasswordBounds() const
 {
     const int xPosition = statisticsWidth + offsetX * 2;
-    const int yPosition = statisticsHeight + offsetY * 3 + static_cast<int>(fontSize);
+    const int yPosition = statisticsHeight + offsetY * 3 + fontSizeInt;
 
     const int buttonWidth = rightWidth;
-    const int buttonHeight = static_cast<int>(fontSize);
+    const int buttonHeight = fontSizeInt;
 
     return {xPosition, yPosition, buttonWidth, buttonHeight};
 }
-

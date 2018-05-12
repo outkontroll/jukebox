@@ -7,6 +7,7 @@ using namespace juce;
 
 namespace {
     const float bigFontSize = 24.0f;
+    const float smallFontSize = 18.0f;
     const char* setupPageName = "Setup";
 }
 
@@ -16,7 +17,7 @@ int getSaveInsertedCoinHoursFromSelected(int selectedIndex);
 SetupPage::SetupPage()
 {
     addAndMakeVisible(infoStatistics = new Label("statistics info label", "Statistics:"));
-    infoStatistics->setFont (Font (15.00f, Font::plain));
+    infoStatistics->setFont (Font (smallFontSize, Font::plain));
     infoStatistics->setJustificationType (Justification::centredLeft);
     infoStatistics->setEditable (false, false, false);
     infoStatistics->setColour (TextEditor::textColourId, Colours::black);
@@ -32,7 +33,7 @@ SetupPage::SetupPage()
     txtStatistics->setText(String());
 
     addAndMakeVisible(infoTimeToPlayASong = new Label("time to play a song label", "Seconds to cancel playing a song"));
-    infoTimeToPlayASong->setFont (Font (15.00f, Font::plain));
+    infoTimeToPlayASong->setFont (Font (smallFontSize, Font::plain));
     infoTimeToPlayASong->setJustificationType (Justification::centredLeft);
     infoTimeToPlayASong->setEditable (false, false, false);
     infoTimeToPlayASong->setColour (TextEditor::textColourId, Colours::black);
@@ -48,7 +49,7 @@ SetupPage::SetupPage()
     comboTimeToPlayASong->addListener(this);
 
     addAndMakeVisible(infoTimeToSaveInsertedCoins = new Label("interval hours to save inserted coins label", "Hours between savings of inserted coins"));
-    infoTimeToSaveInsertedCoins->setFont (Font (15.00f, Font::plain));
+    infoTimeToSaveInsertedCoins->setFont (Font (smallFontSize, Font::plain));
     infoTimeToSaveInsertedCoins->setJustificationType (Justification::centredLeft);
     infoTimeToSaveInsertedCoins->setEditable (false, false, false);
     infoTimeToSaveInsertedCoins->setColour (TextEditor::textColourId, Colours::black);
@@ -109,16 +110,17 @@ void SetupPage::parentSizeChanged()
     SetupPagePositionCalculator calc{getWidth(), getHeight(), bigFontSize};
 
     textPlace = calc.calculateTextPlace();
-    infoStatistics->setBounds(10, 66, 100, 24);
-    txtStatistics->setBounds(calc.calculateStatisticsBounds());
-    infoTimeToPlayASong->setBounds(10, 538, 250, 24);
-    comboTimeToPlayASong->setBounds(276, 538, 40, 24);
-    infoTimeToSaveInsertedCoins->setBounds(10, 574, 250, 24);
-    comboTimeToSaveInsertedCoins->setBounds(266, 574, 50, 24);
+    infoStatistics->setBounds(calc.calculateInfoStatisticsBounds());
+    txtStatistics->setBounds(calc.calculateTextStatisticsBounds());
+    txtStatistics->setFont(bigFontSize);
+    infoTimeToPlayASong->setBounds(calc.calculateInfoTimeToPlayASong());
+    comboTimeToPlayASong->setBounds(calc.calculateComboTimeToPlayASong());
+    infoTimeToSaveInsertedCoins->setBounds(calc.calculateInfoTimeToSaveInsertedCoins());
+    comboTimeToSaveInsertedCoins->setBounds(calc.calculateComboTimeToSaveInsertedCoins());
     buttonChangePassword->setBounds(calc.calculateChangePasswordBounds());
     toggleNoPassword->setBounds(calc.calculateNoPasswordToggleBounds());
     togglePassword->setBounds(calc.calculatePasswordToggleBounds());
-}
+    }
 
 void SetupPage::buttonClicked(Button* button)
 {
