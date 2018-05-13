@@ -1,5 +1,5 @@
-#include "SetupPage.h"
-#include "SetupPagePositionCalculator.h"
+#include "SetupPageCanvas.h"
+#include "SetupPageCanvasPositionCalculator.h"
 #include "Password.h"
 
 using namespace jukebox::gui;
@@ -16,7 +16,7 @@ int getSaveInsertedCoinHoursFromSelected(int selectedIndex);
 int getTimeToPlayAdvertiseMusicFromSelected(int selectedIndex);
 int getSelectedIndexFromPlayAdvertiseMusic(int timeToPlayAdvertiseMusic);
 
-SetupPage::SetupPage()
+SetupPageCanvas::SetupPageCanvas()
 {
     addAndMakeVisible(infoStatistics = new Label("statistics info label", "Statistics:"));
     infoStatistics->setFont (Font (smallFontSize, Font::plain));
@@ -93,7 +93,7 @@ SetupPage::SetupPage()
     togglePassword->addListener(this);
 }
 
-SetupPage::~SetupPage()
+SetupPageCanvas::~SetupPageCanvas()
 {
     comboTimeToPlayASong->removeListener(this);
     comboTimeToSaveInsertedCoins->removeListener(this);
@@ -115,7 +115,7 @@ SetupPage::~SetupPage()
     togglePassword = nullptr;
 }
 
-void SetupPage::paint(Graphics& g)
+void SetupPageCanvas::paint(Graphics& g)
 {
     g.setColour(Colours::black);
     g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
@@ -126,9 +126,9 @@ void SetupPage::paint(Graphics& g)
     g.drawText(setupPageName, textPlace, Justification::centredLeft);
 }
 
-void SetupPage::parentSizeChanged()
+void SetupPageCanvas::parentSizeChanged()
 {
-    SetupPagePositionCalculator calc{getWidth(), getHeight(), bigFontSize};
+    SetupPageCanvasPositionCalculator calc{getWidth(), getHeight(), bigFontSize};
 
     textPlace = calc.calculateTextPlace();
     infoStatistics->setBounds(calc.calculateInfoStatisticsBounds());
@@ -145,7 +145,7 @@ void SetupPage::parentSizeChanged()
     togglePassword->setBounds(calc.calculatePasswordToggleBounds());
     }
 
-void SetupPage::buttonClicked(Button* button)
+void SetupPageCanvas::buttonClicked(Button* button)
 {
     if(button == buttonChangePassword)
     {
@@ -219,7 +219,7 @@ int getTimeToPlayAdvertiseMusicFromSelected(int selectedIndex)
     return 20;
 }
 
-void SetupPage::comboBoxChanged(ComboBox* combo)
+void SetupPageCanvas::comboBoxChanged(ComboBox* combo)
 {
     if(combo == comboTimeToPlayASong)
     {
@@ -235,41 +235,41 @@ void SetupPage::comboBoxChanged(ComboBox* combo)
     }
 }
 
-void SetupPage::setTimeToPlayASong(int millisecs)
+void SetupPageCanvas::setTimeToPlayASong(int millisecs)
 {
     comboTimeToPlayASong->setSelectedId(millisecs / 1000 + 1, dontSendNotification);
 }
 
-void SetupPage::setTimeToSaveInsertedCoins(int millisecs)
+void SetupPageCanvas::setTimeToSaveInsertedCoins(int millisecs)
 {
     comboTimeToSaveInsertedCoins->setSelectedId(getSelectedIndexFromSaveInsertedCoinHours(millisecs / (1000 * 3600)), dontSendNotification);
 }
 
-void SetupPage::setTimeToPlayAdvertiseMusic(int millisecs)
+void SetupPageCanvas::setTimeToPlayAdvertiseMusic(int millisecs)
 {
     comboTimeToPlayAdvertiseMusic->setSelectedId(getSelectedIndexFromPlayAdvertiseMusic(millisecs / (1000 * 60)), dontSendNotification);
 }
 
-void SetupPage::showStatistics(const std::string& statistics)
+void SetupPageCanvas::showStatistics(const std::string& statistics)
 {
     txtStatistics->setText(statistics);
 }
 
-void SetupPage::setPassword(const jukebox::Password* password_)
+void SetupPageCanvas::setPassword(const jukebox::Password* password_)
 {
     togglePassword->setToggleState(true, dontSendNotification);
     buttonChangePassword->setEnabled(true);
     password = password_;
 }
 
-void SetupPage::turnOffPassword()
+void SetupPageCanvas::turnOffPassword()
 {
     toggleNoPassword->setToggleState(true, dontSendNotification);
     buttonChangePassword->setEnabled(false);
     password = nullptr;
 }
 
-void SetupPage::showChangePasswordDialog()
+void SetupPageCanvas::showChangePasswordDialog()
 {
     juce::String title = password != nullptr ? "Change password" : "New password";
     juce::String dialogText = password != nullptr ? "To change password please enter the old one and twice the new password" :
@@ -333,7 +333,7 @@ void SetupPage::showChangePasswordDialog()
     }
 }
 
-void SetupPage::handleNoPasswordToggle()
+void SetupPageCanvas::handleNoPasswordToggle()
 {
     if(password == nullptr)
         return;
@@ -363,7 +363,7 @@ void SetupPage::handleNoPasswordToggle()
     }
 }
 
-void SetupPage::handlePasswordToggle()
+void SetupPageCanvas::handlePasswordToggle()
 {
     if(password != nullptr)
         return;

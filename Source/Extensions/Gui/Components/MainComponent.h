@@ -33,7 +33,7 @@ namespace jukebox {
 namespace gui {
     class MultipleAlbumsCanvas;
     class SingleAlbumCanvas;
-    class SetupPage;
+    class SetupPageCanvas;
     class MusicSetupCanvas;
 }
 namespace audio {
@@ -140,7 +140,7 @@ private:
     ScopedPointer<TextEditor> txtCurrentSong;
     ScopedPointer<jukebox::gui::MultipleAlbumsCanvas> multipleAlbumsCanvas;
     ScopedPointer<jukebox::gui::SingleAlbumCanvas> singleAlbumCanvas;
-    ScopedPointer<jukebox::gui::SetupPage> setupPage;
+    ScopedPointer<jukebox::gui::SetupPageCanvas> setupPage;
     ScopedPointer<jukebox::gui::MusicSetupCanvas> musicSetupCanvas;
     ScopedPointer<Label> lblAlbumNumber;
     ScopedPointer<Label> lblSongNumber;

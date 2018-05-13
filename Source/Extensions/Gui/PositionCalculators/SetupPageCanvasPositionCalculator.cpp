@@ -1,9 +1,9 @@
-#include "SetupPagePositionCalculator.h"
+#include "SetupPageCanvasPositionCalculator.h"
 
 using namespace jukebox::gui;
 using namespace juce;
 
-SetupPagePositionCalculator::SetupPagePositionCalculator(int width_, int height_, float fontSize_) :
+SetupPageCanvasPositionCalculator::SetupPageCanvasPositionCalculator(int width_, int height_, float fontSize_) :
     width(width_),
     height(height_),
     fontSize(fontSize_),
@@ -16,7 +16,7 @@ SetupPagePositionCalculator::SetupPagePositionCalculator(int width_, int height_
 {
 }
 
-juce::Rectangle<float> SetupPagePositionCalculator::calculateTextPlace() const
+juce::Rectangle<float> SetupPageCanvasPositionCalculator::calculateTextPlace() const
 {
     const float xPosition = width / 2;
     const float yPosition = height / 3;
@@ -26,7 +26,7 @@ juce::Rectangle<float> SetupPagePositionCalculator::calculateTextPlace() const
     return { xPosition, yPosition, textWidth, textHeight };
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoStatisticsBounds() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoStatisticsBounds() const
 {
     const int xPosition = offsetX;
     const int yPosition = offsetY * 2 + fontSizeInt * 1;
@@ -35,7 +35,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoStatisticsBounds(
     return {xPosition, yPosition, infoWidth, fontSizeInt};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateTextStatisticsBounds() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateTextStatisticsBounds() const
 {
     const int xPosition = offsetX;
     const int yPosition = offsetY * 3 + fontSizeInt * 2;
@@ -43,7 +43,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateTextStatisticsBounds(
     return {xPosition, yPosition, statisticsWidth, statisticsHeight};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToPlayASong() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoTimeToPlayASong() const
 {
     const int xPosition = offsetX;
     const int yPosition = offsetY * 4 + fontSizeInt * 2 + statisticsHeight;
@@ -52,7 +52,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToPlayASong()
     return {xPosition, yPosition, infoWidth, fontSizeInt};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToPlayASong() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateComboTimeToPlayASong() const
 {
     const int comboWidth = fontSizeInt * 10 / 6;
     const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
@@ -61,7 +61,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToPlayASong(
     return {xPosition, yPosition, comboWidth, fontSizeInt};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToSaveInsertedCoins() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoTimeToSaveInsertedCoins() const
 {
     const int xPosition = offsetX;
     const int yPosition = offsetY * 5 + fontSizeInt * 3 + statisticsHeight;
@@ -70,7 +70,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToSaveInserte
     return {xPosition, yPosition, infoWidth, fontSizeInt};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToSaveInsertedCoins() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateComboTimeToSaveInsertedCoins() const
 {
     const int comboWidth = fontSizeInt * 100 / 48;
     const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
@@ -79,7 +79,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToSaveInsert
     return {xPosition, yPosition, comboWidth, fontSizeInt};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToPlayAdvertiseMusic() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoTimeToPlayAdvertiseMusic() const
 {
     const int xPosition = offsetX;
     const int yPosition = offsetY * 6 + fontSizeInt * 4 + statisticsHeight;
@@ -88,7 +88,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToPlayAdverti
     return {xPosition, yPosition, infoWidth, fontSizeInt};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToPlayAdvertiseMusic() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateComboTimeToPlayAdvertiseMusic() const
 {
     const int comboWidth = fontSizeInt * 100 / 48;
     const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
@@ -97,7 +97,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToPlayAdvert
     return {xPosition, yPosition, comboWidth, fontSizeInt};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateNoPasswordToggleBounds() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateNoPasswordToggleBounds() const
 {
     const int xPosition = statisticsWidth + offsetX * 2;
     const int yPosition = statisticsHeight + offsetY * 1 - fontSizeInt;
@@ -108,7 +108,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateNoPasswordToggleBound
     return {xPosition, yPosition, buttonWidth, buttonHeight};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculatePasswordToggleBounds() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculatePasswordToggleBounds() const
 {
     const int xPosition = statisticsWidth + offsetX * 2;
     const int yPosition = statisticsHeight + offsetY * 2;
@@ -119,7 +119,7 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculatePasswordToggleBounds(
     return {xPosition, yPosition, buttonWidth, buttonHeight};
 }
 
-juce::Rectangle<int> SetupPagePositionCalculator::calculateChangePasswordBounds() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateChangePasswordBounds() const
 {
     const int xPosition = statisticsWidth + offsetX * 2;
     const int yPosition = statisticsHeight + offsetY * 3 + fontSizeInt;

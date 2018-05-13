@@ -10,13 +10,13 @@ namespace jukebox {
 
 namespace jukebox::gui {
 
-class SetupPage : public juce::Component,
-                  public juce::TextButton::Listener,
-                  public juce::ComboBox::Listener
+class SetupPageCanvas : public juce::Component,
+                        public juce::TextButton::Listener,
+                        public juce::ComboBox::Listener
 {
 public:
-    SetupPage();
-    ~SetupPage() override;
+    SetupPageCanvas();
+    ~SetupPageCanvas() override;
 
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;

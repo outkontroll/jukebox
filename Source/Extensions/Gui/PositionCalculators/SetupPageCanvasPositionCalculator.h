@@ -5,9 +5,9 @@
 
 namespace jukebox::gui {
 
-struct SetupPagePositionCalculator
+struct SetupPageCanvasPositionCalculator
 {
-    SetupPagePositionCalculator(int width, int height, float fontSize);
+    SetupPageCanvasPositionCalculator(int width, int height, float fontSize);
 
     juce::Rectangle<float> calculateTextPlace() const;
     juce::Rectangle<int> calculateInfoStatisticsBounds() const;

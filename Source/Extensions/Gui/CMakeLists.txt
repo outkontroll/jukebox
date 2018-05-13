@@ -18,12 +18,12 @@ set(HEADER_SOURCES
     ${COMPONENTS_DIR}/ListBox.hpp
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.h
     ${COMPONENTS_DIR}/SingleAlbumCanvas.h
-    ${COMPONENTS_DIR}/SetupPage.h
+    ${COMPONENTS_DIR}/SetupPageCanvas.h
     ${COMPONENTS_DIR}/MusicSetupCanvas.h
     ${POSITIONCALCULATORS_DIR}/MainComponentPositionCalculator.h
     ${POSITIONCALCULATORS_DIR}/MultipleAlbumsCanvasPositionCalculator.h
     ${POSITIONCALCULATORS_DIR}/SingleAlbumPositionCalculator.h
-    ${POSITIONCALCULATORS_DIR}/SetupPagePositionCalculator.h
+    ${POSITIONCALCULATORS_DIR}/SetupPageCanvasPositionCalculator.h
     ${POSITIONCALCULATORS_DIR}/MusicSetupCanvasPositionCalculator.h
     ${POSITIONCALCULATORS_DIR}/AlbumStepCalculator.h
 )
@@ -38,12 +38,12 @@ set(CPP_SOURCES
     ${COMPONENTS_DIR}/ListBoxImplementation.hpp
     ${COMPONENTS_DIR}/MultipleAlbumsCanvas.cpp
     ${COMPONENTS_DIR}/SingleAlbumCanvas.cpp
-    ${COMPONENTS_DIR}/SetupPage.cpp
+    ${COMPONENTS_DIR}/SetupPageCanvas.cpp
     ${COMPONENTS_DIR}/MusicSetupCanvas.cpp
     ${POSITIONCALCULATORS_DIR}/MainComponentPositionCalculator.cpp
     ${POSITIONCALCULATORS_DIR}/MultipleAlbumsCanvasPositionCalculator.cpp
     ${POSITIONCALCULATORS_DIR}/SingleAlbumPositionCalculator.cpp
-    ${POSITIONCALCULATORS_DIR}/SetupPagePositionCalculator.cpp
+    ${POSITIONCALCULATORS_DIR}/SetupPageCanvasPositionCalculator.cpp
     ${POSITIONCALCULATORS_DIR}/MusicSetupCanvasPositionCalculator.cpp
     ${POSITIONCALCULATORS_DIR}/AlbumStepCalculator.cpp
 )

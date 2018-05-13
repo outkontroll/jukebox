@@ -24,7 +24,7 @@
 #include "JukeboxTimer.h"
 #include "MultipleAlbumsCanvas.h"
 #include "SingleAlbumCanvas.h"
-#include "SetupPage.h"
+#include "SetupPageCanvas.h"
 #include "MusicSetupCanvas.h"
 #include "MainComponentPositionCalculator.h"
 #include "Password.h"
@@ -126,7 +126,7 @@ MainComponent::MainComponent ()
     singleAlbumCanvas->setVisible(false);
     addAndMakeVisible(listBoxPlayQueue = new jukebox::gui::ListBox<std::deque, jukebox::audio::Song>);
 
-    addChildComponent(setupPage = new jukebox::gui::SetupPage);
+    addChildComponent(setupPage = new jukebox::gui::SetupPageCanvas);
     addChildComponent(musicSetupCanvas = new jukebox::gui::MusicSetupCanvas);
     eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, musicSetupCanvas->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &MainComponent::onTimeToPlayASongChanged, setupPage->timeToPlayASongChangedSignal);
