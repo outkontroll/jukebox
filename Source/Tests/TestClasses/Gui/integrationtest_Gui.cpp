@@ -102,6 +102,16 @@ TEST_F(GuiTest, WhenMainComponentSendsTimeToSaveInsertedCoinsChangedSignal_ThenG
     mainComponentMock->timeToSaveInsertedCoinsChangedSignal(3);
 }
 
+TEST_F(GuiTest, WhenMainComponentSendsTimeToPlayAdvertiseMusicChangedSignal_ThenGuiSignalizeIt)
+{
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::fooInt, gui->timeToPlayAdvertiseMusicChangedSignal);
+
+    EXPECT_CALL(fooMock, fooInt(3));
+
+    mainComponentMock->timeToPlayAdvertiseMusicChangedSignal(3);
+}
+
 TEST_F(GuiTest, WhenMainComponentSendsPasswordChangedSignal_ThenGuiSignalizeIt)
 {
     /*StrictMock<*/FooMock/*>*/ fooMock;
@@ -698,3 +708,36 @@ TEST_F(GuiTest, GuiIsInSingleAlbumStateAndNotOnEndOfRange_WhenMainComponentSends
 }
 
 //TODO test overflow, underflow
+
+// there are here because of the needed eventlooprunner
+
+// DISABLED because it causes very non-deterministic behavior, sometimes it runs successful sometimes don't
+TEST_F(GuiTest, DISABLED_WhenSetTimeToPlayAdvertiseMusicIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    JuceEventLoopRunner eventLoopRunner;
+    const int timeToPlay(100);
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->playAdvertiseMusicSignal);
+
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayAdvertiseMusic(timeToPlay));
+    EXPECT_CALL(fooMock, foo()).Times(1);
+
+    gui->setTimeToPlayAdvertiseMusic(timeToPlay);
+    eventLoopRunner.runEventLoop(timeToPlay * 2);
+}
+
+// DISABLED because it causes very non-deterministic behavior, sometimes it runs successful sometimes don't
+TEST_F(GuiTest, DISABLED_WhenTurnOffAdvertiseMusicIsCalled_ThenTheTimerGetsInactive)
+{
+    JuceEventLoopRunner eventLoopRunner;
+    const int timeToPlay(100);
+
+    EXPECT_CALL(*mainComponentMock, setTimeToPlayAdvertiseMusic(timeToPlay));
+    gui->setTimeToPlayAdvertiseMusic(timeToPlay);
+
+    /*StrictMock<*/FooMock/*>*/ fooMock;
+    eventsSlot.connect(&fooMock, &FooMock::foo, gui->playAdvertiseMusicSignal);
+    EXPECT_CALL(fooMock, foo()).Times(0);
+    gui->turnOffAdvertiseMusic();
+    eventLoopRunner.runEventLoop(timeToPlay);
+}

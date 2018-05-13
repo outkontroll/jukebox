@@ -21,6 +21,8 @@ public:
     void setTimeToPlaySong(int millisecsToPlaySong) override;
     int getTimeToSaveInsertedCoins() const override;
     void setTimeToSaveInsertedCoins(int millisecs) override;
+    int getTimeToPlayAdvertiseMusic() const override;
+    void setTimeToPlayAdvertiseMusic(int millisecs) override;
     bool isPasswordSet() const override;
     void turnOffPassword() override;
     const Password* getPassword() const override;

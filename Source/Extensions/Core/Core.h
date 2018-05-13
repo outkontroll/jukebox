@@ -54,10 +54,12 @@ private:
     void finishedPlaying();
     void playNextSong(const audio::Song& song);
     void playOrEnqueue(const audio::Song& song);
+    void playAdvertiseMusic();
     
     void musicDirectoryChanged(const std::string& newMusicDirectory);
     void timeToPlayASongChanged(int millisecs);
     void timeToSaveInsertedCoinsChanged(int millisecs);
+    void timeToPlayAdvertiseMusicChanged(int millisecs);
     void passwordChanged(const jukebox::Password& password);
     void passwordTurnedOff();
     void albumImportRequested(const std::string& albumToImport);

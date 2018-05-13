@@ -31,6 +31,9 @@ public:
     virtual void setMusicFolder(const std::string& folder) = 0;
     virtual void setTimeToPlaySong(int millisecs) = 0;
     virtual void setTimeToSaveInsertedCoins(int millisecs) = 0;
+    virtual void setTimeToPlayAdvertiseMusic(int millisecs) = 0;
+    virtual void startAdvertiseMusicTimer(int millisecs) = 0;
+    virtual void turnOffAdvertiseMusic() = 0;
     virtual void setPassword(const Password* password) = 0;
     virtual void turnOffPassword() = 0;
 
@@ -51,6 +54,7 @@ public:
     jukebox::signals::Signal<const audio::Album&, const std::vector<audio::Song>&> playAlbumSignal;
     jukebox::signals::Signal<> removePlayedSongSignal;
     jukebox::signals::Signal<const audio::Song&> playNextSongSignal;
+    jukebox::signals::Signal<> playAdvertiseMusicSignal;
 
     jukebox::signals::Signal<> increaseSoundVolumeSignal;
     jukebox::signals::Signal<> decreaseSoundVolumeSignal;
@@ -59,6 +63,7 @@ public:
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
     jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
+    jukebox::signals::Signal<int> timeToPlayAdvertiseMusicChangedSignal;
     jukebox::signals::Signal<const Password&> passwordChangedSignal;
     jukebox::signals::Signal<> passwordTurnedOffSignal;
     jukebox::signals::Signal<const std::string&> requestToImportAlbumSignal;

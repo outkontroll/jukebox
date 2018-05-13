@@ -68,6 +68,7 @@ public:
     jukebox::signals::Signal<const std::string&> musicDirectoryChangedSignal;
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
     jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
+    jukebox::signals::Signal<int> timeToPlayAdvertiseMusicChangedSignal;
     jukebox::signals::Signal<const jukebox::Password&> passwordChangedSignal;
     jukebox::signals::Signal<> passwordTurnedOffSignal;
     jukebox::signals::Signal<const std::string&> requestToImportAlbumSignal;
@@ -82,6 +83,7 @@ public:
     virtual void setAlbumsForMusicSetup(const std::vector<jukebox::audio::AlbumInfo>& albums);
     virtual void setTimeToPlayASong(int millisecs);
     virtual void setTimeToSaveInsertedCoins(int millisecs);
+    virtual void setTimeToPlayAdvertiseMusic(int millisecs);
     virtual void setPassword(const jukebox::Password* password);
     virtual void turnOffPassword();
     virtual void switchBetweenUserModes();
@@ -116,6 +118,7 @@ private:
     void onMusicDirectoryChanged(const std::string& musicDirectory);
     void onTimeToPlayASongChanged(int);
     void onTimeToSaveInsertedCoinsChanged(int);
+    void onTimeToPlayAdvertiseMusicChanged(int);
     void onPasswordChanged(const jukebox::Password& password);
     void onPasswordTurnedOff();
     void onRequestToImportAlbumSignal(const std::string& albumToImport);

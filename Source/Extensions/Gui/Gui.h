@@ -35,6 +35,9 @@ public:
     void setMusicFolder(const std::string& folder) override;
     void setTimeToPlaySong(int millisecs) override;
     void setTimeToSaveInsertedCoins(int millisecs) override;
+    void setTimeToPlayAdvertiseMusic(int millisecs) override;
+    void startAdvertiseMusicTimer(int millisecs) override;
+    void turnOffAdvertiseMusic() override;
     void setPassword(const Password* password) override;
     void turnOffPassword() override;
     
@@ -67,6 +70,7 @@ private:
     void musicDirectoryChanged(const std::string& musicDirectory);
     void timeToPlayASongChanged(int millisecs);
     void timeToSaveInsertedCoinsChanged(int millisecs);
+    void timeToPlayAdvertiseMusicChanged(int millisecs);
     void passwordChanged(const jukebox::Password& password);
     void passwordTurnedOff();
     void albumImportRequested(const std::string& albumToImport);
@@ -83,6 +87,7 @@ private:
     std::unique_ptr<MainWindow> mainWindow;
 
     std::unique_ptr<jukebox::JukeboxTimer> secondsToPlayTimer;
+    std::unique_ptr<jukebox::JukeboxTimer> playAdvertiseMusicTimer;
     
     std::string userInputSongNumber = "";
     unsigned int visibleAlbumsId = 1;

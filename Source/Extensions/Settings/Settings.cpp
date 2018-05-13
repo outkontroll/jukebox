@@ -57,6 +57,7 @@ struct jukebox::settings::PImpl
     std::string musicDirectory = "";
     int millisecsToPlaySong = 5000;
     int millisecsToSaveInsertedCoins = 24 * 3600 * 1000;
+    int millisecsToPlayAdvertiseMusic = 20 * 60 * 1000;
     std::optional<Password> password = std::nullopt;
 };
 
@@ -66,6 +67,7 @@ namespace jukebox::settings {
         j = json{{"musicDirectory", p.musicDirectory},
                  {"millisecsToPlaySong", p.millisecsToPlaySong},
                  {"millisecsToSaveInsertedCoins", p.millisecsToSaveInsertedCoins},
+                 {"millisecsToPlayAdvertiseMusic", p.millisecsToPlayAdvertiseMusic},
                  {"password", p.password}};
     }
 
@@ -74,12 +76,14 @@ namespace jukebox::settings {
         if(j.find("musicDirectory") != j.end() &&
            j.find("millisecsToPlaySong") != j.end() &&
            j.find("millisecsToSaveInsertedCoins") != j.end() &&
+           j.find("millisecsToPlayAdvertiseMusic") != j.end() &&
            j.find("password") != j.end())
         {
             PImpl pp;
             pp.musicDirectory = j.at("musicDirectory").get<std::string>();
             pp.millisecsToPlaySong = j.at("millisecsToPlaySong").get<int>();
             pp.millisecsToSaveInsertedCoins = j.at("millisecsToSaveInsertedCoins").get<int>();
+            pp.millisecsToPlayAdvertiseMusic = j.at("millisecsToPlayAdvertiseMusic").get<int>();
             pp.password = j.at("password").get<std::optional<Password>>();
 
             std::swap(p, pp);
@@ -131,6 +135,18 @@ int Settings::getTimeToSaveInsertedCoins() const
 void Settings::setTimeToSaveInsertedCoins(int millisecs)
 {
     data->millisecsToSaveInsertedCoins = millisecs;
+
+    serialize();
+}
+
+int Settings::getTimeToPlayAdvertiseMusic() const
+{
+    return data->millisecsToPlayAdvertiseMusic;
+}
+
+void Settings::setTimeToPlayAdvertiseMusic(int millisecs)
+{
+    data->millisecsToPlayAdvertiseMusic = millisecs;
 
     serialize();
 }

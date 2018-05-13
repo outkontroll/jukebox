@@ -25,12 +25,14 @@ public:
 
     virtual void setTimeToPlayASong(int millisecs);
     virtual void setTimeToSaveInsertedCoins(int millisecs);
+    virtual void setTimeToPlayAdvertiseMusic(int millisecs);
     virtual void showStatistics(const std::string& statistics);
     virtual void setPassword(const jukebox::Password* password);
     virtual void turnOffPassword();
 
     jukebox::signals::Signal<int> timeToPlayASongChangedSignal;
     jukebox::signals::Signal<int> timeToSaveInsertedCoinsChangedSignal;
+    jukebox::signals::Signal<int> timeToPlayAdvertiseMusicChangedSignal;
     jukebox::signals::Signal<const jukebox::Password&> passwordChangedSignal;
     jukebox::signals::Signal<> passwordTurnedOffSignal;
 
@@ -45,6 +47,8 @@ private:
     juce::ScopedPointer<juce::ComboBox> comboTimeToPlayASong;
     juce::ScopedPointer<juce::Label> infoTimeToSaveInsertedCoins;
     juce::ScopedPointer<juce::ComboBox> comboTimeToSaveInsertedCoins;
+    juce::ScopedPointer<juce::Label> infoTimeToPlayAdvertiseMusic;
+    juce::ScopedPointer<juce::ComboBox> comboTimeToPlayAdvertiseMusic;
     juce::ScopedPointer<juce::TextButton> buttonChangePassword;
     juce::ScopedPointer<juce::ToggleButton> toggleNoPassword;
     juce::ScopedPointer<juce::ToggleButton> togglePassword;

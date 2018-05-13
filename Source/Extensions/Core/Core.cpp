@@ -1,3 +1,4 @@
+#include <random>
 #include "Core.h"
 #include "IGui.h"
 #include "ICreditManager.h"
@@ -43,9 +44,11 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     eventsSlot.connect(this, &Core::playAlbum, gui->playAlbumSignal);
     eventsSlot.connect(this, &Core::removePlayedSong, gui->removePlayedSongSignal);
     eventsSlot.connect(this, &Core::playNextSong, gui->playNextSongSignal);
+    eventsSlot.connect(this, &Core::playAdvertiseMusic, gui->playAdvertiseMusicSignal);
     eventsSlot.connect(this, &Core::musicDirectoryChanged, gui->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &Core::timeToPlayASongChanged, gui->timeToPlayASongChangedSignal);
     eventsSlot.connect(this, &Core::timeToSaveInsertedCoinsChanged, gui->timeToSaveInsertedCoinsChangedSignal);
+    eventsSlot.connect(this, &Core::timeToPlayAdvertiseMusicChanged, gui->timeToPlayAdvertiseMusicChangedSignal);
     eventsSlot.connect(this, &Core::passwordChanged, gui->passwordChangedSignal);
     eventsSlot.connect(this, &Core::passwordTurnedOff, gui->passwordTurnedOffSignal);
     eventsSlot.connect(this, &Core::albumImportRequested, gui->requestToImportAlbumSignal);
@@ -58,6 +61,7 @@ Core::Core(std::unique_ptr<gui::IGui> iGui,
     gui->setMusicFolder(settings->getMusicDirectory());
     gui->setTimeToPlaySong(settings->getTimeToPlaySong());
     gui->setTimeToSaveInsertedCoins(settings->getTimeToSaveInsertedCoins());
+    gui->setTimeToPlayAdvertiseMusic(settings->getTimeToPlayAdvertiseMusic());
     statistics->setSaveTimeout(settings->getTimeToSaveInsertedCoins());
     if(settings->isPasswordSet())
         gui->setPassword(settings->getPassword());
@@ -204,6 +208,24 @@ void Core::timeToSaveInsertedCoinsChanged(int millisecs)
     }
 }
 
+void Core::timeToPlayAdvertiseMusicChanged(int millisecs)
+{
+    if(millisecs > 0)
+    {
+        settings->setTimeToPlayAdvertiseMusic(millisecs);
+        gui->setTimeToPlayAdvertiseMusic(millisecs);
+    }
+    else if(millisecs == 0)
+    {
+        settings->setTimeToPlayAdvertiseMusic(millisecs);
+        gui->turnOffAdvertiseMusic();
+    }
+    else
+    {
+        gui->showStatusMessage(ResourceId::ErrorWrongNumber);
+    }
+}
+
 void Core::passwordChanged(const Password& password)
 {
     settings->setPassword(password);
@@ -277,7 +299,44 @@ void Core::playOrEnqueue(const Song& song)
     }
 }
 
+void Core::playAdvertiseMusic()
+{
+    if(musicPlayer->isPlaying())
+    {
+        LOG_WARNING("There is playing in progress, the advertise music timer should be off");
+        gui->turnOffAdvertiseMusic();
+    }
+
+    const auto& albums = fileSys->getAlbums();
+    std::mt19937 rng;
+    rng.seed(std::random_device()());
+    std::uniform_int_distribution<std::mt19937::result_type> distAlbums(1, albums.size());
+
+    const auto albumId(distAlbums(rng));
+    const auto& songs = albums.at(albumId - 1).songs;
+    if(songs.empty())
+    {
+        LOG_WARNING("The selected album " << SongBuilder::createVisibleName(static_cast<unsigned int>(albumId))
+                    << " contains no songs!");
+
+        gui->startAdvertiseMusicTimer(settings->getTimeToPlayAdvertiseMusic());
+    }
+
+    std::uniform_int_distribution<std::mt19937::result_type> distSongs(1, songs.size());
+
+    const auto songId(distSongs(rng));
+    const auto& song = songs.at(songId - 1);
+
+    LOG_INFO("Playing advertise music: " << SongBuilder::createVisibleName(static_cast<unsigned int>(albumId),
+                                                                           static_cast<unsigned int>(songId)));
+
+    musicPlayer->playSong(song.fileName);
+}
+
 void Core::finishedPlaying()
 {
+    const auto advertiseMusicTimerInterval = settings->getTimeToPlayAdvertiseMusic();
+    if(advertiseMusicTimerInterval > 0)
+        gui->startAdvertiseMusicTimer(advertiseMusicTimerInterval);
     gui->removeCurrentSong();
 }

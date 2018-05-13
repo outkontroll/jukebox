@@ -131,6 +131,7 @@ MainComponent::MainComponent ()
     eventsSlot.connect(this, &MainComponent::onMusicDirectoryChanged, musicSetupCanvas->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &MainComponent::onTimeToPlayASongChanged, setupPage->timeToPlayASongChangedSignal);
     eventsSlot.connect(this, &MainComponent::onTimeToSaveInsertedCoinsChanged, setupPage->timeToSaveInsertedCoinsChangedSignal);
+    eventsSlot.connect(this, &MainComponent::onTimeToPlayAdvertiseMusicChanged, setupPage->timeToPlayAdvertiseMusicChangedSignal);
     eventsSlot.connect(this, &MainComponent::onPasswordChanged, setupPage->passwordChangedSignal);
     eventsSlot.connect(this, &MainComponent::onPasswordTurnedOff, setupPage->passwordTurnedOffSignal);
     eventsSlot.connect(this, &MainComponent::grabFocus, musicSetupCanvas->lostFocusSignal);
@@ -308,6 +309,11 @@ void MainComponent::setTimeToSaveInsertedCoins(int millisecs)
     setupPage->setTimeToSaveInsertedCoins(millisecs);
 }
 
+void MainComponent::setTimeToPlayAdvertiseMusic(int millisecs)
+{
+    setupPage->setTimeToPlayAdvertiseMusic(millisecs);
+}
+
 void MainComponent::setPassword(const Password* password_)
 {
     password = password_;
@@ -402,6 +408,11 @@ void MainComponent::onTimeToPlayASongChanged(int millisecs)
 void MainComponent::onTimeToSaveInsertedCoinsChanged(int millisecs)
 {
     timeToSaveInsertedCoinsChangedSignal(std::move(millisecs));
+}
+
+void MainComponent::onTimeToPlayAdvertiseMusicChanged(int millisecs)
+{
+    timeToPlayAdvertiseMusicChangedSignal(std::move(millisecs));
 }
 
 void MainComponent::onPasswordChanged(const Password& password_)

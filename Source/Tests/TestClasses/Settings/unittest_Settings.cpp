@@ -68,6 +68,7 @@ inline void createWrongPasswordedJSONfile()
         nlohmann::json j = R"({
                            "millisecsToPlaySong": 4000,
                            "millisecsToSaveInsertedCoins": 12000,
+                           "millisecsToPlayAdvertiseMusic": 300000,
                            "musicDirectory": "fakeMusicDir",
                            "password": {
                                "password" : null,
@@ -94,6 +95,7 @@ inline void createEmptyPasswordedJSONfile()
         nlohmann::json j = R"({
                            "millisecsToPlaySong": 4000,
                            "millisecsToSaveInsertedCoins": 12000,
+                           "millisecsToPlayAdvertiseMusic": 300000,
                            "musicDirectory": "fakeMusicDir",
                            "password": {
                                "password" : null
@@ -119,6 +121,7 @@ inline void createCorrectPasswordedJSONfile()
         nlohmann::json j = R"({
                            "millisecsToPlaySong": 4000,
                            "millisecsToSaveInsertedCoins": 12000,
+                           "millisecsToPlayAdvertiseMusic": 300000,
                            "musicDirectory": "fakeMusicDir",
                            "password": {
                                "password" : "fakePassword",
@@ -157,6 +160,13 @@ TEST_F(SettingsTest, WhenTimeToSaveInsertedCoinsSet_ThenItIsSet)
     settings.setTimeToSaveInsertedCoins(12000);
 
     ASSERT_EQ(12000, settings.getTimeToSaveInsertedCoins());
+}
+
+TEST_F(SettingsTest, WhenTimeToPlayAdvertiseMusicSet_ThenItIsSet)
+{
+    settings.setTimeToPlayAdvertiseMusic(60 * 1000 * 5);
+
+    ASSERT_EQ(60 * 1000 * 5, settings.getTimeToPlayAdvertiseMusic());
 }
 
 TEST_F(SettingsTest, setMusicDir)

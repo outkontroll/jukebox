@@ -15,6 +15,9 @@ struct GuiMock : public jukebox::gui::IGui
     MOCK_METHOD1(setMusicFolder, void(const std::string &));
     MOCK_METHOD1(setTimeToPlaySong, void(int));
     MOCK_METHOD1(setTimeToSaveInsertedCoins, void(int));
+    MOCK_METHOD1(setTimeToPlayAdvertiseMusic, void(int));
+    MOCK_METHOD1(startAdvertiseMusicTimer, void(int));
+    MOCK_METHOD0(turnOffAdvertiseMusic, void());
     MOCK_METHOD1(setPassword, void(const jukebox::Password*));
     MOCK_METHOD0(turnOffPassword, void());
     MOCK_METHOD1(setCurrentlyPlayedSong, void(const jukebox::audio::Song&));

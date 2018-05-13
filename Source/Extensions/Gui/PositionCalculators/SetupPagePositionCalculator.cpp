@@ -79,6 +79,24 @@ juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToSaveInsert
     return {xPosition, yPosition, comboWidth, fontSizeInt};
 }
 
+juce::Rectangle<int> SetupPagePositionCalculator::calculateInfoTimeToPlayAdvertiseMusic() const
+{
+    const int xPosition = offsetX;
+    const int yPosition = offsetY * 6 + fontSizeInt * 4 + statisticsHeight;
+    const int infoWidth = width / 3;
+
+    return {xPosition, yPosition, infoWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPagePositionCalculator::calculateComboTimeToPlayAdvertiseMusic() const
+{
+    const int comboWidth = fontSizeInt * 100 / 48;
+    const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
+    const int yPosition = offsetY * 6 + fontSizeInt * 4 + statisticsHeight;
+
+    return {xPosition, yPosition, comboWidth, fontSizeInt};
+}
+
 juce::Rectangle<int> SetupPagePositionCalculator::calculateNoPasswordToggleBounds() const
 {
     const int xPosition = statisticsWidth + offsetX * 2;

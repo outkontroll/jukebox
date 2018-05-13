@@ -20,6 +20,8 @@ public:
     virtual void setTimeToPlaySong(int millisecs) = 0;
     virtual int getTimeToSaveInsertedCoins() const = 0;
     virtual void setTimeToSaveInsertedCoins(int millisecs) = 0;
+    virtual int getTimeToPlayAdvertiseMusic() const = 0;
+    virtual void setTimeToPlayAdvertiseMusic(int millisecs) = 0;
     virtual bool isPasswordSet() const = 0;
     virtual void turnOffPassword() = 0;
     virtual const Password* getPassword() const = 0;

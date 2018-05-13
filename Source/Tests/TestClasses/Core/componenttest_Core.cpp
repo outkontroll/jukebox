@@ -42,6 +42,7 @@ struct CoreTest : public Test
         EXPECT_CALL(*settingsMock, getMusicDirectory()).Times(2).WillRepeatedly(Return("FakeMusicDirectory"));
         EXPECT_CALL(*settingsMock, getTimeToPlaySong()).WillOnce(Return(5000));
         EXPECT_CALL(*settingsMock, getTimeToSaveInsertedCoins()).Times(2).WillRepeatedly(Return(24 * 3600 * 1000));
+        EXPECT_CALL(*settingsMock, getTimeToPlayAdvertiseMusic()).WillOnce(Return(20 * 60 * 1000));
         EXPECT_CALL(*settingsMock, isPasswordSet()).WillOnce(Return(isPasswordSet));
         if(isPasswordSet)
             EXPECT_CALL(*settingsMock, getPassword()).WillOnce(Return(&fakePassword));
@@ -51,6 +52,7 @@ struct CoreTest : public Test
         EXPECT_CALL(*guiMock, setMusicFolder("FakeMusicDirectory"));
         EXPECT_CALL(*guiMock, setTimeToPlaySong(5000));
         EXPECT_CALL(*guiMock, setTimeToSaveInsertedCoins(24 * 3600 * 1000));
+        EXPECT_CALL(*guiMock, setTimeToPlayAdvertiseMusic(20 * 60 * 1000));
         if(isPasswordSet)
             EXPECT_CALL(*guiMock, setPassword(&fakePassword));
         else
@@ -379,8 +381,18 @@ TEST_F(CoreTest, GivenMusicPlayerIsNotPlaying_WhenGuiSendsRemovePlayedSong_ThenG
 
 // finishedPlaying
 
-TEST_F(CoreTest, WhenMusicPlayerSendsFinishedPlaying_ThenGuiRemovesCurrentSong)
+TEST_F(CoreTest, GivenThereIsAdvertiseMusic_WhenMusicPlayerSendsFinishedPlaying_ThenGuiRemovesCurrentSongAndRestartsAdvertiseTimer)
 {
+    EXPECT_CALL(*settingsMock, getTimeToPlayAdvertiseMusic()).WillOnce(Return(2000));
+    EXPECT_CALL(*guiMock, startAdvertiseMusicTimer(2000));
+    EXPECT_CALL(*guiMock, removeCurrentSong());
+
+    musicPlayerMock->finishedPlayingSignal();
+}
+
+TEST_F(CoreTest, GivenThereIsNoAdvertiseMusic_WhenMusicPlayerSendsFinishedPlaying_ThenGuiRemovesCurrentSong)
+{
+    EXPECT_CALL(*settingsMock, getTimeToPlayAdvertiseMusic()).WillOnce(Return(0));
     EXPECT_CALL(*guiMock, removeCurrentSong());
 
     musicPlayerMock->finishedPlayingSignal();
@@ -491,6 +503,31 @@ TEST_F(CoreTest, GivenOnlyGreaterOrEqual3600Accepted_WhenGuiSendsTimeToSaveInser
 
     guiMock->timeToSaveInsertedCoinsChangedSignal(-2000);
     guiMock->timeToSaveInsertedCoinsChangedSignal(3599);
+}
+
+// timeToPlayAdvertiseMusicChanged
+
+TEST_F(CoreTest, WhenGuiSendsTimeToPlayAdvertiseMusicSignalWithCorrectValue_ThenSettingsIsNotified)
+{
+    EXPECT_CALL(*settingsMock, setTimeToPlayAdvertiseMusic(300000));
+    EXPECT_CALL(*guiMock, setTimeToPlayAdvertiseMusic(300000));
+
+    guiMock->timeToPlayAdvertiseMusicChangedSignal(300000);
+}
+
+TEST_F(CoreTest, WhenGuiSendsTimeToPlayAdvertiseMusicSignalWithZeroValue_ThenSettingsIsNotified)
+{
+    EXPECT_CALL(*settingsMock, setTimeToPlayAdvertiseMusic(0));
+    EXPECT_CALL(*guiMock, turnOffAdvertiseMusic());
+
+    guiMock->timeToPlayAdvertiseMusicChangedSignal(0);
+}
+
+TEST_F(CoreTest, GivenNoNegativeNumberIsAccepted_WhenGuiSendsTimeToPlayAdvertiseMusicSignalWithNegativeValue_ThenAnErrorIsDisplayed)
+{
+    EXPECT_CALL(*guiMock, showStatusMessage(ResourceId::ErrorWrongNumber));
+
+    guiMock->timeToPlayAdvertiseMusicChangedSignal(-100);
 }
 
 // passwordChanged

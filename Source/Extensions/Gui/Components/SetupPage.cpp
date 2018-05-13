@@ -13,6 +13,8 @@ namespace {
 
 int getSelectedIndexFromSaveInsertedCoinHours(int SaveInsertedCoinHours);
 int getSaveInsertedCoinHoursFromSelected(int selectedIndex);
+int getTimeToPlayAdvertiseMusicFromSelected(int selectedIndex);
+int getSelectedIndexFromPlayAdvertiseMusic(int timeToPlayAdvertiseMusic);
 
 SetupPage::SetupPage()
 {
@@ -62,6 +64,22 @@ SetupPage::SetupPage()
     comboTimeToSaveInsertedCoins->addItem("24", 4);
     comboTimeToSaveInsertedCoins->addListener(this);
 
+    addAndMakeVisible(infoTimeToPlayAdvertiseMusic = new Label("time to play advertise music label", "Minutes to play advertise music"));
+    infoTimeToPlayAdvertiseMusic->setFont (Font (smallFontSize, Font::plain));
+    infoTimeToPlayAdvertiseMusic->setJustificationType (Justification::centredLeft);
+    infoTimeToPlayAdvertiseMusic->setEditable (false, false, false);
+    infoTimeToPlayAdvertiseMusic->setColour (TextEditor::textColourId, Colours::black);
+    infoTimeToPlayAdvertiseMusic->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible(comboTimeToPlayAdvertiseMusic = new ComboBox("time to play advertise music combo"));
+    comboTimeToPlayAdvertiseMusic->addItem("Off", 1);
+    comboTimeToPlayAdvertiseMusic->addItem("5", 2);
+    comboTimeToPlayAdvertiseMusic->addItem("10", 3);
+    comboTimeToPlayAdvertiseMusic->addItem("20", 4);
+    comboTimeToPlayAdvertiseMusic->addItem("30", 5);
+    comboTimeToPlayAdvertiseMusic->addItem("60", 6);
+    comboTimeToPlayAdvertiseMusic->addListener(this);
+
     addAndMakeVisible(buttonChangePassword = new TextButton("change password button"));
     buttonChangePassword->setButtonText("Change password");
     buttonChangePassword->addListener(this);
@@ -79,6 +97,7 @@ SetupPage::~SetupPage()
 {
     comboTimeToPlayASong->removeListener(this);
     comboTimeToSaveInsertedCoins->removeListener(this);
+    comboTimeToPlayAdvertiseMusic->removeListener(this);
     buttonChangePassword->removeListener(this);
     toggleNoPassword->removeListener(this);
     togglePassword->removeListener(this);
@@ -89,6 +108,8 @@ SetupPage::~SetupPage()
     comboTimeToPlayASong = nullptr;
     infoTimeToSaveInsertedCoins = nullptr;
     comboTimeToSaveInsertedCoins = nullptr;
+    infoTimeToPlayAdvertiseMusic = nullptr;
+    comboTimeToPlayAdvertiseMusic = nullptr;
     buttonChangePassword = nullptr;
     toggleNoPassword = nullptr;
     togglePassword = nullptr;
@@ -117,6 +138,8 @@ void SetupPage::parentSizeChanged()
     comboTimeToPlayASong->setBounds(calc.calculateComboTimeToPlayASong());
     infoTimeToSaveInsertedCoins->setBounds(calc.calculateInfoTimeToSaveInsertedCoins());
     comboTimeToSaveInsertedCoins->setBounds(calc.calculateComboTimeToSaveInsertedCoins());
+    infoTimeToPlayAdvertiseMusic->setBounds(calc.calculateInfoTimeToPlayAdvertiseMusic());
+    comboTimeToPlayAdvertiseMusic->setBounds(calc.calculateComboTimeToPlayAdvertiseMusic());
     buttonChangePassword->setBounds(calc.calculateChangePasswordBounds());
     toggleNoPassword->setBounds(calc.calculateNoPasswordToggleBounds());
     togglePassword->setBounds(calc.calculatePasswordToggleBounds());
@@ -153,6 +176,21 @@ int getSelectedIndexFromSaveInsertedCoinHours(int SaveInsertedCoinHours)
     return 4;
 }
 
+int getSelectedIndexFromPlayAdvertiseMusic(int timeToPlayAdvertiseMusic)
+{
+    switch(timeToPlayAdvertiseMusic)
+    {
+    case 0: return 1;
+    case 5: return 2;
+    case 10: return 3;
+    case 20: return 4;
+    case 30: return 5;
+    case 60: return 6;
+    }
+
+    return 4;
+}
+
 int getSaveInsertedCoinHoursFromSelected(int selectedIndex)
 {
     switch(selectedIndex)
@@ -166,6 +204,21 @@ int getSaveInsertedCoinHoursFromSelected(int selectedIndex)
     return 24;
 }
 
+int getTimeToPlayAdvertiseMusicFromSelected(int selectedIndex)
+{
+    switch(selectedIndex)
+    {
+    case 1: return 0;
+    case 2: return 5;
+    case 3: return 10;
+    case 4: return 20;
+    case 5: return 30;
+    case 6: return 60;
+    }
+
+    return 20;
+}
+
 void SetupPage::comboBoxChanged(ComboBox* combo)
 {
     if(combo == comboTimeToPlayASong)
@@ -175,6 +228,10 @@ void SetupPage::comboBoxChanged(ComboBox* combo)
     else if(combo == comboTimeToSaveInsertedCoins)
     {
         timeToSaveInsertedCoinsChangedSignal(getSaveInsertedCoinHoursFromSelected(combo->getSelectedId()) * 3600 * 1000);
+    }
+    else if(combo == comboTimeToPlayAdvertiseMusic)
+    {
+        timeToPlayAdvertiseMusicChangedSignal(getTimeToPlayAdvertiseMusicFromSelected(combo->getSelectedId()) * 60 * 1000);
     }
 }
 
@@ -186,6 +243,11 @@ void SetupPage::setTimeToPlayASong(int millisecs)
 void SetupPage::setTimeToSaveInsertedCoins(int millisecs)
 {
     comboTimeToSaveInsertedCoins->setSelectedId(getSelectedIndexFromSaveInsertedCoinHours(millisecs / (1000 * 3600)), dontSendNotification);
+}
+
+void SetupPage::setTimeToPlayAdvertiseMusic(int millisecs)
+{
+    comboTimeToPlayAdvertiseMusic->setSelectedId(getSelectedIndexFromPlayAdvertiseMusic(millisecs / (1000 * 60)), dontSendNotification);
 }
 
 void SetupPage::showStatistics(const std::string& statistics)

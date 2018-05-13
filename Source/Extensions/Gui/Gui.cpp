@@ -50,6 +50,7 @@ void Gui::connectSignals()
     eventsSlot.connect(this, &Gui::musicDirectoryChanged, mainComponent->musicDirectoryChangedSignal);
     eventsSlot.connect(this, &Gui::timeToPlayASongChanged, mainComponent->timeToPlayASongChangedSignal);
     eventsSlot.connect(this, &Gui::timeToSaveInsertedCoinsChanged, mainComponent->timeToSaveInsertedCoinsChangedSignal);
+    eventsSlot.connect(this, &Gui::timeToPlayAdvertiseMusicChanged, mainComponent->timeToPlayAdvertiseMusicChangedSignal);
     eventsSlot.connect(this, &Gui::passwordChanged, mainComponent->passwordChangedSignal);
     eventsSlot.connect(this, &Gui::passwordTurnedOff, mainComponent->passwordTurnedOffSignal);
     eventsSlot.connect(this, &Gui::albumImportRequested, mainComponent->requestToImportAlbumSignal);
@@ -216,6 +217,30 @@ void Gui::setTimeToPlaySong(int millisecs)
 void Gui::setTimeToSaveInsertedCoins(int millisecs)
 {
     mainComponent->setTimeToSaveInsertedCoins(millisecs);
+}
+
+void Gui::setTimeToPlayAdvertiseMusic(int millisecs)
+{
+    startAdvertiseMusicTimer(millisecs);
+
+    mainComponent->setTimeToPlayAdvertiseMusic(millisecs);
+}
+
+void Gui::startAdvertiseMusicTimer(int millisecs)
+{
+    if(playAdvertiseMusicTimer == nullptr)
+    {
+        playAdvertiseMusicTimer = std::make_unique<JukeboxTimer>([this](){
+            playAdvertiseMusicSignal();
+        });
+    }
+
+    playAdvertiseMusicTimer->startTimer(millisecs);
+}
+
+void Gui::turnOffAdvertiseMusic()
+{
+    playAdvertiseMusicTimer.reset();
 }
 
 void Gui::setPassword(const Password* password)
@@ -402,6 +427,11 @@ void Gui::timeToPlayASongChanged(int millisecs)
 void Gui::timeToSaveInsertedCoinsChanged(int millisecs)
 {
     timeToSaveInsertedCoinsChangedSignal(std::move(millisecs));
+}
+
+void Gui::timeToPlayAdvertiseMusicChanged(int millisecs)
+{
+    timeToPlayAdvertiseMusicChangedSignal(std::move(millisecs));
 }
 
 void Gui::passwordChanged(const Password& password_)

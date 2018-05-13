@@ -16,6 +16,8 @@ struct SetupPagePositionCalculator
     juce::Rectangle<int> calculateComboTimeToPlayASong() const;
     juce::Rectangle<int> calculateInfoTimeToSaveInsertedCoins() const;
     juce::Rectangle<int> calculateComboTimeToSaveInsertedCoins() const;
+    juce::Rectangle<int> calculateInfoTimeToPlayAdvertiseMusic() const;
+    juce::Rectangle<int> calculateComboTimeToPlayAdvertiseMusic() const;
     juce::Rectangle<int> calculateChangePasswordBounds() const;
     juce::Rectangle<int> calculateNoPasswordToggleBounds() const;
     juce::Rectangle<int> calculatePasswordToggleBounds() const;
