@@ -194,6 +194,12 @@ void Gui::loadSingleAlbum()
     mainComponent->loadSingleAlbum(fileSys->getAlbums(), selectedAlbumId);
 }
 
+void Gui::stopAdvertiseMusic()
+{
+    advertiseMusicPlaying = false;
+    removePlayedSongSignal();
+}
+
 void Gui::setMusicFolder(const std::string& folder)
 {
     visibleAlbumsId = defaultAlbumIndex;
@@ -231,6 +237,7 @@ void Gui::startAdvertiseMusicTimer(int millisecs)
     if(playAdvertiseMusicTimer == nullptr)
     {
         playAdvertiseMusicTimer = std::make_unique<JukeboxTimer>([this](){
+            advertiseMusicPlaying = true;
             playAdvertiseMusicSignal();
         });
     }
@@ -377,6 +384,11 @@ void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 
 void Gui::handleUserInputNumbers(char number)
 {
+    if(advertiseMusicPlaying)
+    {
+        stopAdvertiseMusic();
+    }
+
     if(userInputSongNumber.length() >= 5)
         return;
 
