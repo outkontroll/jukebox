@@ -446,7 +446,7 @@ TEST_F(GuiTest, GivenAlmostEnoughCurrentUserInputToPlayASong_WhenMainComponentSe
     mainComponentMock->keyPressedSignal(keyNumber9);
 }
 
-TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainComponentSendsKeyPressedNumber0AndAlbumIsExisting_ThenGuiSendsPlaySongSignal)
+TEST_F(GuiTest, GivenThereIsAlmostEnoughCurrentUserInputToPlayAnAlbum_WhenMainComponentSendsKeyPressedNumber0AndAlbumIsExisting_ThenGuiSendsPlayAlbumSignal)
 {
     ON_CALL(*fileSystemMock, getAlbums()).WillByDefault(testing::ReturnRef(fakeAlbums16));
     JuceEventLoopRunner eventLoopRunner;
