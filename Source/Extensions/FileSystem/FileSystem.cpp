@@ -54,7 +54,7 @@ bool FileSystem::importAlbum(std::string_view musicDirectory, std::string_view a
     if(!checkImportPreconditions(musicDir, albumDir))
         return false;
 
-    const auto albumId = albums.back().id + 1;
+    const auto albumId = albums.empty() ? 1 : albums.back().id + 1;
 
     const File newAlbum = musicDir.getChildFile(String{SongBuilder::createVisibleName(albumId)});
     if(newAlbum.exists())
