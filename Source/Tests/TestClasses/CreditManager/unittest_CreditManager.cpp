@@ -14,7 +14,7 @@ namespace {
     constexpr unsigned zeroCredit(0);
     constexpr unsigned oneSongCredit(1);
     constexpr unsigned threeSongsCredit(3);
-    constexpr unsigned oneAlbumCredit(6);
+    constexpr unsigned oneAlbumCredit(18);
 }
 
 TEST_F(CreditManagerTest, empty)
@@ -46,6 +46,15 @@ TEST_F(CreditManagerTest, insertSingle200)
 {
     creditManager.coinInsert200();
 
+    EXPECT_EQ(oneAlbumCredit / 3, creditManager.getCredits());
+}
+
+TEST_F(CreditManagerTest, insertTriple200)
+{
+    creditManager.coinInsert200();
+    creditManager.coinInsert200();
+    creditManager.coinInsert200();
+
     EXPECT_EQ(oneAlbumCredit, creditManager.getCredits());
     EXPECT_TRUE(creditManager.hasEnoughCreditsToPlayAlbum());
 }
@@ -68,6 +77,8 @@ TEST_F(CreditManagerTest, startPlaySong_enoughCredits)
 TEST_F(CreditManagerTest, startPlayAlbum_enoughCredits)
 {
     creditManager.coinInsert200();
+    creditManager.coinInsert200();
+    creditManager.coinInsert200();
 
     EXPECT_TRUE(creditManager.startPlayAlbum());
 }
@@ -86,7 +97,7 @@ TEST_F(CreditManagerTest, creditIncrease_afterInsertion)
 
     creditManager.creditIncrease();
 
-    EXPECT_EQ(oneAlbumCredit - 1, creditManager.getCredits());
+    EXPECT_EQ(5, creditManager.getCredits());
 }
 
 TEST_F(CreditManagerTest, creditDecrease_empy)
@@ -103,5 +114,5 @@ TEST_F(CreditManagerTest, creditDecrease_afterInsertion)
 
     creditManager.creditDecrease();
 
-    EXPECT_EQ(oneAlbumCredit, creditManager.getCredits());
+    EXPECT_EQ(oneAlbumCredit / 3, creditManager.getCredits());
 }

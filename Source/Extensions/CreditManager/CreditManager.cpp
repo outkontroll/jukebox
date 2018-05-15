@@ -5,7 +5,7 @@ using namespace jukebox::creditmanager;
 
 namespace {
     const unsigned int CreditToPlaySong = 1;
-    const unsigned int CreditToPlayAlbum = 6;
+    const unsigned int CreditToPlayAlbum = 18;
 }
 
 CreditManager::CreditManager()
