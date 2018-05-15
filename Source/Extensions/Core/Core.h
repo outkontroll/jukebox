@@ -38,7 +38,6 @@ public:
          std::unique_ptr<settings::ISettings> iSettings,
          std::unique_ptr<filesystem::IFileSystem> iFileSystem);
 
-    //TODO: this should be private
     jukebox::signals::Signal<> exitRequestedSignal;
 
 private:

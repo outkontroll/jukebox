@@ -61,8 +61,7 @@ void Gui::keyPressed(const KeyPress& key)
     const auto keyCode = key.getKeyCode();
     const auto textCharacter = key.getTextCharacter();
 
-    //TODO enable this
-    //LOG_INFO("***USER*** " << key.getTextDescription() << ", keyCode: " << keyCode << ", textCharacter: " << textCharacter);
+    LOG_INFO("***USER*** " << key.getTextDescription() << ", keyCode: " << keyCode << ", textCharacter: " << textCharacter);
 
     if(keyCode == KeyPress::F4Key)
     {

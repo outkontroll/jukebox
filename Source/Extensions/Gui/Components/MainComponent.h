@@ -73,7 +73,6 @@ public:
     jukebox::signals::Signal<> passwordTurnedOffSignal;
     jukebox::signals::Signal<const std::string&> requestToImportAlbumSignal;
     //the virtuals are here only to enable easier testing and mocking
-    //TODO should reconsider the class because of this
 
     virtual void refreshCredits(unsigned int credits);
     virtual void showStatusMessage(const String& message);

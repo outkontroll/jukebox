@@ -16,7 +16,6 @@ public:
     virtual void stopPlaying() = 0;
 
 public:
-    //TODO: what the hell is this? does not belong here!
     jukebox::signals::Signal<> finishedPlayingSignal;
 };    
 
