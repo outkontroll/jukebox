@@ -4,16 +4,17 @@ cmake_minimum_required(VERSION 3.10)
 #find_package(GTest REQUIRED)
 #message(STATUS "GTest: ${GTEST_BOTH_LIBRARIES}")
 
+#set(GTest gtest)
+#set(GTestMain gtest_main)
 find_library(GTest gtest PATHS ${LIBRARY_LINK_DIRS} NO_DEFAULT_PATH)
 find_library(GTestMain gtest_main PATHS ${LIBRARY_LINK_DIRS} NO_DEFAULT_PATH)
 set(GTestInclude ${LIBRARY_DIRECTORIES}/googletest/googletest/include)
-#message(STATUS "** GTest and GTestMain: ${GTest} ${GTestMain} ${GTestInclude}")
 
+#set(GMock gmock)
+#set(GMockMain gmock_main)
 find_library(GMock gmock PATHS ${LIBRARY_LINK_DIRS} NO_DEFAULT_PATH)
 find_library(GMockMain gmock_main PATHS ${LIBRARY_LINK_DIRS} NO_DEFAULT_PATH)
 set(GMockInclude ${LIBRARY_DIRECTORIES}/googletest/googlemock/include)
-#message(STATUS "Path: ${LIBRARY_DIRECTORIES}")
-#message( STATUS "** GMock and GMockMain: ${GMock} ${GMockMain} ${GMockInclude}" )
 
 set(TESTING_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}

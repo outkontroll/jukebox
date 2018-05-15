@@ -48,7 +48,7 @@ set(JUCE_SOURCE
 )
 
 add_library(project_juce
-            SHARED
+#            SHARED
             ${JUCE_SOURCE}
 )
 

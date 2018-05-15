@@ -97,7 +97,9 @@ set(CPP_SOURCES
     ${SOURCE_DIR}/Base/Application.cpp
 )
 
-find_library(PROJECT_JUCE project_juce ${LIBRARY_LINK_DIRS})
+#find_library(PROJECT_JUCE project_juce ${LIBRARY_LINK_DIRS})
+set(PROJECT_JUCE project_juce)
+
 #TODO
 #find_package(project_juce PATHS ${LIBRARY_LINK_DIRS})
 #message( STATUS "** PROJECT_JUCE : ${PROJECT_JUCE}" )
@@ -159,6 +161,7 @@ enable_testing()
 
 # projects
 
+add_subdirectory(${LIBRARY_DIRECTORIES})
 add_subdirectory(${SOURCE_DIR}/Extensions)
 add_subdirectory(${SOURCE_DIR}/Helpers)
 add_subdirectory(${SOURCE_DIR}/Tests)
@@ -176,3 +179,31 @@ if(GENERATE_TEST_COVERAGE)
                                            music_jukebox
                              )
 endif()
+
+# package
+
+#install(TARGETS music_jukebox
+#    RUNTIME
+#    DESTINATION bin
+#    COMPONENT applications
+#)
+
+install(TARGETS music_jukebox
+    RUNTIME DESTINATION /opt/music_jukebox
+#    LIBRARY DESTINATION lib
+#    ARCHIVE DESTINATION lib
+    COMPONENT applications
+)
+
+if(UNIX)
+    set(CPACK_GENERATOR DEB)
+endif()
+
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Adam Fekete")
+set(CPACK_PACKAGE_VERSION_MAJOR "1")
+set(CPACK_PACKAGE_VERSION_MINOR "0")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
+set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
+set(CPACK_COMPONENTS_ALL applications)
+set(CPACK_INSTALL_PREFIX /opt/music_jukebox)
+include (CPack)
