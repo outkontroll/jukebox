@@ -81,6 +81,8 @@ private:
     void loadMultipleAlbums();
     void loadSingleAlbum();
 
+    void stopAdvertiseMusic();
+
     jukebox::signals::Slot eventsSlot;
     
     std::unique_ptr<juce::MainComponent> mainComponent;
@@ -98,6 +100,7 @@ private:
     bool isInUserMode = true;
     bool isInMultipleAlbumsMode = true;
     bool isInMusicSetupMode = true;
+    bool advertiseMusicPlaying = false;
     jukebox::filesystem::IFileSystem* fileSys = nullptr;
 };
 
