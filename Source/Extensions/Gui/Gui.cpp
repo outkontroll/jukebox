@@ -227,7 +227,8 @@ void Gui::setTimeToSaveInsertedCoins(int millisecs)
 
 void Gui::setTimeToPlayAdvertiseMusic(int millisecs)
 {
-    startAdvertiseMusicTimer(millisecs);
+    if(millisecs > 0)
+        startAdvertiseMusicTimer(millisecs);
 
     mainComponent->setTimeToPlayAdvertiseMusic(millisecs);
 }
