@@ -45,7 +45,7 @@ struct AlbumInfo
 {
     inline bool operator==(const AlbumInfo& other) const
     {
-        return id == other.id && title == other.title && artist == other.artist && imagePath == other.imagePath && textFilePath == other.textFilePath && songs == other.songs;
+        return std::tie(id, title, artist, imagePath, textFilePath, songs) == std::tie(other.id, other.title, other.artist, other.imagePath, other.textFilePath, other.songs);
     }
 
     const std::vector<Song> songs;

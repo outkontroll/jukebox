@@ -85,7 +85,7 @@ void MultipleAlbumsCanvas::loadAlbums(const std::vector<jukebox::audio::AlbumInf
 
     unsigned int albumIndex = firstAlbumIndex;
     const auto start = albums.begin() + (firstAlbumIndex - 1);
-    const auto stop = (std::distance(start, albums.end()) < columns * rows) ? albums.end() : start + columns * rows;
+    const auto stop = (static_cast<unsigned int>(std::distance(start, albums.end())) < columns * rows) ? albums.end() : start + columns * rows;
     std::transform(start, stop, albumPositions.begin(), std::back_inserter(visibleAlbums), [&](const jukebox::audio::AlbumInfo& album, const AlbumPositionInfo& albumPosition) -> VisibleAlbum {
         const auto image = ImageFileFormat::loadFrom(File(album.imagePath));
         return {image, albumPosition, albumIndex++};
