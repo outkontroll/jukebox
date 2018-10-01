@@ -69,7 +69,7 @@ bool FileSystem::importAlbum(std::string_view musicDirectory, std::string_view a
         return false;
     }
 
-    renameImportedMusicFiles(albumDir, albumId);
+    renameImportedMusicFiles(newAlbum, albumId);
 
     albums.push_back(loadAlbum(newAlbum));
 
