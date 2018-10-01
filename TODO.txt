@@ -5,8 +5,8 @@ cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER
 + global: listbox model -> template
 + logging: add dummy logging
 + gui: swap textbox to vector-type listbox
-- gui: use filesystem @ list of albums
-  - get list of albums
++ gui: use filesystem @ list of albums
+  + get list of albums
   + get list of songs of an album
 + build: use cmake
 + build: use separate projects
@@ -15,7 +15,7 @@ cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER
 + global: use album as a separate entity
 + mp3: spike playing of a song
 + mp3: play a given song
-- gui: use fullscreen
++ gui: use fullscreen
 + gui: spike picture and selection
 + gui: swap list of albums/songs with custom paint
 - gui: layout manager
@@ -23,19 +23,19 @@ cmake agrs: -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER
 - gui: expand queue visible size
 + input: add new functionality
 + input: add numeric-button handling
-- input: add previous functionality
-- statistics: improve statistics handling
-  - add file IO
-  - add new gui state
++ input: add previous functionality
++ statistics: improve statistics handling
+  + add file IO
+  + add new gui state
   + add stat list
   + add thrown-in statistics
-- settings: improve settings handling
++ settings: improve settings handling
   + add new file IO - json
-  - add new gui state
-  - add advertise settings
+  + add new gui state
+  + add advertise settings
   - add music and advertise place and options
 - audio: add volume control
-- advertise: play advertise music
-- logging: swap dummy implementation with actual logging
++ advertise: play advertise music
++ logging: swap dummy implementation with actual logging
 - audio: add equalizer
 - gui: add graphic to equalizer
