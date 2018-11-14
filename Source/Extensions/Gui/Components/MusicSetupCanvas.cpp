@@ -262,9 +262,9 @@ void MusicSetupCanvas::loadTextFile(const audio::AlbumInfo& albumInfo)
         txtArtist->setText(albumInfo.artist);
         txtTitle->setText(albumInfo.title);
 
-        const juce::String songNames = std_addons::accumulate(albumInfo.songs, String{""}, [](const String& text, const Song& song){
+        const auto songNames = std_addons::accumulate(albumInfo.songs, String{""}, [](const String& text, const Song& song){
            return text + song.visibleName + "\n";
-        });
+        }).trimEnd();
         txtSongNames->setText(songNames);
 
         infoArtist->setVisible(true);
