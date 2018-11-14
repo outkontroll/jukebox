@@ -337,7 +337,7 @@ void Gui::stepSelection()
 
 void Gui::stepSelectionMultipleAlbumsMode()
 {
-    selectedAlbumId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextSelectedAlbumIdOnSamePage(visibleAlbumsId, selectedAlbumId));
+    selectedAlbumId = AlbumStepCalculator{static_cast<unsigned int>(fileSys->getAlbums().size()), albumIndexStep}.getNextSelectedAlbumIdOnSamePage(visibleAlbumsId, selectedAlbumId);
     selectedSongIndex = defaultSongIndex;
 
     loadSingleAlbum();
@@ -351,7 +351,7 @@ void Gui::stepSelectionSingleAlbumMode()
     if(fileSys->getAlbums().empty())
         return;
 
-    selectedSongIndex = static_cast<unsigned int>(SongStepCalculator().getNextSelectedSongIndex(fileSys->getAlbums()[selectedAlbumId - 1].songs.size(), selectedSongIndex));
+    selectedSongIndex = SongStepCalculator{}.getNextSelectedSongIndex(static_cast<unsigned int>(fileSys->getAlbums()[selectedAlbumId - 1].songs.size()), selectedSongIndex);
 
     mainComponent->updateSongSelection(selectedSongIndex);
 }
@@ -375,7 +375,7 @@ void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)
 
 void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 {
-    visibleAlbumsId = static_cast<unsigned int>(AlbumStepCalculator{fileSys->getAlbums().size(), albumIndexStep}.getNextVisibleAlbumsId(visibleAlbumsId, increase));
+    visibleAlbumsId = AlbumStepCalculator{static_cast<unsigned int>(fileSys->getAlbums().size()), albumIndexStep}.getNextVisibleAlbumsId(visibleAlbumsId, increase);
     loadMultipleAlbums();
 
     selectedAlbumId = visibleAlbumsId;
@@ -397,7 +397,6 @@ void Gui::handleUserInputNumbers(char number)
 
     if(userInputSongNumber.length() == 5)
     {
-        // the -1's are needed because number is 1 based and indices are 0 based
         unsigned int albumNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(0, 3)));
         unsigned int songNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(3)));
         if(songNumber != 0)
@@ -531,13 +530,13 @@ void Gui::playAlbumWithDelay(unsigned int albumNumber)
 
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
 {
-    const AlbumStepCalculator calc{fileSys->getAlbums().size(), albumIndexStep};
-    selectedAlbumId = static_cast<unsigned int>(calc.getNextSelectedAlbumId(selectedAlbumId, increase));
+    const AlbumStepCalculator calc{static_cast<unsigned int>(fileSys->getAlbums().size()), albumIndexStep};
+    selectedAlbumId = calc.getNextSelectedAlbumId(selectedAlbumId, increase);
     loadSingleAlbum();
 
     if(calc.shouldStepVisibleAlbums(visibleAlbumsId, selectedAlbumId, increase))
     {
-        visibleAlbumsId = static_cast<unsigned int>(calc.getNextVisibleAlbumsId(visibleAlbumsId, increase));
+        visibleAlbumsId = calc.getNextVisibleAlbumsId(visibleAlbumsId, increase);
         loadMultipleAlbums();
     }
 }

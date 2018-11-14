@@ -5,18 +5,18 @@ namespace jukebox { namespace gui {
 
 struct AlbumStepCalculator
 {
-    const unsigned long albumSize;
-    const unsigned long albumIndexStep;
+    const unsigned int albumSize;
+    const unsigned int albumIndexStep;
 
-    unsigned long getNextVisibleAlbumsId(unsigned long currentVisibleAlbumsId, bool increase) const;
-    unsigned long getNextSelectedAlbumId(unsigned long currentSelectedAlbumId, bool increase) const;
-    unsigned long getNextSelectedAlbumIdOnSamePage(unsigned long visibleAlbumId, unsigned long currentSelectedAlbumId) const;
-    bool shouldStepVisibleAlbums(unsigned long visibleAlbumsId, unsigned long selectedAlbumId, bool increase) const;
+    unsigned int getNextVisibleAlbumsId(unsigned int currentVisibleAlbumsId, bool increase) const;
+    unsigned int getNextSelectedAlbumId(unsigned int currentSelectedAlbumId, bool increase) const;
+    unsigned int getNextSelectedAlbumIdOnSamePage(unsigned int visibleAlbumId, unsigned int currentSelectedAlbumId) const;
+    bool shouldStepVisibleAlbums(unsigned int visibleAlbumsId, unsigned int selectedAlbumId, bool increase) const;
 };
 
 struct SongStepCalculator
 {
-    unsigned long getNextSelectedSongIndex(unsigned long songCount, unsigned long selectedSongIndex) const;
+    unsigned int getNextSelectedSongIndex(unsigned int songCount, unsigned int selectedSongIndex) const;
 };
 
 }}
