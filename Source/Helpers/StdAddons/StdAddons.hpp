@@ -38,6 +38,12 @@ OutputIterator transform_exclusive_scan(Range&& range,
                                     std::forward<UnaryOperator>(innerOp));
 }
 
+template<typename Range, typename T>
+T accumulate(Range&& range, T init)
+{
+    return std::accumulate(std::begin(range), std::end(range), init);
+}
+
 template<typename Range, typename T, typename BinaryOperation>
 T accumulate(Range&& range, T init, BinaryOperation&& op)
 {
