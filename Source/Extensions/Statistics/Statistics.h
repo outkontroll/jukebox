@@ -27,6 +27,8 @@ public:
 
     void setSaveTimeout(int millisecs) override;
     
+    int getInsertedAll() const override;
+    int getInsertedSinceLastSave() const override;
     void showStatistics(std::ostream& os) const override;
     
 private:

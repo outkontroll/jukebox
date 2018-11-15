@@ -24,6 +24,8 @@ public:
 
     virtual void setSaveTimeout(int millisecs) = 0;
     
+    virtual int getInsertedAll() const = 0;
+    virtual int getInsertedSinceLastSave() const = 0;
     virtual void showStatistics(std::ostream& os) const = 0;
 };
 

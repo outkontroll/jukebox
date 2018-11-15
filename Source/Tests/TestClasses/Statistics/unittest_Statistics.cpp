@@ -41,8 +41,12 @@ TEST(StatisticsTest1, baseClassCtorDtor)
 
 TEST_F(StatisticsTest, empty)
 {
+    const auto insertedAll = statistics.getInsertedAll();
+    const auto insertedSinceLastSave = statistics.getInsertedSinceLastSave();
     statistics.showStatistics(ss);
     
+    ASSERT_EQ(0, insertedAll);
+    ASSERT_EQ(0, insertedSinceLastSave);
     ASSERT_EQ("Inserted: 0\nInserted since last save: 0\n", ss.str());
 }
 
