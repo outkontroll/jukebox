@@ -27,7 +27,7 @@ public:
 
     void setSaveTimeout(int millisecs) override;
     
-    void showStatistics(std::ostream& os) override;
+    void showStatistics(std::ostream& os) const override;
     
 private:
     std::map<audio::Song, unsigned int> playedSongs;

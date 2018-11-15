@@ -59,7 +59,7 @@ void Statistics::setSaveTimeout(int millisecs)
     saveTimer->startTimer(millisecs);
 }
 
-void Statistics::showStatistics(std::ostream& os)
+void Statistics::showStatistics(std::ostream& os) const
 {
     os << "Inserted: " << insertedCoinsAllTime << std::endl;
     os << "Inserted since last save: " << insertedCoinsToday << std::endl;

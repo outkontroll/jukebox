@@ -12,7 +12,7 @@ public:
     MOCK_METHOD1(songPlayed, void(const jukebox::audio::Song&));
     MOCK_METHOD1(albumPlayed, void(const jukebox::audio::Album&));
     MOCK_METHOD1(setSaveTimeout, void(int));
-    MOCK_METHOD1(showStatistics, void(std::ostream&));
+    MOCK_CONST_METHOD1(showStatistics, void(std::ostream&));
     MOCK_METHOD0(coinInserted50, void());
     MOCK_METHOD0(coinInserted100, void());
     MOCK_METHOD0(coinInserted200, void());

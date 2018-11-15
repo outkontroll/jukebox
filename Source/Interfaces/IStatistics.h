@@ -24,7 +24,7 @@ public:
 
     virtual void setSaveTimeout(int millisecs) = 0;
     
-    virtual void showStatistics(std::ostream& os) = 0;
+    virtual void showStatistics(std::ostream& os) const = 0;
 };
 
 }}
