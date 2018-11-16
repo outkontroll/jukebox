@@ -71,9 +71,6 @@ int Statistics::getInsertedSinceLastSave() const
 
 void Statistics::showStatistics(std::ostream& os) const
 {
-    os << "Inserted: " << insertedCoinsAllTime << std::endl;
-    os << "Inserted since last save: " << insertedCoinsToday << std::endl;
-
     for(const auto& album : playedAlbums)
     {
         os << album.first.visibleName

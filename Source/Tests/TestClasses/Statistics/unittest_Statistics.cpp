@@ -45,7 +45,7 @@ TEST_F(StatisticsTest, empty)
     
     ASSERT_EQ(0, statistics.getInsertedAll());
     ASSERT_EQ(0, statistics.getInsertedSinceLastSave());
-    ASSERT_EQ("Inserted: 0\nInserted since last save: 0\n", ss.str());
+    ASSERT_EQ("", ss.str());
 }
 
 TEST_F(StatisticsTest, playOneSong)
@@ -56,7 +56,7 @@ TEST_F(StatisticsTest, playOneSong)
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 0\nInserted since last save: 0\n00101 - fakeVisibleName2: 1\n");
+    std::string expected("00101 - fakeVisibleName2: 1\n");
     ASSERT_EQ(expected, ss.str());
 }
 //TODO test other thing
@@ -66,7 +66,7 @@ TEST_F(StatisticsTest, playOneAlbum)
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 0\nInserted since last save: 0\nfakeAlbumName1: 1\n");
+    std::string expected("fakeAlbumName1: 1\n");
     ASSERT_EQ(expected, ss.str());
 }
 
@@ -111,7 +111,7 @@ TEST_F(StatisticsTest, multiplePlays)
     
     statistics.showStatistics(ss);
 
-    std::string expected("Inserted: 450\nInserted since last save: 450\n008: 1\nfakeAlbumName1: 2\nfakeVisibleName1: 1\nfakeVisibleName2: 3\n");
+    std::string expected("008: 1\nfakeAlbumName1: 2\nfakeVisibleName1: 1\nfakeVisibleName2: 3\n");
     ASSERT_EQ(expected, ss.str());
     ASSERT_EQ(450, statistics.getInsertedAll());
     ASSERT_EQ(450, statistics.getInsertedSinceLastSave());
