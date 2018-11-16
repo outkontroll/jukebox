@@ -41,12 +41,10 @@ TEST(StatisticsTest1, baseClassCtorDtor)
 
 TEST_F(StatisticsTest, empty)
 {
-    const auto insertedAll = statistics.getInsertedAll();
-    const auto insertedSinceLastSave = statistics.getInsertedSinceLastSave();
     statistics.showStatistics(ss);
     
-    ASSERT_EQ(0, insertedAll);
-    ASSERT_EQ(0, insertedSinceLastSave);
+    ASSERT_EQ(0, statistics.getInsertedAll());
+    ASSERT_EQ(0, statistics.getInsertedSinceLastSave());
     ASSERT_EQ("Inserted: 0\nInserted since last save: 0\n", ss.str());
 }
 
@@ -76,30 +74,24 @@ TEST_F(StatisticsTest, coinInsert50)
 {
     statistics.coinInserted50();
 
-    statistics.showStatistics(ss);
-
-    std::string expected("Inserted: 50\nInserted since last save: 50\n");
-    ASSERT_EQ(expected, ss.str());
+    ASSERT_EQ(50, statistics.getInsertedAll());
+    ASSERT_EQ(50, statistics.getInsertedSinceLastSave());
 }
 
 TEST_F(StatisticsTest, coinInsert100)
 {
     statistics.coinInserted100();
 
-    statistics.showStatistics(ss);
-
-    std::string expected("Inserted: 100\nInserted since last save: 100\n");
-    ASSERT_EQ(expected, ss.str());
+    ASSERT_EQ(100, statistics.getInsertedAll());
+    ASSERT_EQ(100, statistics.getInsertedSinceLastSave());
 }
 
 TEST_F(StatisticsTest, coinInsert200)
 {
     statistics.coinInserted200();
 
-    statistics.showStatistics(ss);
-
-    std::string expected("Inserted: 200\nInserted since last save: 200\n");
-    ASSERT_EQ(expected, ss.str());
+    ASSERT_EQ(200, statistics.getInsertedAll());
+    ASSERT_EQ(200, statistics.getInsertedSinceLastSave());
 }
 
 TEST_F(StatisticsTest, multiplePlays)
@@ -121,9 +113,11 @@ TEST_F(StatisticsTest, multiplePlays)
 
     std::string expected("Inserted: 450\nInserted since last save: 450\n008: 1\nfakeAlbumName1: 2\nfakeVisibleName1: 1\nfakeVisibleName2: 3\n");
     ASSERT_EQ(expected, ss.str());
+    ASSERT_EQ(450, statistics.getInsertedAll());
+    ASSERT_EQ(450, statistics.getInsertedSinceLastSave());
 }
 
-TEST_F(StatisticsTest, insertedCoinsTodayClear)
+TEST_F(StatisticsTest, insertedCoinsTodayClears)
 {
     JuceEventLoopRunner eventLoopRunner;
     const int timeToSave(100);
@@ -133,20 +127,16 @@ TEST_F(StatisticsTest, insertedCoinsTodayClear)
 
     eventLoopRunner.runEventLoop(timeToSave);
 
-    statistics.showStatistics(ss);
-    std::string expected("Inserted: 50\nInserted since last save: 0\n");
-    ASSERT_EQ(expected, ss.str());
+    ASSERT_EQ(50, statistics.getInsertedAll());
+    ASSERT_EQ(0, statistics.getInsertedSinceLastSave());
 
-    ss.str("");
     statistics.coinInserted50();
-    statistics.showStatistics(ss);
-    expected = "Inserted: 100\nInserted since last save: 50\n";
-    ASSERT_EQ(expected, ss.str());
+
+    ASSERT_EQ(100, statistics.getInsertedAll());
+    ASSERT_EQ(50, statistics.getInsertedSinceLastSave());
 
     eventLoopRunner.runEventLoop(timeToSave);
 
-    ss.str("");
-    statistics.showStatistics(ss);
-    expected = "Inserted: 100\nInserted since last save: 0\n";
-    ASSERT_EQ(expected, ss.str());
+    ASSERT_EQ(100, statistics.getInsertedAll());
+    ASSERT_EQ(0, statistics.getInsertedSinceLastSave());
 }
