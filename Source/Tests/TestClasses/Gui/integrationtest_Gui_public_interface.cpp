@@ -119,6 +119,20 @@ TEST_F(GuiTest, WhenRemoveCurrentSongIsCalled_ThenTheSameIsCalledOnMainComponent
     gui->removeCurrentSong();
 }
 
+TEST_F(GuiTest, WhenShowInsertedAllIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    EXPECT_CALL(*mainComponentMock, showInsertedAll(5));
+
+    gui->showInsertedAll(5);
+}
+
+TEST_F(GuiTest, WhenShowInsertedSinceLastSaveIsCalled_ThenTheSameIsCalledOnMainComponent)
+{
+    EXPECT_CALL(*mainComponentMock, showInsertedSinceLastSave(2));
+
+    gui->showInsertedSinceLastSave(2);
+}
+
 TEST_F(GuiTest, WhenShowStatisticsIsCalled_ThenTheSameIsCalledOnMainComponent)
 {
     std::string statistics("fakeStat");

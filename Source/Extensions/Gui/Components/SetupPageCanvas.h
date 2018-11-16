@@ -27,6 +27,8 @@ public:
     virtual void setTimeToSaveInsertedCoins(int millisecs);
     virtual void setTimeToPlayAdvertiseMusic(int millisecs);
     virtual void showStatistics(const std::string& statistics);
+    virtual void showInsertedAll(int insertedCoins);
+    virtual void showInsertedSinceLastSave(int insertedCoins);
     virtual void setPassword(const jukebox::Password* password);
     virtual void turnOffPassword();
 
@@ -44,9 +46,9 @@ private:
     juce::ScopedPointer<juce::Label> infoStatistics;
     juce::ScopedPointer<juce::TextEditor> txtStatistics;
     juce::ScopedPointer<juce::Label> infoInsertedAll;
-    juce::ScopedPointer<juce::TextEditor> txtInsertedAll;
+    juce::ScopedPointer<juce::Label> txtInsertedAll;
     juce::ScopedPointer<juce::Label> infoInsertedSinceLastSave;
-    juce::ScopedPointer<juce::TextEditor> txtInsertedSinceLastSave;
+    juce::ScopedPointer<juce::Label> txtInsertedSinceLastSave;
     juce::ScopedPointer<juce::Label> infoTimeToPlayASong;
     juce::ScopedPointer<juce::ComboBox> comboTimeToPlayASong;
     juce::ScopedPointer<juce::Label> infoTimeToSaveInsertedCoins;

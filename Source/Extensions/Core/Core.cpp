@@ -255,6 +255,8 @@ void Core::showStatisticsRequested()
     std::stringstream ss;
     statistics->showStatistics(ss);
     gui->showStatistics(ss.str());
+    gui->showInsertedAll(statistics->getInsertedAll());
+    gui->showInsertedSinceLastSave(statistics->getInsertedSinceLastSave());
 }
 
 void Core::playNextSong(const Song& song)

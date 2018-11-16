@@ -32,12 +32,13 @@ SetupPageCanvas::SetupPageCanvas()
     infoInsertedAll->setColour (TextEditor::textColourId, Colours::black);
     infoInsertedAll->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible(txtInsertedAll = new TextEditor("all time inserted coins text"));
-    txtInsertedAll->setReadOnly(true);
-    txtInsertedAll->setScrollbarsShown(false);
-    txtInsertedAll->setCaretVisible(false);
-    txtInsertedAll->setPopupMenuEnabled(true);
-    txtInsertedAll->setText(String());
+    addAndMakeVisible (txtInsertedAll = new Label ("all time inserted coins text", "0"));
+    txtInsertedAll->setFont (Font (smallFontSize, Font::plain));
+    txtInsertedAll->setJustificationType (Justification::centredRight);
+    txtInsertedAll->setEditable (false, false, false);
+    txtInsertedAll->setColour (Label::backgroundColourId, Colours::white);
+    txtInsertedAll->setColour (TextEditor::textColourId, Colours::black);
+    txtInsertedAll->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible(infoInsertedSinceLastSave = new Label("inserted coins since last save label", "Inserted since last save:"));
     infoInsertedSinceLastSave->setFont (Font (smallFontSize, Font::plain));
@@ -46,12 +47,13 @@ SetupPageCanvas::SetupPageCanvas()
     infoInsertedSinceLastSave->setColour (TextEditor::textColourId, Colours::black);
     infoInsertedSinceLastSave->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible(txtInsertedSinceLastSave = new TextEditor("all time inserted coins text"));
-    txtInsertedSinceLastSave->setReadOnly(true);
-    txtInsertedSinceLastSave->setScrollbarsShown(false);
-    txtInsertedSinceLastSave->setCaretVisible(false);
-    txtInsertedSinceLastSave->setPopupMenuEnabled(true);
-    txtInsertedSinceLastSave->setText(String());
+    addAndMakeVisible (txtInsertedSinceLastSave = new Label ("inserted coins since last save text", "0"));
+    txtInsertedSinceLastSave->setFont (Font (smallFontSize, Font::plain));
+    txtInsertedSinceLastSave->setJustificationType (Justification::centredRight);
+    txtInsertedSinceLastSave->setEditable (false, false, false);
+    txtInsertedSinceLastSave->setColour (Label::backgroundColourId, Colours::white);
+    txtInsertedSinceLastSave->setColour (TextEditor::textColourId, Colours::black);
+    txtInsertedSinceLastSave->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible(txtStatistics = new TextEditor("statistics text"));
     txtStatistics->setMultiLine(true);
@@ -285,6 +287,16 @@ void SetupPageCanvas::setTimeToPlayAdvertiseMusic(int millisecs)
 void SetupPageCanvas::showStatistics(const std::string& statistics)
 {
     txtStatistics->setText(statistics);
+}
+
+void SetupPageCanvas::showInsertedAll(int insertedCoins)
+{
+    txtInsertedAll->setText(juce::String(insertedCoins), dontSendNotification);
+}
+
+void SetupPageCanvas::showInsertedSinceLastSave(int insertedCoins)
+{
+    txtInsertedSinceLastSave->setText(juce::String(insertedCoins), dontSendNotification);
 }
 
 void SetupPageCanvas::setPassword(const jukebox::Password* password_)

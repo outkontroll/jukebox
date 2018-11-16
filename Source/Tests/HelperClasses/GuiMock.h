@@ -9,6 +9,8 @@ struct GuiMock : public jukebox::gui::IGui
 {
     MOCK_METHOD1(refreshCredits, void(unsigned int));
     MOCK_METHOD1(showStatusMessage, void(jukebox::ResourceId));
+    MOCK_METHOD1(showInsertedAll, void(int));
+    MOCK_METHOD1(showInsertedSinceLastSave, void(int));
     MOCK_METHOD1(showStatistics, void(const std::string&));
     MOCK_METHOD0(refreshAlbums, void());
     MOCK_METHOD1(setFileSystem, void(jukebox::filesystem::IFileSystem*));

@@ -378,6 +378,16 @@ void MainComponent::removeCurrentSong()
     timerBetweenSongs->runOnce(timeBetweenSongs);
 }
 
+void MainComponent::showInsertedAll(int insertedCoins)
+{
+    setupPage->showInsertedAll(insertedCoins);
+}
+
+void MainComponent::showInsertedSinceLastSave(int insertedCoins)
+{
+    setupPage->showInsertedSinceLastSave(insertedCoins);
+}
+
 void MainComponent::showStatistics(const std::string& statistics)
 {
     setupPage->showStatistics(statistics);

@@ -94,6 +94,8 @@ public:
     virtual void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     virtual void enqueue(const jukebox::audio::Song &song);
     virtual void removeCurrentSong();
+    virtual void showInsertedAll(int insertedCoins);
+    virtual void showInsertedSinceLastSave(int insertedCoins);
     virtual void showStatistics(const std::string& statistics);
     virtual void prepareForExit();
 

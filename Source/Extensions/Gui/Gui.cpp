@@ -166,16 +166,26 @@ void Gui::showStatusMessage(ResourceId messageId)
     mainComponent->showStatusMessage(Resources::getResourceStringFromId(messageId));
 }
 
-void Gui::setFileSystem(filesystem::IFileSystem* filesys)
+void Gui::showInsertedAll(int insertedCoins)
 {
-    assert(filesys != nullptr);
-    fileSys = filesys;
-    mainComponent->setAlbumsForMusicSetup(fileSys->getAlbums());
+    mainComponent->showInsertedAll(insertedCoins);
+}
+
+void Gui::showInsertedSinceLastSave(int insertedCoins)
+{
+    mainComponent->showInsertedSinceLastSave(insertedCoins);
 }
 
 void Gui::showStatistics(const std::string& statistics)
 {
     mainComponent->showStatistics(statistics);
+}
+
+void Gui::setFileSystem(filesystem::IFileSystem* filesys)
+{
+    assert(filesys != nullptr);
+    fileSys = filesys;
+    mainComponent->setAlbumsForMusicSetup(fileSys->getAlbums());
 }
 
 void Gui::refreshAlbums()

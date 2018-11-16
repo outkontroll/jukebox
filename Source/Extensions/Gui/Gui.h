@@ -28,6 +28,8 @@ public:
 
     void refreshCredits(unsigned int credits) override;
     void showStatusMessage(ResourceId messageId) override;
+    void showInsertedAll(int insertedCoins) override;
+    void showInsertedSinceLastSave(int insertedCoins) override;
     void showStatistics(const std::string& statistics) override;
     void refreshAlbums() override;
 

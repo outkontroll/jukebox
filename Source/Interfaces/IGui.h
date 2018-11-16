@@ -25,6 +25,8 @@ public:
     virtual void refreshCredits(unsigned int credits) = 0;
     virtual void showStatusMessage(ResourceId messageId) = 0;
     virtual void showStatistics(const std::string& statistics) = 0;
+    virtual void showInsertedAll(int insertedCoins) = 0;
+    virtual void showInsertedSinceLastSave(int insertedCoins) = 0;
     virtual void refreshAlbums() = 0;
     
     virtual void setFileSystem(jukebox::filesystem::IFileSystem* fileSys) = 0;
