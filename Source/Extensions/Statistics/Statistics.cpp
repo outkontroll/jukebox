@@ -50,7 +50,7 @@ void Statistics::setSaveTimeout(int millisecs)
         std::ofstream f(fileName, std::ios::app);
         if(f)
         {
-            f << jukebox::CurrentDateTime() << ": " << insertedCoinsToday << std::endl;
+            f << jukebox::CurrentDateTime() << ": " << insertedCoinsToday << "\n";
         }
 
         insertedCoinsToday = 0;
@@ -76,7 +76,7 @@ void Statistics::showStatistics(std::ostream& os) const
         os << album.first.visibleName
            << ": "
            << album.second
-           << std::endl;
+           << "\n";
     }
 
     for(const auto& playedSong : playedSongs)
@@ -84,6 +84,6 @@ void Statistics::showStatistics(std::ostream& os) const
         os << playedSong.first.visibleName
            << ": "
            << playedSong.second
-           << std::endl;
+           << "\n";
     }
 }

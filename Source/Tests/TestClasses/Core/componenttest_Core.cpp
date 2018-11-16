@@ -424,7 +424,6 @@ TEST_F(CoreTest, WhenGuiSendsCreditDecrease_ThenCreditManagerAndGuiUpdated)
 TEST_F(CoreTest, WhenGuiSendsRequestStatistics_ThenGuiGetsItFromStatisticsAndUpdatesGui)
 {
     std::string stat("fakeStatistics");
-    std::stringstream ss;
     EXPECT_CALL(*statisticsMock, showStatistics(_)).WillOnce(Invoke([&](ostream& ss_){ss_ << stat;}));
     EXPECT_CALL(*statisticsMock, getInsertedAll()).WillOnce(Return(5));
     EXPECT_CALL(*statisticsMock, getInsertedSinceLastSave()).WillOnce(Return(2));
