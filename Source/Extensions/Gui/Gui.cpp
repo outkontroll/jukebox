@@ -347,7 +347,7 @@ void Gui::stepSelection()
 
 void Gui::stepSelectionMultipleAlbumsMode()
 {
-    selectedAlbumId = AlbumStepCalculator{static_cast<unsigned int>(fileSys->getAlbums().size()), albumIndexStep}.getNextSelectedAlbumIdOnSamePage(visibleAlbumsId, selectedAlbumId);
+    selectedAlbumId = AlbumStepCalculator{static_cast<int>(fileSys->getAlbums().size()), albumIndexStep}.getNextSelectedAlbumIdOnSamePage(visibleAlbumsId, selectedAlbumId);
     selectedSongIndex = defaultSongIndex;
 
     loadSingleAlbum();
@@ -361,7 +361,7 @@ void Gui::stepSelectionSingleAlbumMode()
     if(fileSys->getAlbums().empty())
         return;
 
-    selectedSongIndex = SongStepCalculator{}.getNextSelectedSongIndex(static_cast<unsigned int>(fileSys->getAlbums()[selectedAlbumId - 1].songs.size()), selectedSongIndex);
+    selectedSongIndex = SongStepCalculator{}.getNextSelectedSongIndex(static_cast<int>(fileSys->getAlbums()[static_cast<size_t>(selectedAlbumId - 1)].songs.size()), selectedSongIndex);
 
     mainComponent->updateSongSelection(selectedSongIndex);
 }
@@ -385,7 +385,7 @@ void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)
 
 void Gui::handleAlbumSwitchInMultipleAlbumsMode(bool increase)
 {
-    visibleAlbumsId = AlbumStepCalculator{static_cast<unsigned int>(fileSys->getAlbums().size()), albumIndexStep}.getNextVisibleAlbumsId(visibleAlbumsId, increase);
+    visibleAlbumsId = AlbumStepCalculator{static_cast<int>(fileSys->getAlbums().size()), albumIndexStep}.getNextVisibleAlbumsId(visibleAlbumsId, increase);
     loadMultipleAlbums();
 
     selectedAlbumId = visibleAlbumsId;
@@ -407,8 +407,8 @@ void Gui::handleUserInputNumbers(char number)
 
     if(userInputSongNumber.length() == 5)
     {
-        unsigned int albumNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(0, 3)));
-        unsigned int songNumber = static_cast<unsigned int>(std::stoi(userInputSongNumber.substr(3)));
+        const auto albumNumber = std::stoi(userInputSongNumber.substr(0, 3));
+        const auto songNumber = std::stoi(userInputSongNumber.substr(3));
         if(songNumber != 0)
         {
             playSongWithDelay(albumNumber, songNumber);
@@ -470,13 +470,13 @@ void Gui::albumImportRequested(const std::string& albumToImport)
     requestToImportAlbumSignal(albumToImport);
 }
 
-void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)
+void Gui::playSongWithDelay(int albumNumber, int songNumber)
 {
-    const unsigned int albumIndex = albumNumber - 1;
-    const unsigned int songIndex = songNumber - 1;
+    const int albumIndex = albumNumber - 1;
+    const int songIndex = songNumber - 1;
     const auto& albums = fileSys->getAlbums();
-    if(albumIndex >= albums.size() ||
-       songIndex >= albums[albumIndex].songs.size())
+    if(static_cast<size_t>(albumIndex) >= albums.size() ||
+       static_cast<size_t>(songIndex) >= albums[static_cast<size_t>(albumIndex)].songs.size())
     {
         showStatusMessage(ResourceId::ErrorSongNotExists);
 
@@ -486,7 +486,7 @@ void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)
         return;
     }
 
-    const auto& song = albums[albumIndex].songs[songIndex];
+    const auto& song = albums[static_cast<size_t>(albumIndex)].songs[static_cast<size_t>(songIndex)];
 
     secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, song](){
         playSongSignal(song);
@@ -500,11 +500,11 @@ void Gui::playSongWithDelay(unsigned int albumNumber, unsigned int songNumber)
 
 }
 
-void Gui::playAlbumWithDelay(unsigned int albumNumber)
+void Gui::playAlbumWithDelay(int albumNumber)
 {
-    const unsigned int albumIndex = albumNumber - 1;
+    const int albumIndex = albumNumber - 1;
     const auto& albums = fileSys->getAlbums();
-    if(albumIndex >= albums.size())
+    if(static_cast<size_t>(albumIndex) >= albums.size())
     {
         showStatusMessage(ResourceId::ErrorAlbumNotExists);
 
@@ -514,7 +514,7 @@ void Gui::playAlbumWithDelay(unsigned int albumNumber)
         return;
     }
 
-    if(albums[albumIndex].songs.empty())
+    if(albums[static_cast<size_t>(albumIndex)].songs.empty())
     {
         showStatusMessage(ResourceId::ErrorAlbumEmpty);
 
@@ -525,7 +525,7 @@ void Gui::playAlbumWithDelay(unsigned int albumNumber)
     }
 
     const auto album = SongBuilder::buildAlbum(albumIndex + 1);
-    const auto& songs = albums[albumIndex].songs;
+    const auto& songs = albums[static_cast<size_t>(albumIndex)].songs;
 
     secondsToPlayTimer = std::make_unique<JukeboxTimer>([this, album, songs](){
         playAlbumSignal(album, songs);
@@ -540,7 +540,7 @@ void Gui::playAlbumWithDelay(unsigned int albumNumber)
 
 void Gui::handleAlbumSwitchInSingleAlbumMode(bool increase)
 {
-    const AlbumStepCalculator calc{static_cast<unsigned int>(fileSys->getAlbums().size()), albumIndexStep};
+    const AlbumStepCalculator calc{static_cast<int>(fileSys->getAlbums().size()), albumIndexStep};
     selectedAlbumId = calc.getNextSelectedAlbumId(selectedAlbumId, increase);
     loadSingleAlbum();
 

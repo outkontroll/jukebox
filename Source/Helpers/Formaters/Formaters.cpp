@@ -3,12 +3,12 @@
 #include <iomanip>
 #include <cassert>
 
-std::string jukebox::FillWithLeadingZeros(unsigned int number, unsigned int length)
+std::string jukebox::FillWithLeadingZeros(int number, int length)
 {
-    assert(length != 0);
+    assert(length > 0);
         
     std::stringstream ss;
-    ss << std::setw(static_cast<int>(length)) << std::setfill('0') << number;
+    ss << std::setw(length) << std::setfill('0') << number;
     
     return ss.str();
 }

@@ -17,20 +17,21 @@ public:
     void paint(juce::Graphics& g) override;
     void parentSizeChanged() override;
 
-    void loadAlbums(const std::vector<jukebox::audio::AlbumInfo>& visibleAlbums, unsigned int firstAlbumIndex);
-    void setSelection(unsigned int selectedAlbumIndex);
+    void loadAlbums(const std::vector<jukebox::audio::AlbumInfo>& visibleAlbums, int firstAlbumIndex);
+    void setSelection(int selectedAlbumIndex);
+    void changeLayout(int rows, int columns);
 
 private:
     struct Position
     {
-        const unsigned int x;
-        const unsigned int y;
+        const int x;
+        const int y;
     };
 
     juce::Rectangle<float> calculateImagePlace(Position position, float slotWidth, float slotHeight) const;
     juce::Rectangle<float> calculateTextPlace(Position position, float slotWidth, float slotHeight) const;
     juce::Rectangle<float> calculateSelectionPlace(const juce::Rectangle<float>& placeToSelect);
-    Position getPositionFromIndex(unsigned int index) const;
+    Position getPositionFromIndex(int index) const;
 
     struct AlbumPositionInfo
     {
@@ -42,16 +43,16 @@ private:
     {
         const juce::Image image;
         const AlbumPositionInfo position;
-        const unsigned int albumNumber;
+        const int albumNumber;
     };
 
     std::vector<AlbumPositionInfo> albumPositions;
     std::vector<VisibleAlbum> visibleAlbums;
     juce::Rectangle<float> selectionImagePlace;
     juce::Rectangle<float> selectionTextPlace;
-    unsigned int columns = 4;
-    unsigned int rows = 2;
-    unsigned int selectedAlbumIndex = 1;
+    int columns = 4;
+    int rows = 2;
+    int selectedAlbumIndex = 1;
     float slotWidth = 0;
     float slotHeight = 0;
 };

@@ -63,46 +63,52 @@ void MultipleAlbumsCanvas::parentSizeChanged()
     slotWidth = static_cast<float>(getWidth()) / columns;
     slotHeight = static_cast<float>(getHeight()) / rows;
 
-    std::vector<unsigned int> indexes(columns * rows);
+    std::vector<int> indexes(static_cast<size_t>(columns * rows));
     std::iota(indexes.begin(), indexes.end(), 0);
 
     albumPositions.reserve(indexes.size());
     visibleAlbums.reserve(indexes.size());
 
-    std_addons::transform(indexes, std::back_inserter(albumPositions), [this](unsigned int visibleAlbumIndex){
+    std_addons::transform(indexes, std::back_inserter(albumPositions), [this](int visibleAlbumIndex){
         const auto position = getPositionFromIndex(visibleAlbumIndex);
         return AlbumPositionInfo{calculateImagePlace(position, slotWidth, slotHeight),
                                  calculateTextPlace(position, slotWidth, slotHeight)};
     });
 }
 
-void MultipleAlbumsCanvas::loadAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int firstAlbumIndex)
+void MultipleAlbumsCanvas::loadAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, int firstAlbumIndex)
 {
     visibleAlbums.clear();
 
     if(albums.empty())
         return;
 
-    unsigned int albumIndex = firstAlbumIndex;
+    int albumIndex = firstAlbumIndex;
     const auto start = albums.begin() + (firstAlbumIndex - 1);
-    const auto stop = (static_cast<unsigned int>(std::distance(start, albums.end())) < columns * rows) ? albums.end() : start + columns * rows;
+    const auto stop = (static_cast<int>(std::distance(start, albums.end())) < columns * rows) ? albums.end() : start + columns * rows;
     std::transform(start, stop, albumPositions.begin(), std::back_inserter(visibleAlbums), [&](const jukebox::audio::AlbumInfo& album, const AlbumPositionInfo& albumPosition) -> VisibleAlbum {
         const auto image = ImageFileFormat::loadFrom(File(album.imagePath));
         return {image, albumPosition, albumIndex++};
     });
 }
 
-void MultipleAlbumsCanvas::setSelection(unsigned int selectedIndex)
+void MultipleAlbumsCanvas::setSelection(int selectedIndex)
 {
     selectedAlbumIndex = selectedIndex;
     if(!visibleAlbums.empty())
     {
         const auto selectedPosition = selectedAlbumIndex - visibleAlbums.begin()->albumNumber;
-        selectionTextPlace = calculateSelectionPlace(visibleAlbums[selectedPosition].position.textPlace);
-        selectionImagePlace = calculateSelectionPlace(visibleAlbums[selectedPosition].position.imagePlace);
+        selectionTextPlace = calculateSelectionPlace(visibleAlbums[static_cast<size_t>(selectedPosition)].position.textPlace);
+        selectionImagePlace = calculateSelectionPlace(visibleAlbums[static_cast<size_t>(selectedPosition)].position.imagePlace);
     }
 
     repaint();
+}
+
+void MultipleAlbumsCanvas::changeLayout(int rows_, int columns_)
+{
+    rows = rows_;
+    columns = columns_;
 }
 
 Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, float slotWidth_, float slotHeight_) const
@@ -136,7 +142,7 @@ Rectangle<float> MultipleAlbumsCanvas::calculateSelectionPlace(const Rectangle<f
              placeToSelect.getHeight() + 2 * selectionThickness };
 }
 
-MultipleAlbumsCanvas::Position MultipleAlbumsCanvas::getPositionFromIndex(unsigned int index) const
+MultipleAlbumsCanvas::Position MultipleAlbumsCanvas::getPositionFromIndex(int index) const
 {
     return { index % columns, index / columns };
 }

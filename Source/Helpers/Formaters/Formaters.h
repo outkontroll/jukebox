@@ -7,7 +7,7 @@ namespace jukebox {
 
     // Helper function to get a right justified string out of a number
     // the remaining places will be filled with zeros
-    std::string FillWithLeadingZeros(unsigned int number, unsigned int length);
+    std::string FillWithLeadingZeros(int number, int length);
 }
 
 

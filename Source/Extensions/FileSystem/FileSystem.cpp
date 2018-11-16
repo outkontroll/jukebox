@@ -83,7 +83,7 @@ const std::vector<jukebox::audio::AlbumInfo>& FileSystem::getAlbums() const
 
 AlbumInfo FileSystem::loadAlbum(const File& albumDirectory)
 {
-    const unsigned int albumId = static_cast<unsigned int>(std::atoi(albumDirectory.getFileName().toStdString().c_str()));
+    const auto albumId = std::atoi(albumDirectory.getFileName().toStdString().c_str());
 
     Array<File> songFiles;
     if(albumDirectory.findChildFiles(songFiles, File::TypesOfFileToFind::findFiles, false, musicFilePattern) <= 0)
@@ -106,14 +106,14 @@ AlbumInfo FileSystem::loadAlbum(const File& albumDirectory)
 
     if(songNames.size() == static_cast<unsigned int>(songFiles.size()))
     {
-        unsigned int songIndex = 1;
+        auto songIndex = 1;
         std_addons::transform(songFiles, songNames, std::back_inserter(songs), [&](const File& songFile, const std::string& songName) {
             return SongBuilder::buildSong(albumId, songIndex++, songFile, songName);
         });
     }
     else
     {
-        unsigned int songIndex = 1;
+        auto songIndex = 1;
         std_addons::transform(songFiles, std::back_inserter(songs), [&](const File& songFile) {
             return SongBuilder::buildSong(albumId, songIndex++, songFile, "");
         });
@@ -204,7 +204,7 @@ bool FileSystem::checkImportPreconditions(const File& musicDir, const File& albu
     return true;
 }
 
-bool FileSystem::renameImportedMusicFiles(const File& albumDir, unsigned int albumId)
+bool FileSystem::renameImportedMusicFiles(const File& albumDir, int albumId)
 {
     Array<File> results;
     if(albumDir.findChildFiles(results, File::findFiles, false, musicFilePattern) <= 0)
@@ -218,7 +218,7 @@ bool FileSystem::renameImportedMusicFiles(const File& albumDir, unsigned int alb
     });
 
 
-    unsigned int songId = 1;
+    auto songId = 1;
     for(auto& songFile : results)
     {
         const String id = SongBuilder::createVisibleName(albumId, songId++).substr(3);

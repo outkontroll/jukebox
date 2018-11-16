@@ -20,10 +20,10 @@ namespace jukebox { namespace songbuilder {
 struct SongBuilder
 {
 public:
-    static audio::Album buildAlbum(unsigned int albumNumber);
-    static audio::Song buildSong(unsigned int albumNumber, unsigned int songNumber, const juce::File& file, std::string_view name);
-    static std::string createVisibleName(unsigned int albumNumber, unsigned int songNumber);
-    static std::string createVisibleName(unsigned int albumNumber);
+    static audio::Album buildAlbum(int albumNumber);
+    static audio::Song buildSong(int albumNumber, int songNumber, const juce::File& file, std::string_view name);
+    static std::string createVisibleName(int albumNumber, int songNumber);
+    static std::string createVisibleName(int albumNumber);
 };
 
 }}

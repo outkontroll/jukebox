@@ -19,7 +19,7 @@ struct Album
         return albumNumber == other.albumNumber;
     }
 
-    const unsigned int albumNumber;
+    const int albumNumber;
     const std::string visibleName;
 };
 
@@ -35,8 +35,8 @@ struct Song
         return std::tie(albumNumber, songNumber, fileName) == std::tie(other.albumNumber, other.songNumber, other.fileName);
     }
 
-    const unsigned int albumNumber;
-    const unsigned int songNumber;
+    const int albumNumber;
+    const int songNumber;
     const std::string fileName;
     const std::string visibleName;
 };
@@ -53,7 +53,7 @@ struct AlbumInfo
     const std::string artist;
     const std::string imagePath;
     const std::string textFilePath;
-    const unsigned int id;
+    const int id;
 };
 
 }}

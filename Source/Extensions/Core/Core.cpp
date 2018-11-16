@@ -314,11 +314,11 @@ void Core::playAdvertiseMusic()
     rng.seed(std::random_device()());
     std::uniform_int_distribution<std::mt19937::result_type> distAlbums(1, albums.size());
 
-    const auto albumId(distAlbums(rng));
-    const auto& songs = albums.at(albumId - 1).songs;
+    const auto albumId(static_cast<int>(distAlbums(rng)));
+    const auto& songs = albums.at(static_cast<size_t>(albumId - 1)).songs;
     if(songs.empty())
     {
-        LOG_WARNING("The selected album " << SongBuilder::createVisibleName(static_cast<unsigned int>(albumId))
+        LOG_WARNING("The selected album " << SongBuilder::createVisibleName(static_cast<int>(albumId))
                     << " contains no songs!");
 
         gui->startAdvertiseMusicTimer(settings->getTimeToPlayAdvertiseMusic());
@@ -326,11 +326,10 @@ void Core::playAdvertiseMusic()
 
     std::uniform_int_distribution<std::mt19937::result_type> distSongs(1, songs.size());
 
-    const auto songId(distSongs(rng));
-    const auto& song = songs.at(songId - 1);
+    const auto songId(static_cast<int>(distSongs(rng)));
+    const auto& song = songs.at(static_cast<size_t>(songId - 1));
 
-    LOG_INFO("Playing advertise music: " << SongBuilder::createVisibleName(static_cast<unsigned int>(albumId),
-                                                                           static_cast<unsigned int>(songId)));
+    LOG_INFO("Playing advertise music: " << SongBuilder::createVisibleName(albumId, songId));
 
     musicPlayer->playSong(song.fileName);
 }

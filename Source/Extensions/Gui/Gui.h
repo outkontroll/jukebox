@@ -77,8 +77,8 @@ private:
     void passwordTurnedOff();
     void albumImportRequested(const std::string& albumToImport);
 
-    void playSongWithDelay(unsigned int albumNumber, unsigned int songNumber);
-    void playAlbumWithDelay(unsigned int albumNumber);
+    void playSongWithDelay(int albumNumber, int songNumber);
+    void playAlbumWithDelay(int albumNumber);
 
     void loadMultipleAlbums();
     void loadSingleAlbum();
@@ -94,10 +94,10 @@ private:
     std::unique_ptr<jukebox::JukeboxTimer> playAdvertiseMusicTimer;
     
     std::string userInputSongNumber = "";
-    unsigned int visibleAlbumsId = 1;
-    unsigned int selectedAlbumId = 1;
-    unsigned int albumIndexStep = 8;
-    unsigned int selectedSongIndex = 0;
+    int visibleAlbumsId = 1;
+    int selectedAlbumId = 1;
+    int albumIndexStep = 8;
+    int selectedSongIndex = 0;
     int timeToPlaySong = 0;
     bool isInUserMode = true;
     bool isInMultipleAlbumsMode = true;

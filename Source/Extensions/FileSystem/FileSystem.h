@@ -23,7 +23,7 @@ private:
     jukebox::audio::AlbumInfo loadAlbum(const juce::File& albumDirectory);
     std::tuple<std::vector<std::string>, std::string, std::string> readInfoFile(const juce::File& albumDirectory);
     bool checkImportPreconditions(const juce::File& musicDir, const juce::File& albumDir) const;
-    bool renameImportedMusicFiles(const juce::File& albumDir, unsigned int albumId);
+    bool renameImportedMusicFiles(const juce::File& albumDir, int albumId);
 
     std::vector<jukebox::audio::AlbumInfo> albums;
 };

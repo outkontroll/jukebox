@@ -8,14 +8,14 @@ using namespace jukebox::songbuilder;
 using namespace jukebox::audio;
 using namespace jukebox::filesystem;
 
-Album SongBuilder::buildAlbum(unsigned int albumNumber)
+Album SongBuilder::buildAlbum(int albumNumber)
 {
     return { albumNumber,
              createVisibleName(albumNumber)
              };
 }
 
-Song SongBuilder::buildSong(unsigned int albumNumber, unsigned int songNumber, const juce::File& file, std::string_view name)
+Song SongBuilder::buildSong(int albumNumber, int songNumber, const juce::File& file, std::string_view name)
 {
     return { albumNumber,
              songNumber,
@@ -24,12 +24,12 @@ Song SongBuilder::buildSong(unsigned int albumNumber, unsigned int songNumber, c
     };
 }
 
-std::string SongBuilder::createVisibleName(unsigned int albumNumber, unsigned int songNumber)
+std::string SongBuilder::createVisibleName(int albumNumber, int songNumber)
 {
     return {FillWithLeadingZeros(albumNumber, 3) + FillWithLeadingZeros(songNumber, 2)};
 }
 
-std::string SongBuilder::createVisibleName(unsigned int albumNumber)
+std::string SongBuilder::createVisibleName(int albumNumber)
 {
     return FillWithLeadingZeros(albumNumber, 3);
 }

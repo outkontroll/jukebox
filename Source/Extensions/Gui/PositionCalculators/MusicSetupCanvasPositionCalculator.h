@@ -7,7 +7,7 @@ namespace jukebox { namespace gui {
 
 struct MusicSetupCanvasPositionCalculator
 {
-    MusicSetupCanvasPositionCalculator(int width, int height, float fontSize);
+    MusicSetupCanvasPositionCalculator(int width, int height, float fontSize, int columns);
 
     juce::Rectangle<int> calculateInfoMusicDirectoryBounds() const;
     juce::Rectangle<int> calculateTextMusicDirectoryBounds() const;
@@ -25,6 +25,7 @@ struct MusicSetupCanvasPositionCalculator
     const int width;
     const int height;
     const float fontSize;
+    const int columns;
     const int fontSizeInt;
     const int offsetX;
     const int offsetY;

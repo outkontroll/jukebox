@@ -2,7 +2,7 @@
 
 using namespace jukebox::gui;
 
-unsigned int AlbumStepCalculator::getNextVisibleAlbumsId(unsigned int currentVisibleAlbumsId, bool increase) const
+int AlbumStepCalculator::getNextVisibleAlbumsId(int currentVisibleAlbumsId, bool increase) const
 {
     if(increase)
     {
@@ -17,8 +17,8 @@ unsigned int AlbumStepCalculator::getNextVisibleAlbumsId(unsigned int currentVis
     {
         if(currentVisibleAlbumsId < albumIndexStep)
         {
-            const unsigned int diff = albumSize % albumIndexStep;
-            const unsigned int step = (diff == 0) ? albumIndexStep - 1 : diff - 1;
+            const int diff = albumSize % albumIndexStep;
+            const int step = (diff == 0) ? albumIndexStep - 1 : diff - 1;
             currentVisibleAlbumsId = albumSize - step;
         }
         else
@@ -30,7 +30,7 @@ unsigned int AlbumStepCalculator::getNextVisibleAlbumsId(unsigned int currentVis
     return currentVisibleAlbumsId;
 }
 
-unsigned int AlbumStepCalculator::getNextSelectedAlbumId(unsigned int currentSelectedAlbumId, bool increase) const
+int AlbumStepCalculator::getNextSelectedAlbumId(int currentSelectedAlbumId, bool increase) const
 {
     if(increase)
     {
@@ -52,7 +52,7 @@ unsigned int AlbumStepCalculator::getNextSelectedAlbumId(unsigned int currentSel
     return currentSelectedAlbumId;
 }
 
-unsigned int AlbumStepCalculator::getNextSelectedAlbumIdOnSamePage(unsigned int visibleAlbumId, unsigned int currentSelectedAlbumId) const
+int AlbumStepCalculator::getNextSelectedAlbumIdOnSamePage(int visibleAlbumId, int currentSelectedAlbumId) const
 {
     ++currentSelectedAlbumId;
     if(currentSelectedAlbumId >= visibleAlbumId + albumIndexStep ||
@@ -63,7 +63,7 @@ unsigned int AlbumStepCalculator::getNextSelectedAlbumIdOnSamePage(unsigned int 
     return currentSelectedAlbumId;
 }
 
-bool AlbumStepCalculator::shouldStepVisibleAlbums(unsigned int visibleAlbumsId, unsigned int selectedAlbumId, bool increase) const
+bool AlbumStepCalculator::shouldStepVisibleAlbums(int visibleAlbumsId, int selectedAlbumId, bool increase) const
 {
     return (increase && ((selectedAlbumId == visibleAlbumsId + albumIndexStep) ||
                         (selectedAlbumId == 1 && visibleAlbumsId + albumIndexStep > albumSize))) ||
@@ -71,7 +71,7 @@ bool AlbumStepCalculator::shouldStepVisibleAlbums(unsigned int visibleAlbumsId, 
                         (selectedAlbumId == albumSize && visibleAlbumsId == 1)));
 }
 
-unsigned int SongStepCalculator::getNextSelectedSongIndex(unsigned int songCount, unsigned int selectedSongIndex) const
+int SongStepCalculator::getNextSelectedSongIndex(int songCount, int selectedSongIndex) const
 {
     ++selectedSongIndex;
     if(selectedSongIndex >= songCount)

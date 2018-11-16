@@ -279,12 +279,12 @@ void MainComponent::showStatusMessage(const String& message)
     lblStatus->setText(message, dontSendNotification);
 }
 
-void MainComponent::loadMultipleAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int firstAlbumIndex)
+void MainComponent::loadMultipleAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, int firstAlbumIndex)
 {
     multipleAlbumsCanvas->loadAlbums(albums, firstAlbumIndex);
 }
 
-void MainComponent::loadSingleAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int albumIndex)
+void MainComponent::loadSingleAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, int albumIndex)
 {
     singleAlbumCanvas->loadAlbum(albums, albumIndex);
 }
@@ -346,12 +346,12 @@ void MainComponent::switchBetweenAdministratorViews()
     setupPage->setVisible(!musicSetupCanvas->isVisible());
 }
 
-void MainComponent::updateAlbumSelection(unsigned int selectedAlbumIndex)
+void MainComponent::updateAlbumSelection(int selectedAlbumIndex)
 {
     multipleAlbumsCanvas->setSelection(selectedAlbumIndex);
 }
 
-void MainComponent::updateSongSelection(unsigned int selectedSongIndex)
+void MainComponent::updateSongSelection(int selectedSongIndex)
 {
     singleAlbumCanvas->setSelection(selectedSongIndex);
 }

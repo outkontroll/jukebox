@@ -10,6 +10,7 @@ using namespace juce;
 namespace {
     const float bigFontSize = 24.0f;
     const float smallFontSize = 18.0f;
+    const auto columns = 4;
 }
 
 MusicSetupCanvas::MusicSetupCanvas()
@@ -135,7 +136,7 @@ void MusicSetupCanvas::paint(Graphics& g)
 
 void MusicSetupCanvas::parentSizeChanged()
 {
-    MusicSetupCanvasPositionCalculator calc{getWidth(), getHeight(), bigFontSize};
+    MusicSetupCanvasPositionCalculator calc{getWidth(), getHeight(), bigFontSize, columns};
 
     infoMusicDirectory->setBounds(calc.calculateInfoMusicDirectoryBounds());
     txtMusicDirectory->setBounds(calc.calculateTextMusicDirectoryBounds());

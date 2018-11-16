@@ -76,8 +76,8 @@ public:
 
     virtual void refreshCredits(unsigned int credits);
     virtual void showStatusMessage(const String& message);
-    virtual void loadMultipleAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int firstAlbumIndex);
-    virtual void loadSingleAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int albumIndex);
+    virtual void loadMultipleAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, int firstAlbumIndex);
+    virtual void loadSingleAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, int albumIndex);
     virtual void setMusicDirectory(const std::string& musicDirectory);
     virtual void setAlbumsForMusicSetup(const std::vector<jukebox::audio::AlbumInfo>& albums);
     virtual void setTimeToPlayASong(int millisecs);
@@ -88,8 +88,8 @@ public:
     virtual void switchBetweenUserModes();
     virtual void switchBetweenAlbumViews();
     virtual void switchBetweenAdministratorViews();
-    virtual void updateAlbumSelection(unsigned int selectedAlbumIndex);
-    virtual void updateSongSelection(unsigned int selectedSongIndex);
+    virtual void updateAlbumSelection(int selectedAlbumIndex);
+    virtual void updateSongSelection(int selectedSongIndex);
     virtual void setCurrentUserInputNumber(const String& userInput);
     virtual void setCurrentlyPlayedSong(const jukebox::audio::Song& song);
     virtual void enqueue(const jukebox::audio::Song &song);

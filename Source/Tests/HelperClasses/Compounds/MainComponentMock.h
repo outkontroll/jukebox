@@ -14,8 +14,8 @@ struct MainComponentMock : public juce::MainComponent
 
     MOCK_METHOD1(refreshCredits, void(unsigned int));
     MOCK_METHOD1(showStatusMessage, void(const juce::String&));
-    MOCK_METHOD2(loadMultipleAlbums, void(const std::vector<jukebox::audio::AlbumInfo>&, unsigned int));
-    MOCK_METHOD2(loadSingleAlbum, void(const std::vector<jukebox::audio::AlbumInfo>&, unsigned int));
+    MOCK_METHOD2(loadMultipleAlbums, void(const std::vector<jukebox::audio::AlbumInfo>&, int));
+    MOCK_METHOD2(loadSingleAlbum, void(const std::vector<jukebox::audio::AlbumInfo>&, int));
     MOCK_METHOD1(setMusicDirectory, void(const std::string&));
     MOCK_METHOD1(setAlbumsForMusicSetup, void(const std::vector<jukebox::audio::AlbumInfo>&));
     MOCK_METHOD1(setTimeToPlayASong, void(int));
@@ -26,8 +26,8 @@ struct MainComponentMock : public juce::MainComponent
     MOCK_METHOD0(switchBetweenUserModes, void());
     MOCK_METHOD0(switchBetweenAlbumViews, void());
     MOCK_METHOD0(switchBetweenAdministratorViews, void());
-    MOCK_METHOD1(updateAlbumSelection, void(unsigned int));
-    MOCK_METHOD1(updateSongSelection, void(unsigned int));
+    MOCK_METHOD1(updateAlbumSelection, void(int));
+    MOCK_METHOD1(updateSongSelection, void(int));
     MOCK_METHOD1(setCurrentUserInputNumber, void(const juce::String&));
     MOCK_METHOD1(setCurrentlyPlayedSong, void(const jukebox::audio::Song&));
     MOCK_METHOD1(enqueue, void(const jukebox::audio::Song&));

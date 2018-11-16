@@ -50,7 +50,7 @@ void SingleAlbumCanvas::paint(Graphics& g)
     if(!drawableSongNames.isEmpty())
     {
         g.setColour(Colours::yellow);
-        g.drawRect(selectionBounds[currentSelectedLine], selectionThickness);
+        g.drawRect(selectionBounds[static_cast<size_t>(currentSelectedLine)], selectionThickness);
         g.setColour(Colours::black);
 
         g.drawMultiLineText(drawableSongNames, drawableSongNamesPlace[0], drawableSongNamesPlace[1], drawableSongNamesPlace[2]);
@@ -71,7 +71,7 @@ void SingleAlbumCanvas::parentSizeChanged()
     drawableSongNamesPlace = positions.calculateDrawableSongNamesPlace();
 }
 
-void SingleAlbumCanvas::loadAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, unsigned int selectedAlbumIndex)
+void SingleAlbumCanvas::loadAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, int selectedAlbumIndex)
 {
     artistName = "";
     image = Image{};
@@ -84,7 +84,7 @@ void SingleAlbumCanvas::loadAlbum(const std::vector<jukebox::audio::AlbumInfo>& 
     albumIndex = selectedAlbumIndex - 1;
     currentSelectedLine = 0;
 
-    const auto& album = albums[albumIndex];
+    const auto& album = albums[static_cast<size_t>(albumIndex)];
     artistName = album.artist;
     drawableSongNames = std_addons::accumulate(album.songs, juce::String(""), [](const juce::String& lines, const Song& song){
        return lines + song.visibleName.substr(3) + "\n";
@@ -94,7 +94,7 @@ void SingleAlbumCanvas::loadAlbum(const std::vector<jukebox::audio::AlbumInfo>& 
     selectionBounds = SingleAlbumPositionCalculator(getWidth(), getHeight(), static_cast<float>(getWidth() / 2)).calculateSelectionBounds(album.songs, drawableSongNamesPlace);
 }
 
-void SingleAlbumCanvas::setSelection(unsigned int selectedSongIndex)
+void SingleAlbumCanvas::setSelection(int selectedSongIndex)
 {
     currentSelectedLine = selectedSongIndex;
 

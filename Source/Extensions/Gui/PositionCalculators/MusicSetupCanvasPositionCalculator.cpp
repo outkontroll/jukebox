@@ -4,15 +4,15 @@ using namespace jukebox::gui;
 using namespace juce;
 
 namespace {
-    const int columns = 4;
     const int defaultImageOffsetX = 20;
     const int defaultOffsetY = 10;
 }
 
-MusicSetupCanvasPositionCalculator::MusicSetupCanvasPositionCalculator(int width_, int height_, float fontSize_) :
+MusicSetupCanvasPositionCalculator::MusicSetupCanvasPositionCalculator(int width_, int height_, float fontSize_, int columns_) :
     width(width_),
     height(height_),
     fontSize(fontSize_),
+    columns(columns_),
     fontSizeInt(static_cast<int>(fontSize)),
     offsetX(static_cast<int>(width * 0.016f)),
     offsetY(static_cast<int>(height / 43.75f)),
