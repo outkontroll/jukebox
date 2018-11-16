@@ -25,6 +25,34 @@ SetupPageCanvas::SetupPageCanvas()
     infoStatistics->setColour (TextEditor::textColourId, Colours::black);
     infoStatistics->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible(infoInsertedAll = new Label("all time inserted coins label", "Inserted:"));
+    infoInsertedAll->setFont (Font (smallFontSize, Font::plain));
+    infoInsertedAll->setJustificationType (Justification::centredLeft);
+    infoInsertedAll->setEditable (false, false, false);
+    infoInsertedAll->setColour (TextEditor::textColourId, Colours::black);
+    infoInsertedAll->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible(txtInsertedAll = new TextEditor("all time inserted coins text"));
+    txtInsertedAll->setReadOnly(true);
+    txtInsertedAll->setScrollbarsShown(false);
+    txtInsertedAll->setCaretVisible(false);
+    txtInsertedAll->setPopupMenuEnabled(true);
+    txtInsertedAll->setText(String());
+
+    addAndMakeVisible(infoInsertedSinceLastSave = new Label("inserted coins since last save label", "Inserted since last save:"));
+    infoInsertedSinceLastSave->setFont (Font (smallFontSize, Font::plain));
+    infoInsertedSinceLastSave->setJustificationType (Justification::centredLeft);
+    infoInsertedSinceLastSave->setEditable (false, false, false);
+    infoInsertedSinceLastSave->setColour (TextEditor::textColourId, Colours::black);
+    infoInsertedSinceLastSave->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible(txtInsertedSinceLastSave = new TextEditor("all time inserted coins text"));
+    txtInsertedSinceLastSave->setReadOnly(true);
+    txtInsertedSinceLastSave->setScrollbarsShown(false);
+    txtInsertedSinceLastSave->setCaretVisible(false);
+    txtInsertedSinceLastSave->setPopupMenuEnabled(true);
+    txtInsertedSinceLastSave->setText(String());
+
     addAndMakeVisible(txtStatistics = new TextEditor("statistics text"));
     txtStatistics->setMultiLine(true);
     txtStatistics->setReturnKeyStartsNewLine(false);
@@ -131,6 +159,10 @@ void SetupPageCanvas::parentSizeChanged()
     SetupPageCanvasPositionCalculator calc{getWidth(), getHeight(), bigFontSize};
 
     textPlace = calc.calculateTextPlace();
+    infoInsertedAll->setBounds(calc.calculateInfoInsertedAllBounds());
+    txtInsertedAll->setBounds(calc.calculateTextInsertedAllBounds());
+    infoInsertedSinceLastSave->setBounds(calc.calculateInfoInsertedSinceLastSaveBounds());
+    txtInsertedSinceLastSave->setBounds(calc.calculateTextInsertedSinceLastSaveBounds());
     infoStatistics->setBounds(calc.calculateInfoStatisticsBounds());
     txtStatistics->setBounds(calc.calculateTextStatisticsBounds());
     txtStatistics->setFont(bigFontSize);
@@ -143,7 +175,7 @@ void SetupPageCanvas::parentSizeChanged()
     buttonChangePassword->setBounds(calc.calculateChangePasswordBounds());
     toggleNoPassword->setBounds(calc.calculateNoPasswordToggleBounds());
     togglePassword->setBounds(calc.calculatePasswordToggleBounds());
-    }
+}
 
 void SetupPageCanvas::buttonClicked(Button* button)
 {

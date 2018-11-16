@@ -10,6 +10,10 @@ struct SetupPageCanvasPositionCalculator
     SetupPageCanvasPositionCalculator(int width, int height, float fontSize);
 
     juce::Rectangle<float> calculateTextPlace() const;
+    juce::Rectangle<int> calculateInfoInsertedAllBounds() const;
+    juce::Rectangle<int> calculateTextInsertedAllBounds() const;
+    juce::Rectangle<int> calculateInfoInsertedSinceLastSaveBounds() const;
+    juce::Rectangle<int> calculateTextInsertedSinceLastSaveBounds() const;
     juce::Rectangle<int> calculateInfoStatisticsBounds() const;
     juce::Rectangle<int> calculateTextStatisticsBounds() const;
     juce::Rectangle<int> calculateInfoTimeToPlayASong() const;

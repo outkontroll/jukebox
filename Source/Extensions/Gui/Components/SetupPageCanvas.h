@@ -43,6 +43,10 @@ private:
 
     juce::ScopedPointer<juce::Label> infoStatistics;
     juce::ScopedPointer<juce::TextEditor> txtStatistics;
+    juce::ScopedPointer<juce::Label> infoInsertedAll;
+    juce::ScopedPointer<juce::TextEditor> txtInsertedAll;
+    juce::ScopedPointer<juce::Label> infoInsertedSinceLastSave;
+    juce::ScopedPointer<juce::TextEditor> txtInsertedSinceLastSave;
     juce::ScopedPointer<juce::Label> infoTimeToPlayASong;
     juce::ScopedPointer<juce::ComboBox> comboTimeToPlayASong;
     juce::ScopedPointer<juce::Label> infoTimeToSaveInsertedCoins;

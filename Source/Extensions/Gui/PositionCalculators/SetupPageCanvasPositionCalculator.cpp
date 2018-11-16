@@ -26,10 +26,48 @@ juce::Rectangle<float> SetupPageCanvasPositionCalculator::calculateTextPlace() c
     return { xPosition, yPosition, textWidth, textHeight };
 }
 
-juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoStatisticsBounds() const
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoInsertedAllBounds() const
 {
     const int xPosition = offsetX;
     const int yPosition = offsetY * 2 + fontSizeInt * 1;
+    const int infoWidth = width / 6;
+
+    return {xPosition, yPosition, infoWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateTextInsertedAllBounds() const
+{
+    const int infoWidth = width / 15;
+    const int xPosition = offsetX * 2 + infoWidth;
+    const int yPosition = offsetY * 2 + fontSizeInt * 1;
+
+    return {xPosition, yPosition, infoWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoInsertedSinceLastSaveBounds() const
+{
+    const int infoWidth = width / 15;
+    const int textWidth = width / 4;
+    const int xPosition = offsetX * 3 + infoWidth * 2;
+    const int yPosition = offsetY * 2 + fontSizeInt * 1;
+
+    return {xPosition, yPosition, textWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateTextInsertedSinceLastSaveBounds() const
+{
+    const int infoWidth = width / 15;
+    const int textWidth = width / 4;
+    const int xPosition = offsetX * 4 + infoWidth + textWidth;
+    const int yPosition = offsetY * 2 + fontSizeInt * 1;
+
+    return {xPosition, yPosition, infoWidth, fontSizeInt};
+}
+
+juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoStatisticsBounds() const
+{
+    const int xPosition = offsetX;
+    const int yPosition = offsetY * 3 + fontSizeInt * 2;
     const int infoWidth = width / 4;
 
     return {xPosition, yPosition, infoWidth, fontSizeInt};
@@ -38,7 +76,7 @@ juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoStatisticsB
 juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateTextStatisticsBounds() const
 {
     const int xPosition = offsetX;
-    const int yPosition = offsetY * 3 + fontSizeInt * 2;
+    const int yPosition = offsetY * 4 + fontSizeInt * 3;
 
     return {xPosition, yPosition, statisticsWidth, statisticsHeight};
 }
@@ -46,7 +84,7 @@ juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateTextStatisticsB
 juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoTimeToPlayASong() const
 {
     const int xPosition = offsetX;
-    const int yPosition = offsetY * 4 + fontSizeInt * 2 + statisticsHeight;
+    const int yPosition = offsetY * 5 + fontSizeInt * 3 + statisticsHeight;
     const int infoWidth = width / 3;
 
     return {xPosition, yPosition, infoWidth, fontSizeInt};
@@ -56,7 +94,7 @@ juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateComboTimeToPlay
 {
     const int comboWidth = fontSizeInt * 10 / 6;
     const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
-    const int yPosition = offsetY * 4 + fontSizeInt * 2 + statisticsHeight;
+    const int yPosition = offsetY * 5 + fontSizeInt * 3 + statisticsHeight;
 
     return {xPosition, yPosition, comboWidth, fontSizeInt};
 }
@@ -64,7 +102,7 @@ juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateComboTimeToPlay
 juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoTimeToSaveInsertedCoins() const
 {
     const int xPosition = offsetX;
-    const int yPosition = offsetY * 5 + fontSizeInt * 3 + statisticsHeight;
+    const int yPosition = offsetY * 6 + fontSizeInt * 4 + statisticsHeight;
     const int infoWidth = width / 3;
 
     return {xPosition, yPosition, infoWidth, fontSizeInt};
@@ -74,7 +112,7 @@ juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateComboTimeToSave
 {
     const int comboWidth = fontSizeInt * 100 / 48;
     const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
-    const int yPosition = offsetY * 5 + fontSizeInt * 3 + statisticsHeight;
+    const int yPosition = offsetY * 6 + fontSizeInt * 4 + statisticsHeight;
 
     return {xPosition, yPosition, comboWidth, fontSizeInt};
 }
@@ -82,7 +120,7 @@ juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateComboTimeToSave
 juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateInfoTimeToPlayAdvertiseMusic() const
 {
     const int xPosition = offsetX;
-    const int yPosition = offsetY * 6 + fontSizeInt * 4 + statisticsHeight;
+    const int yPosition = offsetY * 7 + fontSizeInt * 5 + statisticsHeight;
     const int infoWidth = width / 3;
 
     return {xPosition, yPosition, infoWidth, fontSizeInt};
@@ -92,7 +130,7 @@ juce::Rectangle<int> SetupPageCanvasPositionCalculator::calculateComboTimeToPlay
 {
     const int comboWidth = fontSizeInt * 100 / 48;
     const int xPosition = offsetX * 2 + statisticsWidth / 2 - comboWidth;
-    const int yPosition = offsetY * 6 + fontSizeInt * 4 + statisticsHeight;
+    const int yPosition = offsetY * 7 + fontSizeInt * 5 + statisticsHeight;
 
     return {xPosition, yPosition, comboWidth, fontSizeInt};
 }
