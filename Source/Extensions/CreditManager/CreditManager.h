@@ -11,7 +11,7 @@ public:
     CreditManager();
     ~CreditManager() override = default;
     
-    unsigned int getCredits() const override;
+    int getCredits() const override;
         
     void coinInsert50() override;
     void coinInsert100() override;
@@ -29,7 +29,7 @@ private:
     void coinInserted();
     
 private:
-    unsigned int credits;
+    int credits;
     bool secondCoin;
 };
 

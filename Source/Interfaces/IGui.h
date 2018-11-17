@@ -22,7 +22,7 @@ class IGui
 public:
     virtual ~IGui() = default;
     
-    virtual void refreshCredits(unsigned int credits) = 0;
+    virtual void refreshCredits(int credits) = 0;
     virtual void showStatusMessage(ResourceId messageId) = 0;
     virtual void showStatistics(const std::string& statistics) = 0;
     virtual void showInsertedAll(int insertedCoins) = 0;

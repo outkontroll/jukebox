@@ -269,7 +269,7 @@ MainComponent::MainComponent(bool /*testingConstructor*/)
     //do nothing, this is for testing purposes
 }
 
-void MainComponent::refreshCredits(unsigned int credits)
+void MainComponent::refreshCredits(int credits)
 {
     lblCredits->setText(String(credits), dontSendNotification);
 }

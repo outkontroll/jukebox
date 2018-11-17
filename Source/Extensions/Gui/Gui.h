@@ -26,7 +26,7 @@ public:
     Gui(const std::string& applicationName);
     ~Gui() override;
 
-    void refreshCredits(unsigned int credits) override;
+    void refreshCredits(int credits) override;
     void showStatusMessage(ResourceId messageId) override;
     void showInsertedAll(int insertedCoins) override;
     void showInsertedSinceLastSave(int insertedCoins) override;

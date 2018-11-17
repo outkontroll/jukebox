@@ -8,7 +8,7 @@ struct CreditManagerMock : public jukebox::creditmanager::ICreditManager
 {
     // ICreditManager interface
 public:
-    MOCK_CONST_METHOD0(getCredits, unsigned int ());
+    MOCK_CONST_METHOD0(getCredits, int());
     MOCK_METHOD0(coinInsert50, void());
     MOCK_METHOD0(coinInsert100, void());
     MOCK_METHOD0(coinInsert200, void());

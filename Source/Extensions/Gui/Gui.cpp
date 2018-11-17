@@ -21,8 +21,8 @@ using namespace jukebox::songbuilder;
 using namespace juce;
 
 namespace {
-    constexpr unsigned int defaultAlbumIndex = 1;
-    constexpr unsigned int defaultSongIndex = 0;
+    constexpr auto defaultAlbumIndex = 1;
+    constexpr auto defaultSongIndex = 0;
 }
 
 Gui::Gui(const std::string& applicationName)
@@ -156,7 +156,7 @@ void Gui::playNextSong(const Song& song)
     playNextSongSignal(song);
 }
 
-void Gui::refreshCredits(unsigned int credits)
+void Gui::refreshCredits(int credits)
 {
     mainComponent->refreshCredits(credits);
 }

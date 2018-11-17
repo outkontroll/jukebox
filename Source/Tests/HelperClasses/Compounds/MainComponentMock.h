@@ -12,7 +12,7 @@ struct MainComponentMock : public juce::MainComponent
     {
     }
 
-    MOCK_METHOD1(refreshCredits, void(unsigned int));
+    MOCK_METHOD1(refreshCredits, void(int));
     MOCK_METHOD1(showStatusMessage, void(const juce::String&));
     MOCK_METHOD2(loadMultipleAlbums, void(const std::vector<jukebox::audio::AlbumInfo>&, int));
     MOCK_METHOD2(loadSingleAlbum, void(const std::vector<jukebox::audio::AlbumInfo>&, int));

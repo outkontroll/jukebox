@@ -74,7 +74,7 @@ public:
     jukebox::signals::Signal<const std::string&> requestToImportAlbumSignal;
     //the virtuals are here only to enable easier testing and mocking
 
-    virtual void refreshCredits(unsigned int credits);
+    virtual void refreshCredits(int credits);
     virtual void showStatusMessage(const String& message);
     virtual void loadMultipleAlbums(const std::vector<jukebox::audio::AlbumInfo>& albums, int firstAlbumIndex);
     virtual void loadSingleAlbum(const std::vector<jukebox::audio::AlbumInfo>& albums, int albumIndex);

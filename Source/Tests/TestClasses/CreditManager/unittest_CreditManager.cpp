@@ -11,10 +11,10 @@ protected:
 };
 
 namespace {
-    constexpr unsigned zeroCredit(0);
-    constexpr unsigned oneSongCredit(1);
-    constexpr unsigned threeSongsCredit(3);
-    constexpr unsigned oneAlbumCredit(18);
+    constexpr auto zeroCredit(0);
+    constexpr auto oneSongCredit(1);
+    constexpr auto threeSongsCredit(3);
+    constexpr auto oneAlbumCredit(18);
 }
 
 TEST_F(CreditManagerTest, empty)

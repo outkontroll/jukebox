@@ -4,8 +4,8 @@
 using namespace jukebox::creditmanager;
 
 namespace {
-    const unsigned int CreditToPlaySong = 1;
-    const unsigned int CreditToPlayAlbum = 18;
+    const int creditToPlaySong = 1;
+    const int creditToPlayAlbum = 18;
 }
 
 CreditManager::CreditManager()
@@ -14,7 +14,7 @@ CreditManager::CreditManager()
 {
 }
 
-unsigned int CreditManager::getCredits() const
+int CreditManager::getCredits() const
 {
     return credits;
 }
@@ -46,12 +46,12 @@ void CreditManager::coinInsert200()
 
 bool CreditManager::hasEnoughCreditsToPlaySong() const
 {
-    return credits >= CreditToPlaySong;
+    return credits >= creditToPlaySong;
 }
 
 bool CreditManager::hasEnoughCreditsToPlayAlbum() const
 {
-    return credits >= CreditToPlayAlbum;
+    return credits >= creditToPlayAlbum;
 }
 
 bool CreditManager::startPlaySong()
@@ -63,7 +63,7 @@ bool CreditManager::startPlaySong()
     }
         
     secondCoin = false;
-    credits -= CreditToPlaySong;
+    credits -= creditToPlaySong;
     
     return true;
 }
@@ -77,7 +77,7 @@ bool CreditManager::startPlayAlbum()
     }
         
     secondCoin = false;
-    credits -= CreditToPlayAlbum;
+    credits -= creditToPlayAlbum;
     
     return true;
 }

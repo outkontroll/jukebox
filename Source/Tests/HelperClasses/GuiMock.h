@@ -7,7 +7,7 @@
 
 struct GuiMock : public jukebox::gui::IGui
 {
-    MOCK_METHOD1(refreshCredits, void(unsigned int));
+    MOCK_METHOD1(refreshCredits, void(int));
     MOCK_METHOD1(showStatusMessage, void(jukebox::ResourceId));
     MOCK_METHOD1(showInsertedAll, void(int));
     MOCK_METHOD1(showInsertedSinceLastSave, void(int));

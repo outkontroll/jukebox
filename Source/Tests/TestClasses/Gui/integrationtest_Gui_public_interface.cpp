@@ -10,9 +10,9 @@ using namespace testing;
 
 namespace {
     const auto setMusicDir = "fakeMusicDir";
-    constexpr unsigned int testCredits = 12;
-    constexpr int defaultSelectedAlbumIndex = 1;
-    constexpr int defaultSelectedSongIndex = 0;
+    constexpr auto testCredits = 12;
+    constexpr auto defaultSelectedAlbumIndex = 1;
+    constexpr auto defaultSelectedSongIndex = 0;
     const std::vector<AlbumInfo> fakeAlbums16(16, {{{}, {}, {}}, "", "", "", "", 1});
 }
 
