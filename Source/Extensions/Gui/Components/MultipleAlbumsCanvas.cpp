@@ -60,6 +60,9 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
 
 void MultipleAlbumsCanvas::parentSizeChanged()
 {
+    albumPositions.clear();
+    visibleAlbums.clear();
+
     slotWidth = static_cast<float>(getWidth()) / columns;
     slotHeight = static_cast<float>(getHeight()) / rows;
 
@@ -109,6 +112,8 @@ void MultipleAlbumsCanvas::changeLayout(int rows_, int columns_)
 {
     rows = rows_;
     columns = columns_;
+
+    parentSizeChanged();
 }
 
 Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, float slotWidth_, float slotHeight_) const

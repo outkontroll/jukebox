@@ -209,7 +209,7 @@ void Gui::stopAdvertiseMusic()
     removePlayedSongSignal();
 }
 
-void Gui::setMusicFolder(const std::string& folder)
+void Gui::reinit()
 {
     visibleAlbumsId = defaultAlbumIndex;
     selectedAlbumId = defaultAlbumIndex;
@@ -220,6 +220,11 @@ void Gui::setMusicFolder(const std::string& folder)
 
     mainComponent->updateAlbumSelection(selectedAlbumId);
     mainComponent->updateSongSelection(selectedSongIndex);
+}
+
+void Gui::setMusicFolder(const std::string& folder)
+{
+    reinit();
     mainComponent->setMusicDirectory(folder);
 }
 
@@ -368,7 +373,14 @@ void Gui::stepSelectionSingleAlbumMode()
 
 void Gui::showHelp()
 {
+    static int random = 1;
 
+    const auto rows = 2;
+    const auto columns = 3 + (++random % 2);
+
+    albumIndexStep = rows * columns;
+    mainComponent->changeMultipleAlbumsLayout(rows, columns);
+    reinit();
 }
 
 void Gui::handleAlbumSwitchInAllAlbumMode(bool increase)

@@ -98,6 +98,7 @@ public:
     virtual void showInsertedSinceLastSave(int insertedCoins);
     virtual void showStatistics(const std::string& statistics);
     virtual void prepareForExit();
+    virtual void changeMultipleAlbumsLayout(int rows, int columns);
 
     virtual bool showPasswordQuestion();
     //[/UserMethods]

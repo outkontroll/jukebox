@@ -84,6 +84,7 @@ private:
     void loadSingleAlbum();
 
     void stopAdvertiseMusic();
+    void reinit();
 
     jukebox::signals::Slot eventsSlot;
     

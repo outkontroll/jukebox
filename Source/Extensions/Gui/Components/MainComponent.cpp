@@ -451,6 +451,11 @@ void MainComponent::prepareForExit()
     listBoxPlayQueue->clear();
 }
 
+void MainComponent::changeMultipleAlbumsLayout(int rows, int columns)
+{
+    multipleAlbumsCanvas->changeLayout(rows, columns);
+}
+
 bool MainComponent::showPasswordQuestion()
 {
     if(password == nullptr)
