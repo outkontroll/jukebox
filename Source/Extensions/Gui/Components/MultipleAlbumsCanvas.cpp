@@ -6,17 +6,13 @@
 #include "ResourceString.h"
 #include "StdAddons.hpp"
 #include "Song.h"
+#include "MultipleAlbumsCanvasPositionCalculator.h"
 
 using namespace jukebox::gui;
 using namespace juce;
 
 namespace {
     const float bigFontSize = 24.0f;
-    const float albumNumberTextWidth = 35.0f;
-    const float defaultImageOffsetX = 20.0f;
-    const float defaultTextOffsetX = 10.0f;
-    const float defaultTextOffsetY = 10.0f;
-    const float imageOffsetYMultiplier = 1.8f;
     const float selectionThickness = 4.0f;
 }
 
@@ -29,12 +25,11 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
 
     for(const auto& album : visibleAlbums)
     {
-        const auto& image = album.image;
-
         // album's number
         g.drawText(jukebox::FillWithLeadingZeros(album.albumNumber, 3), album.position.textPlace, Justification::centredLeft);
 
         // album's image, if we can find one
+        const auto& image = album.image;
         if(image.isValid())
         {
             g.drawImage(image, album.position.imagePlace, RectanglePlacement::stretchToFit);
@@ -62,20 +57,28 @@ void MultipleAlbumsCanvas::parentSizeChanged()
 {
     albumPositions.clear();
     visibleAlbums.clear();
+    selectionPlaces.clear();
 
     slotWidth = static_cast<float>(getWidth()) / columns;
     slotHeight = static_cast<float>(getHeight()) / rows;
+
+    MultipleAlbumsCanvasPositionCalculator positions(slotWidth, slotHeight, columns);
 
     std::vector<int> indexes(static_cast<size_t>(columns * rows));
     std::iota(indexes.begin(), indexes.end(), 0);
 
     albumPositions.reserve(indexes.size());
     visibleAlbums.reserve(indexes.size());
+    selectionPlaces.reserve(indexes.size());
 
-    std_addons::transform(indexes, std::back_inserter(albumPositions), [this](int visibleAlbumIndex){
-        const auto position = getPositionFromIndex(visibleAlbumIndex);
-        return AlbumPositionInfo{calculateImagePlace(position, slotWidth, slotHeight),
-                                 calculateTextPlace(position, slotWidth, slotHeight)};
+    std_addons::transform(indexes, std::back_inserter(albumPositions), [&positions](int visibleAlbumIndex){
+        return AlbumPositionInfo{positions.calculateImagePlace(visibleAlbumIndex),
+                                 positions.calculateTextPlace(visibleAlbumIndex)};
+    });
+
+    std_addons::transform(albumPositions, std::back_inserter(selectionPlaces), [&positions](const AlbumPositionInfo& position){
+        return AlbumPositionInfo{positions.calculateSelectionPlace(position.imagePlace),
+                                 positions.calculateSelectionPlace(position.textPlace)};
     });
 }
 
@@ -101,8 +104,8 @@ void MultipleAlbumsCanvas::setSelection(int selectedIndex)
     if(!visibleAlbums.empty())
     {
         const auto selectedPosition = selectedAlbumIndex - visibleAlbums.begin()->albumNumber;
-        selectionTextPlace = calculateSelectionPlace(visibleAlbums[static_cast<size_t>(selectedPosition)].position.textPlace);
-        selectionImagePlace = calculateSelectionPlace(visibleAlbums[static_cast<size_t>(selectedPosition)].position.imagePlace);
+        selectionTextPlace = selectionPlaces[static_cast<size_t>(selectedPosition)].textPlace;
+        selectionImagePlace = selectionPlaces[static_cast<size_t>(selectedPosition)].imagePlace;
     }
 
     repaint();
@@ -114,40 +117,4 @@ void MultipleAlbumsCanvas::changeLayout(int rows_, int columns_)
     columns = columns_;
 
     parentSizeChanged();
-}
-
-Rectangle<float> MultipleAlbumsCanvas::calculateImagePlace(Position position, float slotWidth_, float slotHeight_) const
-{
-    const float imageWidth = slotWidth_ - defaultImageOffsetX;
-    const float imageHeight = imageWidth;
-
-    return { slotWidth_ * position.x + (slotWidth_ - imageWidth) / 2,
-             slotHeight_ * position.y + (slotHeight_ - imageHeight) / imageOffsetYMultiplier,
-             imageWidth,
-             imageHeight };
-}
-
-Rectangle<float> MultipleAlbumsCanvas::calculateTextPlace(Position position, float slotWidth_, float slotHeight_) const
-{
-    const float textHeight = bigFontSize;
-    const float textWidth = albumNumberTextWidth;
-    const float imageWidth = slotWidth_ - defaultImageOffsetX;
-
-    return { slotWidth_ * position.x + (slotWidth_ - imageWidth) / 2 + defaultTextOffsetX,
-             slotHeight_ * position.y + defaultTextOffsetY,
-             textWidth,
-             textHeight };
-}
-
-Rectangle<float> MultipleAlbumsCanvas::calculateSelectionPlace(const Rectangle<float>& placeToSelect)
-{
-    return { placeToSelect.getX() - selectionThickness,
-             placeToSelect.getY() - selectionThickness,
-             placeToSelect.getWidth() + 2 * selectionThickness,
-             placeToSelect.getHeight() + 2 * selectionThickness };
-}
-
-MultipleAlbumsCanvas::Position MultipleAlbumsCanvas::getPositionFromIndex(int index) const
-{
-    return { index % columns, index / columns };
 }

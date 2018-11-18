@@ -22,17 +22,6 @@ public:
     void changeLayout(int rows, int columns);
 
 private:
-    struct Position
-    {
-        const int x;
-        const int y;
-    };
-
-    juce::Rectangle<float> calculateImagePlace(Position position, float slotWidth, float slotHeight) const;
-    juce::Rectangle<float> calculateTextPlace(Position position, float slotWidth, float slotHeight) const;
-    juce::Rectangle<float> calculateSelectionPlace(const juce::Rectangle<float>& placeToSelect);
-    Position getPositionFromIndex(int index) const;
-
     struct AlbumPositionInfo
     {
         const juce::Rectangle<float> imagePlace;
@@ -48,6 +37,7 @@ private:
 
     std::vector<AlbumPositionInfo> albumPositions;
     std::vector<VisibleAlbum> visibleAlbums;
+    std::vector<AlbumPositionInfo> selectionPlaces;
     juce::Rectangle<float> selectionImagePlace;
     juce::Rectangle<float> selectionTextPlace;
     int columns = 4;
