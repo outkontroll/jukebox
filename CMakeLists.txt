@@ -166,13 +166,19 @@ add_subdirectory(${SOURCE_DIR}/Tests)
 # code coverage
 
 if(GENERATE_TEST_COVERAGE)
-    setup_target_for_coverage(NAME code_coverage
-                              EXECUTABLE ctest -Q
-                              DEPENDENCIES core_test
+    setup_target_for_coverage_lcov(NAME code_coverage
+                                   EXECUTABLE ctest -Q
+                                   DEPENDENCIES core_test
                                            creditManager_test
-                                           gui_test
+                                           gui_test_integration
+                                           gui_test_unit
                                            settings_test
                                            statistics_test
+                                           logger_test
+                                           std_addons_test
                                            music_jukebox
+                                   EXCLUDE ${JUCE_INCLUDE_DIRS}/*
+                                            Libraries/*
+                                            /usr/*
                              )
 endif()
