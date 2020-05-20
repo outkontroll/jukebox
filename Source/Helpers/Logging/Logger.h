@@ -25,10 +25,10 @@ private:
     bool enabled = true;
 };
 
-#define LOG_INFO(logText) LOG_INFO_DETAILED(jukebox::log::Logger::getInstance(), logText);
-#define LOG_WARNING(logText) LOG_WARNING_DETAILED(jukebox::log::Logger::getInstance(), logText);
-#define LOG_ERROR(logText) LOG_ERROR_DETAILED(jukebox::log::Logger::getInstance(), logText);
-#define LOG_INITIALIZE(fileName) jukebox::log::Logger::getInstance().setLogFileName(fileName);
+#define LOG_INFO(logText) LOG_INFO_DETAILED(jukebox::log::Logger::getInstance(), logText)
+#define LOG_WARNING(logText) LOG_WARNING_DETAILED(jukebox::log::Logger::getInstance(), logText)
+#define LOG_ERROR(logText) LOG_ERROR_DETAILED(jukebox::log::Logger::getInstance(), logText)
+#define LOG_INITIALIZE(fileName) jukebox::log::Logger::getInstance().setLogFileName(fileName)
 
 }}
 

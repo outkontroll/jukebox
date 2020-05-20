@@ -16,18 +16,21 @@ set(CPP_SOURCES
 set(CPP_SOURCES_UT
     ${TESTING_MAIN}
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_SingleAlbumPositionCalculator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/unittest_MultipleAlbumsPositionCalculator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_ResourceString.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_AlbumStepCalculator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/unittest_MusicSetupCanvasPositionCalculator.cpp
+    ${HELPERCLASSES_DIR}/RectangleMatcher.h
+    ${HELPERCLASSES_DIR}/RectangleMatcher.cpp
 )
 
 # project
 
-add_executable(${PROJECT_NAME}
+add_executable(${PROJECT_NAME}_integration
     ${CPP_SOURCES}
 )
 
-add_executable(${PROJECT_NAME}2
+add_executable(${PROJECT_NAME}_unit
     ${CPP_SOURCES_UT}
 )
 
@@ -40,13 +43,13 @@ set(INCLUDE_DIRS
     ${HELPERCLASSES_DIR}/Compounds
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME}_integration PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME}_integration SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
 
-target_include_directories(${PROJECT_NAME}2 PUBLIC ${INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME}2 SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME}_unit PUBLIC ${INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME}_unit SYSTEM PUBLIC ${TESTING_INCLUDE_DIRS} ${JUCE_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
+target_link_libraries(${PROJECT_NAME}_integration PRIVATE
     gui
     songBuilder
     logger
@@ -60,7 +63,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     pthread
 )
 
-target_link_libraries(${PROJECT_NAME}2 PRIVATE
+target_link_libraries(${PROJECT_NAME}_unit PRIVATE
     gui
     logger
     song
@@ -72,7 +75,7 @@ target_link_libraries(${PROJECT_NAME}2 PRIVATE
 )
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(${PROJECT_NAME}2 PUBLIC
+    target_compile_options(${PROJECT_NAME}_unit PUBLIC
         -Wno-covered-switch-default
         -Wno-float-equal
         -Wno-missing-prototypes
@@ -80,17 +83,17 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 add_test(NAME gui_integration_test
-         COMMAND ${PROJECT_NAME})
+         COMMAND ${PROJECT_NAME}_integration)
 
 add_test(NAME gui_unit_test
-         COMMAND ${PROJECT_NAME}2)
+         COMMAND ${PROJECT_NAME}_unit)
 
-add_custom_command(TARGET ${PROJECT_NAME}
-                   POST_BUILD
-                   COMMAND ${PROJECT_NAME}
-                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)
+#add_custom_command(TARGET ${PROJECT_NAME}
+#                   POST_BUILD
+#                   COMMAND ${PROJECT_NAME}
+#                   COMMENT "Running ${PROJECT_NAME}" VERBATIM)
 
-add_custom_command(TARGET ${PROJECT_NAME}2
-                   POST_BUILD
-                   COMMAND ${PROJECT_NAME}2
-                   COMMENT "Running ${PROJECT_NAME}2" VERBATIM)
+#add_custom_command(TARGET ${PROJECT_NAME}2
+#                   POST_BUILD
+#                   COMMAND ${PROJECT_NAME}2
+#                   COMMENT "Running ${PROJECT_NAME}2" VERBATIM)
