@@ -4,55 +4,130 @@ using namespace jukebox::gui;
 using namespace juce;
 
 namespace {
-    const float bigFontSize = 24.0f;
-    const float albumNumberTextWidth = 35.0f;
-    const float defaultImageOffsetX = 20.0f;
-    const float defaultTextOffsetX = 10.0f;
-    const float defaultTextOffsetY = 10.0f;
-    const float imageOffsetYMultiplier = 1.8f;
-    const float selectionThickness = 4.0f;
+
+constexpr auto fontFactor = 14.1875f;
+constexpr auto albumNumberTextWidth = 35.0f;
+constexpr auto defaultImageOffsetX = 20.0f;
+constexpr auto defaultTextOffsetX = 10.0f;
+constexpr auto defaultTextOffsetY = 10.0f;
+constexpr auto imageOffsetYDivisor = 1.8f;
+constexpr auto selectionThicknessFactor = 64.75f;
+
+
+constexpr auto imageScale = 0.94f;
+constexpr auto x1Scale = 3.0f / 10.0f;
+constexpr auto x2Scale = 3.0f / 10.0f;
+constexpr auto textScale = 4.0f / 10.0f;
 }
 
-MultipleAlbumsCanvasPositionCalculator::MultipleAlbumsCanvasPositionCalculator(float slotWidth_, float slotHeight_, int columns_) :
+MultipleAlbumsPositionCalculator::MultipleAlbumsPositionCalculator(float slotWidth_, float slotHeight_, int columns_) :
     slotWidth(slotWidth_),
     slotHeight(slotHeight_),
     columns(columns_),
-    imageWidth(slotWidth - defaultImageOffsetX)
+    outerOffsets(calculateOuterOffsets(slotWidth, slotHeight)),
+    innerOffsets(calculateInnerOffsets(outerOffsets)),
+    imageSize(slotWidth - defaultImageOffsetX),
+    textSize(slotHeight / fontFactor),
+    selectionThickness(slotWidth / selectionThicknessFactor)
 {
 }
 
-Rectangle<float> MultipleAlbumsCanvasPositionCalculator::calculateImagePlace(int albumIndex) const
+juce::Rectangle<float> MultipleAlbumsPositionCalculator::calculateImagePlace(int albumIndex) const
 {
-    const float imageHeight = imageWidth;
     const auto position = getPositionFromIndex(albumIndex);
 
-    return { slotWidth * position.x + (slotWidth - imageWidth) / 2,
-             slotHeight * position.y + (slotHeight - imageHeight) / imageOffsetYMultiplier,
-             imageWidth,
-             imageHeight };
+    return {slotWidth * position.x + outerOffsets.e + innerOffsets.z,
+            slotHeight * position.y + outerOffsets.f + innerOffsets.x1 + innerOffsets.t + innerOffsets.x2,
+            innerOffsets.p,
+            innerOffsets.p};
 }
 
-Rectangle<float> MultipleAlbumsCanvasPositionCalculator::calculateTextPlace(int albumIndex) const
+Rectangle<float> MultipleAlbumsPositionCalculator::calculateTextPlace(int albumIndex) const
 {
-    const float textHeight = bigFontSize;
+    const float textHeight = textSize;
     const float textWidth = albumNumberTextWidth;
     const auto position = getPositionFromIndex(albumIndex);
 
-    return { slotWidth * position.x + (slotWidth - imageWidth) / 2 + defaultTextOffsetX,
+    return { slotWidth * position.x + (slotWidth - imageSize) / 2 + defaultTextOffsetX,
              slotHeight * position.y + defaultTextOffsetY,
              textWidth,
-             textHeight };
+                textHeight };
 }
 
-Rectangle<float> MultipleAlbumsCanvasPositionCalculator::calculateSelectionPlace(const Rectangle<float>& placeToSelect)
+juce::Rectangle<float> MultipleAlbumsPositionCalculator::calculateTextPlace2(int albumIndex) const
+{
+    const auto position = getPositionFromIndex(albumIndex);
+
+    return {slotWidth * position.x + outerOffsets.e + innerOffsets.z * 2,
+            slotHeight * position.y + outerOffsets.f + innerOffsets.x1 - innerOffsets.t * 0.2f,
+                //TODO innerOffsets
+            innerOffsets.t * 1.5f,
+            innerOffsets.t};
+}
+
+Rectangle<float> MultipleAlbumsPositionCalculator::calculateSelectionPlace(const Rectangle<float>& placeToSelect)
 {
     return { placeToSelect.getX() - selectionThickness,
              placeToSelect.getY() - selectionThickness,
              placeToSelect.getWidth() + 2 * selectionThickness,
-             placeToSelect.getHeight() + 2 * selectionThickness };
+                placeToSelect.getHeight() + 2 * selectionThickness };
+}
+//TODO
+juce::Rectangle<float> MultipleAlbumsPositionCalculator::calculateSlot(int albumIndex) const
+{
+    const auto position = getPositionFromIndex(albumIndex);
+    return {slotWidth * position.x, slotHeight * position.y, slotWidth, slotHeight};
 }
 
-MultipleAlbumsCanvasPositionCalculator::Position MultipleAlbumsCanvasPositionCalculator::getPositionFromIndex(int index) const
+MultipleAlbumsPositionCalculator::Position MultipleAlbumsPositionCalculator::getPositionFromIndex(int index) const
 {
     return { index % columns, index / columns };
+}
+
+MultipleAlbumsPositionCalculator::OuterOffsets MultipleAlbumsPositionCalculator::calculateOuterOffsets(float width, float height) const
+{
+    const auto heightPercentage = 1.2f;
+    const auto threshold = 1e-4f;
+    const auto difference = (width * heightPercentage - height);
+
+    if(fabs(difference) < threshold) //w * 1.2 == h
+    {
+        const auto a = width;
+        const auto b = height;
+        const auto e = 0;
+        const auto f = 0;
+
+        return {a, b, e, f};
+    }
+    else if(width * heightPercentage > height) //w * 1.2 > h
+    {
+        const auto a = height / heightPercentage;
+        const auto b = height;
+        const auto e = (width - a) / 2;
+        const auto f = 0;
+
+        return {a, b, e, f};
+    }
+    else //w * 1.2 < h
+    {
+        const auto a = width;
+        const auto b = a * heightPercentage;
+        const auto e = 0;
+        const auto f = (height - b) / 2;
+
+        return {a, b, e, f};
+    }
+}
+
+MultipleAlbumsPositionCalculator::InnerOffsets MultipleAlbumsPositionCalculator::calculateInnerOffsets(MultipleAlbumsPositionCalculator::OuterOffsets outerOffsets) const
+{
+    const auto p = outerOffsets.a * imageScale;
+    const auto y = (outerOffsets.a - p) / 2;
+    const auto z = y;
+    const auto k = outerOffsets.b - p - y;
+    const auto x1 = k * x1Scale;
+    const auto t = k * textScale;
+    const auto x2 = k * x2Scale;
+
+    return {p, x1, x2, t, y, z};
 }

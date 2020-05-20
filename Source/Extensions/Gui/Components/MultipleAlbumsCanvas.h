@@ -26,6 +26,8 @@ private:
     {
         const juce::Rectangle<float> imagePlace;
         const juce::Rectangle<float> textPlace;
+        //TODO
+        const juce::Rectangle<float> contour;
     };
 
     struct VisibleAlbum

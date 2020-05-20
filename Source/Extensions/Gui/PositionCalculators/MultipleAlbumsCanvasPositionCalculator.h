@@ -5,14 +5,19 @@
 
 namespace jukebox::gui {
 
-class MultipleAlbumsCanvasPositionCalculator
+class MultipleAlbumsPositionCalculator
 {
 public:
-    MultipleAlbumsCanvasPositionCalculator(float slotWidth, float slotHeight, int columns);
+    MultipleAlbumsPositionCalculator(float slotWidth, float slotHeight, int columns);
 
     juce::Rectangle<float> calculateImagePlace(int albumIndex) const;
+    //TODO testing
     juce::Rectangle<float> calculateTextPlace(int albumIndex) const;
+    juce::Rectangle<float> calculateTextPlace2(int albumIndex) const;
     juce::Rectangle<float> calculateSelectionPlace(const juce::Rectangle<float>& placeToSelect);
+
+    //TODO contour
+    juce::Rectangle<float> calculateSlot(int albumIndex) const;
 private:
     struct Position
     {
@@ -20,12 +25,39 @@ private:
         const int y;
     };
 
+    struct OuterOffsets
+    {
+        const float a;
+        const float b;
+        const float e;
+        const float f;
+    };
+
+    struct InnerOffsets
+    {
+        const float p;
+        const float x1;
+        const float x2;
+        const float t;
+        const float y;
+        const float z;
+    };
+
     Position getPositionFromIndex(int index) const;
+    OuterOffsets calculateOuterOffsets(float height, float width) const;
+    InnerOffsets calculateInnerOffsets(OuterOffsets outerOffsets) const;
 
     const float slotWidth;
     const float slotHeight;
     const int columns;
-    const float imageWidth;
+
+    const OuterOffsets outerOffsets;
+    const InnerOffsets innerOffsets;
+
+    const float imageSize;
+    const float textSize;
+    const float selectionThickness;
+
 };
 
 }

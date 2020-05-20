@@ -12,7 +12,8 @@ using namespace jukebox::gui;
 using namespace juce;
 
 namespace {
-    const float bigFontSize = 24.0f;
+    //TODO
+    const float fontFactor = 24.0f;
     const float selectionThickness = 4.0f;
 }
 
@@ -21,11 +22,12 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
     g.setColour(Colours::black);
     g.drawRect(Rectangle<int>{0, 0, getWidth(), getHeight()});
 
-    g.setFont(bigFontSize);
+    //g.setFont(fontFactor);
 
     for(const auto& album : visibleAlbums)
     {
         // album's number
+        g.setFont(album.position.textPlace.getHeight());
         g.drawText(jukebox::FillWithLeadingZeros(album.albumNumber, 3), album.position.textPlace, Justification::centredLeft);
 
         // album's image, if we can find one
@@ -50,6 +52,9 @@ void MultipleAlbumsCanvas::paint(Graphics& g)
 
             g.setColour(Colours::black);
         }
+
+        //TODO
+//        g.drawRect(album.position.contour);
     }
 }
 
@@ -62,7 +67,9 @@ void MultipleAlbumsCanvas::parentSizeChanged()
     slotWidth = static_cast<float>(getWidth()) / columns;
     slotHeight = static_cast<float>(getHeight()) / rows;
 
-    MultipleAlbumsCanvasPositionCalculator positions(slotWidth, slotHeight, columns);
+    std::cout << getWidth() << ", " << getHeight() << std::endl;
+
+    MultipleAlbumsPositionCalculator positions(slotWidth, slotHeight, columns);
 
     std::vector<int> indexes(static_cast<size_t>(columns * rows));
     std::iota(indexes.begin(), indexes.end(), 0);
@@ -73,12 +80,16 @@ void MultipleAlbumsCanvas::parentSizeChanged()
 
     std_addons::transform(indexes, std::back_inserter(albumPositions), [&positions](int visibleAlbumIndex){
         return AlbumPositionInfo{positions.calculateImagePlace(visibleAlbumIndex),
-                                 positions.calculateTextPlace(visibleAlbumIndex)};
+                                 positions.calculateTextPlace2(visibleAlbumIndex),
+                    //TODO remove
+                                 positions.calculateSlot(visibleAlbumIndex)};
     });
 
     std_addons::transform(albumPositions, std::back_inserter(selectionPlaces), [&positions](const AlbumPositionInfo& position){
         return AlbumPositionInfo{positions.calculateSelectionPlace(position.imagePlace),
-                                 positions.calculateSelectionPlace(position.textPlace)};
+                                 positions.calculateSelectionPlace(position.textPlace),
+                    //TODO remove
+                                {0,0,0,0}};
     });
 }
 

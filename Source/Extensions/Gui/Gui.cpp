@@ -375,8 +375,8 @@ void Gui::showHelp()
 {
     static int random = 1;
 
-    const auto rows = 2;
-    const auto columns = 3 + (++random % 2);
+    const auto rows = 2 + (random % 2) * -1 + (random % 3);
+    const auto columns = 2 + (++random % 3);
 
     albumIndexStep = rows * columns;
     mainComponent->changeMultipleAlbumsLayout(rows, columns);

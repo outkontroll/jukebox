@@ -5,11 +5,28 @@
 #include "gmock/gmock.h"
 #include "JuceHeader.h"
 
-MATCHER_P(RectangleFloatEquals, rect, ""){
-    return testing::Value(arg.getX(), testing::FloatEq(rect.getX())) &&
-           testing::Value(arg.getY(), testing::FloatEq(rect.getY())) &&
-           testing::Value(arg.getWidth(), testing::FloatEq(rect.getWidth())) &&
-           testing::Value(arg.getHeight(), testing::FloatEq(rect.getHeight()));
+namespace juce {
+
+void PrintTo(const Rectangle<float>& r, std::ostream* os);
+
+}
+
+MATCHER_P(RectangleFloatEquals, rect, "")
+{
+    using namespace testing;
+    return Value(arg.getX(), FloatEq(rect.getX())) &&
+           Value(arg.getY(), FloatEq(rect.getY())) &&
+           Value(arg.getWidth(), FloatEq(rect.getWidth())) &&
+           Value(arg.getHeight(), FloatEq(rect.getHeight()));
+}
+
+MATCHER_P2(RectangleFloatNear, rect, precision, "")
+{
+    using namespace testing;
+    return (Value(arg.getX(), FloatNear(rect.getX(), precision)) &&
+            Value(arg.getY(), FloatNear(rect.getY(), precision)) &&
+            Value(arg.getWidth(), FloatNear(rect.getWidth(), precision)) &&
+            Value(arg.getHeight(), FloatNear(rect.getHeight(), precision)));
 }
 
 class RectangleFloatNearMatcher
@@ -45,7 +62,7 @@ private:
     const float precision;
 };
 
-testing::PolymorphicMatcher<RectangleFloatNearMatcher> RectangleFloatNear(float precision)
+inline testing::PolymorphicMatcher<RectangleFloatNearMatcher> RectangleFloatNear(float precision)
 {
     return testing::MakePolymorphicMatcher(RectangleFloatNearMatcher(precision));
 }
