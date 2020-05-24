@@ -29,6 +29,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
                             -Wno-weak-vtables #multiple
                             -Wno-exit-time-destructors #logger
                             -Wno-reserved-id-macro #maincomponent
+                            -Wno-extra-semi-stmt
         )
     endif()
 endif()

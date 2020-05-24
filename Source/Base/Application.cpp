@@ -10,6 +10,16 @@
 
 using namespace jukebox;
 
+namespace {
+auto getCreditManager = [](bool handleCredits) -> std::unique_ptr<creditmanager::ICreditManager> {
+    if(handleCredits)
+        return std::make_unique<creditmanager::CreditManager>();
+    else
+	//TODO
+        return {};
+};
+}
+
 jukeboxApplication::jukeboxApplication()
 {
     LOG_INITIALIZE("jukebox.log");
@@ -38,8 +48,13 @@ bool jukeboxApplication::moreThanOneInstanceAllowed()
     
 void jukeboxApplication::initialise(const juce::String& commandLine)
 {
+    const auto parameters = JUCEApplication::getCommandLineParameterArray();
+    const bool handleCredits = std::find_if(parameters.begin(), parameters.end(), [](const auto& parameter){
+        return parameter == "--nocredits";
+    }) == parameters.end();
+
     core = std::make_unique<core::Core>(std::make_unique<gui::Gui>(getApplicationName().toStdString()),
-                                        std::make_unique<creditmanager::CreditManager>(),
+                                        getCreditManager(handleCredits),
                                         std::make_unique<audio::MusicPlayer>(),
                                         std::make_unique<statistics::Statistics>(),
                                         std::make_unique<settings::Settings>(juce::File::getCurrentWorkingDirectory().getFullPathName().toStdString()),
