@@ -143,6 +143,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     core
     gui
     creditManager
+    noCredits
     musicPlayer
     statistics
     settings

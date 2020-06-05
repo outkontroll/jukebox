@@ -1,3 +1,5 @@
 /**/Builds/**/*
 CMakeLists.txt.user*
 Libraries/Libs/**/*
+env
+build

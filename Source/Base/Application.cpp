@@ -2,6 +2,7 @@
 #include "Core.h"
 #include "Gui.h"
 #include "CreditManager.h"
+#include "NoCredits.h"
 #include "MusicPlayer.h"
 #include "Statistics.h"
 #include "Settings.h"
@@ -15,8 +16,7 @@ auto getCreditManager = [](bool handleCredits) -> std::unique_ptr<creditmanager:
     if(handleCredits)
         return std::make_unique<creditmanager::CreditManager>();
     else
-	//TODO
-        return {};
+        return std::make_unique<creditmanager::NoCredits>();
 };
 }
 
